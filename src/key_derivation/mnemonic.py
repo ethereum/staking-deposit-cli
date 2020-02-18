@@ -7,7 +7,7 @@ from typing import (
 word_lists_path = './src/key_derivation/word_lists/'
 
 
-def get_word_list(language: str):
+def _get_word_list(language: str):
     return open('%s%s.txt' %(word_lists_path, language)).readlines()
 
 
@@ -34,7 +34,7 @@ def get_mnemonic(*, language: str, entropy: Optional[bytes]=None) -> str:
     entropy_bits += checksum
     entropy_length += checksum_length
     mnemonic = []
-    word_list = get_alphabet(language)
+    word_list = _get_word_list(language)
     for i in range(entropy_length // 11 - 1, -1, -1):
         index = (entropy_bits >> i * 11) & 2**11 - 1
         mnemonic.append(word_list[index])
