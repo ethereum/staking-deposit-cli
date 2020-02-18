@@ -1,14 +1,17 @@
 from os import walk
+from secrets import randbits
 from typing import (
     List,
     Optional,
 )
 
+from ..utils.crypto import SHA256
+
 word_lists_path = './src/key_derivation/word_lists/'
 
 
 def _get_word_list(language: str):
-    return open('%s%s.txt' %(word_lists_path, language)).readlines()
+    return open('%s%s.txt' % (word_lists_path, language)).readlines()
 
 
 def get_languages(path: str=word_lists_path) -> List[str]:

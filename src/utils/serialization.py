@@ -3,15 +3,6 @@ from ssz import (
     Serializable,
 )
 
-from utils.typing import (
-    BLSPubkey,
-    BLSPrivkey,
-    BLSSignature,
-    Domain,
-    DomainType,
-    Version,
-    Root,
-)
 from utils.constants import (
     DOMAIN_DEPOSIT,
     GENESIS_FORK_VERSION,
@@ -25,14 +16,14 @@ class SigningRoot(Serializable):
     ]
 
 
-def compute_domain(domain_type: DomainType=DomainType(DOMAIN_DEPOSIT), fork_version: Version=GENESIS_FORK_VERSION) -> Domain:
+def compute_domain(domain_type: bytes=DOMAIN_DEPOSIT, fork_version: bytes=GENESIS_FORK_VERSION) -> bytes:
     """
     Return the domain for the ``domain_type`` and ``fork_version``.
     """
-    return Domain(domain_type + fork_version)
+    return domain_type + fork_version
 
 
-def compute_signing_root(ssz_object, domain: Domain) -> Root:
+def compute_signing_root(ssz_object: Serializable, domain: bytes) -> bytes:
     """
     Return the signing root of an object by calculating the root of the object-domain tree.
     """

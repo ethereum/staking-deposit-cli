@@ -1,0 +1,9 @@
+# Eth2 specs:
+eth2.0-specs/
+
+# Python testing & linting:
+venv/
+.pytest_cache
+.hypothesis
+.mypy_cache
+__pycache__

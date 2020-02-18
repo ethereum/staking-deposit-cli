@@ -11,6 +11,7 @@ from Crypto.Cipher import (
     AES as _AES
 )
 
+
 def SHA256(x):
     return _sha256.new(x).digest()
 
