@@ -11,11 +11,16 @@ from utils.crypto import (
     PBKDF2,
 )
 
-word_lists_path = './src/key_derivation/word_lists/'
+word_lists_path = './key_derivation/word_lists/'
 
 
 def _get_word_list(language: str):
     return open('%s%s.txt' % (word_lists_path, language)).readlines()
+
+
+def _get_word(*, word_list, index: int) -> str:
+    assert index < 2048
+    return word_list[index][:-1]
 
 
 def get_seed(*, mnemonic: str, password: str='') -> bytes:
@@ -50,5 +55,7 @@ def get_mnemonic(*, language: str, entropy: Optional[bytes]=None) -> str:
     word_list = _get_word_list(language)
     for i in range(entropy_length // 11 - 1, -1, -1):
         index = (entropy_bits >> i * 11) & 2**11 - 1
-        mnemonic.append(word_list[index])
+        word = _get_word(word_list=word_list, index=index)
+        mnemonic.append(word)
+    print(mnemonic)
     return ' '.join(mnemonic)
