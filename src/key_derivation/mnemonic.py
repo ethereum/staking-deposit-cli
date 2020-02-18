@@ -1,17 +1,27 @@
 from os import walk
+from unicodedata import normalize
 from secrets import randbits
 from typing import (
     List,
     Optional,
 )
 
-from ..utils.crypto import SHA256
+from utils.crypto import (
+    SHA256,
+    PBKDF2,
+)
 
 word_lists_path = './src/key_derivation/word_lists/'
 
 
 def _get_word_list(language: str):
     return open('%s%s.txt' % (word_lists_path, language)).readlines()
+
+
+def get_seed(*, mnemonic: str, password: str='') -> bytes:
+    mnemonic = normalize('NFKD', mnemonic)
+    salt = normalize('NFKD', 'mnemonic' + password).encode('utf-8')
+    return PBKDF2(password=mnemonic, salt=salt, dklen=64, c=2048, prf='sha512')
 
 
 def get_languages(path: str=word_lists_path) -> List[str]:
