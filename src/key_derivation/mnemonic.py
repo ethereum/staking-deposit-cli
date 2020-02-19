@@ -60,5 +60,4 @@ def get_mnemonic(*, language: str, entropy: Optional[bytes]=None) -> str:
         index = (entropy_bits >> i * 11) & 2**11 - 1
         word = _get_word(word_list=word_list, index=index)
         mnemonic.append(word)
-    print(mnemonic)
     return ' '.join(mnemonic)
