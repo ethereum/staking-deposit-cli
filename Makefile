@@ -12,7 +12,4 @@ test:
 	. venv/bin/activate; cd ./src; python -m pytest
 
 lint:
-	. venv/bin/activate; \
-	cd ./src
-	flake8 --ignore=E252,W504,W503 --max-line-length=120 . \
-	&& mypy --follow-imports=skip --ignore-missing-imports .
+	. venv/bin/activate; flake8 --ignore=E252,W504,W503 --max-line-length=120 ./src/ && mypy --follow-imports=skip --ignore-missing-imports ./src/

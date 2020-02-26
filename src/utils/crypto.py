@@ -25,8 +25,8 @@ def scrypt(*, password: str, salt: str, n: int, r: int, p: int, dklen: int) -> b
 def PBKDF2(*, password: str, salt: bytes, dklen: int, c: int, prf: str) -> bytes:
     assert('sha' in prf)
     _hash = _sha256 if 'sha256' in prf else _sha512
-    password = password.encode("utf-8")
-    res = _PBKDF2(password=password, salt=salt, dkLen=dklen, count=c, hmac_hash_module=_hash)
+    password_bytes = password.encode("utf-8")
+    res = _PBKDF2(password=password_bytes, salt=salt, dkLen=dklen, count=c, hmac_hash_module=_hash)  # type: ignore
     return res if isinstance(res, bytes) else res[0]  # PyCryptodome can return Tuple[bytes]
 
 

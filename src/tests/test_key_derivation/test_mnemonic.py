@@ -8,6 +8,7 @@ from key_derivation.mnemonic import (
 with open('tests/test_key_derivation/test_vectors/mnemonic.json', 'r') as f:
     test_vectors = load(f)
 
+
 @pytest.mark.parametrize(
     'language,language_test_vectors',
     [(a, b) for a, b in test_vectors.items()]
