@@ -1,0 +1,7 @@
+py_ecc >= 2.0.0
+pycryptodome>=3.6.6  # For AES, scrypt
+
+# Testing
+pytest>=4.4
+flake8==3.7.7
+mypy==0.701
