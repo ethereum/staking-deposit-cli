@@ -9,7 +9,7 @@ install:
 	python3 -m venv venv; . venv/bin/activate; pip3 install -r requirements.txt
 
 test: 
-	. venv/bin/activate; cd ./src; python -m pytest
+	. venv/bin/activate; cd src; python -m pytest .
 
 lint:
 	. venv/bin/activate; flake8 --ignore=E252,W504,W503 --max-line-length=120 ./src/ && mypy --follow-imports=skip --ignore-missing-imports ./src/
