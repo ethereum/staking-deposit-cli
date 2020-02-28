@@ -5,7 +5,7 @@ clean:
 	find . -name .mypy_cache -exec rm -rf {} \;
 	find . -name .pytest_cache -exec rm -rf {} \;
 
-install_test:
+install:
 	python3 -m venv venv; . venv/bin/activate; pip3 install -r requirements.txt
 
 test: 

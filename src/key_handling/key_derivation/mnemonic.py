@@ -1,4 +1,4 @@
-from os import walk
+import os
 from unicodedata import normalize
 from secrets import randbits
 from typing import (
@@ -11,11 +11,9 @@ from utils.crypto import (
     PBKDF2,
 )
 
-word_lists_path = './key_derivation/word_lists/'
 
-
-def _get_word_list(language: str):
-    return open('%s%s.txt' % (word_lists_path, language)).readlines()
+def _get_word_list(language: str, path: str):
+    return open('%s%s.txt' % (path, language)).readlines()
 
 
 def _get_word(*, word_list, index: int) -> str:
@@ -32,16 +30,16 @@ def get_seed(*, mnemonic: str, password: str='') -> bytes:
     return PBKDF2(password=mnemonic, salt=salt, dklen=64, c=2048, prf='sha512')
 
 
-def get_languages(path: str=word_lists_path) -> List[str]:
+def get_languages(path) -> List[str]:
     """
     Walk the `path` and list all the languages with word-lists available.
     """
-    (_, _, filenames) = next(walk(path))
+    (_, _, filenames) = next(os.walk(path))
     filenames = [name[:-4] for name in filenames]
     return filenames
 
 
-def get_mnemonic(*, language: str, entropy: Optional[bytes]=None) -> str:
+def get_mnemonic(*, language: str, words_path: str, entropy: Optional[bytes]=None) -> str:
     """
     Returns a mnemonic string in a given `language` based on `entropy`.
     """
@@ -55,7 +53,7 @@ def get_mnemonic(*, language: str, entropy: Optional[bytes]=None) -> str:
     entropy_bits += checksum
     entropy_length += checksum_length
     mnemonic = []
-    word_list = _get_word_list(language)
+    word_list = _get_word_list(language, words_path)
     for i in range(entropy_length // 11 - 1, -1, -1):
         index = (entropy_bits >> i * 11) & 2**11 - 1
         word = _get_word(word_list=word_list, index=index)
