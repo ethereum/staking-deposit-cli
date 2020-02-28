@@ -5,12 +5,17 @@ from key_handling.key_derivation.mnemonic import (
     get_languages,
     get_mnemonic,
 )
+from utils.eth2_deposit_check import verify_deposit_data_json
 from utils.credentials import (
     mnemonic_to_credentials,
     export_keystores,
     export_deposit_data_json,
+    verify_keystores,
 )
-from utils.constants import WORD_LISTS_PATH
+from utils.constants import (
+    WORD_LISTS_PATH,
+    MAX_DEPOSIT_AMOUNT,
+)
 
 words_path = os.path.join(os.getcwd(), WORD_LISTS_PATH)
 languages = get_languages(words_path)
@@ -53,17 +58,21 @@ def generate_mnemonic(language: str, words_path: str) -> str:
 )
 def main(num_validators: int, mnemonic_language: str, password: str, folder: str):
     mnemonic = generate_mnemonic(mnemonic_language, words_path)
-    amounts = [32 * 10 ** 9] * num_validators
+    amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
     folder = os.path.join(folder, 'validator_keys')
     if not os.path.exists(folder):
         os.mkdir(folder)
     click.clear()
     click.echo('Creating your keys.')
     credentials = mnemonic_to_credentials(mnemonic=mnemonic, num_keys=num_validators, amounts=amounts)
-    click.echo('Saving your keystores.')
-    export_keystores(credentials=credentials, password=password, folder=folder)
-    click.echo('Creating your deposits.')
-    export_deposit_data_json(credentials=credentials, folder=folder)
+    click.echo('Saving your keystore(s).')
+    keystore_filefolders = export_keystores(credentials=credentials, password=password, folder=folder)
+    click.echo('Creating your deposit(s).')
+    deposits_file = export_deposit_data_json(credentials=credentials, folder=folder)
+    click.echo('Verifying your keystore(s).')
+    assert verify_keystores(credentials=credentials, keystore_filefolders=keystore_filefolders, password=password)
+    click.echo('Verifying your deposit(s).')
+    assert verify_deposit_data_json(deposits_file)
     click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)
     click.pause('\n\nPress any key.')
 

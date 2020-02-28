@@ -14,6 +14,7 @@ from utils.constants import (
 
 bytes8 = ByteVector(8)
 
+
 # Crypto Domain SSZ
 
 class SigningRoot(Serializable):
@@ -41,9 +42,9 @@ def compute_signing_root(ssz_object: Serializable, domain: bytes) -> bytes:
     return domain_wrapped_object.hash_tree_root
 
 
-# DepositData SSZ
+# DepositMessage SSZ
 
-class DepositData(Serializable):
+class DepositMessage(Serializable):
     fields = [
         ('pubkey', bytes48),
         ('withdrawal_credentials', bytes32),
@@ -51,7 +52,7 @@ class DepositData(Serializable):
     ]
 
 
-class SignedDepositData(Serializable):
+class Deposit(Serializable):
     fields = [
         ('pubkey', bytes48),
         ('withdrawal_credentials', bytes32),

@@ -1,13 +1,16 @@
-from key_derivation.tree import (
+import os
+import json
+
+from key_handling.key_derivation.tree import (
     _flip_bits_256,
     _IKM_to_lamport_SK,
     _parent_SK_to_lamport_PK,
     _HKDF_mod_r,
 )
-from json import load
 
-with open('tests/test_key_derivation/test_vectors/tree_kdf_intermediate.json', 'r') as f:
-    test_vector = load(f)
+test_vector_filefolder = os.path.join(os.getcwd(), 'tests', 'test_key_handling', 'test_key_derivation', 'test_vectors','tree_kdf_intermediate.json')
+with open(test_vector_filefolder, 'r') as f:
+    test_vector = json.load(f)
 
 
 def test_flip_bits_256():

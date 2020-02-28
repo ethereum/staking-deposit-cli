@@ -13,7 +13,7 @@ from utils.crypto import (
 
 
 def _get_word_list(language: str, path: str):
-    return open('%s%s.txt' % (path, language)).readlines()
+    return open(os.path.join(path,'%s.txt' %  language)).readlines()
 
 
 def _get_word(*, word_list, index: int) -> str:
@@ -34,6 +34,7 @@ def get_languages(path) -> List[str]:
     """
     Walk the `path` and list all the languages with word-lists available.
     """
+    print(path)
     (_, _, filenames) = next(os.walk(path))
     filenames = [name[:-4] for name in filenames]
     return filenames
