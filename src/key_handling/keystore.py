@@ -80,8 +80,9 @@ class Keystore(BytesDataclass):
             return cls.from_json(f.read())
 
     @classmethod
-    def from_json(cls, json_str: str):
-        json_dict = json.loads(json_str)
+    def from_json(cls, path: str):
+        with open(path, 'r') as f:
+            json_dict = json.load(f)
         crypto = KeystoreCrypto.from_json(json_dict['crypto'])
         pubkey = json_dict['pubkey']
         path = json_dict['path']

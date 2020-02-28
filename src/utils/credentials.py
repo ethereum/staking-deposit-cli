@@ -5,7 +5,10 @@ from typing import List
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from key_handling.key_derivation.path import mnemonic_and_path_to_key
-from key_handling.keystore import ScryptKeystore
+from key_handling.keystore import (
+    Keystore,
+    ScryptKeystore,
+)
 from utils.crypto import SHA256
 from utils.ssz import (
     compute_domain,
@@ -34,10 +37,17 @@ class ValidatorCredentials:
         secret = self.signing_sk.to_bytes(32, 'big')
         return ScryptKeystore.encrypt(secret=secret, password=password, path=self.signing_key_path)
 
-    def save_signing_keystore(self, password: str, folder: str):
+    def save_signing_keystore(self, password: str, folder: str) -> str:
         keystore = self.signing_keystore(password)
         filefolder = os.path.join(folder, 'keystore-%s-%i.json' % (keystore.path.replace('/', '_'), time.time()))
         keystore.save(filefolder)
+        return filefolder
+
+    def verify_keystore(self, keystore_filefolder: str, password: str) -> bool:
+        with open(keystore_filefolder, 'r') as f:
+            saved_keystore = Keystore.from_json(keystore_filefolder)
+            secret_bytes = saved_keystore.decrypt(password)
+            return self.signing_sk == int.from_bytes(secret_bytes, 'big')
 
 
 def mnemonic_to_credentials(*, mnemonic: str, num_keys: int,
@@ -49,9 +59,8 @@ def mnemonic_to_credentials(*, mnemonic: str, num_keys: int,
     return credentials
 
 
-def export_keystores(*, credentials: List[ValidatorCredentials], password: str, folder: str):
-    for credential in credentials:
-        credential.save_signing_keystore(password=password, folder=folder)
+def export_keystores(*, credentials: List[ValidatorCredentials], password: str, folder: str) -> List[str]:
+    return [credential.save_signing_keystore(password=password, folder=folder) for credential in credentials]
 
 
 def sign_deposit_data(deposit_data: DepositMessage, sk: int) -> Deposit:
@@ -85,3 +94,8 @@ def export_deposit_data_json(*, credentials: List[ValidatorCredentials], folder:
     with open(filefolder, 'w') as f:
         json.dump(deposit_data, f, default=lambda x: x.hex())
     return filefolder
+
+
+def verify_keystores(*, credentials: List[ValidatorCredentials], keystore_filefolders: List[str], password: str) -> bool:
+    return all(credential.verify_keystore(keystore_filefolder=filefolder, password=password)
+               for credential, filefolder in zip(credentials, keystore_filefolders))

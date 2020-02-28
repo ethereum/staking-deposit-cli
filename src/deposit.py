@@ -10,6 +10,7 @@ from utils.credentials import (
     mnemonic_to_credentials,
     export_keystores,
     export_deposit_data_json,
+    verify_keystores,
 )
 from utils.constants import (
     WORD_LISTS_PATH,
@@ -65,9 +66,11 @@ def main(num_validators: int, mnemonic_language: str, password: str, folder: str
     click.echo('Creating your keys.')
     credentials = mnemonic_to_credentials(mnemonic=mnemonic, num_keys=num_validators, amounts=amounts)
     click.echo('Saving your keystore(s).')
-    export_keystores(credentials=credentials, password=password, folder=folder)
+    keystore_filefolders = export_keystores(credentials=credentials, password=password, folder=folder)
     click.echo('Creating your deposit(s).')
     deposits_file = export_deposit_data_json(credentials=credentials, folder=folder)
+    click.echo('Verifying your keystore(s).')
+    assert verify_keystores(credentials=credentials, keystore_filefolders=keystore_filefolders, password=password)
     click.echo('Verifying your deposit(s).')
     assert verify_deposit_data_json(deposits_file)
     click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)
