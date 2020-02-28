@@ -10,8 +10,8 @@ from utils.crypto import SHA256
 from utils.ssz import (
     compute_domain,
     compute_signing_root,
-    DepositData,
-    SignedDepositData,
+    DepositMessage,
+    Deposit,
 )
 
 
@@ -54,14 +54,14 @@ def export_keystores(*, credentials: List[ValidatorCredentials], password: str, 
         credential.save_signing_keystore(password=password, folder=folder)
 
 
-def sign_deposit_data(deposit_data: DepositData, sk: int) -> SignedDepositData:
+def sign_deposit_data(deposit_data: DepositMessage, sk: int) -> Deposit:
     '''
-    Given a DepositData, it signs its root and returns a SignedDepositData
+    Given a DepositMessage, it signs its root and returns a Deposit
     '''
     assert bls.PrivToPub(sk) == deposit_data.pubkey
     domain = compute_domain()
     signing_root = compute_signing_root(deposit_data, domain)
-    signed_deposit_data = SignedDepositData(
+    signed_deposit_data = Deposit(
         **deposit_data.as_dict(),
         signature=bls.Sign(sk, signing_root)
     )
@@ -70,9 +70,8 @@ def sign_deposit_data(deposit_data: DepositData, sk: int) -> SignedDepositData:
 
 def export_deposit_data_json(*, credentials: List[ValidatorCredentials], folder: str):
     deposit_data: List[dict] = []
-    domain = compute_domain()
     for credential in credentials:
-        deposit_datum = DepositData(
+        deposit_datum = DepositMessage(
             pubkey=credential.signing_pk,
             withdrawal_credentials=SHA256(credential.withdrawal_pk),
             amount=credential.amount,
@@ -85,3 +84,4 @@ def export_deposit_data_json(*, credentials: List[ValidatorCredentials], folder:
     filefolder = os.path.join(folder, 'deposit_data-%i.json' % time.time())
     with open(filefolder, 'w') as f:
         json.dump(deposit_data, f, default=lambda x: x.hex())
+    return filefolder
