@@ -1,5 +1,4 @@
-# Eth2 specs:
-eth2.0-specs/
+validator_keys
 
 # Python testing & linting:
 venv/
