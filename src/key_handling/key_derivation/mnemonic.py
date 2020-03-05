@@ -34,7 +34,6 @@ def get_languages(path) -> List[str]:
     """
     Walk the `path` and list all the languages with word-lists available.
     """
-    print(path)
     (_, _, filenames) = next(os.walk(path))
     filenames = [name[:-4] for name in filenames]
     return filenames

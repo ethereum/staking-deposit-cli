@@ -8,6 +8,9 @@ clean:
 install:
 	python3 -m venv venv; . venv/bin/activate; pip3 install -r requirements.txt
 
+install_test:
+	python3 -m venv venv; . venv/bin/activate; pip3 install -r requirements_test.txt
+
 test: 
 	. venv/bin/activate; cd src; python -m pytest .
 
