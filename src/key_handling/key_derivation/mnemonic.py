@@ -13,7 +13,7 @@ from utils.crypto import (
 
 
 def _get_word_list(language: str, path: str):
-    return open(os.path.join(path,'%s.txt' %  language)).readlines()
+    return open(os.path.join(path, '%s.txt' % language)).readlines()
 
 
 def _get_word(*, word_list, index: int) -> str:

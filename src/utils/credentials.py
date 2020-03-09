@@ -44,10 +44,9 @@ class ValidatorCredentials:
         return filefolder
 
     def verify_keystore(self, keystore_filefolder: str, password: str) -> bool:
-        with open(keystore_filefolder, 'r') as f:
-            saved_keystore = Keystore.from_json(keystore_filefolder)
-            secret_bytes = saved_keystore.decrypt(password)
-            return self.signing_sk == int.from_bytes(secret_bytes, 'big')
+        saved_keystore = Keystore.from_json(keystore_filefolder)
+        secret_bytes = saved_keystore.decrypt(password)
+        return self.signing_sk == int.from_bytes(secret_bytes, 'big')
 
 
 def mnemonic_to_credentials(*, mnemonic: str, num_keys: int,
@@ -96,6 +95,7 @@ def export_deposit_data_json(*, credentials: List[ValidatorCredentials], folder:
     return filefolder
 
 
-def verify_keystores(*, credentials: List[ValidatorCredentials], keystore_filefolders: List[str], password: str) -> bool:
+def verify_keystores(*, credentials: List[ValidatorCredentials],
+                     keystore_filefolders: List[str], password: str) -> bool:
     return all(credential.verify_keystore(keystore_filefolder=filefolder, password=password)
                for credential, filefolder in zip(credentials, keystore_filefolders))
