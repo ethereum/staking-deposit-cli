@@ -8,7 +8,8 @@ from key_handling.key_derivation.tree import (
     _HKDF_mod_r,
 )
 
-test_vector_filefolder = os.path.join(os.getcwd(), 'tests', 'test_key_handling', 'test_key_derivation', 'test_vectors','tree_kdf_intermediate.json')
+test_vector_filefolder = os.path.join(os.getcwd(), 'tests', 'test_key_handling', 'test_key_derivation',
+                                      'test_vectors', 'tree_kdf_intermediate.json')
 with open(test_vector_filefolder, 'r') as f:
     test_vector = json.load(f)
 

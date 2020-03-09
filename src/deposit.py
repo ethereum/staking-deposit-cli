@@ -16,6 +16,7 @@ from utils.constants import (
     WORD_LISTS_PATH,
     MAX_DEPOSIT_AMOUNT,
 )
+from utils.ascii_art import RHINO_0
 
 words_path = os.path.join(os.getcwd(), WORD_LISTS_PATH)
 languages = get_languages(words_path)
@@ -63,6 +64,7 @@ def main(num_validators: int, mnemonic_language: str, password: str, folder: str
     if not os.path.exists(folder):
         os.mkdir(folder)
     click.clear()
+    click.echo(RHINO_0)
     click.echo('Creating your keys.')
     credentials = mnemonic_to_credentials(mnemonic=mnemonic, num_keys=num_validators, amounts=amounts)
     click.echo('Saving your keystore(s).')
