@@ -1,4 +1,5 @@
 import os
+import sys
 import click
 
 from key_handling.key_derivation.mnemonic import (
@@ -38,6 +39,15 @@ def generate_mnemonic(language: str, words_path: str) -> str:
     return mnemonic
 
 
+def check_python_version():
+    '''
+    Checks that the python version running is sufficient and exits if not.
+    '''
+    if sys.version_info < (3, 7):
+        click.pause('Your python version is insufficient, please install version 3.7 or greater.')
+        sys.exit()
+
+
 @click.command()
 @click.option(
     '--num_validators',
@@ -58,6 +68,7 @@ def generate_mnemonic(language: str, words_path: str) -> str:
     default=os.getcwd()
 )
 def main(num_validators: int, mnemonic_language: str, password: str, folder: str):
+    check_python_version()
     mnemonic = generate_mnemonic(mnemonic_language, words_path)
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
     folder = os.path.join(folder, 'validator_keys')
