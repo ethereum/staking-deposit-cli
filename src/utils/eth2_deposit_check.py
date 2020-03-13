@@ -30,7 +30,7 @@ def verify_deposit(deposit_data_dict: dict) -> bool:
     withdrawal_credentials = bytes.fromhex(deposit_data_dict['withdrawal_credentials'])
     amount = deposit_data_dict['amount']
     signature = bytes.fromhex(deposit_data_dict['signature'])
-    deposit_data_root = bytes.fromhex(deposit_data_dict['deposit_data_root'])
+    deposit_data_root = bytes.fromhex(deposit_data_dict['signed_deposit_data_root'])
 
     # Verify deposit amount
     if not MIN_DEPOSIT_AMOUNT < amount <= MAX_DEPOSIT_AMOUNT:

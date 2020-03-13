@@ -86,7 +86,8 @@ def export_deposit_data_json(*, credentials: List[ValidatorCredentials], folder:
         )
         signed_deposit_datum = sign_deposit_data(deposit_datum, credential.signing_sk)
         datum_dict = signed_deposit_datum.as_dict()
-        datum_dict.update({'deposit_data_root': signed_deposit_datum.hash_tree_root})
+        datum_dict.update({'deposit_data_root': deposit_datum.hash_tree_root})
+        datum_dict.update({'signed_deposit_data_root': signed_deposit_datum.hash_tree_root})
         deposit_data.append(datum_dict)
 
     filefolder = os.path.join(folder, 'deposit_data-%i.json' % time.time())
