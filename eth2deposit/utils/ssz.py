@@ -7,7 +7,7 @@ from ssz import (
     bytes96
 )
 
-from utils.constants import (
+from eth2deposit.utils.constants import (
     DOMAIN_DEPOSIT,
     GENESIS_FORK_VERSION,
 )

@@ -1,13 +1,13 @@
 import json
 from py_ecc.bls import G2ProofOfPossession as bls
 
-from utils.ssz import (
+from eth2deposit.utils.ssz import (
     compute_domain,
     compute_signing_root,
     Deposit,
     DepositMessage,
 )
-from utils.constants import (
+from eth2deposit.utils.constants import (
     DOMAIN_DEPOSIT,
     MAX_DEPOSIT_AMOUNT,
     MIN_DEPOSIT_AMOUNT,
