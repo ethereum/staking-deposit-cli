@@ -14,7 +14,7 @@ install_test:
 	python3 -m venv venv; . venv/bin/activate; pip3 install -r requirements_test.txt
 
 test: 
-	. venv/bin/activate; cd src; python -m pytest .
+	. venv/bin/activate; cd tests; python -m pytest .
 
 lint:
-	. venv/bin/activate; flake8 --config=flake8.ini ./src && mypy --config-file mypy.ini -p src
+	. venv/bin/activate; flake8 --config=flake8.ini ./eth2deposit ./tests && mypy --config-file mypy.ini -p eth2deposit -p tests
