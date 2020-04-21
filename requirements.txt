@@ -38,6 +38,9 @@ click==7.0 \
 ssz==0.2.3 \
     --hash=sha256:0df31a9aef80c58fc0d5c238eb8bbd2cfe4726606c3c05e173694c5404816fdf \
     --hash=sha256:4c4689bd5fdd640a9095d67e54c9a629a56f0fbed1d556638fe37f6f61d0762e
+eth2spec==0.11.1 \
+    --hash=sha256:19370f494ca9e6e70169bbaefbbb158ae32bfc97eaeeb52108c21add60a17009 \
+    --hash=sha256:e1c6733c45e3dadc9e01a69b87831cdf4a969374d519303a7bdc68287baec3d9
 
 # Dependencies for the above
 eth-typing==2.2.1 \
@@ -63,3 +66,10 @@ toolz==0.10.0 \
 six==1.14.0 \
     --hash=sha256:236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a \
     --hash=sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c
+
+ruamel.yaml==0.16.5 \
+    --hash=sha256:0db639b1b2742dae666c6fc009b8d1931ef15c9276ef31c0673cc6dcf766cf40
+dataclasses==0.6 \
+    --hash=sha256:454a69d788c7fda44efd71e259be79577822f5e3f53f029a22d08004e951dc9f
+remerkleable==0.1.12 \
+    --hash=sha256:97e5f6b873217cc84d2630d827e14db00b8417427c480b37fc73ab69ea0a3640

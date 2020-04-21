@@ -7,7 +7,8 @@ pytest==5.3.5 \
 flake8==3.7.9 \
     --hash=sha256:49356e766643ad15072a789a20915d3c91dc89fd313ccd71802303fd67e4deca
 mypy==0.761 \
-    --hash=sha256:0a9a45157e532da06fe56adcfef8a74629566b607fa2c1ac0122d1ff995c748a
+    --hash=sha256:85baab8d74ec601e86134afe2bcccd87820f79d2f8d5798c889507d1088287bf \
+    --hash=sha256:7e396ce53cacd5596ff6d191b47ab0ea18f8e0ec04e15d69728d530e86d4c217
 
 # Dependencies for the above
 wcwidth==0.1.8 \
