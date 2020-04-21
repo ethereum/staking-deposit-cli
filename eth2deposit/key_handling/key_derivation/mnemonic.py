@@ -6,7 +6,7 @@ from typing import (
     Optional,
 )
 
-from utils.crypto import (
+from eth2deposit.utils.crypto import (
     SHA256,
     PBKDF2,
 )

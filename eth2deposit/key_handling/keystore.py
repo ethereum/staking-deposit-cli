@@ -7,7 +7,7 @@ from dataclasses import (
 import json
 from secrets import randbits
 from uuid import uuid4
-from utils.crypto import (
+from eth2deposit.utils.crypto import (
     AES_128_CTR,
     PBKDF2,
     scrypt,

@@ -1,14 +1,14 @@
 import os
 import json
 
-from key_handling.key_derivation.tree import (
+from eth2deposit.key_handling.key_derivation.tree import (
     _flip_bits_256,
     _IKM_to_lamport_SK,
     _parent_SK_to_lamport_PK,
     _HKDF_mod_r,
 )
 
-test_vector_filefolder = os.path.join(os.getcwd(), 'tests', 'test_key_handling', 'test_key_derivation',
+test_vector_filefolder = os.path.join(os.getcwd(), 'test_key_handling', 'test_key_derivation',
                                       'test_vectors', 'tree_kdf_intermediate.json')
 with open(test_vector_filefolder, 'r') as f:
     test_vector = json.load(f)
