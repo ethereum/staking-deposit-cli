@@ -2,17 +2,17 @@ import os
 import sys
 import click
 
-from eth2deposit.key_handling.key_derivation.mnemonic import (
-    get_languages,
-    get_mnemonic,
-)
-from eth2deposit.utils.eth2_deposit_check import verify_deposit_data_json
-from eth2deposit.utils.credentials import (
+from eth2deposit.credentials import (
     mnemonic_to_credentials,
     export_keystores,
     export_deposit_data_json,
     verify_keystores,
 )
+from eth2deposit.key_handling.key_derivation.mnemonic import (
+    get_languages,
+    get_mnemonic,
+)
+from eth2deposit.utils.eth2_deposit_check import verify_deposit_data_json
 from eth2deposit.utils.constants import (
     WORD_LISTS_PATH,
     MAX_DEPOSIT_AMOUNT,
