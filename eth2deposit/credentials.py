@@ -4,6 +4,8 @@ import json
 from typing import List
 from py_ecc.bls import G2ProofOfPossession as bls
 
+from eth2spec.phase0 import spec
+
 from eth2deposit.key_handling.key_derivation.path import mnemonic_and_path_to_key
 from eth2deposit.key_handling.keystore import (
     Keystore,
@@ -13,8 +15,8 @@ from eth2deposit.utils.crypto import SHA256
 from eth2deposit.utils.ssz import (
     compute_domain,
     compute_signing_root,
+    DepositData,
     DepositMessage,
-    Deposit,
 )
 
 
@@ -62,32 +64,35 @@ def export_keystores(*, credentials: List[ValidatorCredentials], password: str, 
     return [credential.save_signing_keystore(password=password, folder=folder) for credential in credentials]
 
 
-def sign_deposit_data(deposit_data: DepositMessage, sk: int) -> Deposit:
+def sign_deposit_data(deposit_message: DepositMessage, sk: int) -> DepositData:
     '''
-    Given a DepositMessage, it signs its root and returns a Deposit
+    Given a DepositMessage, it signs its root and returns a DepositData
     '''
-    assert bls.PrivToPub(sk) == deposit_data.pubkey
+    assert bls.PrivToPub(sk) == deposit_message.pubkey
     domain = compute_domain()
-    signing_root = compute_signing_root(deposit_data, domain)
-    signed_deposit_data = Deposit(
-        **deposit_data.as_dict(),
+    signing_root = compute_signing_root(deposit_message, domain)
+    signed_deposit_data = DepositData(
+        **deposit_message.as_dict(),
         signature=bls.Sign(sk, signing_root)
     )
+    validate_deposit_data(signed_deposit_data)
     return signed_deposit_data
 
 
 def export_deposit_data_json(*, credentials: List[ValidatorCredentials], folder: str):
     deposit_data: List[dict] = []
     for credential in credentials:
-        deposit_datum = DepositMessage(
+        deposit_message = DepositMessage(
             pubkey=credential.signing_pk,
             withdrawal_credentials=SHA256(credential.withdrawal_pk),
             amount=credential.amount,
         )
-        signed_deposit_datum = sign_deposit_data(deposit_datum, credential.signing_sk)
-        datum_dict = signed_deposit_datum.as_dict()
-        datum_dict.update({'deposit_data_root': deposit_datum.hash_tree_root})
-        datum_dict.update({'signed_deposit_data_root': signed_deposit_datum.hash_tree_root})
+        validate_deposit_message(deposit_message)
+        signed_deposit_data = sign_deposit_data(deposit_message, credential.signing_sk)
+
+        datum_dict = signed_deposit_data.as_dict()
+        datum_dict.update({'deposit_data_root': deposit_message.hash_tree_root})
+        datum_dict.update({'signed_deposit_data_root': signed_deposit_data.hash_tree_root})
         deposit_data.append(datum_dict)
 
     filefolder = os.path.join(folder, 'deposit_data-%i.json' % time.time())
@@ -100,3 +105,22 @@ def verify_keystores(*, credentials: List[ValidatorCredentials],
                      keystore_filefolders: List[str], password: str) -> bool:
     return all(credential.verify_keystore(keystore_filefolder=filefolder, password=password)
                for credential, filefolder in zip(credentials, keystore_filefolders))
+
+
+def validate_deposit_message(deposit_message: DepositMessage) -> None:
+    pyspec_deposit_message = spec.DepositMessage(
+        pubkey=deposit_message.pubkey,
+        withdrawal_credentials=deposit_message.withdrawal_credentials,
+        amount=deposit_message.amount,
+    )
+    assert pyspec_deposit_message.hash_tree_root() == deposit_message.hash_tree_root
+
+
+def validate_deposit_data(deposit_data: DepositData) -> None:
+    pyspec_deposit_data = spec.DepositData(
+        pubkey=deposit_data.pubkey,
+        withdrawal_credentials=deposit_data.withdrawal_credentials,
+        amount=deposit_data.amount,
+        signature=deposit_data.signature,
+    )
+    assert pyspec_deposit_data.hash_tree_root() == deposit_data.hash_tree_root

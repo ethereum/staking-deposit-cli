@@ -4,7 +4,7 @@ from py_ecc.bls import G2ProofOfPossession as bls
 from eth2deposit.utils.ssz import (
     compute_domain,
     compute_signing_root,
-    Deposit,
+    DepositData,
     DepositMessage,
 )
 from eth2deposit.utils.constants import (
@@ -43,6 +43,11 @@ def verify_deposit(deposit_data_dict: dict) -> bool:
     if not bls.Verify(pubkey, signing_root, signature):
         return False
 
-    # Verify Deposit Root
-    deposit = Deposit(pubkey=pubkey, withdrawal_credentials=withdrawal_credentials, amount=amount, signature=signature)
-    return deposit.hash_tree_root == deposit_data_root
+    # Verify DepositData Root
+    deposit_data = DepositData(
+        pubkey=pubkey,
+        withdrawal_credentials=withdrawal_credentials,
+        amount=amount,
+        signature=signature,
+    )
+    return deposit_data.hash_tree_root == deposit_data_root

@@ -52,7 +52,7 @@ class DepositMessage(Serializable):
     ]
 
 
-class Deposit(Serializable):
+class DepositData(Serializable):
     fields = [
         ('pubkey', bytes48),
         ('withdrawal_credentials', bytes32),
