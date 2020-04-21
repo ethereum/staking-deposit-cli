@@ -9,7 +9,7 @@ from eth2deposit.utils.ssz import (
 )
 from eth2deposit.utils.constants import (
     DOMAIN_DEPOSIT,
-    MAX_DEPOSIT_AMOUNT,
+    MAX_EFFECTIVE_BALANCE,
     MIN_DEPOSIT_AMOUNT,
 )
 
@@ -33,7 +33,7 @@ def verify_deposit(deposit_data_dict: dict) -> bool:
     deposit_data_root = bytes.fromhex(deposit_data_dict['signed_deposit_data_root'])
 
     # Verify deposit amount
-    if not MIN_DEPOSIT_AMOUNT < amount <= MAX_DEPOSIT_AMOUNT:
+    if not MIN_DEPOSIT_AMOUNT < amount <= MAX_EFFECTIVE_BALANCE:
         return False
 
     # Verify deposit signature && pubkey

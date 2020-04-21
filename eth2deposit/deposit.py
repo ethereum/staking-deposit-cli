@@ -15,7 +15,7 @@ from eth2deposit.key_handling.key_derivation.mnemonic import (
 from eth2deposit.utils.eth2_deposit_check import verify_deposit_data_json
 from eth2deposit.utils.constants import (
     WORD_LISTS_PATH,
-    MAX_DEPOSIT_AMOUNT,
+    MAX_EFFECTIVE_BALANCE,
 )
 from eth2deposit.utils.ascii_art import RHINO_0
 
@@ -70,7 +70,7 @@ def check_python_version():
 def main(num_validators: int, mnemonic_language: str, password: str, folder: str):
     check_python_version()
     mnemonic = generate_mnemonic(mnemonic_language, words_path)
-    amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
+    amounts = [MAX_EFFECTIVE_BALANCE] * num_validators
     folder = os.path.join(folder, 'validator_keys')
     if not os.path.exists(folder):
         os.mkdir(folder)
