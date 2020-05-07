@@ -38,11 +38,11 @@ click==7.0 \
 ssz==0.2.3 \
     --hash=sha256:0df31a9aef80c58fc0d5c238eb8bbd2cfe4726606c3c05e173694c5404816fdf \
     --hash=sha256:4c4689bd5fdd640a9095d67e54c9a629a56f0fbed1d556638fe37f6f61d0762e
-
-# Dependencies for the above
 eth-typing==2.2.1 \
     --hash=sha256:2f3e1f891226148898b219bd94674a9af06c2d75d8cdd8c6722227b472cbd4d4 \
     --hash=sha256:cf9e5e9fb62cfeb1027823328569315166851c65c5774604d801b6b926ff65bc
+
+# Dependencies for the above
 eth-utils==1.8.4 \
     --hash=sha256:8358318685e7a7666b148b07df3c4d409435b424dce18501e79920aa52bcaba7 \
     --hash=sha256:f398c649859cda5ef7c4ee2753468038d93be7d864de7631c06c3e73a7060649

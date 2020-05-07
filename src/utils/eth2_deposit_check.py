@@ -1,4 +1,8 @@
 import json
+from eth_typing import (
+    BLSPubkey,
+    BLSSignature,
+)
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from utils.ssz import (
@@ -26,10 +30,10 @@ def verify_deposit(deposit_data_dict: dict) -> bool:
     Checks whether a deposit is valid based on the eth2 rules.
     https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/beacon-chain.md#deposits
     '''
-    pubkey = bytes.fromhex(deposit_data_dict['pubkey'])
+    pubkey = BLSPubkey(bytes.fromhex(deposit_data_dict['pubkey']))
     withdrawal_credentials = bytes.fromhex(deposit_data_dict['withdrawal_credentials'])
     amount = deposit_data_dict['amount']
-    signature = bytes.fromhex(deposit_data_dict['signature'])
+    signature = BLSSignature(bytes.fromhex(deposit_data_dict['signature']))
     deposit_data_root = bytes.fromhex(deposit_data_dict['signed_deposit_data_root'])
 
     # Verify deposit amount

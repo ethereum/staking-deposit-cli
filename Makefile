@@ -17,5 +17,4 @@ test:
 	. venv/bin/activate; cd src; python -m pytest .
 
 lint:
-	. venv/bin/activate; flake8 --ignore=E252,W504,W503 --max-line-length=120 ./src/ \
-	&& mypy --follow-imports=skip --ignore-missing-imports -p src
+	. venv/bin/activate; flake8 --config=flake8.ini ./src && mypy --config-file mypy.ini -p src
