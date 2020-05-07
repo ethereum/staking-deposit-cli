@@ -3,10 +3,11 @@ jobs:
   build:
     docker:
       - image: circleci/python:3.8
+    working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ .Branch }}-{{ checksum "requirements_test.txt" }}
+          key: deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}
       - run:
           name: Install requirements
           command: |
@@ -15,9 +16,17 @@ jobs:
             pip install -r requirements.txt
             pip install -r requirements_test.txt
       - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ .Branch }}-{{ checksum "requirements_test.txt" }}
+          key: deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}
           paths:
-            - "venv"
+            - ./venv
+  pytest:
+    docker:
+      - image: circleci/python:3.8
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}
       - run:
           name: Run tests
           command: |
@@ -29,3 +38,28 @@ jobs:
           destination: tr1
       - store_test_results:
           path: test-reports/
+  lint:
+    docker:
+      - image: circleci/python:3.8
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}
+      - run:
+          name: Run linter
+          command: |
+            . venv/bin/activate
+            flake8 --config=flake8.ini ./src && mypy --config-file mypy.ini -p src
+
+workflows:
+  version: 2.1
+  all_test:
+    jobs:
+      - build
+      - pytest:
+          requires:
+            - build
+      - lint:
+          requires:
+            - build
