@@ -8,9 +8,9 @@ from eth2deposit.key_handling.key_derivation.mnemonic import (
 )
 
 
-WORD_LISTS_PATH = os.path.join(os.getcwd(), '..', 'eth2deposit', 'key_handling', 'key_derivation', 'word_lists')
+WORD_LISTS_PATH = os.path.join(os.getcwd(), 'eth2deposit', 'key_handling', 'key_derivation', 'word_lists')
 
-test_vector_filefolder = os.path.join('test_key_handling',
+test_vector_filefolder = os.path.join('tests', 'test_key_handling',
                                       'test_key_derivation', 'test_vectors', 'mnemonic.json')
 with open(test_vector_filefolder, 'r') as f:
     test_vectors = json.load(f)

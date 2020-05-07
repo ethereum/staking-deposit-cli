@@ -31,7 +31,7 @@ build_test: build
 	${VENV_NAME}/bin/python -m pip install -r requirements_test.txt
 
 test: build_test
-	. ${VENV_NAME}/bin/activate; cd tests; python -m pytest .
+	. ${VENV_NAME}/bin/activate; python -m pytest .
 
 lint: build_test
 	. ${VENV_NAME}/bin/activate; flake8 --config=flake8.ini ./eth2deposit ./cli ./tests && mypy --config-file mypy.ini -p eth2deposit -p tests -p cli
