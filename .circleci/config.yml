@@ -7,12 +7,12 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}
+          key: deps3-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}
       - run:
           name: Install requirements
           command: make build_test
       - save_cache:
-          key: deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}
+          key: deps3-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}
           paths:
             - ./venv
   pytest:
@@ -22,7 +22,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}
+          key: deps3-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}
       - run:
           name: Run tests
           command: make test
@@ -38,7 +38,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}
+          key: deps3-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}
       - run:
           name: Run linter
           command: make lint
