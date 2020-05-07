@@ -55,7 +55,6 @@ def check_python_version():
     required=True,
     type=int,
 )
-@click.password_option(prompt='Type the password that secures your validator keystore(s)')
 @click.option(
     '--mnemonic_language',
     prompt='Please choose your mnemonic language',
@@ -67,7 +66,8 @@ def check_python_version():
     type=click.Path(exists=True, file_okay=False, dir_okay=True),
     default=os.getcwd()
 )
-def main(num_validators: int, mnemonic_language: str, password: str, folder: str):
+@click.password_option(prompt='Type the password that secures your validator keystore(s)')
+def main(num_validators: int, mnemonic_language: str, folder: str, password: str):
     check_python_version()
     mnemonic = generate_mnemonic(mnemonic_language, words_path)
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
