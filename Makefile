@@ -31,10 +31,10 @@ build_test: build
 	${VENV_NAME}/bin/python -m pip install -r requirements_test.txt
 
 test: build_test
-	. ${VENV_NAME}/bin/activate; python -m pytest .
+	$(VENV_ACTIVATE) && python -m pytest .
 
 lint: build_test
-	. ${VENV_NAME}/bin/activate; flake8 --config=flake8.ini ./eth2deposit ./cli ./tests && mypy --config-file mypy.ini -p eth2deposit -p tests -p cli
+	$(VENV_ACTIVATE) && flake8 --config=flake8.ini ./eth2deposit ./cli ./tests && mypy --config-file mypy.ini -p eth2deposit -p tests -p cli
 
 deposit: build
-	. ${VENV_NAME}/bin/activate; python setup.py install; python ./cli/deposit.py
+	$(VENV_ACTIVATE) && python setup.py install; python ./cli/deposit.py
