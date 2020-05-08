@@ -2,22 +2,22 @@ import os
 import sys
 import click
 
-from key_handling.key_derivation.mnemonic import (
-    get_languages,
-    get_mnemonic,
-)
-from utils.eth2_deposit_check import verify_deposit_data_json
-from utils.credentials import (
+from eth2deposit.credentials import (
     mnemonic_to_credentials,
     export_keystores,
     export_deposit_data_json,
     verify_keystores,
 )
-from utils.constants import (
+from eth2deposit.key_handling.key_derivation.mnemonic import (
+    get_languages,
+    get_mnemonic,
+)
+from eth2deposit.utils.eth2_deposit_check import verify_deposit_data_json
+from eth2deposit.utils.constants import (
     WORD_LISTS_PATH,
     MAX_DEPOSIT_AMOUNT,
 )
-from utils.ascii_art import RHINO_0
+from eth2deposit.utils.ascii_art import RHINO_0
 
 words_path = os.path.join(os.getcwd(), WORD_LISTS_PATH)
 languages = get_languages(words_path)

@@ -1,7 +1,7 @@
 import os
 import json
 
-from key_handling.keystore import (
+from eth2deposit.key_handling.keystore import (
     Keystore,
     ScryptKeystore,
     Pbkdf2Keystore,

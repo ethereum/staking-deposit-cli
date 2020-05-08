@@ -4,13 +4,13 @@ import json
 from typing import List
 from py_ecc.bls import G2ProofOfPossession as bls
 
-from key_handling.key_derivation.path import mnemonic_and_path_to_key
-from key_handling.keystore import (
+from eth2deposit.key_handling.key_derivation.path import mnemonic_and_path_to_key
+from eth2deposit.key_handling.keystore import (
     Keystore,
     ScryptKeystore,
 )
-from utils.crypto import SHA256
-from utils.ssz import (
+from eth2deposit.utils.crypto import SHA256
+from eth2deposit.utils.ssz import (
     compute_domain,
     compute_signing_root,
     DepositMessage,

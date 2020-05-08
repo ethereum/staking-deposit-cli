@@ -1,4 +1,4 @@
-from utils.crypto import (
+from eth2deposit.utils.crypto import (
     HKDF,
     SHA256,
 )

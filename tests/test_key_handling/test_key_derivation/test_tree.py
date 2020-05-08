@@ -2,7 +2,7 @@ import os
 import json
 
 
-from key_handling.key_derivation.tree import (
+from eth2deposit.key_handling.key_derivation.tree import (
     derive_child_SK,
     derive_master_SK,
 )

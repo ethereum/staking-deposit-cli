@@ -1,7 +1,7 @@
 import os
 import json
 
-from key_handling.key_derivation.tree import (
+from eth2deposit.key_handling.key_derivation.tree import (
     _flip_bits_256,
     _IKM_to_lamport_SK,
     _parent_SK_to_lamport_PK,
