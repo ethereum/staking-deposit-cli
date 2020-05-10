@@ -1,56 +1,91 @@
 version: 2.1
+
+tox_common: &tox_common
+  working_directory: ~/repo
+  steps:
+    - checkout
+    - restore_cache:
+        keys:
+          - venv-deps1-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
+    - run:
+        name: install dependencies
+        command: pip install --user tox
+    - run:
+        name: run tox
+        command: ~/.local/bin/tox
+    - save_cache:
+        paths:
+          - .tox
+          - ./eggs
+        key: venv-deps1-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
+
+
 jobs:
-  build:
+  venv_build:
     docker:
       - image: circleci/python:3.8
     working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
-          key: deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
+          key: venv-deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
       - run:
-          name: Install requirements
+          name: Install requirements in venv
           command: make build_test
       - save_cache:
-          key: deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
+          key: venv-deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
           paths:
             - ./venv
-  pytest:
+  venv_pytest:
     docker:
       - image: circleci/python:3.8
     working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
-          key: deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
+          key: venv-deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
       - run:
-          name: Run tests
+          name: Run tests with venv
           command: make test
       - store_artifacts:
           path: test-reports/
           destination: tr1
       - store_test_results:
           path: test-reports/
-  lint:
+  venv_lint:
     docker:
       - image: circleci/python:3.8
     working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
-          key: deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
+          key: venv-deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
       - run:
-          name: Run linter
+          name: Run linter with venv
           command: make lint
+  tox-py37:
+    <<: *tox_common
+    docker:
+      - image: circleci/python:3.7
+        environment:
+          TOXENV: py37-core
+  tox-py38:
+    <<: *tox_common
+    docker:
+      - image: circleci/python:3.8
+        environment:
+          TOXENV: py38-core
 
 workflows:
   version: 2.1
   all_test:
     jobs:
-      - build
-      - pytest:
+      - venv_build
+      - venv_pytest:
           requires:
-            - build
-      - lint:
+            - venv_build
+      - venv_lint:
           requires:
-            - build
+            - venv_build
+      - tox-py37
+      - tox-py38
