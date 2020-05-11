@@ -2,8 +2,8 @@ import os
 
 from click.testing import CliRunner
 
-from cli.deposit import main
-from cli import deposit
+from eth2deposit import deposit
+from eth2deposit.deposit import main
 from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
 
 

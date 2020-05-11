@@ -31,7 +31,7 @@ jobs:
           key: venv-deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
       - run:
           name: Install requirements in venv
-          command: make build_test
+          command: make venv_build_test
       - save_cache:
           key: venv-deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
           paths:
@@ -46,7 +46,7 @@ jobs:
           key: venv-deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
       - run:
           name: Run tests with venv
-          command: make test
+          command: make venv_test
       - store_artifacts:
           path: test-reports/
           destination: tr1
@@ -62,7 +62,7 @@ jobs:
           key: venv-deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
       - run:
           name: Run linter with venv
-          command: make lint
+          command: make venv_lint
   tox-py37:
     <<: *tox_common
     docker:
