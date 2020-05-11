@@ -4,6 +4,7 @@ from secrets import randbits
 from typing import (
     List,
     Optional,
+    Sequence,
 )
 
 from eth2deposit.utils.crypto import (
@@ -12,11 +13,11 @@ from eth2deposit.utils.crypto import (
 )
 
 
-def _get_word_list(language: str, path: str):
+def _get_word_list(language: str, path: str) -> Sequence[str]:
     return open(os.path.join(path, '%s.txt' % language)).readlines()
 
 
-def _get_word(*, word_list, index: int) -> str:
+def _get_word(*, word_list: Sequence[str], index: int) -> str:
     assert index < 2048
     return word_list[index][:-1]
 
@@ -30,7 +31,7 @@ def get_seed(*, mnemonic: str, password: str='') -> bytes:
     return PBKDF2(password=mnemonic, salt=salt, dklen=64, c=2048, prf='sha512')
 
 
-def get_languages(path) -> List[str]:
+def get_languages(path: str) -> List[str]:
     """
     Walk the `path` and list all the languages with word-lists available.
     """
