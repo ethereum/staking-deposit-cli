@@ -19,6 +19,8 @@ tox_common: &tox_common
           - ./eggs
         key: venv-deps1-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
 
+orbs:
+  win: circleci/windows@2.2.0 # The Windows orb give you everything you need to start using the Windows executor.          
 
 jobs:
   venv_build:
@@ -75,6 +77,7 @@ jobs:
       - image: circleci/python:3.8
         environment:
           TOXENV: py38-core
+  # Linux
   tox-py37-script:
     <<: *tox_common
     docker:
@@ -87,6 +90,19 @@ jobs:
       - image: circleci/python:3.8
         environment:
           TOXENV: py38-script
+  # Windows
+  win-py37-script:
+    executor:
+      name: win/default
+      shell: powershell.exe
+    steps:
+      - checkout
+      - run:
+          name: Install testing requirements on Windows"
+          command: python -m pip install -r requirements_test.txt
+      - run:
+          name: Run deposit script on Windows"
+          command: python ./test_deposit_script.py
 
 workflows:
   version: 2.1
@@ -103,3 +119,4 @@ workflows:
       - tox-py38-core
       - tox-py37-script
       - tox-py38-script
+      - win-py37-script

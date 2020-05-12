@@ -10,19 +10,25 @@ async def main():
     if not os.path.exists(my_folder_path):
         os.mkdir(my_folder_path)
 
+    if os.name == 'nt':  # Windows
+        script = 'sh deposit.sh'
+    else:
+        script = './deposit.sh'
+
     cmd_args = [
-        './deposit.sh',
+        script,
         '--num_validators', '1',
         '--mnemonic_language', 'english',
         '--password', 'MyPassword',
         '--folder', my_folder_path,
     ]
+    print('[INFO] Creating subprocess')
     proc = await asyncio.create_subprocess_shell(
         ' '.join(cmd_args),
         stdin=asyncio.subprocess.PIPE,
         stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
     )
-
     seed_phrase = ''
     parsing = False
     async for out in proc.stdout:
@@ -39,6 +45,10 @@ async def main():
                 proc.stdin.write(b'\n')
         print(output)
 
+    async for out in proc.stderr:
+        output = out.decode('utf-8').rstrip()
+        print(f'[stderr] {output}')
+
     assert len(seed_phrase) > 0
 
     # Check files
@@ -52,4 +62,9 @@ async def main():
     os.rmdir(my_folder_path)
 
 
-asyncio.run(main())
+if os.name == 'nt':  # Windows
+    loop = asyncio.ProactorEventLoop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(main())
+else:
+    asyncio.run(main())
