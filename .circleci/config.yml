@@ -6,7 +6,7 @@ tox_common: &tox_common
     - checkout
     - restore_cache:
         keys:
-          - venv-deps1-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
+          - venv-deps2-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
     - run:
         name: install dependencies
         command: pip install --user tox
@@ -17,7 +17,7 @@ tox_common: &tox_common
         paths:
           - .tox
           - ./eggs
-        key: venv-deps1-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
+        key: venv-deps2-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
 
 orbs:
   win: circleci/windows@2.2.0 # The Windows orb give you everything you need to start using the Windows executor.          
