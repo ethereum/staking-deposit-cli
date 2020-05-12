@@ -1,4 +1,7 @@
+import asyncio
 import os
+
+import pytest
 
 from click.testing import CliRunner
 
@@ -36,3 +39,30 @@ def test_deposit(monkeypatch):
         os.remove(os.path.join(validator_keys_folder_path, key_file_name))
     os.rmdir(validator_keys_folder_path)
     os.rmdir(my_folder_path)
+
+
+@pytest.mark.asyncio
+async def test_script():
+    cmd = "./deposit.sh --num_validators 1 --mnemonic_language english --password MyPassword"
+    proc = await asyncio.create_subprocess_shell(
+        cmd,
+        stdin=asyncio.subprocess.PIPE,
+        stdout=asyncio.subprocess.PIPE,
+    )
+
+    seed_phrase = ''
+    parsing = False
+    async for out in proc.stdout:
+        output = out.decode('utf-8').rstrip()
+        if output.startswith("This is your seed phrase."):
+            parsing = True
+        elif output.startswith("Please type your mnemonic"):
+            parsing = False
+        elif parsing:
+            seed_phrase += output
+            if len(seed_phrase) > 0:
+                encoded_phrase = seed_phrase.encode()
+                proc.stdin.write(encoded_phrase)
+                proc.stdin.write(b'\n')
+
+    assert len(seed_phrase) > 0
