@@ -63,18 +63,30 @@ jobs:
       - run:
           name: Run linter with venv
           command: make venv_lint
-  tox-py37:
+  tox-py37-core:
     <<: *tox_common
     docker:
       - image: circleci/python:3.7
         environment:
           TOXENV: py37-core
-  tox-py38:
+  tox-py38-core:
     <<: *tox_common
     docker:
       - image: circleci/python:3.8
         environment:
           TOXENV: py38-core
+  tox-py37-script:
+    <<: *tox_common
+    docker:
+      - image: circleci/python:3.7
+        environment:
+          TOXENV: py37-script
+  tox-py38-script:
+    <<: *tox_common
+    docker:
+      - image: circleci/python:3.8
+        environment:
+          TOXENV: py38-script
 
 workflows:
   version: 2.1
@@ -87,5 +99,7 @@ workflows:
       - venv_lint:
           requires:
             - venv_build
-      - tox-py37
-      - tox-py38
+      - tox-py37-core
+      - tox-py38-core
+      - tox-py37-script
+      - tox-py38-script
