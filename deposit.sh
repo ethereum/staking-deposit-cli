@@ -18,6 +18,9 @@ case "$(uname -s)" in
 
     CYGWIN*|MINGW32*|MSYS*|MINGW*)
         echo 'MS Windows'
+        python -m pip install -r requirements.txt
+        python setup.py install
+        python ./eth2deposit/deposit.py "$@"
         ;;
 
     *)
