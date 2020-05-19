@@ -40,7 +40,7 @@ def generate_mnemonic(language: str, words_path: str) -> str:
     return mnemonic
 
 
-def check_python_version():
+def check_python_version() -> None:
     '''
     Checks that the python version running is sufficient and exits if not.
     '''
@@ -54,12 +54,12 @@ def check_python_version():
     '--num_validators',
     prompt='Please choose how many validators you wish to run',
     required=True,
-    type=int,
+    type=int,  # type: ignore
 )
 @click.option(
     '--mnemonic_language',
     prompt='Please choose your mnemonic language',
-    type=click.Choice(languages, case_sensitive=False),  # type: ignore
+    type=click.Choice(languages, case_sensitive=False),
     default='english',
 )
 @click.option(

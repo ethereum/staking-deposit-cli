@@ -6,6 +6,7 @@ from dataclasses import (
 )
 import json
 from secrets import randbits
+from typing import Any, Dict, Union
 from uuid import uuid4
 from eth2deposit.utils.crypto import (
     AES_128_CTR,
@@ -18,21 +19,21 @@ from py_ecc.bls import G2ProofOfPossession as bls
 hexdigits = set('0123456789abcdef')
 
 
-def to_bytes(obj):
-    if isinstance(obj, str):
-        if all(c in hexdigits for c in obj):
-            return bytes.fromhex(obj)
+def encode_bytes(obj: Union[str, Dict[str, Any]]) -> Union[bytes, str, Dict[str, Any]]:
+    if isinstance(obj, str) and all(c in hexdigits for c in obj):
+        return bytes.fromhex(obj)
     elif isinstance(obj, dict):
         for key, value in obj.items():
-            obj[key] = to_bytes(value)
+            obj[key] = encode_bytes(value)
     return obj
 
 
 class BytesDataclass:
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         for field in fields(self):
-            if field.type in (dict, bytes):
-                self.__setattr__(field.name, to_bytes(self.__getattribute__(field.name)))
+            if field.type in (bytes, Dict[str, Any]):
+                # Convert hexstring to bytes
+                self.__setattr__(field.name, encode_bytes(self.__getattribute__(field.name)))
 
     def as_json(self) -> str:
         return json.dumps(asdict(self), default=lambda x: x.hex())
@@ -41,7 +42,7 @@ class BytesDataclass:
 @dataclass
 class KeystoreModule(BytesDataclass):
     function: str = ''
-    params: dict = dataclass_field(default_factory=dict)
+    params: Dict[str, Any] = dataclass_field(default_factory=dict)
     message: bytes = bytes()
 
 
@@ -52,7 +53,7 @@ class KeystoreCrypto(BytesDataclass):
     cipher: KeystoreModule = KeystoreModule()
 
     @classmethod
-    def from_json(cls, json_dict: dict):
+    def from_json(cls, json_dict: Dict[Any, Any]) -> 'KeystoreCrypto':
         kdf = KeystoreModule(**json_dict['kdf'])
         checksum = KeystoreModule(**json_dict['checksum'])
         cipher = KeystoreModule(**json_dict['cipher'])
@@ -67,20 +68,20 @@ class Keystore(BytesDataclass):
     uuid: str = str(uuid4())  # Generate a new uuid
     version: int = 4
 
-    def kdf(self, **kwargs):
+    def kdf(self, **kwargs: Any) -> bytes:
         return scrypt(**kwargs) if 'scrypt' in self.crypto.kdf.function else PBKDF2(**kwargs)
 
-    def save(self, file: str):
+    def save(self, file: str) -> None:
         with open(file, 'w') as f:
             f.write(self.as_json())
 
     @classmethod
-    def open(cls, file: str):
+    def open(cls, file: str) -> 'Keystore':
         with open(file, 'r') as f:
             return cls.from_json(f.read())
 
     @classmethod
-    def from_json(cls, path: str):
+    def from_json(cls, path: str) -> 'Keystore':
         with open(path, 'r') as f:
             json_dict = json.load(f)
         crypto = KeystoreCrypto.from_json(json_dict['crypto'])
@@ -93,7 +94,7 @@ class Keystore(BytesDataclass):
     @classmethod
     def encrypt(cls, *, secret: bytes, password: str, path: str='',
                 kdf_salt: bytes=randbits(256).to_bytes(32, 'big'),
-                aes_iv: bytes=randbits(128).to_bytes(16, 'big')):
+                aes_iv: bytes=randbits(128).to_bytes(16, 'big')) -> 'Keystore':
         keystore = cls()
         keystore.crypto.kdf.params['salt'] = kdf_salt
         decryption_key = keystore.kdf(password=password, **keystore.crypto.kdf.params)

@@ -1,7 +1,7 @@
 import os
 import time
 import json
-from typing import List
+from typing import Dict, List
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from eth2deposit.key_handling.key_derivation.path import mnemonic_and_path_to_key
@@ -26,14 +26,14 @@ class ValidatorCredentials:
         self.amount = amount
 
     @property
-    def signing_pk(self):
+    def signing_pk(self) -> bytes:
         return bls.PrivToPub(self.signing_sk)
 
     @property
-    def withdrawal_pk(self):
+    def withdrawal_pk(self) -> bytes:
         return bls.PrivToPub(self.withdrawal_sk)
 
-    def signing_keystore(self, password: str) -> ScryptKeystore:
+    def signing_keystore(self, password: str) -> Keystore:
         secret = self.signing_sk.to_bytes(32, 'big')
         return ScryptKeystore.encrypt(secret=secret, password=password, path=self.signing_key_path)
 
@@ -76,8 +76,8 @@ def sign_deposit_data(deposit_data: DepositMessage, sk: int) -> Deposit:
     return signed_deposit_data
 
 
-def export_deposit_data_json(*, credentials: List[ValidatorCredentials], folder: str):
-    deposit_data: List[dict] = []
+def export_deposit_data_json(*, credentials: List[ValidatorCredentials], folder: str) -> str:
+    deposit_data: List[Dict[bytes, bytes]] = []
     for credential in credentials:
         deposit_datum = DepositMessage(
             pubkey=credential.signing_pk,

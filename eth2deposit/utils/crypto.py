@@ -1,3 +1,5 @@
+from typing import Any
+
 from Crypto.Hash import (
     SHA256 as _sha256,
     SHA512 as _sha512,
@@ -12,7 +14,7 @@ from Crypto.Cipher import (
 )
 
 
-def SHA256(x):
+def SHA256(x: bytes) -> bytes:
     return _sha256.new(x).digest()
 
 
@@ -35,5 +37,5 @@ def HKDF(*, salt: bytes, IKM: bytes, L: int) -> bytes:
     return res if isinstance(res, bytes) else res[0]  # PyCryptodome can return Tuple[bytes]
 
 
-def AES_128_CTR(*, key: bytes, iv: bytes):
+def AES_128_CTR(*, key: bytes, iv: bytes) -> Any:
     return _AES.new(key=key, mode=_AES.MODE_CTR, initial_value=iv, nonce=b'')
