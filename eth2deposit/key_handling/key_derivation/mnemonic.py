@@ -14,7 +14,7 @@ from eth2deposit.utils.crypto import (
 
 
 def _get_word_list(language: str, path: str) -> Sequence[str]:
-    return open(os.path.join(path, '%s.txt' % language)).readlines()
+    return open(os.path.join(path, '%s.txt' % language), encoding='utf-8').readlines()
 
 
 def _get_word(*, word_list: Sequence[str], index: int) -> str:
