@@ -3,16 +3,13 @@ import sys
 import click
 
 from eth2deposit.credentials import (
-    mnemonic_to_credentials,
-    export_keystores,
-    export_deposit_data_json,
-    verify_keystores,
+    CredentialList,
 )
 from eth2deposit.key_handling.key_derivation.mnemonic import (
     get_languages,
     get_mnemonic,
 )
-from eth2deposit.utils.eth2_deposit_check import verify_deposit_data_json
+from eth2deposit.utils.validation import verify_deposit_data_json
 from eth2deposit.utils.constants import (
     WORD_LISTS_PATH,
     MAX_DEPOSIT_AMOUNT,
@@ -78,13 +75,13 @@ def main(num_validators: int, mnemonic_language: str, folder: str, password: str
     click.clear()
     click.echo(RHINO_0)
     click.echo('Creating your keys.')
-    credentials = mnemonic_to_credentials(mnemonic=mnemonic, num_keys=num_validators, amounts=amounts)
+    credentials = CredentialList.from_mnemonic(mnemonic=mnemonic, num_keys=num_validators, amounts=amounts)
     click.echo('Saving your keystore(s).')
-    keystore_filefolders = export_keystores(credentials=credentials, password=password, folder=folder)
+    keystore_filefolders = credentials.export_keystores(password=password, folder=folder)
     click.echo('Creating your deposit(s).')
-    deposits_file = export_deposit_data_json(credentials=credentials, folder=folder)
+    deposits_file = credentials.export_deposit_data_json(folder=folder)
     click.echo('Verifying your keystore(s).')
-    assert verify_keystores(credentials=credentials, keystore_filefolders=keystore_filefolders, password=password)
+    assert credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=password)
     click.echo('Verifying your deposit(s).')
     assert verify_deposit_data_json(deposits_file)
     click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)

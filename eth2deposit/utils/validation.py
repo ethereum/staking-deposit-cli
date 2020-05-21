@@ -23,11 +23,11 @@ from eth2deposit.utils.constants import (
 def verify_deposit_data_json(filefolder: str) -> bool:
     with open(filefolder, 'r') as f:
         deposit_json = json.load(f)
-        return all([verify_deposit(deposit) for deposit in deposit_json])
+        return all([validate_deposit(deposit) for deposit in deposit_json])
     return False
 
 
-def verify_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
+def validate_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
     '''
     Checks whether a deposit is valid based on the eth2 rules.
     https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/beacon-chain.md#deposits
