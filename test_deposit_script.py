@@ -12,7 +12,7 @@ async def main():
 
     if os.name == 'nt':  # Windows
         script = 'sh deposit.sh'
-    else:
+    else:  # Mac or Linux
         script = './deposit.sh'
 
     cmd_args = [
