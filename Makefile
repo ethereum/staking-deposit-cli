@@ -16,6 +16,7 @@ clean:
 	rm -rf build/
 	rm -rf dist/
 	rm -rf *.egg-info
+	rm -rf .tox/
 	find . -name __pycache__ -exec rm -rf {} \;
 	find . -name .mypy_cache -exec rm -rf {} \;
 	find . -name .pytest_cache -exec rm -rf {} \;

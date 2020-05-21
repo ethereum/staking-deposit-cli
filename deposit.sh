@@ -2,23 +2,24 @@
 
 if [[ "$OSTYPE" == "linux-gnu"* ]] || [[ "$OSTYPE" == "darwin"* ]]; then
     echo $OSTYPE
-
-    if [[ $1 == install ]]; then
+    if [[ $1 == "install" ]]; then
+        echo "Installing dependencies..."
         python3 -m pip3 install -r requirements.txt
         python3 setup.py install
         exit 1
     fi
-
+    echo "Running deposit-cli..."
     python3 ./eth2deposit/deposit.py "$@"
 
 elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]]; then
     echo $OSTYPE
-    if [[ $1 == install ]]; then
+    if [[ $1 == "install" ]]; then
+        echo "Installing dependencies..."
         python -m pip install -r requirements.txt
         python setup.py install
         exit 1
     fi
-
+    echo "Running deposit-cli..."
     python ./eth2deposit/deposit.py "$@"
 
 else

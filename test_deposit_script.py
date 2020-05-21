@@ -11,18 +11,26 @@ async def main():
         os.mkdir(my_folder_path)
 
     if os.name == 'nt':  # Windows
-        script = 'sh deposit.sh'
+        run_script_cmd = 'sh deposit.sh'
     else:  # Mac or Linux
-        script = './deposit.sh'
+        run_script_cmd = './deposit.sh'
+
+    install_cmd = run_script_cmd + ' install'
+    print('[INFO] Creating subprocess 1: installation:' , install_cmd)
+    proc = await asyncio.create_subprocess_shell(
+        install_cmd,
+    )
+    await proc.wait()
+    print('[INFO] Installed')
 
     cmd_args = [
-        script,
+        run_script_cmd,
         '--num_validators', '1',
         '--mnemonic_language', 'english',
         '--password', 'MyPassword',
         '--folder', my_folder_path,
     ]
-    print('[INFO] Creating subprocess')
+    print('[INFO] Creating subprocess 2: deposit-cli')
     proc = await asyncio.create_subprocess_shell(
         ' '.join(cmd_args),
         stdin=asyncio.subprocess.PIPE,
