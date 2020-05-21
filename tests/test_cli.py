@@ -47,6 +47,12 @@ async def test_script():
     if not os.path.exists(my_folder_path):
         os.mkdir(my_folder_path)
 
+    proc = await asyncio.create_subprocess_shell(
+        './deposit.sh install',
+        stdin=asyncio.subprocess.PIPE,
+        stdout=asyncio.subprocess.PIPE,
+    )
+
     cmd_args = [
         './deposit.sh',
         '--num_validators', '1',

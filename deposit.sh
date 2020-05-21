@@ -1,30 +1,28 @@
 #!/bin/bash
 
-case "$(uname -s)" in
+if [[ "$OSTYPE" == "linux-gnu"* ]] || [[ "$OSTYPE" == "darwin"* ]]; then
+    echo $OSTYPE
 
-    Darwin)
-        echo 'Mac OS X'
-        python3 -m pip install -r requirements.txt
+    if [[ $1 == install ]]; then
+        python3 -m pip3 install -r requirements.txt
         python3 setup.py install
-        python3 ./eth2deposit/deposit.py "$@"
-        ;;
+        exit 1
+    fi
 
-    Linux)
-        echo 'Linux'
-        python3 -m pip install -r requirements.txt
-        python3 setup.py install
-        python3 ./eth2deposit/deposit.py "$@"
-        ;;
+    python3 ./eth2deposit/deposit.py "$@"
 
-    CYGWIN*|MINGW32*|MSYS*|MINGW*)
-        echo 'MS Windows'
+elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]]; then
+    echo $OSTYPE
+    if [[ $1 == install ]]; then
         python -m pip install -r requirements.txt
         python setup.py install
-        python ./eth2deposit/deposit.py "$@"
-        ;;
+        exit 1
+    fi
 
-    *)
-        echo 'Other OS'
-        ;;
+    python ./eth2deposit/deposit.py "$@"
 
-esac
+else
+    echo "Sorry, to run deposit-cli on" $(uname -s)", please see the trouble-shooting on https://github.com/ethereum/eth2.0-deposit-cli"
+    exit 1
+
+fi
