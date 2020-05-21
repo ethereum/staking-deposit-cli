@@ -47,14 +47,19 @@ async def test_script():
     if not os.path.exists(my_folder_path):
         os.mkdir(my_folder_path)
 
+    if os.name == 'nt':  # Windows
+        run_script_cmd = 'sh deposit.sh'
+    else:  # Mac or Linux
+        run_script_cmd = './deposit.sh'
+
+    install_cmd = run_script_cmd + ' install'
     proc = await asyncio.create_subprocess_shell(
-        './deposit.sh install',
-        stdin=asyncio.subprocess.PIPE,
-        stdout=asyncio.subprocess.PIPE,
+        install_cmd,
     )
+    await proc.wait()
 
     cmd_args = [
-        './deposit.sh',
+        run_script_cmd,
         '--num_validators', '1',
         '--mnemonic_language', 'english',
         '--password', 'MyPassword',
