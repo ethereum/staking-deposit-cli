@@ -9,13 +9,16 @@ from eth2deposit.key_handling.keystore import (
     Keystore,
     ScryptKeystore,
 )
-from eth2deposit.utils.constants import BLS_WITHDRAWAL_PREFIX
+from eth2deposit.utils.constants import (
+    BLS_WITHDRAWAL_PREFIX,
+    DOMAIN_DEPOSIT,
+)
 from eth2deposit.utils.crypto import SHA256
 from eth2deposit.utils.ssz import (
     compute_domain,
     compute_signing_root,
-    DepositMessage,
-    Deposit,
+    SignedDeposit,
+    UnsignedDeposit,
 )
 
 
@@ -55,18 +58,21 @@ class Credential:
         secret_bytes = saved_keystore.decrypt(password)
         return self.signing_sk == int.from_bytes(secret_bytes, 'big')
 
-    def sign_deposit_data(self, deposit_data: DepositMessage) -> Deposit:
-        '''
-        Given a DepositMessage, it signs its root and returns a Deposit
-        '''
-        assert bls.PrivToPub(self.signing_sk) == deposit_data.pubkey
-        domain = compute_domain()
-        signing_root = compute_signing_root(deposit_data, domain)
-        signed_deposit_data = Deposit(
-            **deposit_data.as_dict(),
+    def unsigned_deposit(self) -> UnsignedDeposit:
+        return UnsignedDeposit(
+            pubkey=self.signing_pk,
+            withdrawal_credentials=self.withdrawal_credentials,
+            amount=self.amount,
+        )
+
+    def signed_deposit(self) -> SignedDeposit:
+        domain = compute_domain(domain_type=DOMAIN_DEPOSIT)
+        signing_root = compute_signing_root(self.unsigned_deposit(), domain)
+        signed_deposit = SignedDeposit(
+            **self.unsigned_deposit().as_dict(),
             signature=bls.Sign(self.signing_sk, signing_root)
         )
-        return signed_deposit_data
+        return signed_deposit
 
 
 class CredentialList:
@@ -86,15 +92,9 @@ class CredentialList:
     def export_deposit_data_json(self, folder: str) -> str:
         deposit_data: List[Dict[bytes, bytes]] = []
         for credential in self.credentials:
-            deposit_datum = DepositMessage(
-                pubkey=credential.signing_pk,
-                withdrawal_credentials=credential.withdrawal_credentials,
-                amount=credential.amount,
-            )
-            signed_deposit_datum = credential.sign_deposit_data(deposit_datum)
-
+            signed_deposit_datum = credential.signed_deposit()
             datum_dict = signed_deposit_datum.as_dict()
-            datum_dict.update({'deposit_data_root': deposit_datum.hash_tree_root})
+            datum_dict.update({'deposit_data_root': credential.unsigned_deposit().hash_tree_root})
             datum_dict.update({'signed_deposit_data_root': signed_deposit_datum.hash_tree_root})
             deposit_data.append(datum_dict)
 
