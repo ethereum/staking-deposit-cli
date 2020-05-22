@@ -9,6 +9,7 @@ from eth2deposit.key_handling.keystore import (
     Keystore,
     ScryptKeystore,
 )
+from eth2deposit.utils.constants import BLS_WITHDRAWAL_PREFIX
 from eth2deposit.utils.crypto import SHA256
 from eth2deposit.utils.ssz import (
     compute_domain,
@@ -33,6 +34,12 @@ class Credential:
     def withdrawal_pk(self) -> bytes:
         return bls.PrivToPub(self.withdrawal_sk)
 
+    @property
+    def withdrawal_credentials(self) -> bytes:
+        withdrawal_credentials = BLS_WITHDRAWAL_PREFIX
+        withdrawal_credentials += SHA256(self.withdrawal_pk)[1:]
+        return withdrawal_credentials
+
     def signing_keystore(self, password: str) -> Keystore:
         secret = self.signing_sk.to_bytes(32, 'big')
         return ScryptKeystore.encrypt(secret=secret, password=password, path=self.signing_key_path)
@@ -48,15 +55,15 @@ class Credential:
         secret_bytes = saved_keystore.decrypt(password)
         return self.signing_sk == int.from_bytes(secret_bytes, 'big')
 
-    def sign_deposit_data(self, deposit_message: DepositMessage) -> Deposit:
+    def sign_deposit_data(self, deposit_data: DepositMessage) -> Deposit:
         '''
-        Given a DepositMessage, it signs its root and returns a DepositData
+        Given a DepositMessage, it signs its root and returns a Deposit
         '''
-        assert bls.PrivToPub(self.signing_sk) == deposit_message.pubkey
+        assert bls.PrivToPub(self.signing_sk) == deposit_data.pubkey
         domain = compute_domain()
-        signing_root = compute_signing_root(deposit_message, domain)
+        signing_root = compute_signing_root(deposit_data, domain)
         signed_deposit_data = Deposit(
-            **deposit_message.as_dict(),
+            **deposit_data.as_dict(),
             signature=bls.Sign(self.signing_sk, signing_root)
         )
         return signed_deposit_data
@@ -81,7 +88,7 @@ class CredentialList:
         for credential in self.credentials:
             deposit_datum = DepositMessage(
                 pubkey=credential.signing_pk,
-                withdrawal_credentials=SHA256(credential.withdrawal_pk),
+                withdrawal_credentials=credential.withdrawal_credentials,
                 amount=credential.amount,
             )
             signed_deposit_datum = credential.sign_deposit_data(deposit_datum)
