@@ -1,6 +1,7 @@
 validator_keys
 
 # Python testing & linting:
+build/
 venv/
 .pytest_cache
 .hypothesis
