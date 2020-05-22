@@ -50,17 +50,16 @@ Run the following command to enter the interactive CLI:
 You can also run the tool with optional arguments:
 
 ```sh
-./deposit.sh --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --password=<YOUR_PASSWORD> --folder=<YOUR_FOLDER_PATH>
+./deposit.sh --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --folder=<YOUR_FOLDER_PATH>
 ```
 
 #### Arguments
 
-| Argument | Optional | Description |
+| Argument | Type | Description |
 | -------- | -------- | -------- |
-| `--num_validators`  | Y  | The number of signing keys you want to generate. Note that the child key(s) are generated via the same master key. |
-| `--mnemonic_language` | N, default to `english` | The mnemonic language. Options: `czech`, `chinese_traditional`, `chinese_simplified`, `english`, `spanish`, `italian`, `korean` |
-| `--password` | Y | The password of your keystore(s). |
-| `--folder` | N, default to `./validator_keys` | The folder path for the keystore(s) and deposit(s)
+| `--num_validators`  | Non-negative integer | The number of signing keys you want to generate. Note that the child key(s) are generated via the same master key. |
+| `--mnemonic_language` | String. Options: `czech`, `chinese_traditional`, `chinese_simplified`, `english`, `spanish`, `italian`, `korean`. Default to `english` | The mnemonic language |
+| `--folder` | String. Pointing to `./validator_keys` by default | The folder path for the keystore(s) and deposit(s) |
 
 ### For Windows users
 
@@ -83,7 +82,7 @@ sh deposit.sh
 You can also run the tool with optional arguments:
 
 ```sh
-sh deposit.sh --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --password=<YOUR_PASSWORD> --folder=<YOUR_FOLDER_PATH>
+sh deposit.sh --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --folder=<YOUR_FOLDER_PATH>
 ```
 
 You will see the following messages after successfully generated the keystore(s) and the deposit(s):
