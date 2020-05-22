@@ -9,9 +9,11 @@
   - [For Linux or MacOS users](#for-linux-or-macos-users)
     - [Step 1. Install deposit-cli dependencies](#step-1-install-deposit-cli-dependencies)
     - [Step 2. Create your keys and deposit data](#step-2-create-your-keys-and-deposit-data)
+    - [Arguments](#arguments)
   - [For Windows users](#for-windows-users)
     - [Step 1. Install deposit-cli dependencies](#step-1-install-deposit-cli-dependencies-1)
     - [Step 2. Create your keys and deposit data](#step-2-create-your-keys-and-deposit-data-1)
+    - [Arguments](#arguments-1)
   - [For `venv` users](#for-venv-users)
 - [Development](#development)
   - [Install basic requirements](#install-basic-requirements)
@@ -39,7 +41,7 @@ If it's your first time to use this tool, you need to install the Python library
 
 #### Step 2. Create your keys and deposit data
 
-Run the following command:
+Run the following command to enter the interactive CLI:
 
 ```sh
 ./deposit.sh
@@ -50,6 +52,15 @@ You can also run the tool with optional arguments:
 ```sh
 ./deposit.sh --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --password=<YOUR_PASSWORD> --folder=<YOUR_FOLDER_PATH>
 ```
+
+#### Arguments
+
+| Argument | Optional | Description |
+| -------- | -------- | -------- |
+| `--num_validators`  | Y  | The number of signing keys you want to generate. Note that the child key(s) are generated via the same master key. |
+| `--mnemonic_language` | N, default to `english` | The mnemonic language. Options: `czech`, `chinese_traditional`, `chinese_simplified`, `english`, `spanish`, `italian`, `korean` |
+| `--password` | Y | The password of your keystore(s). |
+| `--folder` | N, default to `./validator_keys` | The folder path for the keystore(s) and deposit(s)
 
 ### For Windows users
 
@@ -63,7 +74,7 @@ sh deposit.sh install
 
 #### Step 2. Create your keys and deposit data
 
-Run the following command:
+Run the following command to enter the interactive CLI:
 
 ```sh
 sh deposit.sh
@@ -75,7 +86,11 @@ You can also run the tool with optional arguments:
 sh deposit.sh --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --password=<YOUR_PASSWORD> --folder=<YOUR_FOLDER_PATH>
 ```
 
-You should see the following messages after successfully generated the keystore(s) and the deposit(s):
+You will see the following messages after successfully generated the keystore(s) and the deposit(s):
+
+#### Arguments
+
+See [here](#arguments)
 
 ```
 Creating your keys.
