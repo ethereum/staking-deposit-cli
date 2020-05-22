@@ -9,6 +9,7 @@ from eth2deposit.key_handling.keystore import (
     Keystore,
     ScryptKeystore,
 )
+from eth2deposit.utils.constants import BLS_WITHDRAWAL_PREFIX
 from eth2deposit.utils.crypto import SHA256
 from eth2deposit.utils.ssz import (
     compute_domain,
@@ -32,6 +33,12 @@ class ValidatorCredentials:
     @property
     def withdrawal_pk(self) -> bytes:
         return bls.PrivToPub(self.withdrawal_sk)
+
+    @property
+    def withdrawal_credentials(self) -> bytes:
+        withdrawal_credentials = BLS_WITHDRAWAL_PREFIX
+        withdrawal_credentials += SHA256(self.withdrawal_pk)[1:]
+        return withdrawal_credentials
 
     def signing_keystore(self, password: str) -> Keystore:
         secret = self.signing_sk.to_bytes(32, 'big')
@@ -81,7 +88,7 @@ def export_deposit_data_json(*, credentials: List[ValidatorCredentials], folder:
     for credential in credentials:
         deposit_datum = DepositMessage(
             pubkey=credential.signing_pk,
-            withdrawal_credentials=SHA256(credential.withdrawal_pk),
+            withdrawal_credentials=credential.withdrawal_credentials,
             amount=credential.amount,
         )
         signed_deposit_datum = sign_deposit_data(deposit_datum, credential.signing_sk)
