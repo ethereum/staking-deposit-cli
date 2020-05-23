@@ -1,9 +1,12 @@
+import asyncio
 import os
+
+import pytest
 
 from click.testing import CliRunner
 
-from cli.deposit import main
-from cli import deposit
+from eth2deposit import deposit
+from eth2deposit.deposit import main
 from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
 
 
@@ -26,7 +29,8 @@ def test_deposit(monkeypatch):
 
     monkeypatch.setattr(deposit, "get_mnemonic", get_mnemonic)
 
-    my_folder_path = os.path.join(os.getcwd(), 'my_folder_name')
+    # Prepare folder
+    my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
     clean_key_folder(my_folder_path)
     if not os.path.exists(my_folder_path):
         os.mkdir(my_folder_path)
@@ -42,6 +46,61 @@ def test_deposit(monkeypatch):
     validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     _, _, key_files = next(os.walk(validator_keys_folder_path))
     assert len(key_files) == 2
+
+    # Clean up
+    clean_key_folder(my_folder_path)
+
+
+@pytest.mark.asyncio
+async def test_script():
+    my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
+    if not os.path.exists(my_folder_path):
+        os.mkdir(my_folder_path)
+
+    if os.name == 'nt':  # Windows
+        run_script_cmd = 'sh deposit.sh'
+    else:  # Mac or Linux
+        run_script_cmd = './deposit.sh'
+
+    install_cmd = run_script_cmd + ' install'
+    proc = await asyncio.create_subprocess_shell(
+        install_cmd,
+    )
+    await proc.wait()
+
+    cmd_args = [
+        run_script_cmd,
+        '--num_validators', '1',
+        '--mnemonic_language', 'english',
+        '--password', 'MyPassword',
+        '--folder', my_folder_path,
+    ]
+    proc = await asyncio.create_subprocess_shell(
+        ' '.join(cmd_args),
+        stdin=asyncio.subprocess.PIPE,
+        stdout=asyncio.subprocess.PIPE,
+    )
+
+    seed_phrase = ''
+    parsing = False
+    async for out in proc.stdout:
+        output = out.decode('utf-8').rstrip()
+        if output.startswith("This is your seed phrase."):
+            parsing = True
+        elif output.startswith("Please type your mnemonic"):
+            parsing = False
+        elif parsing:
+            seed_phrase += output
+            if len(seed_phrase) > 0:
+                encoded_phrase = seed_phrase.encode()
+                proc.stdin.write(encoded_phrase)
+                proc.stdin.write(b'\n')
+
+    assert len(seed_phrase) > 0
+
+    # Check files
+    validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
+    _, _, key_files = next(os.walk(validator_keys_folder_path))
 
     # Clean up
     clean_key_folder(my_folder_path)
