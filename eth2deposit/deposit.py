@@ -19,6 +19,11 @@ from eth2deposit.utils.constants import (
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )
 from eth2deposit.utils.ascii_art import RHINO_0
+from eth2deposit.settings import (
+    ALL_CHAINS,
+    MAINNET,
+    get_setting,
+)
 
 words_path = os.path.join(os.getcwd(), WORD_LISTS_PATH)
 languages = get_languages(words_path)
@@ -54,7 +59,7 @@ def check_python_version() -> None:
     '--num_validators',
     prompt='Please choose how many validators you wish to run',
     required=True,
-    type=int,  # type: ignore
+    type=int,
 )
 @click.option(
     '--mnemonic_language',
@@ -67,18 +72,29 @@ def check_python_version() -> None:
     type=click.Path(exists=True, file_okay=False, dir_okay=True),
     default=os.getcwd()
 )
+@click.option(
+    '--chain',
+    type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
+    default=MAINNET,
+)
 @click.password_option(prompt='Type the password that secures your validator keystore(s)')
-def main(num_validators: int, mnemonic_language: str, folder: str, password: str):
+def main(num_validators: int, mnemonic_language: str, folder: str, chain: str, password: str) -> None:
     check_python_version()
     mnemonic = generate_mnemonic(mnemonic_language, words_path)
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
+    setting = get_setting(chain)
     if not os.path.exists(folder):
         os.mkdir(folder)
     click.clear()
     click.echo(RHINO_0)
     click.echo('Creating your keys.')
-    credentials = mnemonic_to_credentials(mnemonic=mnemonic, num_keys=num_validators, amounts=amounts)
+    credentials = mnemonic_to_credentials(
+        mnemonic=mnemonic,
+        num_keys=num_validators,
+        amounts=amounts,
+        fork_version=setting.GENESIS_FORK_VERSION,
+    )
     click.echo('Saving your keystore(s).')
     keystore_filefolders = export_keystores(credentials=credentials, password=password, folder=folder)
     click.echo('Creating your deposit(s).')
