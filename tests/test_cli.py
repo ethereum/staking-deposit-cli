@@ -10,6 +10,18 @@ from eth2deposit.deposit import main
 from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
 
 
+def clean_key_folder(my_folder_path):
+    validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
+    if not os.path.exists(validator_keys_folder_path):
+        return
+
+    _, _, key_files = next(os.walk(validator_keys_folder_path))
+    for key_file_name in key_files:
+        os.remove(os.path.join(validator_keys_folder_path, key_file_name))
+    os.rmdir(validator_keys_folder_path)
+    os.rmdir(my_folder_path)
+
+
 def test_deposit(monkeypatch):
     # monkeypatch get_mnemonic
     def get_mnemonic(language, words_path, entropy=None):
@@ -19,6 +31,7 @@ def test_deposit(monkeypatch):
 
     # Prepare folder
     my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
+    clean_key_folder(my_folder_path)
     if not os.path.exists(my_folder_path):
         os.mkdir(my_folder_path)
 
@@ -35,10 +48,7 @@ def test_deposit(monkeypatch):
     assert len(key_files) == 2
 
     # Clean up
-    for key_file_name in key_files:
-        os.remove(os.path.join(validator_keys_folder_path, key_file_name))
-    os.rmdir(validator_keys_folder_path)
-    os.rmdir(my_folder_path)
+    clean_key_folder(my_folder_path)
 
 
 @pytest.mark.asyncio
@@ -93,7 +103,4 @@ async def test_script():
     _, _, key_files = next(os.walk(validator_keys_folder_path))
 
     # Clean up
-    for key_file_name in key_files:
-        os.remove(os.path.join(validator_keys_folder_path, key_file_name))
-    os.rmdir(validator_keys_folder_path)
-    os.rmdir(my_folder_path)
+    clean_key_folder(my_folder_path)

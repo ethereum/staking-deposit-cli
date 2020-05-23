@@ -3,6 +3,8 @@ from eth_typing import (
     BLSPubkey,
     BLSSignature,
 )
+from typing import Any, Dict
+
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from eth2deposit.utils.ssz import (
@@ -25,7 +27,7 @@ def verify_deposit_data_json(filefolder: str) -> bool:
     return False
 
 
-def verify_deposit(deposit_data_dict: dict) -> bool:
+def verify_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
     '''
     Checks whether a deposit is valid based on the eth2 rules.
     https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/beacon-chain.md#deposits
