@@ -1,56 +1,121 @@
 version: 2.1
+
+tox_common: &tox_common
+  working_directory: ~/repo
+  steps:
+    - checkout
+    - restore_cache:
+        key: tox-deps3-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
+    - run:
+        name: install dependencies
+        command: pip install --user tox
+    - run:
+        name: run tox
+        command: ~/.local/bin/tox
+    - save_cache:
+        paths:
+          - .tox
+          - ./eggs
+        key: tox-deps3-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
+
+orbs:
+  win: circleci/windows@2.2.0 # The Windows orb give you everything you need to start using the Windows executor.          
+
 jobs:
-  build:
+  # Job(s) with Linux OS
+  venv_build:
     docker:
       - image: circleci/python:3.8
     working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
-          key: deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
+          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
       - run:
-          name: Install requirements
-          command: make build_test
+          name: Install requirements in venv
+          command: make venv_build_test
       - save_cache:
-          key: deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
+          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
           paths:
             - ./venv
-  pytest:
+  venv_pytest:
     docker:
       - image: circleci/python:3.8
     working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
-          key: deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
+          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
       - run:
-          name: Run tests
-          command: make test
+          name: Run tests with venv
+          command: make venv_test
       - store_artifacts:
           path: test-reports/
           destination: tr1
       - store_test_results:
           path: test-reports/
-  lint:
+  venv_lint:
     docker:
       - image: circleci/python:3.8
     working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
-          key: deps1-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
+          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}
       - run:
-          name: Run linter
-          command: make lint
+          name: Run linter with venv
+          command: make venv_lint
+  tox-py37-core:
+    <<: *tox_common
+    docker:
+      - image: circleci/python:3.7
+        environment:
+          TOXENV: py37-core
+  tox-py38-core:
+    <<: *tox_common
+    docker:
+      - image: circleci/python:3.8
+        environment:
+          TOXENV: py38-core
+  tox-py37-script:
+    <<: *tox_common
+    docker:
+      - image: circleci/python:3.7
+        environment:
+          TOXENV: py37-script
+  tox-py38-script:
+    <<: *tox_common
+    docker:
+      - image: circleci/python:3.8
+        environment:
+          TOXENV: py38-script
+  # Job(s) with Windows OS
+  win-py37-script:
+    executor:
+      name: win/default
+      shell: powershell.exe
+    steps:
+      - checkout
+      - run:
+          name: Install testing requirements on Windows"
+          command: python -m pip install -r requirements_test.txt
+      - run:
+          name: Run deposit script on Windows"
+          command: python ./test_deposit_script.py
 
 workflows:
   version: 2.1
   all_test:
     jobs:
-      - build
-      - pytest:
+      - venv_build
+      - venv_pytest:
           requires:
-            - build
-      - lint:
+            - venv_build
+      - venv_lint:
           requires:
-            - build
+            - venv_build
+      - tox-py37-core
+      - tox-py38-core
+      - tox-py37-script
+      - tox-py38-script
+      - win-py37-script
