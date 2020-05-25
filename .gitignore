@@ -2,8 +2,11 @@ validator_keys
 
 # Python testing & linting:
 build/
+dist/
 venv/
-.pytest_cache
-.hypothesis
-.mypy_cache
+*.pytest_cache
+*.hypothesis
+*.mypy_cache
+*.egg-info
+*.egg
 __pycache__
