@@ -42,7 +42,7 @@ def compute_signing_root(ssz_object: Serializable, domain: bytes) -> bytes:
     return domain_wrapped_object.hash_tree_root
 
 
-class UnsignedDeposit(Serializable):
+class DepositMessage(Serializable):
     fields = [
         ('pubkey', bytes48),
         ('withdrawal_credentials', bytes32),
@@ -50,7 +50,7 @@ class UnsignedDeposit(Serializable):
     ]
 
 
-class SignedDeposit(Serializable):
+class DepositData(Serializable):
     fields = [
         ('pubkey', bytes48),
         ('withdrawal_credentials', bytes32),

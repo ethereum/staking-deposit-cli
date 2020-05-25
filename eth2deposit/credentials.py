@@ -17,8 +17,8 @@ from eth2deposit.utils.crypto import SHA256
 from eth2deposit.utils.ssz import (
     compute_domain,
     compute_signing_root,
-    SignedDeposit,
-    UnsignedDeposit,
+    DepositData,
+    DepositMessage,
 )
 
 
@@ -58,17 +58,17 @@ class Credential:
         secret_bytes = saved_keystore.decrypt(password)
         return self.signing_sk == int.from_bytes(secret_bytes, 'big')
 
-    def unsigned_deposit(self) -> UnsignedDeposit:
-        return UnsignedDeposit(
+    def unsigned_deposit(self) -> DepositMessage:
+        return DepositMessage(
             pubkey=self.signing_pk,
             withdrawal_credentials=self.withdrawal_credentials,
             amount=self.amount,
         )
 
-    def signed_deposit(self) -> SignedDeposit:
+    def signed_deposit(self) -> DepositData:
         domain = compute_domain(domain_type=DOMAIN_DEPOSIT)
         signing_root = compute_signing_root(self.unsigned_deposit(), domain)
-        signed_deposit = SignedDeposit(
+        signed_deposit = DepositData(
             **self.unsigned_deposit().as_dict(),
             signature=bls.Sign(self.signing_sk, signing_root)
         )
