@@ -9,17 +9,20 @@ from eth2deposit.key_handling.keystore import (
     Keystore,
     ScryptKeystore,
 )
-from eth2deposit.utils.constants import BLS_WITHDRAWAL_PREFIX
+from eth2deposit.utils.constants import (
+    BLS_WITHDRAWAL_PREFIX,
+    DOMAIN_DEPOSIT,
+)
 from eth2deposit.utils.crypto import SHA256
 from eth2deposit.utils.ssz import (
     compute_domain,
     compute_signing_root,
+    DepositData,
     DepositMessage,
-    Deposit,
 )
 
 
-class ValidatorCredentials:
+class Credential:
     def __init__(self, *, mnemonic: str, index: int, amount: int):
         # Set path as EIP-2334 format
         # https://eips.ethereum.org/EIPS/eip-2334
@@ -63,55 +66,51 @@ class ValidatorCredentials:
         secret_bytes = saved_keystore.decrypt(password)
         return self.signing_sk == int.from_bytes(secret_bytes, 'big')
 
-
-def mnemonic_to_credentials(*, mnemonic: str, num_keys: int,
-                            amounts: List[int], start_index: int=0,) -> List[ValidatorCredentials]:
-    assert len(amounts) == num_keys
-    key_indices = range(start_index, start_index + num_keys)
-    credentials = [ValidatorCredentials(mnemonic=mnemonic, index=index, amount=amounts[index])
-                   for index in key_indices]
-    return credentials
-
-
-def export_keystores(*, credentials: List[ValidatorCredentials], password: str, folder: str) -> List[str]:
-    return [credential.save_signing_keystore(password=password, folder=folder) for credential in credentials]
-
-
-def sign_deposit_data(deposit_data: DepositMessage, sk: int) -> Deposit:
-    '''
-    Given a DepositMessage, it signs its root and returns a Deposit
-    '''
-    assert bls.PrivToPub(sk) == deposit_data.pubkey
-    domain = compute_domain()
-    signing_root = compute_signing_root(deposit_data, domain)
-    signed_deposit_data = Deposit(
-        **deposit_data.as_dict(),
-        signature=bls.Sign(sk, signing_root)
-    )
-    return signed_deposit_data
-
-
-def export_deposit_data_json(*, credentials: List[ValidatorCredentials], folder: str) -> str:
-    deposit_data: List[Dict[bytes, bytes]] = []
-    for credential in credentials:
-        deposit_datum = DepositMessage(
-            pubkey=credential.signing_pk,
-            withdrawal_credentials=credential.withdrawal_credentials,
-            amount=credential.amount,
+    def unsigned_deposit(self) -> DepositMessage:
+        return DepositMessage(
+            pubkey=self.signing_pk,
+            withdrawal_credentials=self.withdrawal_credentials,
+            amount=self.amount,
         )
-        signed_deposit_datum = sign_deposit_data(deposit_datum, credential.signing_sk)
-        datum_dict = signed_deposit_datum.as_dict()
-        datum_dict.update({'deposit_data_root': deposit_datum.hash_tree_root})
-        datum_dict.update({'signed_deposit_data_root': signed_deposit_datum.hash_tree_root})
-        deposit_data.append(datum_dict)
 
-    filefolder = os.path.join(folder, 'deposit_data-%i.json' % time.time())
-    with open(filefolder, 'w') as f:
-        json.dump(deposit_data, f, default=lambda x: x.hex())
-    return filefolder
+    def signed_deposit(self) -> DepositData:
+        domain = compute_domain(domain_type=DOMAIN_DEPOSIT)
+        signing_root = compute_signing_root(self.unsigned_deposit(), domain)
+        signed_deposit = DepositData(
+            **self.unsigned_deposit().as_dict(),
+            signature=bls.Sign(self.signing_sk, signing_root)
+        )
+        return signed_deposit
 
 
-def verify_keystores(*, credentials: List[ValidatorCredentials],
-                     keystore_filefolders: List[str], password: str) -> bool:
-    return all(credential.verify_keystore(keystore_filefolder=filefolder, password=password)
-               for credential, filefolder in zip(credentials, keystore_filefolders))
+class CredentialList:
+    def __init__(self, credentials: List[Credential]):
+        self.credentials = credentials
+
+    @classmethod
+    def from_mnemonic(cls, *, mnemonic: str, num_keys: int, amounts: List[int], start_index: int=0) -> 'CredentialList':
+        assert len(amounts) == num_keys
+        key_indices = range(start_index, start_index + num_keys)
+        return cls([Credential(mnemonic=mnemonic, index=index, amount=amounts[index])
+                    for index in key_indices])
+
+    def export_keystores(self, password: str, folder: str) -> List[str]:
+        return [credential.save_signing_keystore(password=password, folder=folder) for credential in self.credentials]
+
+    def export_deposit_data_json(self, folder: str) -> str:
+        deposit_data: List[Dict[bytes, bytes]] = []
+        for credential in self.credentials:
+            signed_deposit_datum = credential.signed_deposit()
+            datum_dict = signed_deposit_datum.as_dict()
+            datum_dict.update({'deposit_data_root': credential.unsigned_deposit().hash_tree_root})
+            datum_dict.update({'signed_deposit_data_root': signed_deposit_datum.hash_tree_root})
+            deposit_data.append(datum_dict)
+
+        filefolder = os.path.join(folder, 'deposit_data-%i.json' % time.time())
+        with open(filefolder, 'w') as f:
+            json.dump(deposit_data, f, default=lambda x: x.hex())
+        return filefolder
+
+    def verify_keystores(self, keystore_filefolders: List[str], password: str) -> bool:
+        return all(credential.verify_keystore(keystore_filefolder=filefolder, password=password)
+                   for credential, filefolder in zip(self.credentials, keystore_filefolders))
