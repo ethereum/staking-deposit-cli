@@ -21,9 +21,17 @@ from eth2deposit.utils.ssz import (
 
 class ValidatorCredentials:
     def __init__(self, *, mnemonic: str, index: int, amount: int):
-        self.signing_key_path = 'm/12381/3600/%s/0' % index
-        self.signing_sk = mnemonic_and_path_to_key(mnemonic=mnemonic, path=self.signing_key_path)
-        self.withdrawal_sk = mnemonic_and_path_to_key(mnemonic=mnemonic, path=self.signing_key_path + '/0')
+        # Set path as EIP-2334 format
+        # https://eips.ethereum.org/EIPS/eip-2334
+        purpose = '12381'
+        coin_type = '3600'
+        account = str(index)
+        withdrawal_key_path = f'm/{purpose}/{coin_type}/{account}/0'
+        self.signing_key_path = f'{withdrawal_key_path}/0'
+
+        # Do NOT use password for seed generation.
+        self.withdrawal_sk = mnemonic_and_path_to_key(mnemonic=mnemonic, path=withdrawal_key_path, password='')
+        self.signing_sk = mnemonic_and_path_to_key(mnemonic=mnemonic, path=self.signing_key_path, password='')
         self.amount = amount
 
     @property
