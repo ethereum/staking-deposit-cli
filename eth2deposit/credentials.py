@@ -28,11 +28,11 @@ class ValidatorCredentials:
 
     @property
     def signing_pk(self) -> bytes:
-        return bls.SkToPk(self.signing_sk)
+        return bls.PrivToPub(self.signing_sk)
 
     @property
     def withdrawal_pk(self) -> bytes:
-        return bls.SkToPk(self.withdrawal_sk)
+        return bls.PrivToPub(self.withdrawal_sk)
 
     @property
     def withdrawal_credentials(self) -> bytes:
@@ -73,7 +73,7 @@ def sign_deposit_data(deposit_data: DepositMessage, sk: int) -> Deposit:
     '''
     Given a DepositMessage, it signs its root and returns a Deposit
     '''
-    assert bls.SkToPk(sk) == deposit_data.pubkey
+    assert bls.PrivToPub(sk) == deposit_data.pubkey
     domain = compute_domain()
     signing_root = compute_signing_root(deposit_data, domain)
     signed_deposit_data = Deposit(
