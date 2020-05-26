@@ -38,4 +38,5 @@ def HKDF(*, salt: bytes, IKM: bytes, L: int) -> bytes:
 
 
 def AES_128_CTR(*, key: bytes, iv: bytes) -> Any:
+    assert len(key) == 16
     return _AES.new(key=key, mode=_AES.MODE_CTR, initial_value=iv, nonce=b'')
