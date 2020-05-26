@@ -8,6 +8,7 @@ from click.testing import CliRunner
 from eth2deposit import deposit
 from eth2deposit.deposit import main
 from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
+from eth2deposit.key_handling.keystore import Keystore
 
 
 def clean_key_folder(my_folder_path):
@@ -36,7 +37,7 @@ def test_deposit(monkeypatch):
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
-    inputs = ['1', 'english', 'MyPassword', 'MyPassword', 'fakephrase']
+    inputs = ['5', 'english', 'MyPassword', 'MyPassword', 'fakephrase']
     data = '\n'.join(inputs)
     result = runner.invoke(main, ['--folder', my_folder_path], input=data)
 
@@ -45,7 +46,17 @@ def test_deposit(monkeypatch):
     # Check files
     validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     _, _, key_files = next(os.walk(validator_keys_folder_path))
-    assert len(key_files) == 2
+
+    def get_uuid(key_file):
+        keystore = Keystore.from_json(key_file)
+        return keystore.uuid
+
+    all_uuid = [
+        get_uuid(validator_keys_folder_path + '/' + key_file)
+        for key_file in key_files
+        if key_file.startswith('keystore')
+    ]
+    assert len(set(all_uuid)) == 5
 
     # Clean up
     clean_key_folder(my_folder_path)

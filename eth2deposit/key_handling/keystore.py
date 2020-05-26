@@ -65,7 +65,7 @@ class Keystore(BytesDataclass):
     crypto: KeystoreCrypto = KeystoreCrypto()
     pubkey: str = ''
     path: str = ''
-    uuid: str = str(uuid4())  # Generate a new uuid
+    uuid: str = ''
     version: int = 4
 
     def kdf(self, **kwargs: Any) -> bytes:
@@ -96,6 +96,7 @@ class Keystore(BytesDataclass):
                 kdf_salt: bytes=randbits(256).to_bytes(32, 'big'),
                 aes_iv: bytes=randbits(128).to_bytes(16, 'big')) -> 'Keystore':
         keystore = cls()
+        keystore.uuid = str(uuid4())
         keystore.crypto.kdf.params['salt'] = kdf_salt
         decryption_key = keystore.kdf(password=password, **keystore.crypto.kdf.params)
         keystore.crypto.cipher.params['iv'] = aes_iv
