@@ -10,7 +10,7 @@ from py_ecc.bls import G2ProofOfPossession as bls
 from eth2deposit.utils.ssz import (
     compute_deposit_domain,
     compute_signing_root,
-    Deposit,
+    DepositData,
     DepositMessage,
 )
 from eth2deposit.utils.constants import (
@@ -22,11 +22,11 @@ from eth2deposit.utils.constants import (
 def verify_deposit_data_json(filefolder: str) -> bool:
     with open(filefolder, 'r') as f:
         deposit_json = json.load(f)
-        return all([verify_deposit(deposit) for deposit in deposit_json])
+        return all([validate_deposit(deposit) for deposit in deposit_json])
     return False
 
 
-def verify_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
+def validate_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
     '''
     Checks whether a deposit is valid based on the eth2 rules.
     https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/beacon-chain.md#deposits
@@ -43,12 +43,17 @@ def verify_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
         return False
 
     # Verify deposit signature && pubkey
-    deposit_message = DepositMessage(pubkey=pubkey, withdrawal_credentials=withdrawal_credentials, amount=amount)
+    unsigned_deposit = DepositMessage(pubkey=pubkey, withdrawal_credentials=withdrawal_credentials, amount=amount)
     domain = compute_deposit_domain(fork_version)
-    signing_root = compute_signing_root(deposit_message, domain)
+    signing_root = compute_signing_root(unsigned_deposit, domain)
     if not bls.Verify(pubkey, signing_root, signature):
         return False
 
     # Verify Deposit Root
-    deposit = Deposit(pubkey=pubkey, withdrawal_credentials=withdrawal_credentials, amount=amount, signature=signature)
-    return deposit.hash_tree_root == deposit_data_root
+    signed_deposit = DepositData(
+        pubkey=pubkey,
+        withdrawal_credentials=withdrawal_credentials,
+        amount=amount,
+        signature=signature,
+    )
+    return signed_deposit.hash_tree_root == deposit_data_root
