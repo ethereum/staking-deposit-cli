@@ -66,7 +66,7 @@ class Credential:
         secret_bytes = saved_keystore.decrypt(password)
         return self.signing_sk == int.from_bytes(secret_bytes, 'big')
 
-    def unsigned_deposit(self) -> DepositMessage:
+    def deposit_message(self) -> DepositMessage:
         return DepositMessage(
             pubkey=self.signing_pk,
             withdrawal_credentials=self.withdrawal_credentials,
@@ -75,9 +75,9 @@ class Credential:
 
     def signed_deposit(self) -> DepositData:
         domain = compute_deposit_domain(fork_version=self.fork_version)
-        signing_root = compute_signing_root(self.unsigned_deposit(), domain)
+        signing_root = compute_signing_root(self.deposit_message(), domain)
         signed_deposit = DepositData(
-            **self.unsigned_deposit().as_dict(),
+            **self.deposit_message().as_dict(),
             signature=bls.Sign(self.signing_sk, signing_root)
         )
         return signed_deposit
@@ -108,8 +108,8 @@ class CredentialList:
         for credential in self.credentials:
             signed_deposit_datum = credential.signed_deposit()
             datum_dict = signed_deposit_datum.as_dict()
-            datum_dict.update({'deposit_data_root': credential.unsigned_deposit().hash_tree_root})
-            datum_dict.update({'signed_deposit_data_root': signed_deposit_datum.hash_tree_root})
+            datum_dict.update({'deposit_message_root': credential.deposit_message().hash_tree_root})
+            datum_dict.update({'deposit_data_root': signed_deposit_datum.hash_tree_root})
             datum_dict.update({'fork_version': credential.fork_version})
             deposit_data.append(datum_dict)
 
