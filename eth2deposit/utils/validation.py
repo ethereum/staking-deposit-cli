@@ -8,13 +8,12 @@ from typing import Any, Dict
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from eth2deposit.utils.ssz import (
-    compute_domain,
+    compute_deposit_domain,
     compute_signing_root,
     DepositData,
     DepositMessage,
 )
 from eth2deposit.utils.constants import (
-    DOMAIN_DEPOSIT,
     MAX_DEPOSIT_AMOUNT,
     MIN_DEPOSIT_AMOUNT,
 )
@@ -36,16 +35,17 @@ def validate_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
     withdrawal_credentials = bytes.fromhex(deposit_data_dict['withdrawal_credentials'])
     amount = deposit_data_dict['amount']
     signature = BLSSignature(bytes.fromhex(deposit_data_dict['signature']))
-    deposit_data_root = bytes.fromhex(deposit_data_dict['signed_deposit_data_root'])
+    deposit_message_root = bytes.fromhex(deposit_data_dict['deposit_data_root'])
+    fork_version = bytes.fromhex(deposit_data_dict['fork_version'])
 
     # Verify deposit amount
     if not MIN_DEPOSIT_AMOUNT < amount <= MAX_DEPOSIT_AMOUNT:
         return False
 
     # Verify deposit signature && pubkey
-    unsigned_deposit = DepositMessage(pubkey=pubkey, withdrawal_credentials=withdrawal_credentials, amount=amount)
-    domain = compute_domain(domain_type=DOMAIN_DEPOSIT)
-    signing_root = compute_signing_root(unsigned_deposit, domain)
+    deposit_message = DepositMessage(pubkey=pubkey, withdrawal_credentials=withdrawal_credentials, amount=amount)
+    domain = compute_deposit_domain(fork_version)
+    signing_root = compute_signing_root(deposit_message, domain)
     if not bls.Verify(pubkey, signing_root, signature):
         return False
 
@@ -56,4 +56,4 @@ def validate_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
         amount=amount,
         signature=signature,
     )
-    return signed_deposit.hash_tree_root == deposit_data_root
+    return signed_deposit.hash_tree_root == deposit_message_root
