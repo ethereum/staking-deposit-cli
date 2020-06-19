@@ -32,8 +32,8 @@ def PBKDF2(*, password: str, salt: bytes, dklen: int, c: int, prf: str) -> bytes
     return res if isinstance(res, bytes) else res[0]  # PyCryptodome can return Tuple[bytes]
 
 
-def HKDF(*, salt: bytes, IKM: bytes, L: int) -> bytes:
-    res = _HKDF(master=IKM, key_len=L, salt=salt, hashmod=_sha256)
+def HKDF(*, salt: bytes, IKM: bytes, L: int, info: bytes=b'') -> bytes:
+    res = _HKDF(master=IKM, key_len=L, salt=salt, hashmod=_sha256, context=info)
     return res if isinstance(res, bytes) else res[0]  # PyCryptodome can return Tuple[bytes]
 
 

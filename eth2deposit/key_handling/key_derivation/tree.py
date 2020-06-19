@@ -37,8 +37,14 @@ def _parent_SK_to_lamport_PK(*, parent_SK: int, index: int) -> bytes:
     return compressed_PK
 
 
-def _HKDF_mod_r(*, IKM: bytes) -> int:
-    okm = HKDF(salt=b'BLS-SIG-KEYGEN-SALT-', IKM=IKM, L=48)
+def _HKDF_mod_r(*, IKM: bytes, key_info: bytes=b'') -> int:
+    L = 48
+    okm = HKDF(
+        salt=b'BLS-SIG-KEYGEN-SALT-',
+        IKM=IKM + b'\x00',
+        L=L,
+        info=key_info + L.to_bytes(2, 'big'),
+    )
     return int.from_bytes(okm, byteorder='big') % bls_curve_order
 
 
@@ -49,5 +55,5 @@ def derive_child_SK(*, parent_SK: int, index: int) -> int:
 
 
 def derive_master_SK(seed: bytes) -> int:
-    assert(len(seed) >= 16)
+    assert(len(seed) >= 32)
     return _HKDF_mod_r(IKM=seed)
