@@ -35,7 +35,6 @@ def test_IKM_to_lamport_SK() -> None:
     assert test_vector_lamport_1 == lamport_1
 
 
-
 def test_parent_SK_to_lamport_PK() -> None:
     parent_SK = test_vector['master_SK']
     index = test_vector['child_index']
