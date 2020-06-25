@@ -4,6 +4,7 @@ from typing import Dict, NamedTuple
 class BaseChainSetting(NamedTuple):
     GENESIS_FORK_VERSION: bytes
 
+
 # Eth2 Mainet setting
 MainnetSetting = BaseChainSetting(GENESIS_FORK_VERSION=bytes.fromhex('00000000'))
 # Eth2 spec v0.11.3 testnet
