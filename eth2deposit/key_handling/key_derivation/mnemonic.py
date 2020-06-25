@@ -2,9 +2,9 @@ import os
 from unicodedata import normalize
 from secrets import randbits
 from typing import (
-    List,
     Optional,
     Sequence,
+    Tuple,
 )
 
 from eth2deposit.utils.crypto import (
@@ -22,27 +22,29 @@ def _get_word(*, word_list: Sequence[str], index: int) -> str:
     return word_list[index][:-1]
 
 
-def get_seed(*, mnemonic: str, password: str='') -> bytes:
+def get_seed(*, mnemonic: str, password: str) -> bytes:
     """
-    Derives the seed for the pre-image root of the tree.
+    Derive the seed for the pre-image root of the tree.
+
+    Ref: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki#from-mnemonic-to-seed
     """
     mnemonic = normalize('NFKD', mnemonic)
     salt = normalize('NFKD', 'mnemonic' + password).encode('utf-8')
     return PBKDF2(password=mnemonic, salt=salt, dklen=64, c=2048, prf='sha512')
 
 
-def get_languages(path: str) -> List[str]:
+def get_languages(path: str) -> Tuple[str, ...]:
     """
     Walk the `path` and list all the languages with word-lists available.
     """
     (_, _, filenames) = next(os.walk(path))
-    filenames = [name[:-4] for name in filenames]
-    return filenames
+    languages = tuple([name[:-4] for name in filenames])
+    return languages
 
 
 def get_mnemonic(*, language: str, words_path: str, entropy: Optional[bytes]=None) -> str:
     """
-    Returns a mnemonic string in a given `language` based on `entropy`.
+    Return a mnemonic string in a given `language` based on `entropy`.
     """
     if entropy is None:
         entropy = randbits(256).to_bytes(32, 'big')

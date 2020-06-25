@@ -18,7 +18,7 @@ def path_to_nodes(path: str) -> List[int]:
     return [int(index) for index in indices]
 
 
-def mnemonic_and_path_to_key(*, mnemonic: str, path: str, password: str='') -> int:
+def mnemonic_and_path_to_key(*, mnemonic: str, path: str, password: str) -> int:
     """
     Returns the SK at position `path` secures with `password` derived from `mnemonic`.
     """
