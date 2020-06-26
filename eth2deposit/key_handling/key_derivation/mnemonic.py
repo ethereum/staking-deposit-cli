@@ -26,9 +26,9 @@ def get_seed(*, mnemonic: str, password: str='') -> bytes:
     """
     Derives the seed for the pre-image root of the tree.
     """
-    mnemonic = normalize('NFKD', mnemonic)
+    encoded_mnemonic = normalize('NFKD', mnemonic).encode('utf-8')
     salt = normalize('NFKD', 'mnemonic' + password).encode('utf-8')
-    return PBKDF2(password=mnemonic, salt=salt, dklen=64, c=2048, prf='sha512')
+    return PBKDF2(password=encoded_mnemonic, salt=salt, dklen=64, c=2048, prf='sha512')
 
 
 def get_languages(path: str) -> List[str]:

@@ -5,16 +5,21 @@ from dataclasses import (
     field as dataclass_field
 )
 import json
+from py_ecc.bls import G2ProofOfPossession as bls
 from secrets import randbits
 from typing import Any, Dict, Union
+from unicodedata import normalize
 from uuid import uuid4
+
 from eth2deposit.utils.crypto import (
     AES_128_CTR,
     PBKDF2,
     scrypt,
     SHA256,
 )
-from py_ecc.bls import G2ProofOfPossession as bls
+from eth2deposit.utils.constants import (
+    UNICODE_CONTROL_CHARS,
+)
 
 hexdigits = set('0123456789abcdef')
 
@@ -91,13 +96,22 @@ class Keystore(BytesDataclass):
         version = json_dict['version']
         return cls(crypto=crypto, pubkey=pubkey, path=path, uuid=uuid, version=version)
 
+    @staticmethod
+    def _process_password(password: str) -> bytes:
+        password = normalize('NFKD', password)
+        password = ''.join(c for c in password if ord(c) not in UNICODE_CONTROL_CHARS)
+        return password.encode('UTF-8')
+
     @classmethod
     def encrypt(cls, *, secret: bytes, password: str, path: str='',
                 kdf_salt: bytes=randbits(256).to_bytes(32, 'big'),
                 aes_iv: bytes=randbits(128).to_bytes(16, 'big')) -> 'Keystore':
         keystore = cls()
         keystore.crypto.kdf.params['salt'] = kdf_salt
-        decryption_key = keystore.kdf(password=password, **keystore.crypto.kdf.params)
+        decryption_key = keystore.kdf(
+            password=cls._process_password(password),
+            **keystore.crypto.kdf.params
+        )
         keystore.crypto.cipher.params['iv'] = aes_iv
         cipher = AES_128_CTR(key=decryption_key[:16], **keystore.crypto.cipher.params)
         keystore.crypto.cipher.message = cipher.encrypt(secret)
@@ -107,7 +121,10 @@ class Keystore(BytesDataclass):
         return keystore
 
     def decrypt(self, password: str) -> bytes:
-        decryption_key = self.kdf(password=password, **self.crypto.kdf.params)
+        decryption_key = self.kdf(
+            password=self._process_password(password),
+            **self.crypto.kdf.params
+        )
         assert SHA256(decryption_key[16:32] + self.crypto.cipher.message) == self.crypto.checksum.message
         cipher = AES_128_CTR(key=decryption_key[:16], **self.crypto.cipher.params)
         return cipher.decrypt(self.crypto.cipher.message)

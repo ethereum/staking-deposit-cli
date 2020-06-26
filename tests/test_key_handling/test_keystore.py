@@ -7,7 +7,7 @@ from eth2deposit.key_handling.keystore import (
     Pbkdf2Keystore,
 )
 
-test_vector_password = 'testpassword'
+test_vector_password = '𝔱𝔢𝔰𝔱𝔭𝔞𝔰𝔰𝔴𝔬𝔯𝔡🔑'
 test_vector_secret = bytes.fromhex('000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f')
 test_vector_folder = os.path.join(os.getcwd(), 'tests', 'test_key_handling', 'keystore_test_vectors')
 _, _, test_vector_files = next(os.walk(test_vector_folder))  # type: ignore
