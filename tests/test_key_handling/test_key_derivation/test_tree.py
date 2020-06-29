@@ -1,6 +1,7 @@
 import os
 import json
 from py_ecc.bls import G2ProofOfPossession as bls
+import pytest
 
 
 from eth2deposit.key_handling.key_derivation.tree import (
@@ -23,7 +24,6 @@ with open(test_vector_filefolder, 'r') as f:
 def test_hkdf_mod_r(test) -> None:
     seed = bytes.fromhex(test['seed'])
     assert bls.KeyGen(seed) == _HKDF_mod_r(IKM=seed)
-
 
 
 @pytest.mark.parametrize(
