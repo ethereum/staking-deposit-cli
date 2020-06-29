@@ -38,10 +38,10 @@ def _parent_SK_to_lamport_PK(*, parent_SK: int, index: int) -> bytes:
 
 
 def _HKDF_mod_r(*, IKM: bytes, key_info: bytes=b'') -> int:
-    L = 48
+    L = 48  # `ceil((3 * ceil(log2(r))) / 16)`, where `r` is the order of the BLS 12-381 curve
     okm = HKDF(
         salt=b'BLS-SIG-KEYGEN-SALT-',
-        IKM=IKM + b'\x00',
+        IKM=IKM + b'\x00',  # add postfix `I2OSP(0, 1)`
         L=L,
         info=key_info + L.to_bytes(2, 'big'),
     )

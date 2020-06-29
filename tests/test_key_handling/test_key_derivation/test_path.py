@@ -39,7 +39,6 @@ def test_parent_SK_to_lamport_PK() -> None:
     parent_SK = test_vector['master_SK']
     index = test_vector['child_index']
     lamport_PK = bytes.fromhex(test_vector['compressed_lamport_PK'])
-    print(_parent_SK_to_lamport_PK(parent_SK=parent_SK, index=index).hex())
     assert lamport_PK == _parent_SK_to_lamport_PK(parent_SK=parent_SK, index=index)
 
 
