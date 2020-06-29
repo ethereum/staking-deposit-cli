@@ -27,6 +27,18 @@ def test_hkdf_mod_r(test) -> None:
 
 
 @pytest.mark.parametrize(
+    'seed',
+    [b'\x00'*32]
+)
+@pytest.mark.parametrize(
+    'key_info',
+    [b'\x00'*32, b'\x01\x23\x45\x67\x89\xAB\xBC\xDE\xFF', b'\xFF'*16]
+)
+def test_hkdf_mod_r_key_info(seed: bytes, key_info:bytes) -> None:
+    assert bls.KeyGen(seed, key_info) == _HKDF_mod_r(IKM=seed, key_info=key_info)
+
+
+@pytest.mark.parametrize(
     'test',
     test_vectors
 )
