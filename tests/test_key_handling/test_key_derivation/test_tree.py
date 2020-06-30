@@ -57,8 +57,3 @@ def test_derive_child_SK(test) -> None:
     index = test['child_index']
     child_SK = test['child_SK']
     assert derive_child_SK(parent_SK=parent_SK, index=index) == child_SK
-    for test in test_vectors:
-        parent_SK = test['master_SK']
-        index = test['child_index']
-        child_SK = test['child_SK']
-        assert derive_child_SK(parent_SK=parent_SK, index=index) == child_SK

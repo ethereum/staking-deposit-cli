@@ -3,6 +3,10 @@ import os
 
 import pytest
 
+from typing import (
+    Optional,
+)
+
 from click.testing import CliRunner
 
 from eth2deposit import deposit
@@ -11,7 +15,7 @@ from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
 from eth2deposit.key_handling.keystore import Keystore
 
 
-def clean_key_folder(my_folder_path):
+def clean_key_folder(my_folder_path: str) -> None:
     validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     if not os.path.exists(validator_keys_folder_path):
         return
@@ -23,9 +27,9 @@ def clean_key_folder(my_folder_path):
     os.rmdir(my_folder_path)
 
 
-def test_deposit(monkeypatch):
+def test_deposit(monkeypatch) -> None:
     # monkeypatch get_mnemonic
-    def get_mnemonic(language, words_path, entropy=None):
+    def get_mnemonic(language: str, words_path: str, entropy: Optional[bytes]=None) -> str:
         return "fakephrase"
 
     monkeypatch.setattr(deposit, "get_mnemonic", get_mnemonic)
@@ -47,7 +51,7 @@ def test_deposit(monkeypatch):
     validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     _, _, key_files = next(os.walk(validator_keys_folder_path))
 
-    def get_uuid(key_file):
+    def get_uuid(key_file: str) -> str:
         keystore = Keystore.from_json(key_file)
         return keystore.uuid
 
@@ -63,7 +67,7 @@ def test_deposit(monkeypatch):
 
 
 @pytest.mark.asyncio
-async def test_script():
+async def test_script() -> None:
     my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
     if not os.path.exists(my_folder_path):
         os.mkdir(my_folder_path)
