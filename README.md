@@ -22,6 +22,10 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Pre-production warning
+
+This software is a pre-release version which has not yet been audited and therefore should not yet be trusted to keys with the intent of securing actual ETH.
+
 ## Tutorial for users
 
 ### Requirements
