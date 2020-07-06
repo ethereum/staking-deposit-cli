@@ -26,12 +26,6 @@
 
 This software is a pre-release version which has not yet been audited and therefore should not yet be trusted to keys with the intent of securing actual ETH.
 
-### BLS versioning
-
-The eth2specs changed their BLS version from [BLS v0](https://tools.ietf.org/html/draft-irtf-cfrg-bls-signature-00), and [hash to curve v4](https://tools.ietf.org/html/draft-irtf-cfrg-hash-to-curve-04) to [BLS v2](https://tools.ietf.org/html/draft-irtf-cfrg-bls-signature-02), and [hash to curve v7](https://tools.ietf.org/html/draft-irtf-cfrg-hash-to-curve-07). Because of this this version of the deposit CLI, is not compatible with eth2 versions >= `0.12.x` which includes main net.
-
-**Using this version for Mainnet deposits will result in loss of funds**
-
 ## Tutorial for users
 
 ### Requirements
