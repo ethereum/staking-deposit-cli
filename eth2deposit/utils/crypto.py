@@ -31,10 +31,11 @@ def PBKDF2(*, password: bytes, salt: bytes, dklen: int, c: int, prf: str) -> byt
     return res if isinstance(res, bytes) else res[0]  # PyCryptodome can return Tuple[bytes]
 
 
-def HKDF(*, salt: bytes, IKM: bytes, L: int) -> bytes:
-    res = _HKDF(master=IKM, key_len=L, salt=salt, hashmod=_sha256)
+def HKDF(*, salt: bytes, IKM: bytes, L: int, info: bytes=b'') -> bytes:
+    res = _HKDF(master=IKM, key_len=L, salt=salt, hashmod=_sha256, context=info)
     return res if isinstance(res, bytes) else res[0]  # PyCryptodome can return Tuple[bytes]
 
 
 def AES_128_CTR(*, key: bytes, iv: bytes) -> Any:
+    assert len(key) == 16
     return _AES.new(key=key, mode=_AES.MODE_CTR, initial_value=iv, nonce=b'')
