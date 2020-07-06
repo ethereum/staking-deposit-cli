@@ -39,11 +39,11 @@ class Credential:
 
     @property
     def signing_pk(self) -> bytes:
-        return bls.PrivToPub(self.signing_sk)
+        return bls.SkToPk(self.signing_sk)
 
     @property
     def withdrawal_pk(self) -> bytes:
-        return bls.PrivToPub(self.withdrawal_sk)
+        return bls.SkToPk(self.withdrawal_sk)
 
     @property
     def withdrawal_credentials(self) -> bytes:

@@ -103,7 +103,7 @@ class Keystore(BytesDataclass):
         cipher = AES_128_CTR(key=decryption_key[:16], **keystore.crypto.cipher.params)
         keystore.crypto.cipher.message = cipher.encrypt(secret)
         keystore.crypto.checksum.message = SHA256(decryption_key[16:32] + keystore.crypto.cipher.message)
-        keystore.pubkey = bls.PrivToPub(int.from_bytes(secret, 'big')).hex()
+        keystore.pubkey = bls.SkToPk(int.from_bytes(secret, 'big')).hex()
         keystore.path = path
         return keystore
 
