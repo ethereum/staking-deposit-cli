@@ -68,6 +68,7 @@ class KeystoreCrypto(BytesDataclass):
 @dataclass
 class Keystore(BytesDataclass):
     crypto: KeystoreCrypto = KeystoreCrypto()
+    description: str = ''
     pubkey: str = ''
     path: str = ''
     uuid: str = ''
@@ -90,11 +91,12 @@ class Keystore(BytesDataclass):
         with open(path, 'r') as f:
             json_dict = json.load(f)
         crypto = KeystoreCrypto.from_json(json_dict['crypto'])
-        pubkey = json_dict['pubkey']
         path = json_dict['path']
         uuid = json_dict['uuid']
         version = json_dict['version']
-        return cls(crypto=crypto, pubkey=pubkey, path=path, uuid=uuid, version=version)
+        description = json_dict.get('description', '')
+        pubkey = json_dict.get('pubkey', '')
+        return cls(crypto=crypto, description=description, pubkey=pubkey, path=path, uuid=uuid, version=version)
 
     @staticmethod
     def _process_password(password: str) -> bytes:

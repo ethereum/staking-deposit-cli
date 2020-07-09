@@ -23,6 +23,7 @@
             "message": "cee03fde2af33149775b7223e7845e4fb2c8ae1792e5f99fe9ecf474cc8c16ad"
         }
     },
+    "description": "This is a test keystore that uses PBKDF2 to secure the secret.",
     "pubkey": "9612d7a727c9d0a22e185a1c768478dfe919cada9266988cb32359c11f2b7b27f4ae4040902382ae2910c15e2b420d07",
     "path": "m/12381/60/0/0",
     "uuid": "64625def-3331-4eea-ab6f-782f3ed16a83",
