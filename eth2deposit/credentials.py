@@ -62,18 +62,18 @@ class Credential:
     @property
     def signed_deposit(self) -> DepositData:
         domain = compute_deposit_domain(fork_version=self.fork_version)
-        signing_root = compute_signing_root(self.deposit_message(), domain)
+        signing_root = compute_signing_root(self.deposit_message, domain)
         signed_deposit = DepositData(
-            **self.deposit_message().as_dict(),
+            **self.deposit_message.as_dict(),
             signature=bls.Sign(self.signing_sk, signing_root)
         )
         return signed_deposit
 
     @property
     def deposit_datum_dict(self) -> Dict[str, bytes]:
-        signed_deposit_datum = self.signed_deposit()
+        signed_deposit_datum = self.signed_deposit
         datum_dict = signed_deposit_datum.as_dict()
-        datum_dict.update({'deposit_message_root': self.deposit_message().hash_tree_root})
+        datum_dict.update({'deposit_message_root': self.deposit_message.hash_tree_root})
         datum_dict.update({'deposit_data_root': signed_deposit_datum.hash_tree_root})
         datum_dict.update({'fork_version': self.fork_version})
         return datum_dict
@@ -92,7 +92,6 @@ class Credential:
         saved_keystore = Keystore.from_json(keystore_filefolder)
         secret_bytes = saved_keystore.decrypt(password)
         return self.signing_sk == int.from_bytes(secret_bytes, 'big')
-
 
 
 class CredentialList:
@@ -116,7 +115,7 @@ class CredentialList:
         return [credential.save_signing_keystore(password=password, folder=folder) for credential in self.credentials]
 
     def export_deposit_data_json(self, folder: str) -> str:
-        deposit_data = [cred.deposit_datum_dict() for cred in self.credentials]
+        deposit_data = [cred.deposit_datum_dict for cred in self.credentials]
         filefolder = os.path.join(folder, 'deposit_data-%i.json' % time.time())
         with open(filefolder, 'w') as f:
             json.dump(deposit_data, f, default=lambda x: x.hex())
