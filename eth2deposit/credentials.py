@@ -51,21 +51,6 @@ class Credential:
         withdrawal_credentials += SHA256(self.withdrawal_pk)[1:]
         return withdrawal_credentials
 
-    def signing_keystore(self, password: str) -> Keystore:
-        secret = self.signing_sk.to_bytes(32, 'big')
-        return ScryptKeystore.encrypt(secret=secret, password=password, path=self.signing_key_path)
-
-    def save_signing_keystore(self, password: str, folder: str) -> str:
-        keystore = self.signing_keystore(password)
-        filefolder = os.path.join(folder, 'keystore-%s-%i.json' % (keystore.path.replace('/', '_'), time.time()))
-        keystore.save(filefolder)
-        return filefolder
-
-    def verify_keystore(self, keystore_filefolder: str, password: str) -> bool:
-        saved_keystore = Keystore.from_json(keystore_filefolder)
-        secret_bytes = saved_keystore.decrypt(password)
-        return self.signing_sk == int.from_bytes(secret_bytes, 'big')
-
     @property
     def deposit_message(self) -> DepositMessage:
         return DepositMessage(
@@ -92,6 +77,22 @@ class Credential:
         datum_dict.update({'deposit_data_root': signed_deposit_datum.hash_tree_root})
         datum_dict.update({'fork_version': self.fork_version})
         return datum_dict
+
+    def signing_keystore(self, password: str) -> Keystore:
+        secret = self.signing_sk.to_bytes(32, 'big')
+        return ScryptKeystore.encrypt(secret=secret, password=password, path=self.signing_key_path)
+
+    def save_signing_keystore(self, password: str, folder: str) -> str:
+        keystore = self.signing_keystore(password)
+        filefolder = os.path.join(folder, 'keystore-%s-%i.json' % (keystore.path.replace('/', '_'), time.time()))
+        keystore.save(filefolder)
+        return filefolder
+
+    def verify_keystore(self, keystore_filefolder: str, password: str) -> bool:
+        saved_keystore = Keystore.from_json(keystore_filefolder)
+        secret_bytes = saved_keystore.decrypt(password)
+        return self.signing_sk == int.from_bytes(secret_bytes, 'big')
+
 
 
 class CredentialList:
