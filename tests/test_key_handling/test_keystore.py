@@ -1,5 +1,6 @@
 import os
 import json
+import pytest
 
 from eth2deposit.key_handling.keystore import (
     Keystore,
@@ -56,3 +57,11 @@ def test_encrypt_decrypt_pbkdf2_random_iv() -> None:
 def test_encrypt_decrypt_scrypt_random_iv() -> None:
     generated_keystore = ScryptKeystore.encrypt(secret=test_vector_secret, password=test_vector_password)
     assert generated_keystore.decrypt(test_vector_password) == test_vector_secret
+
+
+@pytest.mark.parametrize(
+    'password,processed_password',
+    [['\a', b''], ['\b', b''], ['\t', b'']]
+)
+def test_process_password(password: str, processed_password: bytes) -> None:
+    assert Keystore._process_password(password) == processed_password
