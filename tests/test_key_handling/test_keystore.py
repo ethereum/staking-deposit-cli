@@ -61,7 +61,10 @@ def test_encrypt_decrypt_scrypt_random_iv() -> None:
 
 @pytest.mark.parametrize(
     'password,processed_password',
-    [['\a', b''], ['\b', b''], ['\t', b'']]
+    [
+        ['\a', b''], ['\b', b''], ['\t', b''],
+        ['a', b'a'], ['abc', b'abc'], ['a\bc', b'ac'],
+    ]
 )
 def test_process_password(password: str, processed_password: bytes) -> None:
     assert Keystore._process_password(password) == processed_password
