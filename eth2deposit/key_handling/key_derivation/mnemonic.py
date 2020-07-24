@@ -1,4 +1,5 @@
 import os
+import sys
 from unicodedata import normalize
 from secrets import randbits
 from typing import (
@@ -13,7 +14,18 @@ from eth2deposit.utils.crypto import (
 )
 
 
+def _resource_path(relative_path: str) -> str:
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS  # type: ignore
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+
 def _get_word_list(language: str, path: str) -> Sequence[str]:
+    path = _resource_path(path)
     return open(os.path.join(path, '%s.txt' % language), encoding='utf-8').readlines()
 
 
@@ -37,6 +49,7 @@ def get_languages(path: str) -> Tuple[str, ...]:
     """
     Walk the `path` and list all the languages with word-lists available.
     """
+    path = _resource_path(path)
     (_, _, filenames) = next(os.walk(path))
     languages = tuple([name[:-4] for name in filenames])
     return languages
