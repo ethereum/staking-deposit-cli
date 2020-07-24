@@ -1,5 +1,5 @@
 # Install the requirements for the program
--r requirements.txt
+-r ../../requirements.txt
 
 # Build tools for binary distribution
 PyInstaller==3.6 \
@@ -45,9 +45,6 @@ altgraph==0.17 \
 macholib==1.14 \
     --hash=sha256:0c436bc847e7b1d9bda0560351bf76d7caf930fb585a828d13608839ef42c432 \
     --hash=sha256:c500f02867515e6c60a27875b408920d18332ddf96b4035ef03beddd782d4281
-pywin32-ctypes==0.2.0 \
-    --hash=sha256:24ffc3b341d457d48e8922352130cf2644024a4ff09762a2261fd34c36ee5942 \
-    --hash=sha256:9dc2d991b3479cc2df15930958b674a48a227d5361d413827a4cfd0b5876fc98
 pefile==2019.4.18 \
     --hash=sha256:a5d6e8305c6b210849b47a6174ddf9c452b2888340b8177874b862ba6c207645
 future==0.18.2 \

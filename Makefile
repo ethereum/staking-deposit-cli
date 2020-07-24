@@ -25,16 +25,12 @@ $(VENV_NAME)/bin/activate: requirements.txt
 	@test -d $(VENV_NAME) || python3 -m venv --clear $(VENV_NAME)
 	${VENV_NAME}/bin/python setup.py install
 	${VENV_NAME}/bin/python -m pip install -r requirements.txt
-	${VENV_NAME}/bin/python -m pip install -r requirements_build.txt
 	${VENV_NAME}/bin/python -m pip install -r requirements_test.txt
 	@touch $(VENV_NAME)/bin/activate
 
 venv_build: $(VENV_NAME)/bin/activate
 
 venv_build_test: venv_build
-	${VENV_NAME}/bin/python -m pip install -r requirements_build.txt
-
-venv_build_binaries: venv_build
 	${VENV_NAME}/bin/python -m pip install -r requirements_test.txt
 
 venv_test: venv_build_test
@@ -46,5 +42,6 @@ venv_lint: venv_build_test
 venv_deposit: venv_build
 	$(VENV_ACTIVATE) && python ./eth2deposit/deposit.py
 
-build_macos: venv_build_binaries
-	$(VENV_ACTIVATE) && pyinstaller ./build_configs/build_macos.spec
+build_macos: venv_build
+	${VENV_NAME}/bin/python -m pip install -r ./build_configs/macos/requirements.txt
+	$(VENV_ACTIVATE) && pyinstaller ./build_configs/macos/build.spec

@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['eth2deposit\\deposit.py'],
+a = Analysis(['..\\..\\eth2deposit\\deposit.py'],
              pathex=['C:\\Users\\carl\\Documents\\eth2.0-deposit-cli'],
              binaries=[],
              datas=[('.\\eth2deposit\\key_handling\\key_derivation\\word_lists\\*.txt', '.\\eth2deposit\\key_handling\\key_derivation\\word_lists')],

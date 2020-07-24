@@ -3,9 +3,9 @@
 block_cipher = None
 
 
-a = Analysis(['../eth2deposit/deposit.py'],
+a = Analysis(['../../eth2deposit/deposit.py'],
              binaries=[('/System/Library/Frameworks/Tk.framework/Tk', 'tk'), ('/System/Library/Frameworks/Tcl.framework/Tcl', 'tcl')],
-             datas=[('../eth2deposit/key_handling/key_derivation/word_lists/*.txt', './eth2deposit/key_handling/key_derivation/word_lists/')],
+             datas=[('../../eth2deposit/key_handling/key_derivation/word_lists/*.txt', './eth2deposit/key_handling/key_derivation/word_lists/')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
