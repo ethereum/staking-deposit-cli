@@ -5,7 +5,7 @@ block_cipher = None
 
 a = Analysis(['..\\..\\eth2deposit\\deposit.py'],
              binaries=[],
-             datas=[('.\\eth2deposit\\key_handling\\key_derivation\\word_lists\\*.txt', '.\\eth2deposit\\key_handling\\key_derivation\\word_lists')],
+             datas=[('..\\..\\eth2deposit\\key_handling\\key_derivation\\word_lists\\*.txt', '.\\eth2deposit\\key_handling\\key_derivation\\word_lists')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
