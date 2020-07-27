@@ -41,3 +41,11 @@ venv_lint: venv_build_test
 
 venv_deposit: venv_build
 	$(VENV_ACTIVATE) && python ./eth2deposit/deposit.py
+
+build_macos: venv_build
+	${VENV_NAME}/bin/python -m pip install -r ./build_configs/macos/requirements.txt
+	$(VENV_ACTIVATE) && pyinstaller ./build_configs/macos/build.spec
+
+build_linux: venv_build
+	${VENV_NAME}/bin/python -m pip install -r ./build_configs/linux/requirements.txt
+	$(VENV_ACTIVATE) && pyinstaller ./build_configs/linux/build.spec

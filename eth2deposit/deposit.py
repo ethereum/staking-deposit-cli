@@ -22,8 +22,7 @@ from eth2deposit.settings import (
     get_setting,
 )
 
-words_path = os.path.join(os.getcwd(), WORD_LISTS_PATH)
-languages = get_languages(words_path)
+languages = get_languages(WORD_LISTS_PATH)
 
 
 def generate_mnemonic(language: str, words_path: str) -> str:
@@ -77,7 +76,7 @@ def check_python_version() -> None:
 @click.password_option(prompt='Type the password that secures your validator keystore(s)')
 def main(num_validators: int, mnemonic_language: str, folder: str, chain: str, password: str) -> None:
     check_python_version()
-    mnemonic = generate_mnemonic(mnemonic_language, words_path)
+    mnemonic = generate_mnemonic(mnemonic_language, WORD_LISTS_PATH)
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     setting = get_setting(chain)

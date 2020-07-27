@@ -1,4 +1,5 @@
 import os
+import sys
 from unicodedata import normalize
 from secrets import randbits
 from typing import (
@@ -13,7 +14,18 @@ from eth2deposit.utils.crypto import (
 )
 
 
+def _resource_path(relative_path: str) -> str:
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS  # type: ignore
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+
 def _get_word_list(language: str, path: str) -> Sequence[str]:
+    path = _resource_path(path)
     return open(os.path.join(path, '%s.txt' % language), encoding='utf-8').readlines()
 
 
@@ -28,15 +40,16 @@ def get_seed(*, mnemonic: str, password: str) -> bytes:
 
     Ref: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki#from-mnemonic-to-seed
     """
-    mnemonic = normalize('NFKD', mnemonic)
+    encoded_mnemonic = normalize('NFKD', mnemonic).encode('utf-8')
     salt = normalize('NFKD', 'mnemonic' + password).encode('utf-8')
-    return PBKDF2(password=mnemonic, salt=salt, dklen=64, c=2048, prf='sha512')
+    return PBKDF2(password=encoded_mnemonic, salt=salt, dklen=64, c=2048, prf='sha512')
 
 
 def get_languages(path: str) -> Tuple[str, ...]:
     """
     Walk the `path` and list all the languages with word-lists available.
     """
+    path = _resource_path(path)
     (_, _, filenames) = next(os.walk(path))
     languages = tuple([name[:-4] for name in filenames])
     return languages
