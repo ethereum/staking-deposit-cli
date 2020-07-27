@@ -126,7 +126,19 @@ jobs:
       - run:
           name: Build with build.spec
           command: pyinstaller ./build_configs/windows/build.spec
-
+  build-macos:
+    macos:
+      xcode: 11.3.0        
+    steps:
+      - run: xcodebuild -version
+      - run: python3 --version
+      - checkout
+      - run:
+          name: Install building requirements on MacOS
+          command: pip3 install -r ./build_configs/macos/requirements.txt
+      - run:
+          name: Build with build.spec
+          command: pyinstaller ./build_configs/macos/build.spec
 workflows:
   version: 2.1
   all_test:
@@ -149,3 +161,6 @@ workflows:
   build_windows:
     jobs:
         - build-windows
+  build_macos:
+    jobs:
+        - build-macos
