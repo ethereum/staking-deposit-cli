@@ -27,6 +27,7 @@ async def main():
         run_script_cmd,
         '--num_validators', '1',
         '--mnemonic_language', 'english',
+        '--chain', 'mainnet',
         '--password', 'MyPassword',
         '--folder', my_folder_path,
     ]

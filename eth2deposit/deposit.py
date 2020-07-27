@@ -70,6 +70,7 @@ def check_python_version() -> None:
 )
 @click.option(
     '--chain',
+    prompt='Please choose the (mainnet or testnet) network/chain name',
     type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
     default=MAINNET,
 )

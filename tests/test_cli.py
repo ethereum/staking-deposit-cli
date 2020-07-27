@@ -41,7 +41,7 @@ def test_deposit(monkeypatch) -> None:
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
-    inputs = ['5', 'english', 'MyPassword', 'MyPassword', 'fakephrase']
+    inputs = ['5', 'english', 'mainnet', 'MyPassword', 'MyPassword', 'fakephrase']
     data = '\n'.join(inputs)
     result = runner.invoke(main, ['--folder', my_folder_path], input=data)
 
@@ -87,6 +87,7 @@ async def test_script() -> None:
         run_script_cmd,
         '--num_validators', '1',
         '--mnemonic_language', 'english',
+        '--chain', 'mainnet',
         '--password', 'MyPassword',
         '--folder', my_folder_path,
     ]
