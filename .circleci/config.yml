@@ -97,11 +97,35 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install testing requirements on Windows"
+          name: Install testing requirements on Windows
           command: python -m pip install -r requirements_test.txt
       - run:
           name: Run deposit script on Windows"
           command: python ./test_deposit_script.py
+  build-linux:
+    docker:
+      - image: circleci/python:3.7
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: Install building requirements on Linux
+          command: pip install -r ./build_configs/linux/requirements.txt
+      - run:
+          name: Build with build.spec
+          command: pyinstaller ./build_configs/linux/build.spec
+  build-windows:
+    executor:
+      name: win/default
+      shell: powershell.exe
+    steps:
+      - checkout
+      - run:
+          name: Install building requirements on Windows
+          command: pip install -r ./build_configs/windows/requirements.txt
+      - run:
+          name: Build with build.spec
+          command: pyinstaller ./build_configs/windows/build.spec
 
 workflows:
   version: 2.1
@@ -119,3 +143,9 @@ workflows:
       - tox-py37-script
       - tox-py38-script
       - win-py37-script
+  build_linux:
+    jobs:
+      - build-linux
+  build_windows:
+    jobs:
+        - build-windows
