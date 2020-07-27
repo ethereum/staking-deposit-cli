@@ -45,3 +45,7 @@ venv_deposit: venv_build
 build_macos: venv_build
 	${VENV_NAME}/bin/python -m pip install -r ./build_configs/macos/requirements.txt
 	$(VENV_ACTIVATE) && pyinstaller ./build_configs/macos/build.spec
+
+build_linux: venv_build
+	${VENV_NAME}/bin/python -m pip install -r ./build_configs/linux/requirements.txt
+	$(VENV_ACTIVATE) && pyinstaller ./build_configs/linux/build.spec
