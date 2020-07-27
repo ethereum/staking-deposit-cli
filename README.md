@@ -64,7 +64,7 @@ You can also run the tool with optional arguments:
 | `--num_validators`  | Non-negative integer | The number of signing keys you want to generate. Note that the child key(s) are generated via the same master key. |
 | `--mnemonic_language` | String. Options: `czech`, `chinese_traditional`, `chinese_simplified`, `english`, `spanish`, `italian`, `korean`. Default to `english` | The mnemonic language |
 | `--folder` | String. Pointing to `./validator_keys` by default | The folder path for the keystore(s) and deposit(s) |
-| `--chain` | String. `mainnet` by defualt | The chain setting for the signing domain. |
+| `--chain` | String. `mainnet` by default | The chain setting for the signing domain. |
 
 ### For Windows users
 
