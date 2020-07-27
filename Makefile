@@ -49,3 +49,7 @@ build_macos: venv_build
 build_linux: venv_build
 	${VENV_NAME}/bin/python -m pip install -r ./build_configs/linux/requirements.txt
 	$(VENV_ACTIVATE) && pyinstaller ./build_configs/linux/build.spec
+
+build_windows: venv_build
+	${VENV_NAME}/bin/python -m pip install -r ./build_configs/windows/requirements.txt
+	$(VENV_ACTIVATE) && pyinstaller ./build_configs/windows/build.spec
