@@ -52,7 +52,7 @@
 
 ## Pre-production warning
 
-This software is a pre-release version which has not yet been audited and therefore should not yet be trusted to keys with the intent of securing actual ETH.
+This software is a pre-release version which has not yet been audited and therefore should not yet be trusted to generate keys with the intent of securing actual ETH.
 
 ## Tutorial for users
 
@@ -92,7 +92,7 @@ You can use `--help` flag to see all arguments.
 | `--num_validators`  | Non-negative integer | The number of signing keys you want to generate. Note that the child key(s) are generated via the same master key. |
 | `--mnemonic_language` | String. Options: `czech`, `chinese_traditional`, `chinese_simplified`, `english`, `spanish`, `italian`, `korean`. Default to `english` | The mnemonic language |
 | `--folder` | String. Pointing to `./validator_keys` by default | The folder path for the keystore(s) and deposit(s) |
-| `--chain` | String. `mainnet` by defualt | The chain setting for the signing domain. |
+| `--chain` | String. `mainnet` by default | The chain setting for the signing domain. |
 
 ###### Successful message
 
