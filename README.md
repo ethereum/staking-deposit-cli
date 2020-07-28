@@ -161,7 +161,7 @@ See [here](#successful-message)
 Ensure you are using Python version >= Python3.7:
 
 ```sh
-python -V
+python3 -V
 ```
 
 ##### Step 1. Installation
@@ -169,6 +169,7 @@ python -V
 For the [virtualenv](https://virtualenv.pypa.io/en/latest/) users, you can create a new venv:
 
 ```sh
+pip3 install virtualenv
 virtualenv venv
 ./venv/bin/activate
 ```
@@ -290,6 +291,7 @@ python -V
 For the [virtualenv](https://virtualenv.pypa.io/en/latest/) users, you can create a new venv:
 
 ```sh
+pip install virtualenv
 virtualenv venv
 ./venv/bin/activate
 ```
