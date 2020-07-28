@@ -103,8 +103,8 @@ jobs:
           name: Run deposit script on Windows"
           command: python ./test_deposit_script.py
   build-linux:
-    docker:
-      - image: circleci/python:3.7
+    machine:
+      image: ubuntu-1604:202007-01
     working_directory: ~/repo
     steps:
       - checkout
