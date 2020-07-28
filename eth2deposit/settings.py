@@ -5,7 +5,7 @@ class BaseChainSetting(NamedTuple):
     GENESIS_FORK_VERSION: bytes
 
 
-# Eth2 Mainet setting
+# Eth2 Mainnet setting
 MainnetSetting = BaseChainSetting(GENESIS_FORK_VERSION=bytes.fromhex('00000000'))
 # Eth2 spec v0.11.3 testnet
 WittiSetting = BaseChainSetting(GENESIS_FORK_VERSION=bytes.fromhex('00000113'))
