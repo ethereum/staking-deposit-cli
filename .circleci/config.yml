@@ -111,16 +111,17 @@ jobs:
       - run:
           name: Install building requirements on Linux
           command: |
-            ./configure --enable-shared --prefix=/opt/python LDFLAGS=-Wl,-rpath=/opt/python/lib;
-            python3 -m venv venv;
-            ./venv/bin/python -m pip install -r ./build_configs/linux/requirements.txt;
+            env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.7.5;
+            pyenv global 3.7.5;
+            pip install -r ./build_configs/linux/requirements.txt;
       - run:
           name: Build with build.spec
           command: |
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
             export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-linux-amd64;
             mkdir ${BUILD_FILE_NAME};
-            ./venv/bin/pyinstaller --distpath ./${BUILD_FILE_NAME} ./build_configs/linux/build.spec;
+            pyenv global 3.7.5;
+            pyinstaller --distpath ./${BUILD_FILE_NAME} ./build_configs/linux/build.spec;
       - run:
           name: Compress the file
           command: |
