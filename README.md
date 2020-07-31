@@ -356,20 +356,32 @@ docker build --tag eth2.0:medalla .
 docker run -d --name eth2.0-medalla eth2.0:medalla
 ```
 
-3. Inspect Docker logs
+5. Setup and save validator mnemonic keystore files
 
 ```bash
-docker logs eth2.0-medalla
+docker exec -it eth2.0-medalla ./deposit.sh --num_validators 1 --mnemonic_language=english --chain medalla
 ```
 
-4. Enter the Shell of the Docker container
+* Enter password to secure the validator keystore(s) and repeat for confirmation
+* Write down the keyphrase (mnenomic) that is shown since it is the only wait to retrieve the deposit
+* Enter your keyphrase (mnemonic)
+* Wait for it to create your keys, save the keystore, create your deposit.
+
+6. Copy your keys from the Docker container's folder (e.g. /app/eth2.0-deposit-cli/validator_keys) to your local machine
 
 ```bash
-docker exec -it eth2.0-medalla ./deposit.sh --num_validators 1 --chain medalla /bin/bash
+docker cp eth2.0-medalla:/app/eth2.0-deposit-cli/validator_keys ./
 ```
+
+* The deposit_data.json file contains your validators' public keys
+* The validator keystores should be available in the ./validator_keys/ directory in the current folder of your local machine
+
+7. Upload the files during the Eth2 Launch Pad for Medalla testnet process here https://medalla.launchpad.ethereum.org
 
 #### Troubleshooting:
 
 * View the Docker images: `docker images`
 * View the Docker containers: `docker ps -a`
 * Stop and remove the Docker container: `docker stop eth2.0-medalla && docker rm eth2.0-medalla`
+* Enter the Shell of the Docker container: `docker exec -it eth2.0-medalla /bin/bash`
+* Inspect Docker logs: `docker logs eth2.0-medalla`
