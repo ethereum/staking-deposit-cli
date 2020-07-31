@@ -378,6 +378,19 @@ docker cp eth2.0-medalla:/app/eth2.0-deposit-cli/validator_keys ./
 
 7. Upload the files during the Eth2 Launch Pad for Medalla testnet process here https://medalla.launchpad.ethereum.org
 
+8. Quickstart example using Prysm to running an Eth 2.0 Beacon chain node and Validator node
+
+* Create a symlink so its ready to import the validator keys without having to modify the Prysm scripts.
+
+```bash
+ln -s $(pwd)/validator_keys $HOME/eth2.0-deposit-cli/
+```
+
+* Run the Docker commands in the following Prysm steps:
+  * https://docs.prylabs.network/docs/install/install-with-docker#installing-the-beacon-chain-and-validator
+  * https://docs.prylabs.network/docs/testnet/medalla#step-4-import-your-validator-accounts-into-prysm
+  * https://docs.prylabs.network/docs/testnet/medalla#step-5-run-your-beacon-node-and-validator
+
 #### Troubleshooting:
 
 * View the Docker images: `docker images`
