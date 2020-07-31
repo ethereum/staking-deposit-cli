@@ -343,3 +343,33 @@ python3 -m pip install -r requirements_test.txt
 ```sh
 python3 -m pytest .
 ```
+----
+
+### For Docker users
+
+1. Install and run Docker
+
+2. Build Docker image and Docker container
+
+```bash
+docker build --tag eth2.0:medalla .
+docker run -d --name eth2.0-medalla eth2.0:medalla
+```
+
+3. Inspect Docker logs
+
+```bash
+docker logs eth2.0-medalla
+```
+
+4. Enter the Shell of the Docker container
+
+```bash
+docker exec -it eth2.0-medalla ./deposit.sh --num_validators 1 --chain medalla /bin/bash
+```
+
+#### Troubleshooting:
+
+* View the Docker images: `docker images`
+* View the Docker containers: `docker ps -a`
+* Stop and remove the Docker container: `docker stop eth2.0-medalla && docker rm eth2.0-medalla`
