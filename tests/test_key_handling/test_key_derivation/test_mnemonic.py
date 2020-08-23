@@ -8,6 +8,7 @@ from typing import (
 from eth2deposit.key_handling.key_derivation.mnemonic import (
     get_seed,
     get_mnemonic,
+    verify_mnemonic,
 )
 
 
@@ -30,3 +31,10 @@ def test_bip39(language: str, test: Sequence[str]) -> None:
 
     assert get_mnemonic(language=language, words_path=WORD_LISTS_PATH, entropy=test_entropy) == test_mnemonic
     assert get_seed(mnemonic=test_mnemonic, password='TREZOR') == test_seed
+
+@pytest.mark.parametrize(
+    'test_mnemonic,is_valid',
+    [(test_mnemonic[1], True) for _, language_test_vectors in test_vectors.items() for test_mnemonic in language_test_vectors]
+)
+def test_verify_mnemonic(test_mnemonic: str, is_valid: bool) -> None:
+    assert verify_mnemonic(test_mnemonic, WORD_LISTS_PATH) == is_valid
