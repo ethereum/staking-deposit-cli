@@ -20,7 +20,8 @@ def path_to_nodes(path: str) -> List[int]:
 
 def mnemonic_and_path_to_key(*, mnemonic: str, path: str, password: str) -> int:
     """
-    Return the SK at position `path`, secured with `password` derived from `mnemonic`.
+    Return the SK at position `path`, derived from `mnemonic`. The password is to be
+    compliant with BIP39 mnemonics that use passwords, but is not used by this CLI outside of tests.
     """
     seed = get_seed(mnemonic=mnemonic, password=password)
     sk = derive_master_SK(seed)
