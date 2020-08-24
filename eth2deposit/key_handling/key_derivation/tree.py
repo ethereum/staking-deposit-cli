@@ -59,7 +59,7 @@ def _HKDF_mod_r(*, IKM: bytes, key_info: bytes=b'') -> int:
 
 def derive_child_SK(*, parent_SK: int, index: int) -> int:
     """
-    Given a SK, `derive_child_SK` returns the child SK at the supplied `index`
+    Given a parent SK `parent_SK`, return the child SK at the supplied `index`.
 
     Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2333.md#derive_child_sk
     """

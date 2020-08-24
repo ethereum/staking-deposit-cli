@@ -75,7 +75,7 @@ class KeystoreCrypto(BytesDataclass):
 @dataclass
 class Keystore(BytesDataclass):
     """
-    Implements an EIP 2335-compliant keystore. A keystore is a JSON file that
+    Implement an EIP 2335-compliant keystore. A keystore is a JSON file that
     stores an encrypted version of a private key under a user-supplied password.
 
     Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2335.md

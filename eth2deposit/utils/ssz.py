@@ -43,7 +43,7 @@ def compute_deposit_domain(fork_version: bytes) -> bytes:
 
 def compute_deposit_fork_data_root(current_version: bytes) -> bytes:
     """
-    Returns the appropriate ForkData root for a given deposit version.
+    Return the appropriate ForkData root for a given deposit version.
     """
     genesis_validators_root = ZERO_BYTES32  # For deposit, it's fixed value
     assert len(current_version) == 4

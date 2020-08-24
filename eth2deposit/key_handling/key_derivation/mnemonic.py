@@ -39,7 +39,7 @@ def _get_word_list(language: str, path: str) -> Sequence[str]:
 
 def _get_word(*, word_list: Sequence[str], index: int) -> str:
     """
-    Returns the corresponding word for the supplied index while stripping out '\\n' chars.
+    Return the corresponding word for the supplied index while stripping out '\\n' chars.
     """
     assert index < 2048
     return word_list[index][:-1]

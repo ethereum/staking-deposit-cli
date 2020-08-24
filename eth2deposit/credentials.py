@@ -76,7 +76,7 @@ class Credential:
     @property
     def deposit_datum_dict(self) -> Dict[str, bytes]:
         """
-        Returns a single deposit datum for 1 validator including all
+        Return a single deposit datum for 1 validator including all
         the information needed to verify and process the deposit.
         """
         signed_deposit_datum = self.signed_deposit
