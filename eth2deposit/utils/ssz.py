@@ -42,6 +42,9 @@ def compute_deposit_domain(fork_version: bytes) -> bytes:
 
 
 def compute_deposit_fork_data_root(current_version: bytes) -> bytes:
+    """
+    Returns the appropriate ForkData root for a given deposit version.
+    """
     genesis_validators_root = ZERO_BYTES32  # For deposit, it's fixed value
     assert len(current_version) == 4
     return ForkData(
@@ -53,6 +56,8 @@ def compute_deposit_fork_data_root(current_version: bytes) -> bytes:
 def compute_signing_root(ssz_object: Serializable, domain: bytes) -> bytes:
     """
     Return the signing root of an object by calculating the root of the object-domain tree.
+    The root is the hash tree root of:
+    https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/beacon-chain.md#signingdata
     """
     assert len(domain) == 32
     domain_wrapped_object = SigningData(
@@ -63,6 +68,9 @@ def compute_signing_root(ssz_object: Serializable, domain: bytes) -> bytes:
 
 
 class DepositMessage(Serializable):
+    """
+    Ref: https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/beacon-chain.md#depositmessage
+    """
     fields = [
         ('pubkey', bytes48),
         ('withdrawal_credentials', bytes32),
@@ -71,6 +79,9 @@ class DepositMessage(Serializable):
 
 
 class DepositData(Serializable):
+    """
+    Ref: https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/beacon-chain.md#depositdata
+    """
     fields = [
         ('pubkey', bytes48),
         ('withdrawal_credentials', bytes32),

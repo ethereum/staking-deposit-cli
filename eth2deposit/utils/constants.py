@@ -3,7 +3,7 @@ import os
 
 ZERO_BYTES32 = b'\x00' * 32
 
-# Spec constants
+# Eth2-spec constants taken from https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/beacon-chain.md
 DOMAIN_DEPOSIT = bytes.fromhex('03000000')
 BLS_WITHDRAWAL_PREFIX = bytes.fromhex('00')
 

@@ -20,6 +20,9 @@ from eth2deposit.utils.constants import (
 
 
 def verify_deposit_data_json(filefolder: str) -> bool:
+    """
+    Validates every deposit found in the deposit-data json file.
+    """
     with open(filefolder, 'r') as f:
         deposit_json = json.load(f)
         return all([validate_deposit(deposit) for deposit in deposit_json])
