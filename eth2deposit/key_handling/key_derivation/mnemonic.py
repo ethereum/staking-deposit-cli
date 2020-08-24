@@ -72,14 +72,15 @@ def get_languages(path: str) -> Tuple[str, ...]:
 
 def determine_mnemonic_language(mnemonic: str, words_path:str) -> Sequence[str]:
     """
-    Given a `mnemonic` determine what language it is written in.
+    Given a `mnemonic` determine what language[s] it is written in.
+    There are collisions between word-lists, so multiple candidate languages are returned.
     """
     languages = get_languages(words_path)
     word_language_map = {word: lang  for lang in languages for word in _get_word_list(lang, words_path)}
     try:
         mnemonic_list = mnemonic.split(' ')
         word_languages = [word_language_map[word] for word in mnemonic_list]
-        return set(word_languages)
+        return list(set(word_languages))
     except KeyError:
         raise ValueError('Word not found in mnemonic word lists for any language.')
 
@@ -95,6 +96,7 @@ def _get_checksum(entropy: bytes) -> int:
 
 
 def verify_mnemonic(mnemonic: str, words_path: str) -> bool:
+    "Given a mnemonic, verify it against its own checksum."
     languages = determine_mnemonic_language(mnemonic, words_path)
     for language in languages:
         try:

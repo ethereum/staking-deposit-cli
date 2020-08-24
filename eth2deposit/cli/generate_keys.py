@@ -22,24 +22,6 @@ from eth2deposit.settings import (
     get_setting,
 )
 
-languages = get_languages(WORD_LISTS_PATH)
-
-
-def generate_mnemonic(language: str, words_path: str) -> str:
-    mnemonic = get_mnemonic(language=language, words_path=words_path)
-    test_mnemonic = ''
-    while mnemonic != test_mnemonic:
-        click.clear()
-        click.echo('This is your seed phrase. Write it down and store it safely, it is the ONLY way to retrieve your deposit.')  # noqa: E501
-        click.echo('\n\n%s\n\n' % mnemonic)
-        click.pause('Press any key when you have written down your mnemonic.')
-
-        click.clear()
-        test_mnemonic = click.prompt('Please type your mnemonic (separated by spaces) to confirm you have written it down\n\n')  # noqa: E501
-        test_mnemonic = test_mnemonic.lower()
-    click.clear()
-    return mnemonic
-
 
 def check_python_version() -> None:
     '''
@@ -67,8 +49,8 @@ def check_python_version() -> None:
     type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
     default=MAINNET,
 )
-@click.password_option(prompt='Type the password that secures your validator keystore(s)')
-def main(num_validators: int, mnemonic_language: str, folder: str, chain: str, password: str) -> None:
+@click.password_option('--keystore_password', prompt='Type the password that secures your validator keystore(s)')
+def main(mnemonic: str, mnemonic_password: str, num_validators: int, chain: str, keystore_password: str) -> None:
     check_python_version()
     mnemonic = generate_mnemonic(mnemonic_language, WORD_LISTS_PATH)
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
@@ -95,7 +77,3 @@ def main(num_validators: int, mnemonic_language: str, folder: str, chain: str, p
     assert verify_deposit_data_json(deposits_file)
     click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)
     click.pause('\n\nPress any key.')
-
-
-if __name__ == '__main__':
-    main()
