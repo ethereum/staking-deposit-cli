@@ -9,7 +9,7 @@ from .tree import (
 
 def path_to_nodes(path: str) -> List[int]:
     """
-    Returns a list of the child index at every level in `path`.
+    Maps from a path string to a list of indices where each index represents the corresponding level in the path.
     """
     path = path.replace(' ', '')
     assert set(path).issubset(set('m1234567890/'))
@@ -20,7 +20,8 @@ def path_to_nodes(path: str) -> List[int]:
 
 def mnemonic_and_path_to_key(*, mnemonic: str, path: str, password: str) -> int:
     """
-    Returns the SK at position `path` secures with `password` derived from `mnemonic`.
+    Return the SK at position `path`, derived from `mnemonic`. The password is to be
+    compliant with BIP39 mnemonics that use passwords, but is not used by this CLI outside of tests.
     """
     seed = get_seed(mnemonic=mnemonic, password=password)
     sk = derive_master_SK(seed)

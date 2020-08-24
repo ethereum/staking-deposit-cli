@@ -22,6 +22,10 @@ from eth2deposit.utils.ssz import (
 
 
 class Credential:
+    """
+    A Credential object contains all of the information for a single validator and the corresponding functionality.
+    Once created, it is the only object that should be required to perform any processing for a validator.
+    """
     def __init__(self, *, mnemonic: str, index: int, amount: int, fork_version: bytes):
         # Set path as EIP-2334 format
         # https://eips.ethereum.org/EIPS/eip-2334
@@ -71,6 +75,10 @@ class Credential:
 
     @property
     def deposit_datum_dict(self) -> Dict[str, bytes]:
+        """
+        Return a single deposit datum for 1 validator including all
+        the information needed to verify and process the deposit.
+        """
         signed_deposit_datum = self.signed_deposit
         datum_dict = signed_deposit_datum.as_dict()
         datum_dict.update({'deposit_message_root': self.deposit_message.hash_tree_root})
@@ -95,6 +103,9 @@ class Credential:
 
 
 class CredentialList:
+    """
+    A collection of multiple Credentials, one for each validator.
+    """
     def __init__(self, credentials: List[Credential]):
         self.credentials = credentials
 

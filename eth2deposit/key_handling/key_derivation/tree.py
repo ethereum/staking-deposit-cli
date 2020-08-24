@@ -16,6 +16,8 @@ def _flip_bits_256(input: int) -> int:
 def _IKM_to_lamport_SK(*, IKM: bytes, salt: bytes) -> List[bytes]:
     """
     Derives the lamport SK for a given `IKM` and `salt`.
+
+    Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2333.md#ikm_to_lamport_sk
     """
     OKM = HKDF(salt=salt, IKM=IKM, L=8160)
     lamport_SK = [OKM[i: i + 32] for i in range(0, 8160, 32)]
@@ -25,6 +27,8 @@ def _IKM_to_lamport_SK(*, IKM: bytes, salt: bytes) -> List[bytes]:
 def _parent_SK_to_lamport_PK(*, parent_SK: int, index: int) -> bytes:
     """
     Derives the `index`th child's lamport PK from the `parent_SK`.
+
+    Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2333.md#parent_sk_to_lamport_pk
     """
     salt = index.to_bytes(4, byteorder='big')
     IKM = parent_SK.to_bytes(32, byteorder='big')
@@ -38,6 +42,11 @@ def _parent_SK_to_lamport_PK(*, parent_SK: int, index: int) -> bytes:
 
 
 def _HKDF_mod_r(*, IKM: bytes, key_info: bytes=b'') -> int:
+    """
+    Hashes the IKM using HKDF and returns the answer as an int modulo r, the BLS field order.
+
+    Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2333.md#hkdf_mod_r
+    """
     L = 48  # `ceil((3 * ceil(log2(r))) / 16)`, where `r` is the order of the BLS 12-381 curve
     okm = HKDF(
         salt=b'BLS-SIG-KEYGEN-SALT-',
@@ -49,11 +58,21 @@ def _HKDF_mod_r(*, IKM: bytes, key_info: bytes=b'') -> int:
 
 
 def derive_child_SK(*, parent_SK: int, index: int) -> int:
+    """
+    Given a parent SK `parent_SK`, return the child SK at the supplied `index`.
+
+    Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2333.md#derive_child_sk
+    """
     assert(index >= 0 and index < 2**32)
     lamport_PK = _parent_SK_to_lamport_PK(parent_SK=parent_SK, index=index)
     return _HKDF_mod_r(IKM=lamport_PK)
 
 
 def derive_master_SK(seed: bytes) -> int:
+    """
+    Given a seed, derive the master SK.
+
+    Ref: hhttps://github.com/ethereum/EIPs/blob/master/EIPS/eip-2333.md#derive_master_sk
+    """
     assert(len(seed) >= 32)
     return _HKDF_mod_r(IKM=seed)

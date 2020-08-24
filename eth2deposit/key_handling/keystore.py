@@ -25,6 +25,9 @@ hexdigits = set('0123456789abcdef')
 
 
 def encode_bytes(obj: Union[str, Dict[str, Any]]) -> Union[bytes, str, Dict[str, Any]]:
+    """
+    Recursively encodes objects that contain hexstrings into objects that contain bytes.
+    """
     if isinstance(obj, str) and all(c in hexdigits for c in obj):
         return bytes.fromhex(obj)
     elif isinstance(obj, dict):
@@ -34,6 +37,10 @@ def encode_bytes(obj: Union[str, Dict[str, Any]]) -> Union[bytes, str, Dict[str,
 
 
 class BytesDataclass:
+    """
+    BytesDataClasses are DataClass objects that automatically encode hexstrings into bytes,
+    and have an `as_json` function that encodes bytes back into hexstrings.
+    """
     def __post_init__(self) -> None:
         for field in fields(self):
             if field.type in (bytes, Dict[str, Any]):
@@ -67,6 +74,12 @@ class KeystoreCrypto(BytesDataclass):
 
 @dataclass
 class Keystore(BytesDataclass):
+    """
+    Implement an EIP 2335-compliant keystore. A keystore is a JSON file that
+    stores an encrypted version of a private key under a user-supplied password.
+
+    Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2335.md
+    """
     crypto: KeystoreCrypto = KeystoreCrypto()
     description: str = ''
     pubkey: str = ''
@@ -78,13 +91,11 @@ class Keystore(BytesDataclass):
         return scrypt(**kwargs) if 'scrypt' in self.crypto.kdf.function else PBKDF2(**kwargs)
 
     def save(self, file: str) -> None:
+        """
+        Save self as a JSON keystore.
+        """
         with open(file, 'w') as f:
             f.write(self.as_json())
-
-    @classmethod
-    def open(cls, file: str) -> 'Keystore':
-        with open(file, 'r') as f:
-            return cls.from_json(f.read())
 
     @classmethod
     def from_json(cls, path: str) -> 'Keystore':
@@ -100,6 +111,10 @@ class Keystore(BytesDataclass):
 
     @staticmethod
     def _process_password(password: str) -> bytes:
+        """
+        Encode password as NFKD UTF-8 as per:
+        https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2335.md#password-requirements
+        """
         password = normalize('NFKD', password)
         password = ''.join(c for c in password if ord(c) not in UNICODE_CONTROL_CHARS)
         return password.encode('UTF-8')
@@ -108,6 +123,9 @@ class Keystore(BytesDataclass):
     def encrypt(cls, *, secret: bytes, password: str, path: str='',
                 kdf_salt: bytes=randbits(256).to_bytes(32, 'big'),
                 aes_iv: bytes=randbits(128).to_bytes(16, 'big')) -> 'Keystore':
+        """
+        Encrypt a secret (BLS SK) as an EIP 2335 Keystore.
+        """
         keystore = cls()
         keystore.uuid = str(uuid4())
         keystore.crypto.kdf.params['salt'] = kdf_salt
@@ -124,6 +142,9 @@ class Keystore(BytesDataclass):
         return keystore
 
     def decrypt(self, password: str) -> bytes:
+        """
+        Retrieve the secret (BLS SK) from the self keystore by decrypting it with `password`
+        """
         decryption_key = self.kdf(
             password=self._process_password(password),
             **self.crypto.kdf.params
