@@ -171,14 +171,14 @@ For the [virtualenv](https://virtualenv.pypa.io/en/latest/) users, you can creat
 ```sh
 pip3 install virtualenv
 virtualenv venv
-./venv/bin/activate
+source venv/bin/activate
 ```
 
 and install the dependencies:
 
 ```sh
-python setup.py install
-pip install -r requirements.txt
+python3 setup.py install
+pip3 install -r requirements.txt
 ```
 
 ##### Step 2. Create keys and `deposit_data-*.json`
@@ -186,13 +186,13 @@ pip install -r requirements.txt
 Run the following command to enter the interactive CLI:
 
 ```sh
-python ./eth2deposit/deposit.py
+python3 ./eth2deposit/deposit.py
 ```
 
 You can also run the tool with optional arguments:
 
 ```sh
-python ./eth2deposit/deposit.py --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+python3 ./eth2deposit/deposit.py --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
 ###### Arguments
@@ -235,7 +235,7 @@ See [here](#successful-message)
 
 ##### Step 0. Python version checking
 
-Ensure you are using Python version >= Python3.7:
+Ensure you are using Python version >= Python3.7 (Assume that you've installed Python 3 as the main Python):
 
 ```sh
 python -V
@@ -246,7 +246,7 @@ python -V
 Install the dependencies:
 
 ```sh
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 python setup.py install
 ```
 
@@ -280,7 +280,7 @@ See [here](#successful-message)
 
 ##### Step 0. Python version checking
 
-Ensure you are using Python version >= Python3.7:
+Ensure you are using Python version >= Python3.7 (Assume that you've installed Python 3 as the main Python):
 
 ```sh
 python -V
@@ -291,16 +291,16 @@ python -V
 For the [virtualenv](https://virtualenv.pypa.io/en/latest/) users, you can create a new venv:
 
 ```sh
-pip install virtualenv
+pip3 install virtualenv
 virtualenv venv
-./venv/bin/activate
+.\venv\Scripts\activate
 ```
 
 and install the dependencies:
 
 ```sh
 python setup.py install
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ##### Step 2. Create keys and `deposit_data-*.json`
@@ -308,13 +308,13 @@ pip install -r requirements.txt
 Run the following command to enter the interactive CLI:
 
 ```sh
-python ./eth2deposit/deposit.py
+python .\eth2deposit\deposit.py
 ```
 
 You can also run the tool with optional arguments:
 
 ```sh
-python ./eth2deposit/deposit.py --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+python .\eth2deposit\deposit.py --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
 ###### Arguments
