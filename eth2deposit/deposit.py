@@ -59,10 +59,22 @@ def check_python_version() -> None:
     type=int,
 )
 @click.option(
+    '--start_index',
+    prompt='Please choose the starting key index (defaults to \'0\').',
+    type=int,
+    default=0,
+)
+@click.option(
     '--mnemonic_language',
     prompt='Please choose your mnemonic language',
     type=click.Choice(languages, case_sensitive=False),
     default='english',
+)
+@click.option(
+    '--seed_phrase',
+    prompt='Please input your seed phrase (leave empty to create a new one).',
+    type=str,
+    default='',
 )
 @click.option(
     '--folder',
@@ -76,9 +88,11 @@ def check_python_version() -> None:
     default=MAINNET,
 )
 @click.password_option(prompt='Type the password that secures your validator keystore(s)')
-def main(num_validators: int, mnemonic_language: str, folder: str, chain: str, password: str) -> None:
+def main(num_validators: int, start_index: int, mnemonic_language: str, seed_phrase: str, folder: str, chain: str, password: str) -> None:
     check_python_version()
-    mnemonic = generate_mnemonic(mnemonic_language, WORD_LISTS_PATH)
+    mnemonic = seed_phrase
+    if not mnemonic:
+        mnemonic = generate_mnemonic(mnemonic_language, WORD_LISTS_PATH)
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     setting = get_setting(chain)
@@ -92,6 +106,7 @@ def main(num_validators: int, mnemonic_language: str, folder: str, chain: str, p
         num_keys=num_validators,
         amounts=amounts,
         fork_version=setting.GENESIS_FORK_VERSION,
+        start_index=start_index,
     )
     click.echo('Saving your keystore(s).')
     keystore_filefolders = credentials.export_keystores(password=password, folder=folder)
