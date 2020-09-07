@@ -49,6 +49,16 @@ def check_python_version() -> None:
         click.pause('Your python version is insufficient, please install version 3.7 or greater.')
         sys.exit()
 
+    
+def check_term_encoding() -> None:
+    '''
+    Checks that the python version running is sufficient and exits if not.
+    '''
+    encoding = sys.stdin.encoding
+    if encoding != 'utf-8':
+        click.pause('Your terminal is using %s encoding which can present problems with passwords. Please use "utf-8".' % encoding)  # noqa: E501
+        sys.exit()
+
 
 @click.command()
 @click.option(
@@ -77,6 +87,7 @@ def check_python_version() -> None:
 @click.password_option(prompt='Type the password that secures your validator keystore(s)')
 def main(num_validators: int, mnemonic_language: str, folder: str, chain: str, password: str) -> None:
     check_python_version()
+    check_term_encoding()
     mnemonic = generate_mnemonic(mnemonic_language, WORD_LISTS_PATH)
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
