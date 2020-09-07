@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ "$OSTYPE" == "linux-gnu"* ]] || [[ "$OSTYPE" == "darwin"* ]]; then
+if [[ "$OSTYPE" == "linux-gnu"* ]] || [[ "$OSTYPE" == "linux-android"* ]] || [[ "$OSTYPE" == "darwin"* ]]; then
     echo $OSTYPE
     if [[ $1 == "install" ]]; then
         echo "Installing dependencies..."
