@@ -49,13 +49,13 @@ def check_python_version() -> None:
         click.pause('Your python version is insufficient, please install version 3.7 or greater.')
         sys.exit()
 
-    
+
 def check_term_encoding() -> None:
     '''
     Checks that the python version running is sufficient and exits if not.
     '''
     encoding = sys.stdin.encoding
-    if encoding != 'utf-8':
+    if encoding not in ('utf-8', 'UTF-8'):
         click.pause('Your terminal is using %s encoding which can present problems with passwords. Please use "utf-8".' % encoding)  # noqa: E501
         sys.exit()
 
