@@ -117,7 +117,10 @@ class CredentialList:
                       amounts: List[int],
                       fork_version: bytes,
                       start_index: int=0) -> 'CredentialList':
-        assert len(amounts) == num_keys
+        if len(amounts) != num_keys:
+            raise ValueError(
+                f"The number of keys ({num_keys}) doesn't equal to the corresponding deposit amounts ({len(amounts)})."
+            )
         key_indices = range(start_index, start_index + num_keys)
         return cls([Credential(mnemonic=mnemonic, index=index, amount=amounts[index], fork_version=fork_version)
                     for index in key_indices])

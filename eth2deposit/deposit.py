@@ -5,6 +5,7 @@ import click
 from eth2deposit.credentials import (
     CredentialList,
 )
+from eth2deposit.exceptions import ValidationError
 from eth2deposit.key_handling.key_derivation.mnemonic import (
     get_languages,
     get_mnemonic,
@@ -96,10 +97,15 @@ def main(num_validators: int, mnemonic_language: str, folder: str, chain: str, p
     keystore_filefolders = credentials.export_keystores(password=password, folder=folder)
     click.echo('Creating your deposit(s).')
     deposits_file = credentials.export_deposit_data_json(folder=folder)
+
     click.echo('Verifying your keystore(s).')
-    assert credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=password)
+    if not credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=password):
+        raise ValidationError("Failed to verify the keystores.")
+
     click.echo('Verifying your deposit(s).')
-    assert verify_deposit_data_json(deposits_file)
+    if not verify_deposit_data_json(deposits_file):
+        raise ValidationError("Failed to verify the deposit data JSON files.")
+
     click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)
     click.pause('\n\nPress any key.')
 
