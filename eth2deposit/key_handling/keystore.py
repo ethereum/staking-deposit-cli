@@ -149,7 +149,9 @@ class Keystore(BytesDataclass):
             password=self._process_password(password),
             **self.crypto.kdf.params
         )
-        assert SHA256(decryption_key[16:32] + self.crypto.cipher.message) == self.crypto.checksum.message
+        if SHA256(decryption_key[16:32] + self.crypto.cipher.message) != self.crypto.checksum.message:
+            raise ValueError("Checksum message error")
+
         cipher = AES_128_CTR(key=decryption_key[:16], **self.crypto.cipher.params)
         return cipher.decrypt(self.crypto.cipher.message)
 

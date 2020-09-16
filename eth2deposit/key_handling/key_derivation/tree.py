@@ -63,7 +63,8 @@ def derive_child_SK(*, parent_SK: int, index: int) -> int:
 
     Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2333.md#derive_child_sk
     """
-    assert(index >= 0 and index < 2**32)
+    if index < 0 or index >= 2**32:
+        raise IndexError(f"`index` should be greater than or equal to  0 and less than 2**32. Got index={index}.")
     lamport_PK = _parent_SK_to_lamport_PK(parent_SK=parent_SK, index=index)
     return _HKDF_mod_r(IKM=lamport_PK)
 
@@ -72,7 +73,8 @@ def derive_master_SK(seed: bytes) -> int:
     """
     Given a seed, derive the master SK.
 
-    Ref: hhttps://github.com/ethereum/EIPs/blob/master/EIPS/eip-2333.md#derive_master_sk
+    Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2333.md#derive_master_sk
     """
-    assert(len(seed) >= 32)
+    if len(seed) < 32:
+        raise ValueError(f"`len(seed)` should be greater than or equal to 32. Got {len(seed)}.")
     return _HKDF_mod_r(IKM=seed)

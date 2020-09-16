@@ -35,7 +35,8 @@ def compute_deposit_domain(fork_version: bytes) -> bytes:
     """
     Deposit-only `compute_domain`
     """
-    assert len(fork_version) == 4
+    if len(fork_version) != 4:
+        raise ValueError(f"Fork version should be in 4 bytes. Got {len(fork_version)}.")
     domain_type = DOMAIN_DEPOSIT
     fork_data_root = compute_deposit_fork_data_root(fork_version)
     return domain_type + fork_data_root[:28]
@@ -46,7 +47,8 @@ def compute_deposit_fork_data_root(current_version: bytes) -> bytes:
     Return the appropriate ForkData root for a given deposit version.
     """
     genesis_validators_root = ZERO_BYTES32  # For deposit, it's fixed value
-    assert len(current_version) == 4
+    if len(current_version) != 4:
+        raise ValueError(f"Fork version should be in 4 bytes. Got {len(current_version)}.")
     return ForkData(
         current_version=current_version,
         genesis_validators_root=genesis_validators_root,
@@ -59,7 +61,8 @@ def compute_signing_root(ssz_object: Serializable, domain: bytes) -> bytes:
     The root is the hash tree root of:
     https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/beacon-chain.md#signingdata
     """
-    assert len(domain) == 32
+    if len(domain) != 32:
+        raise ValueError(f"Domain should be in 32 bytes. Got {len(domain)}.")
     domain_wrapped_object = SigningData(
         object_root=ssz_object.hash_tree_root,
         domain=domain,
