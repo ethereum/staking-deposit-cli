@@ -4,6 +4,7 @@ import json
 from typing import Dict, List
 from py_ecc.bls import G2ProofOfPossession as bls
 
+from eth2deposit.exceptions import ValidationError
 from eth2deposit.key_handling.key_derivation.path import mnemonic_and_path_to_key
 from eth2deposit.key_handling.keystore import (
     Keystore,
@@ -11,6 +12,8 @@ from eth2deposit.key_handling.keystore import (
 )
 from eth2deposit.utils.constants import (
     BLS_WITHDRAWAL_PREFIX,
+    ETH2GWEI,
+    MAX_DEPOSIT_AMOUNT,
 )
 from eth2deposit.utils.crypto import SHA256
 from eth2deposit.utils.ssz import (
@@ -57,6 +60,8 @@ class Credential:
 
     @property
     def deposit_message(self) -> DepositMessage:
+        if self.amount > MAX_DEPOSIT_AMOUNT:
+            raise ValidationError(f"{self.amount / ETH2GWEI} ETH is more than the maximum allowed deposit.")
         return DepositMessage(
             pubkey=self.signing_pk,
             withdrawal_credentials=self.withdrawal_credentials,
