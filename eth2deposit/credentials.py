@@ -14,6 +14,7 @@ from eth2deposit.utils.constants import (
     BLS_WITHDRAWAL_PREFIX,
     ETH2GWEI,
     MAX_DEPOSIT_AMOUNT,
+    MIN_DEPOSIT_AMOUNT,
 )
 from eth2deposit.utils.crypto import SHA256
 from eth2deposit.utils.ssz import (
@@ -60,8 +61,8 @@ class Credential:
 
     @property
     def deposit_message(self) -> DepositMessage:
-        if self.amount > MAX_DEPOSIT_AMOUNT:
-            raise ValidationError(f"{self.amount / ETH2GWEI} ETH is more than the maximum allowed deposit.")
+        if MIN_DEPOSIT_AMOUNT > self.amount > MAX_DEPOSIT_AMOUNT:
+            raise ValidationError(f"{self.amount / ETH2GWEI} ETH is not within the bounds of the deposit-cli.")
         return DepositMessage(
             pubkey=self.signing_pk,
             withdrawal_credentials=self.withdrawal_credentials,
