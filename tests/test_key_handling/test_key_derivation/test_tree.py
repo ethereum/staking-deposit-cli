@@ -16,6 +16,7 @@ test_vector_filefolder = os.path.join(os.getcwd(), 'tests', 'test_key_handling',
 with open(test_vector_filefolder, 'r') as f:
     test_vectors = json.load(f)['kdf_tests']
 
+
 @pytest.mark.skip(reason="py_ecc doesn't support BLS v4 yet")
 @pytest.mark.parametrize(
     'test',
