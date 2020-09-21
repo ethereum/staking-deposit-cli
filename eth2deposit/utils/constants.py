@@ -7,8 +7,9 @@ ZERO_BYTES32 = b'\x00' * 32
 DOMAIN_DEPOSIT = bytes.fromhex('03000000')
 BLS_WITHDRAWAL_PREFIX = bytes.fromhex('00')
 
-MIN_DEPOSIT_AMOUNT = 2 ** 0 * 10 ** 9
-MAX_DEPOSIT_AMOUNT = 2 ** 5 * 10 ** 9
+ETH2GWEI = 10 ** 9
+MIN_DEPOSIT_AMOUNT = 2 ** 0 * ETH2GWEI
+MAX_DEPOSIT_AMOUNT = 2 ** 5 * ETH2GWEI
 
 
 # File/folder constants
