@@ -17,6 +17,7 @@ from eth2deposit.utils.constants import (
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )
 from eth2deposit.utils.ascii_art import RHINO_0
+from eth2deposit.utils.validation import validate_password_strength
 from eth2deposit.settings import (
     ALL_CHAINS,
     MAINNET,
@@ -51,6 +52,29 @@ def check_python_version() -> None:
         sys.exit()
 
 
+def get_password() -> str:
+    click.clear()
+    is_valid_password = False
+    while not is_valid_password:
+        click.echo("Type the password that secures your validator keystore(s)")
+        password = click.prompt('', hide_input=True, show_default=False, type=str, prompt_suffix="")
+        try:
+            validate_password_strength(password)
+        except ValidationError as e:
+            click.echo(f'Error: {e} Please retype again.')
+        else:
+            # Confirm password
+            click.echo("Repeat for confirmation")
+            password_confirmation = click.prompt("",
+                                                 hide_input=True, show_default=False, type=str, prompt_suffix="")
+            if password == password_confirmation:
+                is_valid_password = True
+            else:
+                click.echo('Error: the two entered values do not match. Please retype again.')
+
+    return password
+
+
 @click.command()
 @click.option(
     '--num_validators',
@@ -75,9 +99,10 @@ def check_python_version() -> None:
     type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
     default=MAINNET,
 )
-@click.password_option(prompt='Type the password that secures your validator keystore(s)')
-def main(num_validators: int, mnemonic_language: str, folder: str, chain: str, password: str) -> None:
+# @click.password_option(prompt='Type the password that secures your validator keystore(s)')
+def main(num_validators: int, mnemonic_language: str, folder: str, chain: str) -> None:
     check_python_version()
+    password = get_password()
     mnemonic = generate_mnemonic(mnemonic_language, WORD_LISTS_PATH)
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)

@@ -28,7 +28,6 @@ async def main():
         '--num_validators', '1',
         '--mnemonic_language', 'english',
         '--chain', 'mainnet',
-        '--password', 'MyPassword',
         '--folder', my_folder_path,
     ]
     print('[INFO] Creating subprocess 2: deposit-cli')
@@ -39,19 +38,23 @@ async def main():
         stderr=asyncio.subprocess.PIPE,
     )
     seed_phrase = ''
-    parsing = False
+    parsing_mnemonic = False
+    stub_password = '12345678'
     async for out in proc.stdout:
         output = out.decode('utf-8').rstrip()
-        if output.startswith("This is your seed phrase."):
-            parsing = True
+        if output.startswith("Type the password") or output.startswith("Repeat for confirmation"):
+            proc.stdin.write(stub_password.encode())
+            proc.stdin.write(b'\n')
+        elif output.startswith("This is your seed phrase."):
+            parsing_mnemonic = True
         elif output.startswith("Please type your mnemonic"):
-            parsing = False
-        elif parsing:
-            seed_phrase += output
+            parsing_mnemonic = False
             if len(seed_phrase) > 0:
                 encoded_phrase = seed_phrase.encode()
                 proc.stdin.write(encoded_phrase)
                 proc.stdin.write(b'\n')
+        elif parsing_mnemonic:
+            seed_phrase += output
         print(output)
 
     async for out in proc.stderr:
