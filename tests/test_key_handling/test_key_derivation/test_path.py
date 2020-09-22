@@ -11,6 +11,7 @@ from eth2deposit.key_handling.key_derivation.tree import (
 
 from eth2deposit.key_handling.key_derivation.path import (
     mnemonic_and_path_to_key,
+    path_to_nodes,
 )
 
 test_vector_filefolder = os.path.join(os.getcwd(), 'tests', 'test_key_handling', 'test_key_derivation',
@@ -76,3 +77,19 @@ def test_mnemonic_and_path_to_key(test_vector) -> None:
     path = test_vector['path']
     key = test_vector['child_SK']
     assert mnemonic_and_path_to_key(mnemonic=mnemonic, path=path, password=password) == key
+
+
+@pytest.mark.parametrize(
+    'path, valid',
+    [
+        ("m/12381/3600/0/0/0", True),
+        ("x/12381/3600/0/0/0", False),
+        ("m/qwert/3600/0/0/0", False),
+    ]
+)
+def test_path_to_nodes(path, valid):
+    if valid:
+        path_to_nodes(path)
+    else:
+        with pytest.raises(ValueError):
+            path_to_nodes(path)
