@@ -13,16 +13,21 @@ WittiSetting = BaseChainSetting(GENESIS_FORK_VERSION=bytes.fromhex('00000113'))
 AltonaSetting = BaseChainSetting(GENESIS_FORK_VERSION=bytes.fromhex('00000121'))
 # Eth2 "official" public testnet (spec v0.12.2)
 MedallaSetting = BaseChainSetting(GENESIS_FORK_VERSION=bytes.fromhex('00000001'))
+# Eth2 "dress rehearsal_" testnet (spec v0.12.3)
+SpadinaSetting = BaseChainSetting(GENESIS_FORK_VERSION=bytes.fromhex('00000002'))
+
 
 MAINNET = 'mainnet'
 WITTI = 'witti'
 ALTONA = 'altona'
 MEDALLA = 'medalla'
+SPADINA = 'spadina'
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
     MAINNET: MainnetSetting,
     WITTI: WittiSetting,
     ALTONA: AltonaSetting,
     MEDALLA: MedallaSetting,
+    SPADINA: SpadinaSetting,
 }
 
 
