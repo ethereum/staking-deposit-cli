@@ -4,6 +4,7 @@ import json
 from typing import Dict, List
 from py_ecc.bls import G2ProofOfPossession as bls
 
+from eth2deposit.exceptions import ValidationError
 from eth2deposit.key_handling.key_derivation.path import mnemonic_and_path_to_key
 from eth2deposit.key_handling.keystore import (
     Keystore,
@@ -11,6 +12,9 @@ from eth2deposit.key_handling.keystore import (
 )
 from eth2deposit.utils.constants import (
     BLS_WITHDRAWAL_PREFIX,
+    ETH2GWEI,
+    MAX_DEPOSIT_AMOUNT,
+    MIN_DEPOSIT_AMOUNT,
 )
 from eth2deposit.utils.crypto import SHA256
 from eth2deposit.utils.ssz import (
@@ -57,6 +61,8 @@ class Credential:
 
     @property
     def deposit_message(self) -> DepositMessage:
+        if not MIN_DEPOSIT_AMOUNT <= self.amount <= MAX_DEPOSIT_AMOUNT:
+            raise ValidationError(f"{self.amount / ETH2GWEI} ETH deposits are not within the bounds of this cli.")
         return DepositMessage(
             pubkey=self.signing_pk,
             withdrawal_credentials=self.withdrawal_credentials,
@@ -117,7 +123,10 @@ class CredentialList:
                       amounts: List[int],
                       fork_version: bytes,
                       start_index: int=0) -> 'CredentialList':
-        assert len(amounts) == num_keys
+        if len(amounts) != num_keys:
+            raise ValueError(
+                f"The number of keys ({num_keys}) doesn't equal to the corresponding deposit amounts ({len(amounts)})."
+            )
         key_indices = range(start_index, start_index + num_keys)
         return cls([Credential(mnemonic=mnemonic, index=index, amount=amounts[index], fork_version=fork_version)
                     for index in key_indices])

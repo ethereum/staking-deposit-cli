@@ -19,13 +19,16 @@ def SHA256(x: bytes) -> bytes:
 
 
 def scrypt(*, password: str, salt: str, n: int, r: int, p: int, dklen: int) -> bytes:
-    assert(n < 2**(128 * r / 8))
+    if n >= 2**(128 * r / 8):
+        raise ValueError("The given `n` should be less than `2**(128 * r / 8)`."
+                         f"\tGot `n={n}`, r={r}, 2**(128 * r / 8)={2**(128 * r / 8)}")
     res = _scrypt(password=password, salt=salt, key_len=dklen, N=n, r=r, p=p)
     return res if isinstance(res, bytes) else res[0]  # PyCryptodome can return Tuple[bytes]
 
 
 def PBKDF2(*, password: bytes, salt: bytes, dklen: int, c: int, prf: str) -> bytes:
-    assert('sha' in prf)
+    if 'sha' not in prf:
+        raise ValueError(f"String 'sha' is not in `prf`({prf})")
     _hash = _sha256 if 'sha256' in prf else _sha512
     res = _PBKDF2(password=password, salt=salt, dkLen=dklen, count=c, hmac_hash_module=_hash)  # type: ignore
     return res if isinstance(res, bytes) else res[0]  # PyCryptodome can return Tuple[bytes]
@@ -37,5 +40,6 @@ def HKDF(*, salt: bytes, IKM: bytes, L: int, info: bytes=b'') -> bytes:
 
 
 def AES_128_CTR(*, key: bytes, iv: bytes) -> Any:
-    assert len(key) == 16
+    if len(key) != 16:
+        raise ValueError(f"The key length should be 16. Got {len(key)}.")
     return _AES.new(key=key, mode=_AES.MODE_CTR, initial_value=iv, nonce=b'')

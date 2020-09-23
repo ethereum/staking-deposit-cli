@@ -41,7 +41,8 @@ def _get_word(*, word_list: Sequence[str], index: int) -> str:
     """
     Return the corresponding word for the supplied index while stripping out '\\n' chars.
     """
-    assert index < 2048
+    if index >= 2048:
+        raise IndexError(f"`index` should be less than 2048. Got {index}.")
     return word_list[index][:-1]
 
 
@@ -76,7 +77,8 @@ def get_mnemonic(*, language: str, words_path: str, entropy: Optional[bytes]=Non
     if entropy is None:
         entropy = randbits(256).to_bytes(32, 'big')
     entropy_length = len(entropy) * 8
-    assert entropy_length in range(128, 257, 32)
+    if entropy_length not in range(128, 257, 32):
+        raise IndexError(f"`entropy_length` should be in [128, 160, 192,224, 256]. Got {entropy_length}.")
     checksum_length = (entropy_length // 32)
     checksum = int.from_bytes(SHA256(entropy), 'big') >> 256 - checksum_length
     entropy_bits = int.from_bytes(entropy, 'big') << checksum_length

@@ -12,9 +12,15 @@ def path_to_nodes(path: str) -> List[int]:
     Maps from a path string to a list of indices where each index represents the corresponding level in the path.
     """
     path = path.replace(' ', '')
-    assert set(path).issubset(set('m1234567890/'))
+    if not set(path).issubset(set('m1234567890/')):
+        raise ValueError(f"Invalid path {path}")
+
     indices = path.split('/')
-    assert indices.pop(0) == 'm'
+
+    if indices[0] != 'm':
+        raise ValueError(f"The first character of path should be `m`. Got {indices[0]}.")
+    indices.pop(0)
+
     return [int(index) for index in indices]
 
 

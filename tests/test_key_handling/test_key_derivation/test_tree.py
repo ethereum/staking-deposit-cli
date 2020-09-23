@@ -17,6 +17,7 @@ with open(test_vector_filefolder, 'r') as f:
     test_vectors = json.load(f)['kdf_tests']
 
 
+@pytest.mark.skip(reason="py_ecc doesn't support BLS v4 yet")
 @pytest.mark.parametrize(
     'test',
     test_vectors
@@ -26,6 +27,7 @@ def test_hkdf_mod_r(test) -> None:
     assert bls.KeyGen(seed) == _HKDF_mod_r(IKM=seed)
 
 
+@pytest.mark.skip(reason="py_ecc doesn't support BLS v4 yet")
 @pytest.mark.parametrize(
     'seed',
     [b'\x00' * 32]
@@ -42,18 +44,36 @@ def test_hkdf_mod_r_key_info(seed: bytes, key_info: bytes) -> None:
     'test',
     test_vectors
 )
-def test_derive_master_SK(test) -> None:
-    seed = bytes.fromhex(test['seed'])
+@pytest.mark.parametrize(
+    'is_valid_seed',
+    (True, False)
+)
+def test_derive_master_SK(test, is_valid_seed) -> None:
     master_SK = test['master_SK']
-    assert derive_master_SK(seed=seed) == master_SK
+    if is_valid_seed:
+        seed = bytes.fromhex(test['seed'])
+        assert derive_master_SK(seed=seed) == master_SK
+    else:
+        seed = "\x12" * 31
+        with pytest.raises(ValueError):
+            derive_master_SK(seed=seed)
 
 
 @pytest.mark.parametrize(
     'test',
     test_vectors
 )
-def test_derive_child_SK(test) -> None:
+@pytest.mark.parametrize(
+    'is_valid_index',
+    (True, False)
+)
+def test_derive_child_SK_valid(test, is_valid_index) -> None:
     parent_SK = test['master_SK']
-    index = test['child_index']
     child_SK = test['child_SK']
-    assert derive_child_SK(parent_SK=parent_SK, index=index) == child_SK
+    if is_valid_index:
+        index = test['child_index']
+        assert derive_child_SK(parent_SK=parent_SK, index=index) == child_SK
+    else:
+        index = 2**32
+        with pytest.raises(IndexError):
+            derive_child_SK(parent_SK=parent_SK, index=index)
