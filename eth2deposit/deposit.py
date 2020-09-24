@@ -9,6 +9,7 @@ from eth2deposit.exceptions import ValidationError
 from eth2deposit.key_handling.key_derivation.mnemonic import (
     get_languages,
     get_mnemonic,
+    check_mnemonic,
 )
 from eth2deposit.utils.validation import verify_deposit_data_json
 from eth2deposit.utils.constants import (
@@ -24,7 +25,6 @@ from eth2deposit.settings import (
 )
 
 languages = get_languages(WORD_LISTS_PATH)
-
 
 def generate_mnemonic(language: str, words_path: str) -> str:
     mnemonic = get_mnemonic(language=language, words_path=words_path)
@@ -65,6 +65,12 @@ def check_python_version() -> None:
     default='english',
 )
 @click.option(
+    '--mnemonic_input',
+    prompt='Please enter mnemonic (default=random)',
+    type=str, 
+    default='',
+)
+@click.option(
     '--folder',
     type=click.Path(exists=True, file_okay=False, dir_okay=True),
     default=os.getcwd()
@@ -76,9 +82,16 @@ def check_python_version() -> None:
     default=MAINNET,
 )
 @click.password_option(prompt='Type the password that secures your validator keystore(s)')
-def main(num_validators: int, mnemonic_language: str, folder: str, chain: str, password: str) -> None:
+
+def main(num_validators: int, mnemonic_language: str, mnemonic_input: str, folder: str, chain: str, password: str) -> None:
     check_python_version()
-    mnemonic = generate_mnemonic(mnemonic_language, WORD_LISTS_PATH)
+    if mnemonic_input =='': 
+     mnemonic = generate_mnemonic(mnemonic_language, WORD_LISTS_PATH)
+    else:
+     mnemonic_input = ' '.join(mnemonic_input.split()).lower()
+     if check_mnemonic(mnemonic_input, mnemonic_language, WORD_LISTS_PATH) == True:
+      mnemonic = mnemonic_input
+              
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     setting = get_setting(chain)
@@ -87,6 +100,7 @@ def main(num_validators: int, mnemonic_language: str, folder: str, chain: str, p
     click.clear()
     click.echo(RHINO_0)
     click.echo('Creating your keys.')
+    
     credentials = CredentialList.from_mnemonic(
         mnemonic=mnemonic,
         num_keys=num_validators,
