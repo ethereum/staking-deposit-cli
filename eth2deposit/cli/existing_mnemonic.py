@@ -11,7 +11,7 @@ from eth2deposit.utils.constants import (
 )
 from .generate_keys import (
     generate_keys,
-    generate_keys_arguments_wrapper,
+    generate_keys_arguments_decorator,
 )
 
 
@@ -24,7 +24,7 @@ def validate_mnemonic(mnemonic: str) -> str:
 
 @click.command()
 @click.pass_context
-@generate_keys_arguments_wrapper
+@generate_keys_arguments_decorator
 @click.option(
     '--mnemonic',
     prompt='Please enter your mnemonic separated by spaces (" ").',

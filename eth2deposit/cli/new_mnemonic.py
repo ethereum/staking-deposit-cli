@@ -11,7 +11,7 @@ from eth2deposit.utils.constants import WORD_LISTS_PATH
 
 from .generate_keys import (
     generate_keys,
-    generate_keys_arguments_wrapper,
+    generate_keys_arguments_decorator,
 )
 
 languages = get_languages(WORD_LISTS_PATH)
@@ -25,7 +25,7 @@ languages = get_languages(WORD_LISTS_PATH)
     type=click.Choice(languages, case_sensitive=False),
     default='english',
 )
-@generate_keys_arguments_wrapper
+@generate_keys_arguments_decorator
 def new_mnemonic(ctx: click.Context, mnemonic_language: str, **kwargs: Any) -> None:
     mnemonic = get_mnemonic(language=mnemonic_language, words_path=WORD_LISTS_PATH)
     test_mnemonic = ''

@@ -14,8 +14,6 @@ def check_python_version() -> None:
         sys.exit()
 
 
-# cli = click.CommandCollection(sources=[existing_mnemonic, new_mnemonic])
-
 @click.group()
 def cli() -> None:
     pass
@@ -23,6 +21,7 @@ def cli() -> None:
 
 cli.add_command(existing_mnemonic)
 cli.add_command(new_mnemonic)
+
 
 if __name__ == '__main__':
     check_python_version()
