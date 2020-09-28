@@ -1,17 +1,15 @@
 import os
-import sys
 import click
+from typing import (
+    Any,
+    Callable,
+)
 
 from eth2deposit.credentials import (
     CredentialList,
 )
-from eth2deposit.key_handling.key_derivation.mnemonic import (
-    get_languages,
-    get_mnemonic,
-)
 from eth2deposit.utils.validation import verify_deposit_data_json
 from eth2deposit.utils.constants import (
-    WORD_LISTS_PATH,
     MAX_DEPOSIT_AMOUNT,
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )
@@ -23,36 +21,47 @@ from eth2deposit.settings import (
 )
 
 
-def check_python_version() -> None:
+def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[..., Any]:
     '''
-    Checks that the python version running is sufficient and exits if not.
+    This is a decorator that, when applied to a parent-command, implements the
+    to obtain the necessary arguments for the generate_keys() subcommand.
     '''
-    if sys.version_info < (3, 7):
-        click.pause('Your python version is insufficient, please install version 3.7 or greater.')
-        sys.exit()
+    decorators = [
+        click.option(
+            '--num_validators',
+            prompt='Please choose how many validators you wish to run',
+            required=True,
+            type=click.IntRange(0, 2**32),
+        ),
+        click.option(
+            '--validator_start_index',
+            type=click.IntRange(0, 2**32),
+            default=0,
+        ),
+        click.option(
+            '--folder',
+            type=click.Path(exists=True, file_okay=False, dir_okay=True),
+            default=os.getcwd()
+        ),
+        click.option(
+            '--chain',
+            prompt='Please choose the (mainnet or testnet) network/chain name',
+            type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
+            default=MAINNET,
+        ),
+        click.password_option('--keystore_password', prompt='Type the password that secures your validator keystore(s)')
+    ]
+    for decorator in reversed(decorators):
+        function = decorator(function)
+    return function
 
 
 @click.command()
-@click.option(
-    '--num_validators',
-    prompt='Please choose how many validators you wish to run',
-    required=True,
-    type=click.IntRange(0, 2**32)),
-)
-@click.option(
-    '--validator_start_index',
-    type=click.IntRange(0, 2**32)),
-)
-@click.option(
-    '--chain',
-    prompt='Please choose the (mainnet or testnet) network/chain name',
-    type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
-    default=MAINNET,
-)
-@click.password_option('--keystore_password', prompt='Type the password that secures your validator keystore(s)')
-def main(mnemonic: str, mnemonic_password: str, num_validators: int, chain: str, keystore_password: str) -> None:
-    check_python_version()
-    mnemonic = generate_mnemonic(mnemonic_language, WORD_LISTS_PATH)
+@click.pass_context
+def generate_keys(ctx: click.Context, validator_start_index: int,
+                  num_validators: int, folder: str, chain: str, keystore_password: str, **kwargs: Any) -> None:
+    mnemonic = ctx.obj['mnemonic']
+    mnemonic_password = ctx.obj['mnemonic_password']
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     setting = get_setting(chain)
@@ -63,16 +72,18 @@ def main(mnemonic: str, mnemonic_password: str, num_validators: int, chain: str,
     click.echo('Creating your keys.')
     credentials = CredentialList.from_mnemonic(
         mnemonic=mnemonic,
+        mnemonic_password=mnemonic_password,
         num_keys=num_validators,
         amounts=amounts,
         fork_version=setting.GENESIS_FORK_VERSION,
+        start_index=validator_start_index,
     )
     click.echo('Saving your keystore(s).')
-    keystore_filefolders = credentials.export_keystores(password=password, folder=folder)
+    keystore_filefolders = credentials.export_keystores(password=keystore_password, folder=folder)
     click.echo('Creating your deposit(s).')
     deposits_file = credentials.export_deposit_data_json(folder=folder)
     click.echo('Verifying your keystore(s).')
-    assert credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=password)
+    assert credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=keystore_password)
     click.echo('Verifying your deposit(s).')
     assert verify_deposit_data_json(deposits_file)
     click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)

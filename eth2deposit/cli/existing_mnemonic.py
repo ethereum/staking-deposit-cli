@@ -1,13 +1,17 @@
 import click
 from typing import (
-    Tuple,
+    Any,
 )
 
-from key_handling.key_derivation.mnemonic import (
+from eth2deposit.key_handling.key_derivation.mnemonic import (
     verify_mnemonic,
 )
-from utils.constants import (
+from eth2deposit.utils.constants import (
     WORD_LISTS_PATH,
+)
+from .generate_keys import (
+    generate_keys,
+    generate_keys_arguments_wrapper,
 )
 
 
@@ -19,6 +23,8 @@ def validate_mnemonic(mnemonic: str) -> str:
 
 
 @click.command()
+@click.pass_context
+@generate_keys_arguments_wrapper
 @click.option(
     '--mnemonic',
     prompt='Please enter your mnemonic separated by spaces (" ").',
@@ -28,7 +34,8 @@ def validate_mnemonic(mnemonic: str) -> str:
 @click.option(
     '--mnemonic-password',
     type=str,
-    defualt='',
+    default='',
 )
-def existing_mnemonic(mnemonic: str, mnemonic_password: str) -> Tuple[str, str]:
-    return (mnemonic, mnemonic_password)
+def existing_mnemonic(ctx: click.Context, mnemonic: str, mnemonic_password: str, **kwargs: Any) -> None:
+    ctx.obj = {'mnemonic': mnemonic, 'mnemonic_password': mnemonic_password}
+    ctx.forward(generate_keys)

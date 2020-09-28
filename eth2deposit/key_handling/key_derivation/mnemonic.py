@@ -70,13 +70,13 @@ def get_languages(path: str) -> Tuple[str, ...]:
     return languages
 
 
-def determine_mnemonic_language(mnemonic: str, words_path:str) -> Sequence[str]:
+def determine_mnemonic_language(mnemonic: str, words_path: str) -> Sequence[str]:
     """
     Given a `mnemonic` determine what language[s] it is written in.
     There are collisions between word-lists, so multiple candidate languages are returned.
     """
     languages = get_languages(words_path)
-    word_language_map = {word: lang  for lang in languages for word in _get_word_list(lang, words_path)}
+    word_language_map = {word: lang for lang in languages for word in _get_word_list(lang, words_path)}
     try:
         mnemonic_list = mnemonic.split(' ')
         word_languages = [word_language_map[word] for word in mnemonic_list]
@@ -104,7 +104,7 @@ def verify_mnemonic(mnemonic: str, words_path: str) -> bool:
             mnemonic_list = mnemonic.split(' ')
             word_indices = [_word_to_index(word_list, word) for word in mnemonic_list]
             mnemonic_int = _uint11_array_to_uint(word_indices)
-            checksum_length = len(mnemonic_list)//3
+            checksum_length = len(mnemonic_list) // 3
             checksum = mnemonic_int & 2**checksum_length - 1
             entropy = (mnemonic_int - checksum) >> checksum_length
             entropy_bits = entropy.to_bytes(checksum_length * 4, 'big')
@@ -112,7 +112,6 @@ def verify_mnemonic(mnemonic: str, words_path: str) -> bool:
         except ValueError:
             pass
     return False
-
 
 
 def get_mnemonic(*, language: str, words_path: str, entropy: Optional[bytes]=None) -> str:

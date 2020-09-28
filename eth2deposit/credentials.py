@@ -22,7 +22,7 @@ from eth2deposit.utils.ssz import (
 
 
 class Credential:
-    def __init__(self, *, mnemonic: str, index: int, amount: int, fork_version: bytes):
+    def __init__(self, *, mnemonic: str, mnemonic_password: str, index: int, amount: int, fork_version: bytes):
         # Set path as EIP-2334 format
         # https://eips.ethereum.org/EIPS/eip-2334
         purpose = '12381'
@@ -32,8 +32,10 @@ class Credential:
         self.signing_key_path = f'{withdrawal_key_path}/0'
 
         # Do NOT use password for seed generation.
-        self.withdrawal_sk = mnemonic_and_path_to_key(mnemonic=mnemonic, path=withdrawal_key_path, password='')
-        self.signing_sk = mnemonic_and_path_to_key(mnemonic=mnemonic, path=self.signing_key_path, password='')
+        self.withdrawal_sk = mnemonic_and_path_to_key(
+            mnemonic=mnemonic, path=withdrawal_key_path, password=mnemonic_password)
+        self.signing_sk = mnemonic_and_path_to_key(
+            mnemonic=mnemonic, path=self.signing_key_path, password=mnemonic_password)
         self.amount = amount
         self.fork_version = fork_version
 
@@ -102,13 +104,15 @@ class CredentialList:
     def from_mnemonic(cls,
                       *,
                       mnemonic: str,
+                      mnemonic_password: str,
                       num_keys: int,
                       amounts: List[int],
                       fork_version: bytes,
-                      start_index: int=0) -> 'CredentialList':
+                      start_index: int) -> 'CredentialList':
         assert len(amounts) == num_keys
         key_indices = range(start_index, start_index + num_keys)
-        return cls([Credential(mnemonic=mnemonic, index=index, amount=amounts[index], fork_version=fork_version)
+        return cls([Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
+                               index=index, amount=amounts[index], fork_version=fork_version)
                     for index in key_indices])
 
     def export_keystores(self, password: str, folder: str) -> List[str]:
