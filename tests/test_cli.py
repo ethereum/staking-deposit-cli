@@ -41,7 +41,9 @@ def test_deposit(monkeypatch) -> None:
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
-    inputs = ['abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about', 'TREZOR', 'TREZOR', '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword']
+    inputs = [
+        'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+        'TREZOR', 'TREZOR', '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword']
     data = '\n'.join(inputs)
     result = runner.invoke(cli, ['existing-mnemonic', '--folder', my_folder_path], input=data)
 
