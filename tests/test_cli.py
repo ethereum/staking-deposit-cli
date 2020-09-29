@@ -9,8 +9,8 @@ from typing import (
 
 from click.testing import CliRunner
 
-from eth2deposit import deposit
-from eth2deposit.deposit import main
+from eth2deposit.key_handling.key_derivation import mnemonic as _mnemonic
+from eth2deposit.deposit import cli
 from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
 from eth2deposit.key_handling.keystore import Keystore
 
@@ -32,7 +32,7 @@ def test_deposit(monkeypatch) -> None:
     def get_mnemonic(language: str, words_path: str, entropy: Optional[bytes]=None) -> str:
         return "fakephrase"
 
-    monkeypatch.setattr(deposit, "get_mnemonic", get_mnemonic)
+    monkeypatch.setattr(_mnemonic, "get_mnemonic", get_mnemonic)
 
     # Prepare folder
     my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
@@ -41,9 +41,9 @@ def test_deposit(monkeypatch) -> None:
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
-    inputs = ['5', 'english', 'mainnet', 'MyPassword', 'MyPassword', 'fakephrase']
+    inputs = ['abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about', 'TREZOR', 'TREZOR', '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword']
     data = '\n'.join(inputs)
-    result = runner.invoke(main, ['--folder', my_folder_path], input=data)
+    result = runner.invoke(cli, ['existing-mnemonic', '--folder', my_folder_path], input=data)
 
     assert result.exit_code == 0
 
@@ -84,11 +84,11 @@ async def test_script() -> None:
     await proc.wait()
 
     cmd_args = [
-        run_script_cmd,
+        run_script_cmd + ' new-mnemonic',
         '--num_validators', '1',
         '--mnemonic_language', 'english',
         '--chain', 'mainnet',
-        '--password', 'MyPassword',
+        '--keystore_password', 'MyPassword',
         '--folder', my_folder_path,
     ]
     proc = await asyncio.create_subprocess_shell(

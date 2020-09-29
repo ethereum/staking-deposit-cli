@@ -40,4 +40,5 @@ def new_mnemonic(ctx: click.Context, mnemonic_language: str, **kwargs: Any) -> N
         test_mnemonic = test_mnemonic.lower()
     click.clear()
     ctx.obj = {'mnemonic': mnemonic, 'mnemonic_password': ''}
+    ctx.params['validator_start_index'] = 0
     ctx.forward(generate_keys)

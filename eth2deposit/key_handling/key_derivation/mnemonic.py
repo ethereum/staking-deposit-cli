@@ -97,11 +97,16 @@ def _get_checksum(entropy: bytes) -> int:
 
 def verify_mnemonic(mnemonic: str, words_path: str) -> bool:
     "Given a mnemonic, verify it against its own checksum."
-    languages = determine_mnemonic_language(mnemonic, words_path)
+    try:
+        languages = determine_mnemonic_language(mnemonic, words_path)
+    except ValueError:
+        return False
     for language in languages:
         try:
             word_list = _get_word_list(language, words_path)
             mnemonic_list = mnemonic.split(' ')
+            if len(mnemonic_list) not in range(12, 27, 3):
+                return False
             word_indices = [_word_to_index(word_list, word) for word in mnemonic_list]
             mnemonic_int = _uint11_array_to_uint(word_indices)
             checksum_length = len(mnemonic_list) // 3

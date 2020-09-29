@@ -34,11 +34,6 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             type=click.IntRange(0, 2**32),
         ),
         click.option(
-            '--validator_start_index',
-            type=click.IntRange(0, 2**32),
-            default=0,
-        ),
-        click.option(
             '--folder',
             type=click.Path(exists=True, file_okay=False, dir_okay=True),
             default=os.getcwd()

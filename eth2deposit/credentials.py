@@ -112,7 +112,7 @@ class CredentialList:
         assert len(amounts) == num_keys
         key_indices = range(start_index, start_index + num_keys)
         return cls([Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
-                               index=index, amount=amounts[index], fork_version=fork_version)
+                               index=index, amount=amounts[index - start_index], fork_version=fork_version)
                     for index in key_indices])
 
     def export_keystores(self, password: str, folder: str) -> List[str]:

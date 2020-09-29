@@ -15,27 +15,35 @@ from .generate_keys import (
 )
 
 
-def validate_mnemonic(mnemonic: str) -> str:
+def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
     if verify_mnemonic(mnemonic, WORD_LISTS_PATH):
         return mnemonic
     else:
-        raise click.BadParameter('That is not a valid mnemonic in any language.')
+        raise click.BadParameter('That is not a valid mnemonic, please check for typos')
 
 
 @click.command()
 @click.pass_context
-@generate_keys_arguments_decorator
 @click.option(
     '--mnemonic',
-    prompt='Please enter your mnemonic separated by spaces (" ").',
+    callback=validate_mnemonic,
+    prompt='Please enter your mnemonic separated by spaces (" ")',
     required=True,
     type=str,
 )
-@click.option(
+@click.password_option(
     '--mnemonic-password',
-    type=str,
     default='',
 )
+@click.option(
+    '--validator_start_index',
+    confirmation_prompt=True,
+    default=0,
+    prompt='Enter the index (key number) you wish to start generating more keys from. \
+            For example, if you\'ve generated 4 keys in the past, you\'d enter 4 here,',
+    type=click.IntRange(0, 2**32),
+)
+@generate_keys_arguments_decorator
 def existing_mnemonic(ctx: click.Context, mnemonic: str, mnemonic_password: str, **kwargs: Any) -> None:
     ctx.obj = {'mnemonic': mnemonic, 'mnemonic_password': mnemonic_password}
     ctx.forward(generate_keys)

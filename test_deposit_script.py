@@ -24,14 +24,13 @@ async def main():
     print('[INFO] Installed')
 
     cmd_args = [
-        run_script_cmd,
+        run_script_cmd + ' new-mnemonic',
         '--num_validators', '1',
         '--mnemonic_language', 'english',
         '--chain', 'mainnet',
-        '--password', 'MyPassword',
+        '--keystore_password', 'MyPassword',
         '--folder', my_folder_path,
     ]
-    print('[INFO] Creating subprocess 2: deposit-cli')
     proc = await asyncio.create_subprocess_shell(
         ' '.join(cmd_args),
         stdin=asyncio.subprocess.PIPE,
