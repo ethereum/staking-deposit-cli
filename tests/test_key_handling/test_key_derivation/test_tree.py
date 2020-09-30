@@ -17,7 +17,6 @@ with open(test_vector_filefolder, 'r') as f:
     test_vectors = json.load(f)['kdf_tests']
 
 
-@pytest.mark.skip(reason="py_ecc doesn't support BLS v4 yet")
 @pytest.mark.parametrize(
     'test',
     test_vectors
@@ -27,7 +26,6 @@ def test_hkdf_mod_r(test) -> None:
     assert bls.KeyGen(seed) == _HKDF_mod_r(IKM=seed)
 
 
-@pytest.mark.skip(reason="py_ecc doesn't support BLS v4 yet")
 @pytest.mark.parametrize(
     'seed',
     [b'\x00' * 32]
