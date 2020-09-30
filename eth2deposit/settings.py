@@ -1,6 +1,9 @@
 from typing import Dict, NamedTuple
 
 
+DEPOSIT_CLI_VERSION = "0.4.0"
+
+
 class BaseChainSetting(NamedTuple):
     GENESIS_FORK_VERSION: bytes
 
