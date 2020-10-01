@@ -33,8 +33,8 @@ def PBKDF2(*, password: bytes, salt: bytes, dklen: int, c: int, prf: str) -> byt
         raise ValueError(f"String 'sha' is not in `prf`({prf})")
     if 'sha256' in prf and c < 2**18:
         '''
-        Verify the number of rounds of SHA256-PBKDF2. SHA512 bot checked as use in BIP39
-        does not require and therefore doesn't use safe parameters (c=2048).
+        Verify the number of rounds of SHA256-PBKDF2. SHA512 not checked as use in BIP39
+        does not require, and therefore doesn't use, safe parameters (c=2048).
 
         Ref: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki#from-mnemonic-to-seed
         '''
