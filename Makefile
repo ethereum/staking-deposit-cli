@@ -49,3 +49,8 @@ build_macos: venv_build
 build_linux: venv_build
 	${VENV_NAME}/bin/python -m pip install -r ./build_configs/linux/requirements.txt
 	$(VENV_ACTIVATE) && pyinstaller ./build_configs/linux/build.spec
+
+update_version_number:
+	@read -p "Enter new version number: " VERSION; \
+	perl -pi -e "s/(version=)\S*/\1\'$${VERSION}\',/" setup.py; \
+	perl -pi -e "s/(DEPOSIT_CLI_VERSION = )\S*/\1\"$${VERSION}\"/" eth2deposit/settings.py
