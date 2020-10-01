@@ -1,8 +1,7 @@
 from typing import Dict, NamedTuple
-import pkg_resources
 
 
-DEPOSIT_CLI_VERSION = pkg_resources.require("eth2deposit")[0].version
+DEPOSIT_CLI_VERSION = "0.4.0"
 
 
 class BaseChainSetting(NamedTuple):
