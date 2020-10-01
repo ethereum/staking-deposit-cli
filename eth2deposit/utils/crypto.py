@@ -19,6 +19,8 @@ def SHA256(x: bytes) -> bytes:
 
 
 def scrypt(*, password: str, salt: str, n: int, r: int, p: int, dklen: int) -> bytes:
+    if n * r * p < 2**20:  # 128 MB memory usage
+        raise ValueError("The Scrypt parameters chosen are not secure.")
     if n >= 2**(128 * r / 8):
         raise ValueError("The given `n` should be less than `2**(128 * r / 8)`."
                          f"\tGot `n={n}`, r={r}, 2**(128 * r / 8)={2**(128 * r / 8)}")
@@ -29,6 +31,14 @@ def scrypt(*, password: str, salt: str, n: int, r: int, p: int, dklen: int) -> b
 def PBKDF2(*, password: bytes, salt: bytes, dklen: int, c: int, prf: str) -> bytes:
     if 'sha' not in prf:
         raise ValueError(f"String 'sha' is not in `prf`({prf})")
+    if 'sha256' in prf and c < 2**18:
+        '''
+        Verify the number of rounds of SHA256-PBKDF2. SHA512 not checked as use in BIP39
+        does not require, and therefore doesn't use, safe parameters (c=2048).
+
+        Ref: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki#from-mnemonic-to-seed
+        '''
+        raise ValueError("The PBKDF2 parameters chosen are not secure.")
     _hash = _sha256 if 'sha256' in prf else _sha512
     res = _PBKDF2(password=password, salt=salt, dkLen=dklen, count=c, hmac_hash_module=_hash)  # type: ignore
     return res if isinstance(res, bytes) else res[0]  # PyCryptodome can return Tuple[bytes]
