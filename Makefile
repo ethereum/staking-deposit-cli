@@ -28,8 +28,7 @@ $(VENV_NAME)/bin/activate: requirements.txt
 	${VENV_NAME}/bin/python -m pip install -r requirements_test.txt
 	@touch $(VENV_NAME)/bin/activate
 
-venv_build:
-	$(VENV_NAME)/bin/activate
+venv_build: $(VENV_NAME)/bin/activate
 	export PYTHONHASHSEED=42
 
 venv_build_test: venv_build
