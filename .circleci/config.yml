@@ -162,7 +162,7 @@ jobs:
             Compress-Archive -Path $BUILD_FILE_NAME_PATH -DestinationPath $ZIP_FILE_NAME
             mkdir \tmp\artifacts
             copy $ZIP_FILE_NAME \tmp\artifacts\
-            certUtil -hashfile $ZIP_FILE_NAME > \tmp\artifacts\checksum.txt
+            certUtil -hashfile $ZIP_FILE_NAME > \tmp\artifacts\checksum.txt SHA256
       - store_artifacts:
           path: /tmp/artifacts
   build-macos:
@@ -192,7 +192,7 @@ jobs:
             tar -zcvf ${BUILD_FILE_NAME}.tar.gz ./${BUILD_FILE_NAME};
             mkdir /tmp/artifacts;
             cp ${BUILD_FILE_NAME}.tar.gz /tmp/artifacts;
-            esha256sum ${BUILD_FILE_NAME}.tar.gz > /tmp/artifacts/checksum.txt
+            sha256sum ${BUILD_FILE_NAME}.tar.gz > /tmp/artifacts/checksum.txt
       - store_artifacts:
           path: /tmp/artifacts
 
