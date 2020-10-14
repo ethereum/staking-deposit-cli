@@ -29,29 +29,25 @@ $(VENV_NAME)/bin/activate: requirements.txt
 	@touch $(VENV_NAME)/bin/activate
 
 venv_build: $(VENV_NAME)/bin/activate
-	export PYTHONHASHSEED=42
 
 venv_build_test: venv_build
 	${VENV_NAME}/bin/python -m pip install -r requirements_test.txt
 
 venv_test: venv_build_test
 	$(VENV_ACTIVATE) && python -m pytest .
-	export -n PYTHONHASHSEED
 
 venv_lint: venv_build_test
 	$(VENV_ACTIVATE) && flake8 --config=flake8.ini ./eth2deposit ./tests && mypy --config-file mypy.ini -p eth2deposit
-	export -n PYTHONHASHSEED
 
 venv_deposit: venv_build
 	$(VENV_ACTIVATE) && python ./eth2deposit/deposit.py
-	export -n PYTHONHASHSEED
 
 build_macos: venv_build
 	${VENV_NAME}/bin/python -m pip install -r ./build_configs/macos/requirements.txt
-	$(VENV_ACTIVATE) && pyinstaller ./build_configs/macos/build.spec
-	export -n PYTHONHASHSEED
+	export PYTHONHASHSEED=42; \
+	$(VENV_ACTIVATE) && pyinstaller ./build_configs/macos/build.spec;
 
 build_linux: venv_build
 	${VENV_NAME}/bin/python -m pip install -r ./build_configs/linux/requirements.txt
+	export PYTHONHASHSEED=42; \
 	$(VENV_ACTIVATE) && pyinstaller ./build_configs/linux/build.spec
-	export -n PYTHONHASHSEED
