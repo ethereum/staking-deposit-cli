@@ -29,7 +29,7 @@ $(VENV_NAME)/bin/activate: requirements.txt
 	@touch $(VENV_NAME)/bin/activate
 
 venv_build:
-	$(VENV_ACTIVATE)
+	$(VENV_NAME)/bin/activate
 	export PYTHONHASHSEED=42
 
 venv_build_test: venv_build
