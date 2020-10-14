@@ -192,7 +192,7 @@ jobs:
             tar -zcvf ${BUILD_FILE_NAME}.tar.gz ./${BUILD_FILE_NAME};
             mkdir /tmp/artifacts;
             cp ${BUILD_FILE_NAME}.tar.gz /tmp/artifacts;
-            sha256sum ${BUILD_FILE_NAME}.tar.gz > /tmp/artifacts/checksum.txt
+            shasum -a 256 ${BUILD_FILE_NAME}.tar.gz > /tmp/artifacts/checksum.txt
       - store_artifacts:
           path: /tmp/artifacts
 
