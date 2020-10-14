@@ -15,9 +15,12 @@ from eth2deposit.utils.crypto import (
 
 
 def _resource_path(relative_path: str) -> str:
-    """ Get absolute path to resource, works for dev and for PyInstaller """
+    """
+    Get the absolute path to a resource in a manner friendly to PyInstaller.
+    PyInstaller creates a temp folder and stores path in _MEIPASS which this function swaps
+    into a resource path so it is avaible both when building binaries and running natively.
+    """
     try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS  # type: ignore
     except Exception:
         base_path = os.path.abspath(".")
@@ -25,6 +28,11 @@ def _resource_path(relative_path: str) -> str:
 
 
 def _get_word_list(language: str, path: str) -> Sequence[str]:
+    """
+    Given the language and path to the wordlist, return the list of BIP39 words.
+
+    Ref: https://github.com/bitcoin/bips/blob/master/bip-0039/bip-0039-wordlists.md
+    """
     path = _resource_path(path)
     dirty_list = open(os.path.join(path, '%s.txt' % language), encoding='utf-8').readlines()
     return [word.replace('\n', '') for word in dirty_list]
@@ -32,9 +40,10 @@ def _get_word_list(language: str, path: str) -> Sequence[str]:
 
 def _index_to_word(word_list: Sequence[str], index: int) -> str:
     """
-    Given the index of a word in the word list, return the corresponding word.
+    Return the corresponding word for the supplied index while stripping out '\\n' chars.
     """
-    assert index < 2048
+    if index >= 2048:
+        raise IndexError(f"`index` should be less than 2048. Got {index}.")
     return word_list[index]
 
 
@@ -66,6 +75,7 @@ def get_languages(path: str) -> Tuple[str, ...]:
     """
     path = _resource_path(path)
     (_, _, filenames) = next(os.walk(path))
+    filenames = [f for f in filenames if f[-4:] == '.txt']
     languages = tuple([name[:-4] for name in filenames])
     return languages
 
@@ -121,12 +131,15 @@ def verify_mnemonic(mnemonic: str, words_path: str) -> bool:
 
 def get_mnemonic(*, language: str, words_path: str, entropy: Optional[bytes]=None) -> str:
     """
-    Return a mnemonic string in a given `language` based on `entropy`.
+    Return a mnemonic string in a given `language` based on `entropy` via the calculated checksum.
+
+    Ref: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki#generating-the-mnemonic
     """
     if entropy is None:
         entropy = randbits(256).to_bytes(32, 'big')
     entropy_length = len(entropy) * 8
-    assert entropy_length in range(128, 257, 32)
+    if entropy_length not in range(128, 257, 32):
+        raise IndexError(f"`entropy_length` should be in [128, 160, 192,224, 256]. Got {entropy_length}.")
     checksum_length = (entropy_length // 32)
     checksum = _get_checksum(entropy)
     entropy_bits = int.from_bytes(entropy, 'big') << checksum_length

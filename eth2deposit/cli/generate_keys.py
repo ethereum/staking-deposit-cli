@@ -8,6 +8,7 @@ from typing import (
 from eth2deposit.credentials import (
     CredentialList,
 )
+from eth2deposit.exceptions import ValidationError
 from eth2deposit.utils.validation import verify_deposit_data_json
 from eth2deposit.utils.constants import (
     MAX_DEPOSIT_AMOUNT,
@@ -78,8 +79,10 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
     click.echo('Creating your deposit(s).')
     deposits_file = credentials.export_deposit_data_json(folder=folder)
     click.echo('Verifying your keystore(s).')
-    assert credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=keystore_password)
+    if not credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=keystore_password):
+        raise ValidationError("Failed to verify the keystores.")
     click.echo('Verifying your deposit(s).')
-    assert verify_deposit_data_json(deposits_file)
+    if not verify_deposit_data_json(deposits_file):
+        raise ValidationError("Failed to verify the deposit data JSON files.")
     click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)
     click.pause('\n\nPress any key.')

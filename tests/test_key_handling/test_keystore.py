@@ -59,6 +59,13 @@ def test_encrypt_decrypt_scrypt_random_iv() -> None:
     assert generated_keystore.decrypt(test_vector_password) == test_vector_secret
 
 
+def test_encrypt_decrypt_incorrect_password() -> None:
+    generated_keystore = ScryptKeystore.encrypt(secret=test_vector_secret, password=test_vector_password)
+    incorrect_password = test_vector_password + 'incorrect'
+    with pytest.raises(ValueError):
+        generated_keystore.decrypt(incorrect_password)
+
+
 @pytest.mark.parametrize(
     'password,processed_password',
     [
