@@ -43,9 +43,10 @@ def test_deposit(monkeypatch) -> None:
     runner = CliRunner()
     inputs = [
         'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
-        'TREZOR', 'TREZOR', '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword']
+        '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword', 'yes', 'yes']
     data = '\n'.join(inputs)
-    result = runner.invoke(cli, ['existing-mnemonic', '--folder', my_folder_path], input=data)
+    arguments = ['existing-mnemonic', '--folder', my_folder_path, '--mnemonic-password', 'TREZOR']
+    result = runner.invoke(cli, arguments, input=data)
 
     assert result.exit_code == 0
 

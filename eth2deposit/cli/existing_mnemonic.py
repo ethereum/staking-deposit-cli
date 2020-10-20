@@ -34,16 +34,31 @@ def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
 @click.password_option(
     '--mnemonic-password',
     default='',
+    help=('This is almost certainly not the argument you are looking for: it is for mnemonic passwords, not keystore '
+          'passwords. Providing a password here when you didn\'t use one initially, can result in lost keys (and '
+          'therefore funds)! Also note that if you used this tool to generate your mnemonic intially, then you did not '
+          'use a mnemonic password. However, if you are certain you used a password to "increase" the security of your '
+          'mnemonic, this is where you enter it. '),
+    prompt=False,
 )
 @click.option(
     '--validator_start_index',
     confirmation_prompt=True,
     default=0,
-    prompt='Enter the index (key number) you wish to start generating more keys from. \
-            For example, if you\'ve generated 4 keys in the past, you\'d enter 4 here,',
+    prompt=('Enter the index (key number) you wish to start generating more keys from. '
+            'For example, if you\'ve generated 4 keys in the past, you\'d enter 4 here,'),
     type=click.IntRange(0, 2**32),
 )
 @generate_keys_arguments_decorator
 def existing_mnemonic(ctx: click.Context, mnemonic: str, mnemonic_password: str, **kwargs: Any) -> None:
+    if mnemonic_password != '':
+        click.clear()
+        click.confirm(
+            ('Are you absolutely certain that you used a mnemonic password? '
+             '(This is different from a keystore password!) '
+             'Using one when you are not supposed to can result in loss of funds!'),
+            abort=True)
+        click.confirm('Did you generate this mnemonic with this CLI tool initially?', abort=True)
+
     ctx.obj = {'mnemonic': mnemonic, 'mnemonic_password': mnemonic_password}
     ctx.forward(generate_keys)
