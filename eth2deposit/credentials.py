@@ -10,6 +10,7 @@ from eth2deposit.key_handling.keystore import (
     Keystore,
     ScryptKeystore,
 )
+from eth2deposit.settings import DEPOSIT_CLI_VERSION
 from eth2deposit.utils.constants import (
     BLS_WITHDRAWAL_PREFIX,
     ETH2GWEI,
@@ -90,6 +91,7 @@ class Credential:
         datum_dict.update({'deposit_message_root': self.deposit_message.hash_tree_root})
         datum_dict.update({'deposit_data_root': signed_deposit_datum.hash_tree_root})
         datum_dict.update({'fork_version': self.fork_version})
+        datum_dict.update({'deposit_cli_version': DEPOSIT_CLI_VERSION})
         return datum_dict
 
     def signing_keystore(self, password: str) -> Keystore:

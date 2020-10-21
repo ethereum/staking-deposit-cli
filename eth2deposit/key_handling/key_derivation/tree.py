@@ -48,13 +48,18 @@ def _HKDF_mod_r(*, IKM: bytes, key_info: bytes=b'') -> int:
     Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2333.md#hkdf_mod_r
     """
     L = 48  # `ceil((3 * ceil(log2(r))) / 16)`, where `r` is the order of the BLS 12-381 curve
-    okm = HKDF(
-        salt=b'BLS-SIG-KEYGEN-SALT-',
-        IKM=IKM + b'\x00',  # add postfix `I2OSP(0, 1)`
-        L=L,
-        info=key_info + L.to_bytes(2, 'big'),
-    )
-    return int.from_bytes(okm, byteorder='big') % bls_curve_order
+    salt = b'BLS-SIG-KEYGEN-SALT-'
+    SK = 0
+    while SK == 0:
+        salt = SHA256(salt)
+        okm = HKDF(
+            salt=salt,
+            IKM=IKM + b'\x00',  # add postfix `I2OSP(0, 1)`
+            L=L,
+            info=key_info + L.to_bytes(2, 'big'),
+        )
+        SK = int.from_bytes(okm, byteorder='big') % bls_curve_order
+    return SK
 
 
 def derive_child_SK(*, parent_SK: int, index: int) -> int:
