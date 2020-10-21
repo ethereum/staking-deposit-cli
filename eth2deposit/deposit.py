@@ -1,6 +1,9 @@
 import os
 import sys
 import click
+from typing import (
+    Any,
+)
 
 from eth2deposit.credentials import (
     CredentialList,
@@ -52,21 +55,30 @@ def check_python_version() -> None:
         sys.exit()
 
 
-def get_password() -> str:
-    click.clear()
+def get_password(text: str) -> str:
+    return click.prompt(text, hide_input=True, show_default=False, type=str)
+
+
+def validate_password(cts: click.Context, param: Any, password: str) -> str:
     is_valid_password = False
+
+    # The given password has passed confirmation
+    try:
+        validate_password_strength(password)
+    except ValidationError as e:
+        click.echo(f'Error: {e} Please retype again.')
+    else:
+        is_valid_password = True
+
     while not is_valid_password:
-        click.echo("Type the password that secures your validator keystore(s)")
-        password = click.prompt('', hide_input=True, show_default=False, type=str, prompt_suffix="")
+        password = get_password(text='Type the password that secures your validator keystore(s)')
         try:
             validate_password_strength(password)
         except ValidationError as e:
             click.echo(f'Error: {e} Please retype again.')
         else:
             # Confirm password
-            click.echo("Repeat for confirmation")
-            password_confirmation = click.prompt("",
-                                                 hide_input=True, show_default=False, type=str, prompt_suffix="")
+            password_confirmation = get_password(text='Repeat for confirmation')
             if password == password_confirmation:
                 is_valid_password = True
             else:
@@ -99,10 +111,12 @@ def get_password() -> str:
     type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
     default=MAINNET,
 )
-# @click.password_option(prompt='Type the password that secures your validator keystore(s)')
-def main(num_validators: int, mnemonic_language: str, folder: str, chain: str) -> None:
+@click.password_option(
+    callback=validate_password,
+    prompt='Type the password that secures your validator keystore(s)'
+)
+def main(num_validators: int, mnemonic_language: str, folder: str, chain: str, password: str) -> None:
     check_python_version()
-    password = get_password()
     mnemonic = generate_mnemonic(mnemonic_language, WORD_LISTS_PATH)
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
