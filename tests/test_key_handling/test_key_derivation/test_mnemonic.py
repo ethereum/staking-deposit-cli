@@ -48,11 +48,14 @@ def test_verify_mnemonic(test_mnemonic: str, is_valid: bool) -> None:
 
 
 @pytest.mark.parametrize(
-    'language, index, valid',
+    'language', ['english']
+)
+@pytest.mark.parametrize(
+    'index, valid',
     [
-        ('english', 0, True),
-        ('english', 2047, True),
-        ('english', 2048, False),
+        (0, True),
+        (2047, True),
+        (2048, False),
     ]
 )
 def test_get_word(language: str, index: int, valid: bool) -> None:

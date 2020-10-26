@@ -95,13 +95,18 @@ def determine_mnemonic_language(mnemonic: str, words_path: str) -> Sequence[str]
         raise ValueError('Word not found in mnemonic word lists for any language.')
 
 
+def _validate_entropy_length(entropy: bytes) -> None:
+    entropy_length = len(entropy) * 8
+    if entropy_length not in range(128, 257, 32):
+        raise IndexError(f"`entropy_length` should be in [128, 160, 192, 224, 256]. Got {entropy_length}.")
+
+
 def _get_checksum(entropy: bytes) -> int:
     """
     Determine the index of the checksum word given the entropy
     """
-    entropy_length = len(entropy) * 8
-    assert entropy_length in range(128, 257, 32)
-    checksum_length = (entropy_length // 32)
+    _validate_entropy_length(entropy)
+    checksum_length = len(entropy) // 4
     return int.from_bytes(SHA256(entropy), 'big') >> (256 - checksum_length)
 
 
@@ -140,8 +145,6 @@ def get_mnemonic(*, language: str, words_path: str, entropy: Optional[bytes]=Non
     if entropy is None:
         entropy = randbits(256).to_bytes(32, 'big')
     entropy_length = len(entropy) * 8
-    if entropy_length not in range(128, 257, 32):
-        raise IndexError(f"`entropy_length` should be in [128, 160, 192, 224, 256]. Got {entropy_length}.")
     checksum_length = (entropy_length // 32)
     checksum = _get_checksum(entropy)
     entropy_bits = int.from_bytes(entropy, 'big') << checksum_length

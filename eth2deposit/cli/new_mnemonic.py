@@ -39,6 +39,7 @@ def new_mnemonic(ctx: click.Context, mnemonic_language: str, **kwargs: Any) -> N
         test_mnemonic = click.prompt('Please type your mnemonic (separated by spaces) to confirm you have written it down\n\n')  # noqa: E501
         test_mnemonic = test_mnemonic.lower()
     click.clear()
+    # Do NOT use mnemonic_password.
     ctx.obj = {'mnemonic': mnemonic, 'mnemonic_password': ''}
     ctx.params['validator_start_index'] = 0
     ctx.forward(generate_keys)

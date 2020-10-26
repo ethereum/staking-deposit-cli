@@ -3,6 +3,7 @@ from typing import (
     Any,
 )
 
+from eth2deposit.exceptions import ValidationError
 from eth2deposit.key_handling.key_derivation.mnemonic import (
     verify_mnemonic,
 )
@@ -19,7 +20,7 @@ def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
     if verify_mnemonic(mnemonic, WORD_LISTS_PATH):
         return mnemonic
     else:
-        raise click.BadParameter('That is not a valid mnemonic, please check for typos')
+        raise ValidationError('That is not a valid mnemonic, please check for typos.')
 
 
 @click.command()
