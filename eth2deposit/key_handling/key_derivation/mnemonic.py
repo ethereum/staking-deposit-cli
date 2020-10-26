@@ -102,7 +102,7 @@ def _get_checksum(entropy: bytes) -> int:
     entropy_length = len(entropy) * 8
     assert entropy_length in range(128, 257, 32)
     checksum_length = (entropy_length // 32)
-   return int.from_bytes(SHA256(entropy), 'big') >> (256 - checksum_length)
+    return int.from_bytes(SHA256(entropy), 'big') >> (256 - checksum_length)
 
 
 def verify_mnemonic(mnemonic: str, words_path: str) -> bool:
