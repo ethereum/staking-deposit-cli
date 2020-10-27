@@ -7,6 +7,7 @@ from typing import Any, Dict
 
 from py_ecc.bls import G2ProofOfPossession as bls
 
+from eth2deposit.exceptions import ValidationError
 from eth2deposit.utils.ssz import (
     compute_deposit_domain,
     compute_signing_root,
@@ -60,3 +61,8 @@ def validate_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
         signature=signature,
     )
     return signed_deposit.hash_tree_root == deposit_message_root
+
+
+def validate_password_strength(password: str) -> None:
+    if len(password) < 8:
+        raise ValidationError(f"The password length should be at least 8. Got {len(password)}.")

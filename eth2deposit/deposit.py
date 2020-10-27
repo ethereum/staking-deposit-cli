@@ -1,6 +1,9 @@
 import os
 import sys
 import click
+from typing import (
+    Any,
+)
 
 from eth2deposit.credentials import (
     CredentialList,
@@ -17,6 +20,7 @@ from eth2deposit.utils.constants import (
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )
 from eth2deposit.utils.ascii_art import RHINO_0
+from eth2deposit.utils.validation import validate_password_strength
 from eth2deposit.settings import (
     ALL_CHAINS,
     MAINNET,
@@ -51,6 +55,38 @@ def check_python_version() -> None:
         sys.exit()
 
 
+def get_password(text: str) -> str:
+    return click.prompt(text, hide_input=True, show_default=False, type=str)
+
+
+def validate_password(cts: click.Context, param: Any, password: str) -> str:
+    is_valid_password = False
+
+    # The given password has passed confirmation
+    try:
+        validate_password_strength(password)
+    except ValidationError as e:
+        click.echo(f'Error: {e} Please retype.')
+    else:
+        is_valid_password = True
+
+    while not is_valid_password:
+        password = get_password(text='Type the password that secures your validator keystore(s)')
+        try:
+            validate_password_strength(password)
+        except ValidationError as e:
+            click.echo(f'Error: {e} Please retype.')
+        else:
+            # Confirm password
+            password_confirmation = get_password(text='Repeat for confirmation')
+            if password == password_confirmation:
+                is_valid_password = True
+            else:
+                click.echo('Error: the two entered values do not match. Please retype again.')
+
+    return password
+
+
 @click.command()
 @click.option(
     '--num_validators',
@@ -75,7 +111,10 @@ def check_python_version() -> None:
     type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
     default=MAINNET,
 )
-@click.password_option(prompt='Type the password that secures your validator keystore(s)')
+@click.password_option(
+    callback=validate_password,
+    prompt='Type the password that secures your validator keystore(s)'
+)
 def main(num_validators: int, mnemonic_language: str, folder: str, chain: str, password: str) -> None:
     check_python_version()
     mnemonic = generate_mnemonic(mnemonic_language, WORD_LISTS_PATH)
