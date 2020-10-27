@@ -66,7 +66,7 @@ def validate_password(cts: click.Context, param: Any, password: str) -> str:
     try:
         validate_password_strength(password)
     except ValidationError as e:
-        click.echo(f'Error: {e} Please retype again.')
+        click.echo(f'Error: {e} Please retype.')
     else:
         is_valid_password = True
 
@@ -75,7 +75,7 @@ def validate_password(cts: click.Context, param: Any, password: str) -> str:
         try:
             validate_password_strength(password)
         except ValidationError as e:
-            click.echo(f'Error: {e} Please retype again.')
+            click.echo(f'Error: {e} Please retype.')
         else:
             # Confirm password
             password_confirmation = get_password(text='Repeat for confirmation')
