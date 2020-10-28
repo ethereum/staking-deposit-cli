@@ -59,7 +59,6 @@ def existing_mnemonic(ctx: click.Context, mnemonic: str, mnemonic_password: str,
              '(This is different from a keystore password!) '
              'Using one when you are not supposed to can result in loss of funds!'),
             abort=True)
-        click.confirm('Did you generate this mnemonic with this CLI tool initially?', abort=True)
 
     ctx.obj = {'mnemonic': mnemonic, 'mnemonic_password': mnemonic_password}
     ctx.forward(generate_keys)
