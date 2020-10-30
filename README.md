@@ -11,38 +11,41 @@
     - [Option 1. Download binary executable file](#option-1-download-binary-executable-file)
       - [Step 1. Installation](#step-1-installation)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json)
-        - [Arguments](#arguments)
+        - [Commands](#commands)
+        - [`new-mnemonic` Arguments](#new-mnemonic-arguments)
+        - [`existing-mnemonic` Arguments](#existing-mnemonic-arguments)
         - [Successful message](#successful-message)
     - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python)
       - [Step 0. Python version checking](#step-0-python-version-checking)
       - [Step 1. Installation](#step-1-installation-1)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-1)
-        - [Arguments](#arguments-1)
+        - [Commands](#commands-1)
+        - [Arguments](#arguments)
         - [Successful message](#successful-message-1)
     - [Option 3. Build `deposit-cli` with `virtualenv`](#option-3-build-deposit-cli-with-virtualenv)
       - [Step 0. Python version checking](#step-0-python-version-checking-1)
       - [Step 1. Installation](#step-1-installation-2)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-2)
-        - [Arguments](#arguments-2)
-        - [Successful message](#successful-message-2)
+        - [Commands](#commands-2)
+        - [Arguments](#arguments-1)
   - [For Windows users](#for-windows-users)
     - [Option 1. Download binary executable file](#option-1-download-binary-executable-file-1)
       - [Step 1. Installation](#step-1-installation-3)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-3)
-        - [Arguments](#arguments-3)
-        - [Successful message](#successful-message-3)
+        - [Commands](#commands-3)
+        - [Arguments](#arguments-2)
     - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python-1)
       - [Step 0. Python version checking](#step-0-python-version-checking-2)
       - [Step 1. Installation](#step-1-installation-4)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-4)
-        - [Arguments](#arguments-4)
-        - [Successful message](#successful-message-4)
+        - [Commands](#commands-4)
+        - [Arguments](#arguments-3)
     - [Option 3. Build `deposit-cli` with `virtualenv`](#option-3-build-deposit-cli-with-virtualenv-1)
       - [Step 0. Python version checking](#step-0-python-version-checking-3)
       - [Step 1. Installation](#step-1-installation-5)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-5)
-        - [Arguments](#arguments-5)
-        - [Successful message](#successful-message-5)
+        - [Commands](#commands-5)
+        - [Arguments](#arguments-4)
 - [Development](#development)
   - [Install basic requirements](#install-basic-requirements)
   - [Install testing requirements](#install-testing-requirements)
@@ -71,21 +74,30 @@ See [releases page](https://github.com/ethereum/eth2.0-deposit-cli/releases) to 
 
 ##### Step 2. Create keys and `deposit_data-*.json`
 
-Run the following command to enter the interactive CLI:
+Run the following command to enter the interactive CLI and generate keys from a new mnemonic:
 
 ```sh
-./deposit
+./deposit new-mnemonic
 ```
 
-You can also run the tool with optional arguments:
+or run the following command to enter the interactive CLI and generate keys from an existing:
 
 ```sh
-./deposit --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+./deposit existing-mnemonic
 ```
 
-###### Arguments
+###### Commands
 
-You can use `--help` flag to see all arguments.
+The CLI offers different commands depending on what you want to do with the tool.
+
+| Command | Description |
+| ------- | ----------- |
+| `new-mnemonic` | (Recommended) If you don't already have a mnemonic that you have securely backed up, or you want to have a separate mnemonic for your eth2 validators, use this option. |
+| `existing-mnemonic` | If you have a mnemonic that you already use, then this option allows you to derive new keys from your existing mnemonic. Use this tool, if you have already generated keys with this CLI before, if you want to reuse your mnemonic that you know is secure that you generated elsewhere (reusing your eth1 mnemonic etc), or if you lost your keystores and need to recover your validator/withdrawal keys. |
+
+###### `new-mnemonic` Arguments
+
+You can use `new-mnemonic --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
 
 | Argument | Type | Description |
 | -------- | -------- | -------- |
@@ -94,11 +106,22 @@ You can use `--help` flag to see all arguments.
 | `--folder` | String. Pointing to `./validator_keys` by default | The folder path for the keystore(s) and deposit(s) |
 | `--chain` | String. `mainnet` by default | The chain setting for the signing domain. |
 
+###### `existing-mnemonic` Arguments
+
+You can use `existing-mnemonic --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
+
+| Argument | Type | Description |
+| -------- | -------- | -------- |
+| `--validator_start_index` | Non-negative integer | The index of the first validator's keys you wish to generate. If this is your first time generating keys with this mnemonic, use 0. If you have generated keys using this mnemonic before, use the next index from which you want to start generating keys from (eg, if you've generated 4 keys before (keys #0, #1, #2, #3), then enter 4 here.|
+| `--num_validators`  | Non-negative integer | The number of signing keys you want to generate. Note that the child key(s) are generated via the same master key. |
+| `--folder` | String. Pointing to `./validator_keys` by default | The folder path for the keystore(s) and deposit(s) |
+| `--chain` | String. `mainnet` by default | The chain setting for the signing domain. |
+
 ###### Successful message
 
 You will see the following messages after successfully generated the keystore(s) and the deposit(s):
 
-```
+```text
 Creating your keys.
 Saving your keystore(s).
 Creating your deposit(s).
@@ -136,20 +159,36 @@ Or use the helper script:
 
 ##### Step 2. Create keys and `deposit_data-*.json`
 
-Run the following command to enter the interactive CLI:
+Run one of the following command to enter the interactive CLI:
 
 ```sh
-./deposit.sh
+./deposit.sh new-mnemonic
+```
+
+or
+
+```sh
+./deposit.sh existing-mnemonic
 ```
 
 You can also run the tool with optional arguments:
 
 ```sh
-./deposit.sh --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+./deposit.sh new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
+```sh
+./deposit.sh existing-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+```
+
+###### Commands
+
+See [here](#commands)
+
 ###### Arguments
-See [here](#arguments)
+
+See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
+See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 
 ###### Successful message
 See [here](#successful-message)
@@ -183,23 +222,36 @@ pip3 install -r requirements.txt
 
 ##### Step 2. Create keys and `deposit_data-*.json`
 
-Run the following command to enter the interactive CLI:
+Run one of the following command to enter the interactive CLI:
 
 ```sh
-python3 ./eth2deposit/deposit.py
+python3 ./eth2deposit/deposit.py new-mnemonic
+```
+
+or
+
+```sh
+python3 ./eth2deposit/deposit.py existing-mnemonic
 ```
 
 You can also run the tool with optional arguments:
 
 ```sh
-python3 ./eth2deposit/deposit.py --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+python3 ./eth2deposit/deposit.py new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
-###### Arguments
-See [here](#arguments)
+```sh
+python3 ./eth2deposit/deposit.py existing-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+```
 
-###### Successful message
-See [here](#successful-message)
+###### Commands
+
+See [here](#commands)
+
+###### Arguments
+
+See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
+See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 
 ----
 
@@ -213,23 +265,36 @@ See [releases page](https://github.com/ethereum/eth2.0-deposit-cli/releases) to 
 
 ##### Step 2. Create keys and `deposit_data-*.json`
 
-Run the following command to enter the interactive CLI:
+Run one of the following command to enter the interactive CLI:
 
 ```sh
-deposit.exe
+deposit.exe new-mnemonic
+```
+
+or
+
+```sh
+deposit.exe existing-mnemonic
 ```
 
 You can also run the tool with optional arguments:
 
 ```sh
-deposit.exe --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+deposit.exe new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
-###### Arguments
-See [here](#arguments)
+```sh
+deposit.exe existing-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+```
 
-###### Successful message
-See [here](#successful-message)
+###### Commands
+
+See [here](#commands)
+
+###### Arguments
+
+See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
+See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 
 #### Option 2. Build `deposit-cli` with native Python
 
@@ -258,23 +323,36 @@ sh deposit.sh install
 
 ##### Step 2. Create keys and `deposit_data-*.json`
 
-Run the following command to enter the interactive CLI:
+Run one of the following command to enter the interactive CLI:
 
 ```sh
-sh deposit.sh
+./deposit.sh new-mnemonic
+```
+
+or
+
+```sh
+./deposit.sh existing-mnemonic
 ```
 
 You can also run the tool with optional arguments:
 
 ```sh
-sh deposit.sh --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+./deposit.sh new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
-###### Arguments
-See [here](#arguments)
+```sh
+./deposit.sh existing-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+```
 
-###### Successful message
-See [here](#successful-message)
+###### Commands
+
+See [here](#commands)
+
+###### Arguments
+
+See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
+See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 
 #### Option 3. Build `deposit-cli` with `virtualenv`
 
@@ -282,7 +360,7 @@ See [here](#successful-message)
 
 Ensure you are using Python version >= Python3.7 (Assume that you've installed Python 3 as the main Python):
 
-```sh
+```cmd
 python -V
 ```
 
@@ -290,7 +368,7 @@ python -V
 
 For the [virtualenv](https://virtualenv.pypa.io/en/latest/) users, you can create a new venv:
 
-```sh
+```cmd
 pip3 install virtualenv
 virtualenv venv
 .\venv\Scripts\activate
@@ -298,30 +376,43 @@ virtualenv venv
 
 and install the dependencies:
 
-```sh
+```cmd
 python setup.py install
 pip3 install -r requirements.txt
 ```
 
 ##### Step 2. Create keys and `deposit_data-*.json`
 
-Run the following command to enter the interactive CLI:
+Run one of the following command to enter the interactive CLI:
 
-```sh
-python .\eth2deposit\deposit.py
+``cmd
+python .\eth2deposit\deposit.py new-mnemonic
+```
+
+or
+
+```cmd
+python .\eth2deposit\deposit.py existing-mnemonic
 ```
 
 You can also run the tool with optional arguments:
 
-```sh
-python .\eth2deposit\deposit.py --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+```cmd
+python .\eth2deposit\deposit.py new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
-###### Arguments
-See [here](#arguments)
+```cmd
+python .\eth2deposit\deposit.pyexisting-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+```
 
-###### Successful message
-See [here](#successful-message)
+###### Commands
+
+See [here](#commands)
+
+###### Arguments
+
+See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
+See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 
 ## Development
 
