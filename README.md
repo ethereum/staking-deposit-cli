@@ -253,6 +253,42 @@ See [here](#commands)
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 
+#### Option 4. Use Docker image
+
+##### Step 1. Build the docker image
+
+Run the following command to locally build the docker image:
+
+```sh
+make build_docker
+```
+
+##### Step 2. Create keys and `deposit_data-*.json`
+
+Run the following command to enter the interactive CLI:
+
+```sh
+docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli
+```
+
+You can also run the tool with optional arguments:
+
+```sh
+docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --folder=<YOUR_FOLDER_PATH>
+```
+
+Example for 1 validator on the [Medalla testnet](https://medalla.launchpad.ethereum.org/) using english:
+
+```sh
+docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli --num_validators=1 --mnemonic_language=english --chain=medalla
+```
+
+###### Arguments
+See [here](#arguments)
+
+###### Successful message
+See [here](#successful-message)
+
 ----
 
 ### For Windows users
