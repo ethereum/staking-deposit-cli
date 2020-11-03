@@ -10,7 +10,7 @@ from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
 from.helpers import clean_key_folder, get_uuid
 
 
-def test_deposit() -> None:
+def test_existing_mnemonic() -> None:
     # Prepare folder
     my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
     clean_key_folder(my_folder_path)
