@@ -32,7 +32,7 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             '--num_validators',
             prompt='Please choose how many validators you wish to run',
             required=True,
-            type=click.IntRange(0, 2**32),
+            type=click.IntRange(0, 2**32 - 1),
         ),
         click.option(
             '--folder',

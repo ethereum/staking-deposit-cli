@@ -48,7 +48,7 @@ def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
     default=0,
     prompt=('Enter the index (key number) you wish to start generating more keys from. '
             'For example, if you\'ve generated 4 keys in the past, you\'d enter 4 here,'),
-    type=click.IntRange(0, 2**32),
+    type=click.IntRange(0, 2**32 - 1),
 )
 @generate_keys_arguments_decorator
 def existing_mnemonic(ctx: click.Context, mnemonic: str, mnemonic_password: str, **kwargs: Any) -> None:
