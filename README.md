@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Pre-production warning](#pre-production-warning)
+- [Introduction](#introduction)
 - [Tutorial for users](#tutorial-for-users)
   - [Build requirements](#build-requirements)
   - [For Linux or MacOS users](#for-linux-or-macos-users)
@@ -58,9 +58,16 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Pre-production warning
+## Introduction
 
-This software is a pre-release version which has not yet been audited and therefore should not yet be trusted to generate keys with the intent of securing actual ETH.
+`deposit-cli` is a tool for creating [EIP-2335 format](https://eips.ethereum.org/EIPS/eip-2335) BLS12-381 keystores and a corresponding `deposit_data*.json` file for [Ethereum 2.0 Launchpad](https://github.com/ethereum/eth2.0-deposit).
+
+- **Warning: Please generate your keystores on your own safe, completely offline device.**
+- **Warning: Please backup your mnemonic, keystores, and password securely.**
+
+Please read [Launchpad Validator FAQs](https://launchpad.ethereum.org/faq#keys) before generating the keys.
+
+You can find the audit report by Trail of Bits [here](https://github.com/trailofbits/publications/blob/master/reviews/ETH2DepositCLI.pdf).
 
 ## Tutorial for users
 
