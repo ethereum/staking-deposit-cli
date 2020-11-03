@@ -41,7 +41,7 @@ venv_lint: venv_build_test
 	$(VENV_ACTIVATE) && flake8 --config=flake8.ini ./eth2deposit ./tests && mypy --config-file mypy.ini -p eth2deposit
 
 venv_deposit: venv_build
-	$(VENV_ACTIVATE) && python ./eth2deposit/deposit.py
+	$(VENV_ACTIVATE) && python ./eth2deposit/deposit.py $(filter-out $@,$(MAKECMDGOALS))
 
 build_macos: venv_build
 	${VENV_NAME}/bin/python -m pip install -r ./build_configs/macos/requirements.txt
@@ -57,5 +57,4 @@ build_docker:
 	@docker build --pull -t $(DOCKER_IMAGE) .
 
 run_docker:
-	@docker run -it --rm $(DOCKER_IMAGE)
-
+	@docker run -it --rm $(DOCKER_IMAGE) $(filter-out $@,$(MAKECMDGOALS))
