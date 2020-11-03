@@ -66,23 +66,29 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
         click.option(
             '--num_validators',
             prompt='Please choose how many validators you wish to run',
+            help='The number of validators keys you want to generate (you can always generate more later)',
             required=True,
             type=click.IntRange(0, 2**32 - 1),
         ),
         click.option(
             '--folder',
+            default=os.getcwd(),
+            help='The folder to place the generated keystores and deposit_data.json in',
             type=click.Path(exists=True, file_okay=False, dir_okay=True),
-            default=os.getcwd()
         ),
         click.option(
             '--chain',
+            default=MAINNET,
+            help='The version of eth2 you are targeting. use "mainnet" if you are depositing ETH',
             prompt='Please choose the (mainnet or testnet) network/chain name',
             type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
-            default=MAINNET,
         ),
         click.password_option(
             '--keystore_password',
             callback=validate_password,
+            help=('The password that will secure your keystores. You will need to re-enter this to decrypt them when '
+                  'you setup your eth2 validators. (It is reccomened not to use this argument, and wait for the CLI '
+                  'to ask you for your mnemonic as otherwise it will appear in your shell history.)'),
             prompt='Type the password that secures your validator keystore(s)',
         ),
     ]

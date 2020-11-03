@@ -23,11 +23,15 @@ def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
         raise ValidationError('That is not a valid mnemonic, please check for typos.')
 
 
-@click.command()
+@click.command(
+    help='Generate (or recover) keys from an existing mnemonic',
+)
 @click.pass_context
 @click.option(
     '--mnemonic',
     callback=validate_mnemonic,
+    help=('The mnemonic that you used to generate your keys. (It is reccomened not to use this argument, and wait for '
+          'the CLI to ask you for your mnemonic as otherwise it will appear in your shell history.)'),
     prompt='Please enter your mnemonic separated by spaces (" ")',
     required=True,
     type=str,
@@ -39,13 +43,15 @@ def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
           'passwords. Providing a password here when you didn\'t use one initially, can result in lost keys (and '
           'therefore funds)! Also note that if you used this tool to generate your mnemonic intially, then you did not '
           'use a mnemonic password. However, if you are certain you used a password to "increase" the security of your '
-          'mnemonic, this is where you enter it. '),
+          'mnemonic, this is where you enter it.mnemonic'),
     prompt=False,
 )
 @click.option(
     '--validator_start_index',
     confirmation_prompt=True,
     default=0,
+    help=('Enter the index (key number) you wish to start generating more keys from. '
+          'For example, if you\'ve generated 4 keys in the past, you\'d enter 4 here,'),
     prompt=('Enter the index (key number) you wish to start generating more keys from. '
             'For example, if you\'ve generated 4 keys in the past, you\'d enter 4 here,'),
     type=click.IntRange(0, 2**32 - 1),

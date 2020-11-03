@@ -17,13 +17,16 @@ from .generate_keys import (
 languages = get_languages(WORD_LISTS_PATH)
 
 
-@click.command()
+@click.command(
+    help='Generate a new mnemonic and keys',
+)
 @click.pass_context
 @click.option(
     '--mnemonic_language',
+    default='english',
+    help='The language that your mnemonic is in.',
     prompt='Please choose your mnemonic language',
     type=click.Choice(languages, case_sensitive=False),
-    default='english',
 )
 @generate_keys_arguments_decorator
 def new_mnemonic(ctx: click.Context, mnemonic_language: str, **kwargs: Any) -> None:
