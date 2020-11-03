@@ -9,7 +9,10 @@ from eth2deposit.credentials import (
     CredentialList,
 )
 from eth2deposit.exceptions import ValidationError
-from eth2deposit.utils.validation import verify_deposit_data_json
+from eth2deposit.utils.validation import (
+    verify_deposit_data_json,
+    validate_password_strength,
+)
 from eth2deposit.utils.constants import (
     MAX_DEPOSIT_AMOUNT,
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
@@ -20,6 +23,38 @@ from eth2deposit.settings import (
     MAINNET,
     get_setting,
 )
+
+
+def get_password(text: str) -> str:
+    return click.prompt(text, hide_input=True, show_default=False, type=str)
+
+
+def validate_password(cts: click.Context, param: Any, password: str) -> str:
+    is_valid_password = False
+
+    # The given password has passed confirmation
+    try:
+        validate_password_strength(password)
+    except ValidationError as e:
+        click.echo(f'Error: {e} Please retype.')
+    else:
+        is_valid_password = True
+
+    while not is_valid_password:
+        password = get_password(text='Type the password that secures your validator keystore(s)')
+        try:
+            validate_password_strength(password)
+        except ValidationError as e:
+            click.echo(f'Error: {e} Please retype.')
+        else:
+            # Confirm password
+            password_confirmation = get_password(text='Repeat for confirmation')
+            if password == password_confirmation:
+                is_valid_password = True
+            else:
+                click.echo('Error: the two entered values do not match. Please retype again.')
+
+    return password
 
 
 def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[..., Any]:
@@ -45,7 +80,11 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
             default=MAINNET,
         ),
-        click.password_option('--keystore_password', prompt='Type the password that secures your validator keystore(s)')
+        click.password_option(
+            '--keystore_password',
+            callback=validate_password,
+            prompt='Type the password that secures your validator keystore(s)',
+        ),
     ]
     for decorator in reversed(decorators):
         function = decorator(function)
