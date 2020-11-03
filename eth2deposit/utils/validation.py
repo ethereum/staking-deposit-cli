@@ -1,3 +1,4 @@
+import click
 import json
 from eth_typing import (
     BLSPubkey,
@@ -26,7 +27,9 @@ def verify_deposit_data_json(filefolder: str) -> bool:
     """
     with open(filefolder, 'r') as f:
         deposit_json = json.load(f)
-        return all([validate_deposit(deposit) for deposit in deposit_json])
+        with click.progressbar(deposit_json, label='Verifying your deposits:\t',
+                               show_percent=False, show_pos=True) as deposits:
+            return all([validate_deposit(deposit) for deposit in deposits])
     return False
 
 

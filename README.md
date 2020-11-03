@@ -111,11 +111,11 @@ You can use `--help` flag to see all arguments.
 You will see the following messages after successfully generated the keystore(s) and the deposit(s):
 
 ```
-Creating your keys.
-Saving your keystore(s).
-Creating your deposit(s).
-Verifying your keystore(s).
-Verifying your deposit(s).
+Creating your keys:               [####################################]  <N>/<N>
+Creating your keystores:          [####################################]  <N>/<N>
+Creating your depositdata:        [####################################]  <N>/<N>
+Verifying your keystores:         [####################################]  <N>/<N>
+Verifying your deposits:          [####################################]  <N>/<N>
 
 Success!
 Your keys can be found at: <YOUR_FOLDER_PATH>

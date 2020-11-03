@@ -125,23 +125,18 @@ def main(num_validators: int, mnemonic_language: str, folder: str, chain: str, p
         os.mkdir(folder)
     click.clear()
     click.echo(RHINO_0)
-    click.echo('Creating your keys.')
     credentials = CredentialList.from_mnemonic(
         mnemonic=mnemonic,
         num_keys=num_validators,
         amounts=amounts,
         fork_version=setting.GENESIS_FORK_VERSION,
     )
-    click.echo('Saving your keystore(s).')
     keystore_filefolders = credentials.export_keystores(password=password, folder=folder)
-    click.echo('Creating your deposit(s).')
     deposits_file = credentials.export_deposit_data_json(folder=folder)
 
-    click.echo('Verifying your keystore(s).')
     if not credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=password):
         raise ValidationError("Failed to verify the keystores.")
 
-    click.echo('Verifying your deposit(s).')
     if not verify_deposit_data_json(deposits_file):
         raise ValidationError("Failed to verify the deposit data JSON files.")
 
