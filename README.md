@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Pre-production warning](#pre-production-warning)
+- [Introduction](#introduction)
 - [Tutorial for users](#tutorial-for-users)
   - [Build requirements](#build-requirements)
   - [For Linux or MacOS users](#for-linux-or-macos-users)
@@ -25,24 +25,29 @@
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-2)
         - [Arguments](#arguments-2)
         - [Successful message](#successful-message-2)
-  - [For Windows users](#for-windows-users)
-    - [Option 1. Download binary executable file](#option-1-download-binary-executable-file-1)
-      - [Step 1. Installation](#step-1-installation-3)
+    - [Option 4. Use Docker image](#option-4-use-docker-image)
+      - [Step 1. Build the docker image](#step-1-build-the-docker-image)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-3)
         - [Arguments](#arguments-3)
         - [Successful message](#successful-message-3)
-    - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python-1)
-      - [Step 0. Python version checking](#step-0-python-version-checking-2)
-      - [Step 1. Installation](#step-1-installation-4)
+  - [For Windows users](#for-windows-users)
+    - [Option 1. Download binary executable file](#option-1-download-binary-executable-file-1)
+      - [Step 1. Installation](#step-1-installation-3)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-4)
         - [Arguments](#arguments-4)
         - [Successful message](#successful-message-4)
-    - [Option 3. Build `deposit-cli` with `virtualenv`](#option-3-build-deposit-cli-with-virtualenv-1)
-      - [Step 0. Python version checking](#step-0-python-version-checking-3)
-      - [Step 1. Installation](#step-1-installation-5)
+    - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python-1)
+      - [Step 0. Python version checking](#step-0-python-version-checking-2)
+      - [Step 1. Installation](#step-1-installation-4)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-5)
         - [Arguments](#arguments-5)
         - [Successful message](#successful-message-5)
+    - [Option 3. Build `deposit-cli` with `virtualenv`](#option-3-build-deposit-cli-with-virtualenv-1)
+      - [Step 0. Python version checking](#step-0-python-version-checking-3)
+      - [Step 1. Installation](#step-1-installation-5)
+      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-6)
+        - [Arguments](#arguments-6)
+        - [Successful message](#successful-message-6)
 - [Development](#development)
   - [Install basic requirements](#install-basic-requirements)
   - [Install testing requirements](#install-testing-requirements)
@@ -50,9 +55,16 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Pre-production warning
+## Introduction
 
-This software is a pre-release version which has not yet been audited and therefore should not yet be trusted to generate keys with the intent of securing actual ETH.
+`deposit-cli` is a tool for creating [EIP-2335 format](https://eips.ethereum.org/EIPS/eip-2335) BLS12-381 keystores and a corresponding `deposit_data*.json` file for [Ethereum 2.0 Launchpad](https://github.com/ethereum/eth2.0-deposit).
+
+- **Warning: Please generate your keystores on your own safe, completely offline device.**
+- **Warning: Please backup your mnemonic, keystores, and password securely.**
+
+Please read [Launchpad Validator FAQs](https://launchpad.ethereum.org/faq#keys) before generating the keys.
+
+You can find the audit report by Trail of Bits [here](https://github.com/trailofbits/publications/blob/master/reviews/ETH2DepositCLI.pdf).
 
 ## Tutorial for users
 
