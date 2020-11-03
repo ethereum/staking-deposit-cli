@@ -1,5 +1,6 @@
 import os
 
+from eth2deposit.key_handling.keystore import Keystore
 from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
 
 
@@ -13,3 +14,8 @@ def clean_key_folder(my_folder_path: str) -> None:
         os.remove(os.path.join(validator_keys_folder_path, key_file_name))
     os.rmdir(validator_keys_folder_path)
     os.rmdir(my_folder_path)
+
+
+def get_uuid(key_file: str) -> str:
+    keystore = Keystore.from_json(key_file)
+    return keystore.uuid

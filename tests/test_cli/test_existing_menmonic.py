@@ -7,8 +7,7 @@ from click.testing import CliRunner
 
 from eth2deposit.deposit import cli
 from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
-from eth2deposit.key_handling.keystore import Keystore
-from.helpers import clean_key_folder
+from.helpers import clean_key_folder, get_uuid
 
 
 def test_deposit() -> None:
@@ -31,10 +30,6 @@ def test_deposit() -> None:
     # Check files
     validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     _, _, key_files = next(os.walk(validator_keys_folder_path))
-
-    def get_uuid(key_file: str) -> str:
-        keystore = Keystore.from_json(key_file)
-        return keystore.uuid
 
     all_uuid = [
         get_uuid(validator_keys_folder_path + '/' + key_file)
