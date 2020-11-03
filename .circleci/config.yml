@@ -117,6 +117,7 @@ jobs:
       - run:
           name: Build with build.spec
           command: |
+            export PYTHONHASHSEED=42
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
             export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-linux-amd64;
             mkdir ${BUILD_FILE_NAME};
@@ -130,6 +131,7 @@ jobs:
             tar -zcvf ${BUILD_FILE_NAME}.tar.gz ./${BUILD_FILE_NAME};
             mkdir /tmp/artifacts;
             cp ${BUILD_FILE_NAME}.tar.gz /tmp/artifacts;
+            sha256sum ${BUILD_FILE_NAME}.tar.gz | head -c 64 > /tmp/artifacts/${BUILD_FILE_NAME}.sha256
       - store_artifacts:
           path: /tmp/artifacts
   build-windows:
@@ -144,6 +146,7 @@ jobs:
       - run:
           name: Build with build.spec
           command: |
+            $PYTHONHASHSEED = 42
             $CIRCLE_SHORT_SHA1 = $env:CIRCLE_SHA1.substring(0,7)
             $BUILD_FILE_NAME = "eth2deposit-cli-" + $CIRCLE_SHORT_SHA1 + "-windows-amd64"
             mkdir $BUILD_FILE_NAME
@@ -159,6 +162,8 @@ jobs:
             Compress-Archive -Path $BUILD_FILE_NAME_PATH -DestinationPath $ZIP_FILE_NAME
             mkdir \tmp\artifacts
             copy $ZIP_FILE_NAME \tmp\artifacts\
+            $CHECKSUM_FILE_NAME_PASH = "\tmp\artifacts\"  + $BUILD_FILE_NAME + ".sha256"
+            certUtil -hashfile $ZIP_FILE_NAME SHA256 | findstr /i /v "SHA256" | findstr /i /v "CertUtil" > $CHECKSUM_FILE_NAME_PASH
       - store_artifacts:
           path: /tmp/artifacts
   build-macos:
@@ -175,6 +180,7 @@ jobs:
       - run:
           name: Build with build.spec
           command: |
+            export PYTHONHASHSEED=42
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
             export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-darwin-amd64;
             mkdir ${BUILD_FILE_NAME};
@@ -187,6 +193,7 @@ jobs:
             tar -zcvf ${BUILD_FILE_NAME}.tar.gz ./${BUILD_FILE_NAME};
             mkdir /tmp/artifacts;
             cp ${BUILD_FILE_NAME}.tar.gz /tmp/artifacts;
+            shasum -a 256 ${BUILD_FILE_NAME}.tar.gz | head -c 64 > /tmp/artifacts/${BUILD_FILE_NAME}.sha256
       - store_artifacts:
           path: /tmp/artifacts
 

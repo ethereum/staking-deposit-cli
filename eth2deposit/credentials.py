@@ -1,4 +1,5 @@
 import os
+import click
 import time
 import json
 from typing import Dict, List
@@ -31,7 +32,7 @@ class Credential:
     A Credential object contains all of the information for a single validator and the corresponding functionality.
     Once created, it is the only object that should be required to perform any processing for a validator.
     """
-    def __init__(self, *, mnemonic: str, index: int, amount: int, fork_version: bytes):
+    def __init__(self, *, mnemonic: str, mnemonic_password: str, index: int, amount: int, fork_version: bytes):
         # Set path as EIP-2334 format
         # https://eips.ethereum.org/EIPS/eip-2334
         purpose = '12381'
@@ -40,9 +41,10 @@ class Credential:
         withdrawal_key_path = f'm/{purpose}/{coin_type}/{account}/0'
         self.signing_key_path = f'{withdrawal_key_path}/0'
 
-        # Do NOT use password for seed generation.
-        self.withdrawal_sk = mnemonic_and_path_to_key(mnemonic=mnemonic, path=withdrawal_key_path, password='')
-        self.signing_sk = mnemonic_and_path_to_key(mnemonic=mnemonic, path=self.signing_key_path, password='')
+        self.withdrawal_sk = mnemonic_and_path_to_key(
+            mnemonic=mnemonic, path=withdrawal_key_path, password=mnemonic_password)
+        self.signing_sk = mnemonic_and_path_to_key(
+            mnemonic=mnemonic, path=self.signing_key_path, password=mnemonic_password)
         self.amount = amount
         self.fork_version = fork_version
 
@@ -121,28 +123,38 @@ class CredentialList:
     def from_mnemonic(cls,
                       *,
                       mnemonic: str,
+                      mnemonic_password: str,
                       num_keys: int,
                       amounts: List[int],
                       fork_version: bytes,
-                      start_index: int=0) -> 'CredentialList':
+                      start_index: int) -> 'CredentialList':
         if len(amounts) != num_keys:
             raise ValueError(
                 f"The number of keys ({num_keys}) doesn't equal to the corresponding deposit amounts ({len(amounts)})."
             )
         key_indices = range(start_index, start_index + num_keys)
-        return cls([Credential(mnemonic=mnemonic, index=index, amount=amounts[index], fork_version=fork_version)
-                    for index in key_indices])
+        with click.progressbar(key_indices, label='Creating your keys:\t\t',
+                               show_percent=False, show_pos=True) as indices:
+            return cls([Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
+                                   index=index, amount=amounts[index - start_index], fork_version=fork_version)
+                        for index in indices])
 
     def export_keystores(self, password: str, folder: str) -> List[str]:
-        return [credential.save_signing_keystore(password=password, folder=folder) for credential in self.credentials]
+        with click.progressbar(self.credentials, label='Creating your keystores:\t',
+                               show_percent=False, show_pos=True) as credentials:
+            return [credential.save_signing_keystore(password=password, folder=folder) for credential in credentials]
 
     def export_deposit_data_json(self, folder: str) -> str:
-        deposit_data = [cred.deposit_datum_dict for cred in self.credentials]
+        with click.progressbar(self.credentials, label='Creating your depositdata:\t',
+                               show_percent=False, show_pos=True) as credentials:
+            deposit_data = [cred.deposit_datum_dict for cred in credentials]
         filefolder = os.path.join(folder, 'deposit_data-%i.json' % time.time())
         with open(filefolder, 'w') as f:
             json.dump(deposit_data, f, default=lambda x: x.hex())
         return filefolder
 
     def verify_keystores(self, keystore_filefolders: List[str], password: str) -> bool:
-        return all(credential.verify_keystore(keystore_filefolder=filefolder, password=password)
-                   for credential, filefolder in zip(self.credentials, keystore_filefolders))
+        with click.progressbar(zip(self.credentials, keystore_filefolders), label='Verifying your keystores:\t',
+                               length=len(self.credentials), show_percent=False, show_pos=True) as items:
+            return all(credential.verify_keystore(keystore_filefolder=filefolder, password=password)
+                       for credential, filefolder in items)

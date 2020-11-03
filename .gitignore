@@ -10,3 +10,4 @@ venv/
 *.egg-info
 *.egg
 __pycache__
+.DS_Store

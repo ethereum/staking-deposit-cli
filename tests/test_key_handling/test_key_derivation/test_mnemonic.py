@@ -6,11 +6,12 @@ from typing import (
 )
 
 from eth2deposit.key_handling.key_derivation.mnemonic import (
-    _get_word,
+    _index_to_word,
     _get_word_list,
     get_languages,
     get_seed,
     get_mnemonic,
+    verify_mnemonic,
 )
 
 
@@ -37,8 +38,17 @@ def test_bip39(language: str, test: Sequence[str]) -> None:
 
 
 @pytest.mark.parametrize(
-    'language',
-    [language for language in all_languages]
+    'test_mnemonic,is_valid',
+    [(test_mnemonic[1], True)
+     for _, language_test_vectors in test_vectors.items()
+     for test_mnemonic in language_test_vectors]
+)
+def test_verify_mnemonic(test_mnemonic: str, is_valid: bool) -> None:
+    assert verify_mnemonic(test_mnemonic, WORD_LISTS_PATH) == is_valid
+
+
+@pytest.mark.parametrize(
+    'language', ['english']
 )
 @pytest.mark.parametrize(
     'index, valid',
@@ -48,10 +58,10 @@ def test_bip39(language: str, test: Sequence[str]) -> None:
         (2048, False),
     ]
 )
-def test_get_word(language, index, valid):
+def test_get_word(language: str, index: int, valid: bool) -> None:
     word_list = _get_word_list(language, WORD_LISTS_PATH)
     if valid:
-        _get_word(word_list=word_list, index=index)
+        _index_to_word(word_list=word_list, index=index)
     else:
         with pytest.raises(IndexError):
-            _get_word(word_list=word_list, index=index)
+            _index_to_word(word_list=word_list, index=index)
