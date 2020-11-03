@@ -97,8 +97,8 @@ The CLI offers different commands depending on what you want to do with the tool
 
 | Command | Description |
 | ------- | ----------- |
-| `new-mnemonic` | (Recommended) If you don't already have a mnemonic that you have securely backed up, or you want to have a separate mnemonic for your eth2 validators, use this option. |
-| `existing-mnemonic` | If you have a mnemonic that you already use, then this option allows you to derive new keys from your existing mnemonic. Use this tool, if you have already generated keys with this CLI before, if you want to reuse your mnemonic that you know is secure that you generated elsewhere (reusing your eth1 mnemonic etc), or if you lost your keystores and need to recover your validator keys. |
+| `new-mnemonic` | (Recommended) This command is used to generate keystores with a new mnemonic. |
+| `existing-mnemonic` | This command is used to re-generate or derive new keys from your existing mnemonic. Use this command, if (i) you have already generated keys with this CLI before, (ii) you want to reuse your mnemonic that you know is secure that you generated elsewhere (reusing your eth1 mnemonic .etc), or (iii) you lost your keystores and need to recover your keys. |
 
 ###### `new-mnemonic` Arguments
 
