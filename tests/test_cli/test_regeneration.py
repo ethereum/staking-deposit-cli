@@ -13,7 +13,7 @@ def test_regeneration(monkeypatch) -> None:
     # Part 1: new-mnemonic
 
     # monkeypatch get_mnemonic
-    mock_mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
+    mock_mnemonic = "legal winner thank year wave sausage worth useful legal winner thank yellow"
 
     def mock_get_mnemonic(language, words_path, entropy=None) -> str:
         return mock_mnemonic
@@ -76,6 +76,7 @@ def test_regeneration(monkeypatch) -> None:
     with open(Path(validator_keys_folder_path_2 + '/' + part_2_key_files[0])) as f:
         keystore_2_0 = json.load(f)
     assert keystore_1_1['pubkey'] == keystore_2_0['pubkey']
+    assert keystore_1_1['path'] == keystore_2_0['path']
 
     # Clean up
     clean_key_folder(folder_path_1)
