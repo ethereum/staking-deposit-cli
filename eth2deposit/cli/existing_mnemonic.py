@@ -43,7 +43,7 @@ def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
           'passwords. Providing a password here when you didn\'t use one initially, can result in lost keys (and '
           'therefore funds)! Also note that if you used this tool to generate your mnemonic intially, then you did not '
           'use a mnemonic password. However, if you are certain you used a password to "increase" the security of your '
-          'mnemonic, this is where you enter it.mnemonic'),
+          'mnemonic, this is where you enter it.'),
     prompt=False,
 )
 @click.option(
