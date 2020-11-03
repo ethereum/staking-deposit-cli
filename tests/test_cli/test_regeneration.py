@@ -47,7 +47,7 @@ def test_regeneration(monkeypatch) -> None:
                 for key_file in part_1_key_files]
     assert len(set(all_uuid)) == 2
 
-    # Part 2:
+    # Part 2: existing-mnemonic
     runner = CliRunner()
     # Create index 1 and 2
     inputs = [
