@@ -28,24 +28,29 @@
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-2)
         - [Commands](#commands-2)
         - [Arguments](#arguments-1)
+    - [Option 4. Use Docker image](#option-4-use-docker-image)
+      - [Step 1. Build the docker image](#step-1-build-the-docker-image)
+      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-3)
+        - [Arguments](#arguments-2)
+        - [Successful message](#successful-message-2)
   - [For Windows users](#for-windows-users)
     - [Option 1. Download binary executable file](#option-1-download-binary-executable-file-1)
       - [Step 1. Installation](#step-1-installation-3)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-3)
+      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-4)
         - [Commands](#commands-3)
-        - [Arguments](#arguments-2)
+        - [Arguments](#arguments-3)
     - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python-1)
       - [Step 0. Python version checking](#step-0-python-version-checking-2)
       - [Step 1. Installation](#step-1-installation-4)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-4)
+      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-5)
         - [Commands](#commands-4)
-        - [Arguments](#arguments-3)
+        - [Arguments](#arguments-4)
     - [Option 3. Build `deposit-cli` with `virtualenv`](#option-3-build-deposit-cli-with-virtualenv-1)
       - [Step 0. Python version checking](#step-0-python-version-checking-3)
       - [Step 1. Installation](#step-1-installation-5)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-5)
+      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-6)
         - [Commands](#commands-5)
-        - [Arguments](#arguments-4)
+        - [Arguments](#arguments-5)
 - [Development](#development)
   - [Install basic requirements](#install-basic-requirements)
   - [Install testing requirements](#install-testing-requirements)
@@ -274,13 +279,13 @@ docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0
 You can also run the tool with optional arguments:
 
 ```sh
-docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --folder=<YOUR_FOLDER_PATH>
+docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --folder=<YOUR_FOLDER_PATH>
 ```
 
 Example for 1 validator on the [Medalla testnet](https://medalla.launchpad.ethereum.org/) using english:
 
 ```sh
-docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli --num_validators=1 --mnemonic_language=english --chain=medalla
+docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli new-mnemonic --num_validators=1 --mnemonic_language=english --chain=medalla
 ```
 
 ###### Arguments

@@ -12,4 +12,8 @@ RUN pip3 install -r requirements.txt
 
 RUN python3 setup.py install
 
+ARG cli_command
+
 ENTRYPOINT [ "python3", "./eth2deposit/deposit.py" ]
+
+CMD [ $cli_command ]
