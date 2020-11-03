@@ -119,14 +119,10 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
         fork_version=setting.GENESIS_FORK_VERSION,
         start_index=validator_start_index,
     )
-    click.echo('Saving your keystore(s).')
     keystore_filefolders = credentials.export_keystores(password=keystore_password, folder=folder)
-    click.echo('Creating your deposit(s).')
     deposits_file = credentials.export_deposit_data_json(folder=folder)
-    click.echo('Verifying your keystore(s).')
     if not credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=keystore_password):
         raise ValidationError("Failed to verify the keystores.")
-    click.echo('Verifying your deposit(s).')
     if not verify_deposit_data_json(deposits_file):
         raise ValidationError("Failed to verify the deposit data JSON files.")
     click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)

@@ -1,4 +1,5 @@
 import os
+import click
 import time
 import json
 from typing import Dict, List
@@ -132,20 +133,28 @@ class CredentialList:
                 f"The number of keys ({num_keys}) doesn't equal to the corresponding deposit amounts ({len(amounts)})."
             )
         key_indices = range(start_index, start_index + num_keys)
-        return cls([Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
-                               index=index, amount=amounts[index - start_index], fork_version=fork_version)
-                    for index in key_indices])
+        with click.progressbar(key_indices, label='Creating your keys:\t\t',
+                               show_percent=False, show_pos=True) as indices:
+            return cls([Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
+                                   index=index, amount=amounts[index - start_index], fork_version=fork_version)
+                        for index in indices])
 
     def export_keystores(self, password: str, folder: str) -> List[str]:
-        return [credential.save_signing_keystore(password=password, folder=folder) for credential in self.credentials]
+        with click.progressbar(self.credentials, label='Creating your keystores:\t',
+                               show_percent=False, show_pos=True) as credentials:
+            return [credential.save_signing_keystore(password=password, folder=folder) for credential in credentials]
 
     def export_deposit_data_json(self, folder: str) -> str:
-        deposit_data = [cred.deposit_datum_dict for cred in self.credentials]
+        with click.progressbar(self.credentials, label='Creating your depositdata:\t',
+                               show_percent=False, show_pos=True) as credentials:
+            deposit_data = [cred.deposit_datum_dict for cred in credentials]
         filefolder = os.path.join(folder, 'deposit_data-%i.json' % time.time())
         with open(filefolder, 'w') as f:
             json.dump(deposit_data, f, default=lambda x: x.hex())
         return filefolder
 
     def verify_keystores(self, keystore_filefolders: List[str], password: str) -> bool:
-        return all(credential.verify_keystore(keystore_filefolder=filefolder, password=password)
-                   for credential, filefolder in zip(self.credentials, keystore_filefolders))
+        with click.progressbar(zip(self.credentials, keystore_filefolders), label='Verifying your keystores:\t',
+                               length=len(self.credentials), show_percent=False, show_pos=True) as items:
+            return all(credential.verify_keystore(keystore_filefolder=filefolder, password=password)
+                       for credential, filefolder in items)
