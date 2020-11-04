@@ -1,19 +1,26 @@
 import asyncio
 import os
+from pathlib import Path
+import json
 
 import pytest
-
+from py_ecc.bls import G2ProofOfPossession as bls
 from click.testing import CliRunner
+
 from eth2deposit.cli import new_mnemonic
 from eth2deposit.deposit import cli
+from eth2deposit.key_handling.key_derivation.path import mnemonic_and_path_to_key
 from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
+from eth2deposit.utils.crypto import SHA256
 from .helpers import clean_key_folder, get_uuid
 
 
 def test_new_mnemonic(monkeypatch) -> None:
+    mock_mnemonic = "legal winner thank year wave sausage worth useful legal winner thank yellow"
+
     # monkeypatch get_mnemonic
     def mock_get_mnemonic(language, words_path, entropy=None) -> str:
-        return "fakephrase"
+        return mock_mnemonic
 
     monkeypatch.setattr(new_mnemonic, "get_mnemonic", mock_get_mnemonic)
 
@@ -24,21 +31,37 @@ def test_new_mnemonic(monkeypatch) -> None:
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
-    inputs = ['english', '1', 'mainnet', 'MyPassword', 'MyPassword', 'fakephrase']
+    inputs = ['english', '1', 'mainnet', 'MyPassword', 'MyPassword', mock_mnemonic]
     data = '\n'.join(inputs)
     result = runner.invoke(cli, ['new-mnemonic', '--folder', my_folder_path], input=data)
     assert result.exit_code == 0
 
     # Check files
     validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
-    _, _, key_files = next(os.walk(validator_keys_folder_path))
+    _, _, files = next(os.walk(validator_keys_folder_path))
+    key_files = sorted([key_file for key_file in files if key_file.startswith('keystore')])
+    deposit_data_file = [data_file for data_file in files if data_file.startswith('deposit_data')][0]
 
     all_uuid = [
         get_uuid(validator_keys_folder_path + '/' + key_file)
         for key_file in key_files
-        if key_file.startswith('keystore')
     ]
     assert len(set(all_uuid)) == 1
+
+    # Verify keys
+    purpose = '12381'
+    coin_type = '3600'
+    account = 0
+    withdrawal_key_path = f'm/{purpose}/{coin_type}/{account}/0'
+    signing_key_path = f'{withdrawal_key_path}/0'
+    withdrawal_sk = mnemonic_and_path_to_key(mnemonic=mock_mnemonic, path=withdrawal_key_path, password='')
+    signing_sk = mnemonic_and_path_to_key(mnemonic=mock_mnemonic, path=signing_key_path, password='')
+
+    with open(Path(validator_keys_folder_path + '/' + deposit_data_file)) as f:
+        deposit_data_list = json.load(f)
+    deposit_data = deposit_data_list[0]
+    assert bls.SkToPk(signing_sk).hex() == deposit_data['pubkey']
+    assert (b'\x00' + SHA256(bls.SkToPk(withdrawal_sk))[1:]).hex() == deposit_data['withdrawal_credentials']
 
     # Clean up
     clean_key_folder(my_folder_path)
