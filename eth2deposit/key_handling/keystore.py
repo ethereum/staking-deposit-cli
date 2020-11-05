@@ -98,8 +98,7 @@ class Keystore(BytesDataclass):
             f.write(self.as_json())
 
     @classmethod
-    def from_json(cls, json_dict: Dict[Any, Any]) -> 'Keystore':
-
+    def from_json(cls, json_dict: Dict[Any, Any], path='': str) -> 'Keystore':
         crypto = KeystoreCrypto.from_json(json_dict['crypto'])
         path = json_dict['path']
         uuid = json_dict['uuid']
@@ -111,7 +110,7 @@ class Keystore(BytesDataclass):
     @classmethod
     def from_file(cls, path: str) -> 'KeyStore':
         with open(path, 'r') as f:
-            return cls.from_json(json.load(f))
+            return cls.from_json(json.load(f), path)
 
     @staticmethod
     def _process_password(password: str) -> bytes:
