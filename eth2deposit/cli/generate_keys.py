@@ -4,6 +4,7 @@ from typing import (
     Any,
     Callable,
 )
+from eth_utils import decode_hex
 
 from eth2deposit.credentials import (
     CredentialList,
@@ -14,6 +15,7 @@ from eth2deposit.utils.validation import (
     validate_password_strength,
 )
 from eth2deposit.utils.constants import (
+    BLS_WITHDRAWAL_PREFIX,
     MAX_DEPOSIT_AMOUNT,
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )
@@ -57,6 +59,15 @@ def validate_password(cts: click.Context, param: Any, password: str) -> str:
     return password
 
 
+def validate_withdrawal_credentials(withdrawal_credentials: str) -> None:
+    try:
+        decoded_withdrawal_credentials = decode_hex(withdrawal_credentials)
+    except Exception:
+        raise ValueError("Wrong withdrawal_credentials value.")
+    if len(decoded_withdrawal_credentials) != 32 or decoded_withdrawal_credentials[:1] != BLS_WITHDRAWAL_PREFIX:
+        raise ValidationError("Wrong withdrawal_credentials format.")
+
+
 def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[..., Any]:
     '''
     This is a decorator that, when applied to a parent-command, implements the
@@ -91,6 +102,13 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
                   'to ask you for your mnemonic as otherwise it will appear in your shell history.)'),
             prompt='Type the password that secures your validator keystore(s)',
         ),
+        click.option(
+            '--withdrawal_credentials',
+            default='',
+            help=("The pre-defined withdrawal_credentials in hex string. If it's unset, the CLI will use the "
+                  "withdrawal key created by the mnemonic to generate the withdrawal_credentials"),
+            type=str,
+        ),
     ]
     for decorator in reversed(decorators):
         function = decorator(function)
@@ -100,7 +118,14 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
 @click.command()
 @click.pass_context
 def generate_keys(ctx: click.Context, validator_start_index: int,
-                  num_validators: int, folder: str, chain: str, keystore_password: str, **kwargs: Any) -> None:
+                  num_validators: int, folder: str, chain: str,
+                  keystore_password: str, withdrawal_credentials: str, **kwargs: Any) -> None:
+    if withdrawal_credentials == "":
+        assgined_withdrawal_credentials = None
+    else:
+        validate_withdrawal_credentials(withdrawal_credentials)
+        assgined_withdrawal_credentials = decode_hex(withdrawal_credentials)
+
     mnemonic = ctx.obj['mnemonic']
     mnemonic_password = ctx.obj['mnemonic_password']
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
@@ -120,8 +145,14 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
         start_index=validator_start_index,
     )
     keystore_filefolders = credential_list.export_keystores(password=keystore_password, folder=folder)
-    deposits_file = credential_list.export_deposit_data_json(folder=folder)
-    withdrawal_credentials_list = tuple([c.withdrawal_credentials for c in credential_list.credentials])
+    deposits_file = credential_list.export_deposit_data_json(
+        folder=folder,
+        assgined_withdrawal_credentials=assgined_withdrawal_credentials,
+    )
+    if assgined_withdrawal_credentials is None:
+        withdrawal_credentials_list = tuple([c.withdrawal_credentials for c in credential_list.credentials])
+    else:
+        withdrawal_credentials_list = (assgined_withdrawal_credentials,) * len(credential_list.credentials)
     if not credential_list.verify_keystores(keystore_filefolders=keystore_filefolders, password=keystore_password):
         raise ValidationError("Failed to verify the keystores.")
     if not verify_deposit_data_json(deposits_file, withdrawal_credentials_list):
