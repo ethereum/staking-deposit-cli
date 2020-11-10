@@ -111,7 +111,7 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
     click.clear()
     click.echo(RHINO_0)
     click.echo('Creating your keys.')
-    credentials = CredentialList.from_mnemonic(
+    credential_list = CredentialList.from_mnemonic(
         mnemonic=mnemonic,
         mnemonic_password=mnemonic_password,
         num_keys=num_validators,
@@ -119,11 +119,12 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
         fork_version=setting.GENESIS_FORK_VERSION,
         start_index=validator_start_index,
     )
-    keystore_filefolders = credentials.export_keystores(password=keystore_password, folder=folder)
-    deposits_file = credentials.export_deposit_data_json(folder=folder)
-    if not credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=keystore_password):
+    keystore_filefolders = credential_list.export_keystores(password=keystore_password, folder=folder)
+    deposits_file = credential_list.export_deposit_data_json(folder=folder)
+    withdrawal_credentials_list = tuple([c.withdrawal_credentials for c in credential_list.credentials])
+    if not credential_list.verify_keystores(keystore_filefolders=keystore_filefolders, password=keystore_password):
         raise ValidationError("Failed to verify the keystores.")
-    if not verify_deposit_data_json(deposits_file):
+    if not verify_deposit_data_json(deposits_file, withdrawal_credentials_list):
         raise ValidationError("Failed to verify the deposit data JSON files.")
     click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)
     click.pause('\n\nPress any key.')

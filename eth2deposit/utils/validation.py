@@ -1,5 +1,6 @@
 import click
 import json
+from typing import Tuple
 from eth_typing import (
     BLSPubkey,
     BLSSignature,
@@ -21,16 +22,24 @@ from eth2deposit.utils.constants import (
 )
 
 
-def verify_deposit_data_json(filefolder: str) -> bool:
+def verify_deposit_data_json(filefolder: str, withdrawal_credentials_list: Tuple[bytes, ...]) -> bool:
     """
     Validate every deposit found in the deposit-data JSON file folder.
     """
     with open(filefolder, 'r') as f:
         deposit_json = json.load(f)
         with click.progressbar(deposit_json, label='Verifying your deposits:\t',
-                               show_percent=False, show_pos=True) as deposits:
-            return all([validate_deposit(deposit) for deposit in deposits])
+                               show_percent=False, show_pos=True):
+            return (all([
+                validate_deposit(deposit_json[i])
+                and validate_withdrawal_credentials(deposit_json[i], withdrawal_credentials_list[i])
+                for i in range(len(deposit_json))
+            ]))
     return False
+
+
+def validate_withdrawal_credentials(deposit_data_dict: Dict[str, Any], withdrawal_credentials: bytes) -> bool:
+    return withdrawal_credentials == bytes.fromhex(deposit_data_dict['withdrawal_credentials'])
 
 
 def validate_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
