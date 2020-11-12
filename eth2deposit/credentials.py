@@ -107,7 +107,7 @@ class Credential:
         return filefolder
 
     def verify_keystore(self, keystore_filefolder: str, password: str) -> bool:
-        saved_keystore = Keystore.from_json(keystore_filefolder)
+        saved_keystore = Keystore.from_file(keystore_filefolder)
         secret_bytes = saved_keystore.decrypt(password)
         return self.signing_sk == int.from_bytes(secret_bytes, 'big')
 
