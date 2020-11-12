@@ -20,6 +20,8 @@ MedallaSetting = BaseChainSetting(GENESIS_FORK_VERSION=bytes.fromhex('00000001')
 SpadinaSetting = BaseChainSetting(GENESIS_FORK_VERSION=bytes.fromhex('00000002'))
 # Eth2 "dress rehearsal" testnet (spec v0.12.3)
 ZinkenSetting = BaseChainSetting(GENESIS_FORK_VERSION=bytes.fromhex('00000003'))
+# Eth2 testnet (spec v1.0.0)
+PyrmontSetting = BaseChainSetting(GENESIS_FORK_VERSION=bytes.fromhex('00000000'))
 
 
 MAINNET = 'mainnet'
@@ -28,6 +30,7 @@ ALTONA = 'altona'
 MEDALLA = 'medalla'
 SPADINA = 'spadina'
 ZINKEN = 'zinken'
+Pyrmont = 'pyrmont'
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
     MAINNET: MainnetSetting,
     WITTI: WittiSetting,
@@ -35,6 +38,7 @@ ALL_CHAINS: Dict[str, BaseChainSetting] = {
     MEDALLA: MedallaSetting,
     SPADINA: SpadinaSetting,
     ZINKEN: ZinkenSetting,
+    Pyrmont: PyrmontSetting,
 }
 
 
