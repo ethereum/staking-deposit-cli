@@ -21,7 +21,7 @@ from eth2deposit.utils.ascii_art import RHINO_0
 from eth2deposit.settings import (
     ALL_CHAINS,
     MAINNET,
-    get_setting,
+    get_chain_setting,
 )
 
 
@@ -105,7 +105,7 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
     mnemonic_password = ctx.obj['mnemonic_password']
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
-    setting = get_setting(chain)
+    chain_setting = get_chain_setting(chain)
     if not os.path.exists(folder):
         os.mkdir(folder)
     click.clear()
@@ -116,7 +116,7 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
         mnemonic_password=mnemonic_password,
         num_keys=num_validators,
         amounts=amounts,
-        fork_version=setting.GENESIS_FORK_VERSION,
+        chain_setting=chain_setting,
         start_index=validator_start_index,
     )
     keystore_filefolders = credentials.export_keystores(password=keystore_password, folder=folder)
