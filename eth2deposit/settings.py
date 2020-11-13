@@ -30,8 +30,8 @@ MedallaSetting = BaseChainSetting(ETH2_NETWORK_NAME=MEDALLA, GENESIS_FORK_VERSIO
 SpadinaSetting = BaseChainSetting(ETH2_NETWORK_NAME=SPADINA, GENESIS_FORK_VERSION=bytes.fromhex('00000002'))
 # Eth2 "dress rehearsal" testnet (spec v0.12.3)
 ZinkenSetting = BaseChainSetting(ETH2_NETWORK_NAME=ZINKEN, GENESIS_FORK_VERSION=bytes.fromhex('00000003'))
-# Eth2 testnet (spec v1.0.0)
-PyrmontSetting = BaseChainSetting(ETH2_NETWORK_NAME=PYRMONT, GENESIS_FORK_VERSION=bytes.fromhex('00000000'))
+# Eth2 pre-launch testnet (spec v1.0.0)
+PyrmontSetting = BaseChainSetting(ETH2_NETWORK_NAME=PYRMONT, GENESIS_FORK_VERSION=bytes.fromhex('00002009'))
 
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
