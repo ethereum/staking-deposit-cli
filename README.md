@@ -433,7 +433,7 @@ pip3 install -r requirements.txt
 
 Run one of the following command to enter the interactive CLI:
 
-``cmd
+```cmd
 python .\eth2deposit\deposit.py new-mnemonic
 ```
 
