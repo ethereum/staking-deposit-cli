@@ -2,7 +2,7 @@ import os
 import click
 import time
 import json
-from typing import Dict, List
+from typing import Dict, List, Optional
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from eth2deposit.exceptions import ValidationError
@@ -72,23 +72,26 @@ class Credential:
             amount=self.amount,
         )
 
-    @property
-    def signed_deposit(self) -> DepositData:
+    def generate_signed_deposit(self, assigned_withdrawal_credentials: Optional[bytes]=None) -> DepositData:
         domain = compute_deposit_domain(fork_version=self.fork_version)
-        signing_root = compute_signing_root(self.deposit_message, domain)
+        deposit_message = self.deposit_message
+        if assigned_withdrawal_credentials is not None:
+            deposit_message = deposit_message.copy(
+                withdrawal_credentials=assigned_withdrawal_credentials
+            )
+        signing_root = compute_signing_root(deposit_message, domain)
         signed_deposit = DepositData(
-            **self.deposit_message.as_dict(),
+            **deposit_message.as_dict(),
             signature=bls.Sign(self.signing_sk, signing_root)
         )
         return signed_deposit
 
-    @property
-    def deposit_datum_dict(self) -> Dict[str, bytes]:
+    def generate_deposit_datum_dict(self, assigned_withdrawal_credentials: Optional[bytes]=None) -> Dict[str, bytes]:
         """
         Return a single deposit datum for 1 validator including all
         the information needed to verify and process the deposit.
         """
-        signed_deposit_datum = self.signed_deposit
+        signed_deposit_datum = self.generate_signed_deposit(assigned_withdrawal_credentials)
         datum_dict = signed_deposit_datum.as_dict()
         datum_dict.update({'deposit_message_root': self.deposit_message.hash_tree_root})
         datum_dict.update({'deposit_data_root': signed_deposit_datum.hash_tree_root})
@@ -144,10 +147,10 @@ class CredentialList:
                                show_percent=False, show_pos=True) as credentials:
             return [credential.save_signing_keystore(password=password, folder=folder) for credential in credentials]
 
-    def export_deposit_data_json(self, folder: str) -> str:
+    def export_deposit_data_json(self, folder: str, assigned_withdrawal_credentials: Optional[bytes]=None) -> str:
         with click.progressbar(self.credentials, label='Creating your depositdata:\t',
                                show_percent=False, show_pos=True) as credentials:
-            deposit_data = [cred.deposit_datum_dict for cred in credentials]
+            deposit_data = [cred.generate_deposit_datum_dict(assigned_withdrawal_credentials) for cred in credentials]
         filefolder = os.path.join(folder, 'deposit_data-%i.json' % time.time())
         with open(filefolder, 'w') as f:
             json.dump(deposit_data, f, default=lambda x: x.hex())
