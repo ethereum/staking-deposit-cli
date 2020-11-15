@@ -121,10 +121,10 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
                   num_validators: int, folder: str, chain: str,
                   keystore_password: str, withdrawal_credentials: str, **kwargs: Any) -> None:
     if withdrawal_credentials == "":
-        assgined_withdrawal_credentials = None
+        assigned_withdrawal_credentials = None
     else:
         validate_withdrawal_credentials(withdrawal_credentials)
-        assgined_withdrawal_credentials = decode_hex(withdrawal_credentials)
+        assigned_withdrawal_credentials = decode_hex(withdrawal_credentials)
 
     mnemonic = ctx.obj['mnemonic']
     mnemonic_password = ctx.obj['mnemonic_password']
@@ -147,12 +147,12 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
     keystore_filefolders = credential_list.export_keystores(password=keystore_password, folder=folder)
     deposits_file = credential_list.export_deposit_data_json(
         folder=folder,
-        assgined_withdrawal_credentials=assgined_withdrawal_credentials,
+        assigned_withdrawal_credentials=assigned_withdrawal_credentials,
     )
-    if assgined_withdrawal_credentials is None:
+    if assigned_withdrawal_credentials is None:
         withdrawal_credentials_list = tuple([c.withdrawal_credentials for c in credential_list.credentials])
     else:
-        withdrawal_credentials_list = (assgined_withdrawal_credentials,) * len(credential_list.credentials)
+        withdrawal_credentials_list = (assigned_withdrawal_credentials,) * len(credential_list.credentials)
     if not credential_list.verify_keystores(keystore_filefolders=keystore_filefolders, password=keystore_password):
         raise ValidationError("Failed to verify the keystores.")
     if not verify_deposit_data_json(deposits_file, withdrawal_credentials_list):
