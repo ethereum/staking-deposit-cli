@@ -11,7 +11,7 @@ from eth2deposit.key_handling.keystore import (
     Keystore,
     ScryptKeystore,
 )
-from eth2deposit.settings import DEPOSIT_CLI_VERSION
+from eth2deposit.settings import DEPOSIT_CLI_VERSION, BaseChainSetting
 from eth2deposit.utils.constants import (
     BLS_WITHDRAWAL_PREFIX,
     ETH2GWEI,
@@ -32,7 +32,8 @@ class Credential:
     A Credential object contains all of the information for a single validator and the corresponding functionality.
     Once created, it is the only object that should be required to perform any processing for a validator.
     """
-    def __init__(self, *, mnemonic: str, mnemonic_password: str, index: int, amount: int, fork_version: bytes):
+    def __init__(self, *, mnemonic: str, mnemonic_password: str,
+                 index: int, amount: int, chain_setting: BaseChainSetting):
         # Set path as EIP-2334 format
         # https://eips.ethereum.org/EIPS/eip-2334
         purpose = '12381'
@@ -46,7 +47,7 @@ class Credential:
         self.signing_sk = mnemonic_and_path_to_key(
             mnemonic=mnemonic, path=self.signing_key_path, password=mnemonic_password)
         self.amount = amount
-        self.fork_version = fork_version
+        self.chain_setting = chain_setting
 
     @property
     def signing_pk(self) -> bytes:
@@ -74,7 +75,7 @@ class Credential:
 
     @property
     def signed_deposit(self) -> DepositData:
-        domain = compute_deposit_domain(fork_version=self.fork_version)
+        domain = compute_deposit_domain(fork_version=self.chain_setting.GENESIS_FORK_VERSION)
         signing_root = compute_signing_root(self.deposit_message, domain)
         signed_deposit = DepositData(
             **self.deposit_message.as_dict(),
@@ -92,7 +93,8 @@ class Credential:
         datum_dict = signed_deposit_datum.as_dict()
         datum_dict.update({'deposit_message_root': self.deposit_message.hash_tree_root})
         datum_dict.update({'deposit_data_root': signed_deposit_datum.hash_tree_root})
-        datum_dict.update({'fork_version': self.fork_version})
+        datum_dict.update({'fork_version': self.chain_setting.GENESIS_FORK_VERSION})
+        datum_dict.update({'eth2_network_name': self.chain_setting.ETH2_NETWORK_NAME})
         datum_dict.update({'deposit_cli_version': DEPOSIT_CLI_VERSION})
         return datum_dict
 
@@ -107,7 +109,7 @@ class Credential:
         return filefolder
 
     def verify_keystore(self, keystore_filefolder: str, password: str) -> bool:
-        saved_keystore = Keystore.from_json(keystore_filefolder)
+        saved_keystore = Keystore.from_file(keystore_filefolder)
         secret_bytes = saved_keystore.decrypt(password)
         return self.signing_sk == int.from_bytes(secret_bytes, 'big')
 
@@ -126,7 +128,7 @@ class CredentialList:
                       mnemonic_password: str,
                       num_keys: int,
                       amounts: List[int],
-                      fork_version: bytes,
+                      chain_setting: BaseChainSetting,
                       start_index: int) -> 'CredentialList':
         if len(amounts) != num_keys:
             raise ValueError(
@@ -136,7 +138,7 @@ class CredentialList:
         with click.progressbar(key_indices, label='Creating your keys:\t\t',
                                show_percent=False, show_pos=True) as indices:
             return cls([Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
-                                   index=index, amount=amounts[index - start_index], fork_version=fork_version)
+                                   index=index, amount=amounts[index - start_index], chain_setting=chain_setting)
                         for index in indices])
 
     def export_keystores(self, password: str, folder: str) -> List[str]:

@@ -30,7 +30,7 @@ def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
 @click.option(
     '--mnemonic',
     callback=validate_mnemonic,
-    help=('The mnemonic that you used to generate your keys. (It is reccomened not to use this argument, and wait for '
+    help=('The mnemonic that you used to generate your keys. (It is recommended not to use this argument, and wait for '
           'the CLI to ask you for your mnemonic as otherwise it will appear in your shell history.)'),
     prompt='Please enter your mnemonic separated by spaces (" ")',
     required=True,

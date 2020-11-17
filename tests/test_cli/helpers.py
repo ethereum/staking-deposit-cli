@@ -17,5 +17,5 @@ def clean_key_folder(my_folder_path: str) -> None:
 
 
 def get_uuid(key_file: str) -> str:
-    keystore = Keystore.from_json(key_file)
+    keystore = Keystore.from_file(key_file)
     return keystore.uuid
