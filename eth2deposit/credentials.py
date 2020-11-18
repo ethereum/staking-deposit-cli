@@ -32,7 +32,7 @@ class Credential:
     A Credential object contains all of the information for a single validator and the corresponding functionality.
     Once created, it is the only object that should be required to perform any processing for a validator.
     """
-    def __init__(self, *, mnemonic: str, mnemonic_password: str,
+    def __init__(self, *, mnemonic: str, include_withdrawal_pk: bool, mnemonic_password: str,
                  index: int, amount: int, chain_setting: BaseChainSetting):
         # Set path as EIP-2334 format
         # https://eips.ethereum.org/EIPS/eip-2334
@@ -48,6 +48,7 @@ class Credential:
             mnemonic=mnemonic, path=self.signing_key_path, password=mnemonic_password)
         self.amount = amount
         self.chain_setting = chain_setting
+        self.include_withdrawal_pk = include_withdrawal_pk
 
     @property
     def signing_pk(self) -> bytes:
@@ -91,6 +92,8 @@ class Credential:
         """
         signed_deposit_datum = self.signed_deposit
         datum_dict = signed_deposit_datum.as_dict()
+        if self.include_withdrawal_pk:
+            datum_dict.update({'withdrawal_pubkey': self.withdrawal_pk})
         datum_dict.update({'deposit_message_root': self.deposit_message.hash_tree_root})
         datum_dict.update({'deposit_data_root': signed_deposit_datum.hash_tree_root})
         datum_dict.update({'fork_version': self.chain_setting.GENESIS_FORK_VERSION})
@@ -125,6 +128,7 @@ class CredentialList:
     def from_mnemonic(cls,
                       *,
                       mnemonic: str,
+                      include_withdrawal_pk: bool,
                       mnemonic_password: str,
                       num_keys: int,
                       amounts: List[int],
@@ -137,7 +141,7 @@ class CredentialList:
         key_indices = range(start_index, start_index + num_keys)
         with click.progressbar(key_indices, label='Creating your keys:\t\t',
                                show_percent=False, show_pos=True) as indices:
-            return cls([Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
+            return cls([Credential(mnemonic=mnemonic, include_withdrawal_pk=include_withdrawal_pk, mnemonic_password=mnemonic_password,
                                    index=index, amount=amounts[index - start_index], chain_setting=chain_setting)
                         for index in indices])
 

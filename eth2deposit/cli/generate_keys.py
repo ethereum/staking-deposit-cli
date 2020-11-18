@@ -103,6 +103,7 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
                   num_validators: int, folder: str, chain: str, keystore_password: str, **kwargs: Any) -> None:
     mnemonic = ctx.obj['mnemonic']
     mnemonic_password = ctx.obj['mnemonic_password']
+    include_withdrawal_pk = ctx.obj['include_withdrawal_pk']
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     chain_setting = get_chain_setting(chain)
@@ -113,6 +114,7 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
     click.echo('Creating your keys.')
     credentials = CredentialList.from_mnemonic(
         mnemonic=mnemonic,
+        include_withdrawal_pk=include_withdrawal_pk,
         mnemonic_password=mnemonic_password,
         num_keys=num_validators,
         amounts=amounts,

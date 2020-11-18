@@ -28,8 +28,13 @@ languages = get_languages(WORD_LISTS_PATH)
     prompt='Please choose your mnemonic language',
     type=click.Choice(languages, case_sensitive=False),
 )
+@click.option(
+    '--include_withdrawal_pk',
+    default=False,
+    help='Includes the withdrawal credentials public key',
+)
 @generate_keys_arguments_decorator
-def new_mnemonic(ctx: click.Context, mnemonic_language: str, **kwargs: Any) -> None:
+def new_mnemonic(ctx: click.Context, mnemonic_language: str, include_withdrawal_pk: bool, **kwargs: Any) -> None:
     mnemonic = get_mnemonic(language=mnemonic_language, words_path=WORD_LISTS_PATH)
     test_mnemonic = ''
     while mnemonic != test_mnemonic:
@@ -43,6 +48,6 @@ def new_mnemonic(ctx: click.Context, mnemonic_language: str, **kwargs: Any) -> N
         test_mnemonic = test_mnemonic.lower()
     click.clear()
     # Do NOT use mnemonic_password.
-    ctx.obj = {'mnemonic': mnemonic, 'mnemonic_password': ''}
+    ctx.obj = {'mnemonic': mnemonic, 'mnemonic_password': '', 'include_withdrawal_pk': include_withdrawal_pk}
     ctx.params['validator_start_index'] = 0
     ctx.forward(generate_keys)
