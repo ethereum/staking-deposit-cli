@@ -7,7 +7,7 @@ from click.testing import CliRunner
 
 from eth2deposit.deposit import cli
 from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
-from.helpers import clean_key_folder, get_uuid
+from.helpers import clean_key_folder, get_permissions, get_uuid
 
 
 def test_existing_mnemonic() -> None:
@@ -38,6 +38,10 @@ def test_existing_mnemonic() -> None:
     ]
     assert len(set(all_uuid)) == 5
 
+    # Verify file permissions
+    if os.name == 'posix':
+        for file_name in key_files:
+            assert get_permissions(validator_keys_folder_path, file_name) == '0o440'
     # Clean up
     clean_key_folder(my_folder_path)
 
@@ -84,6 +88,11 @@ async def test_script() -> None:
     # Check files
     validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     _, _, key_files = next(os.walk(validator_keys_folder_path))
+
+    # Verify file permissions
+    if os.name == 'posix':
+        for file_name in key_files:
+            assert get_permissions(validator_keys_folder_path, file_name) == '0o440'
 
     # Clean up
     clean_key_folder(my_folder_path)

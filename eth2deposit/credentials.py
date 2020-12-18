@@ -153,6 +153,8 @@ class CredentialList:
         filefolder = os.path.join(folder, 'deposit_data-%i.json' % time.time())
         with open(filefolder, 'w') as f:
             json.dump(deposit_data, f, default=lambda x: x.hex())
+        if os.name == 'posix':
+            os.chmod(filefolder, int('440', 8))  # Read for owner & group
         return filefolder
 
     def verify_keystores(self, keystore_filefolders: List[str], password: str) -> bool:
