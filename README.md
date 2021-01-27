@@ -78,6 +78,10 @@ You can find the audit report by Trail of Bits [here](https://github.com/trailof
 
 ### For Linux or MacOS users
 
+#### File Permissions
+
+On Unix-based systems, keystores and the `deposit_data*.json` have `440`/`-r--r-----` file permissions (user & group read only). This improves security by limiting which users and processes that have access to these files. If you are getting `permission denied` errors when handling your keystores, consider changing which user/group owns the file (with `chown`) or, if need be, change the file permissions with `chmod`.
+
 #### Option 1. Download binary executable file
 
 ##### Step 1. Installation
