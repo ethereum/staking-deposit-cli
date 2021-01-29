@@ -6,7 +6,7 @@ from click.testing import CliRunner
 from eth2deposit.cli import new_mnemonic
 from eth2deposit.deposit import cli
 from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
-from .helpers import clean_key_folder, get_uuid
+from .helpers import clean_key_folder, get_permissions, get_uuid
 
 
 def test_regeneration(monkeypatch) -> None:
@@ -47,6 +47,11 @@ def test_regeneration(monkeypatch) -> None:
                 for key_file in part_1_key_files]
     assert len(set(all_uuid)) == 2
 
+    # Verify file permissions
+    if os.name == 'posix':
+        for file_name in part_1_key_files:
+            assert get_permissions(validator_keys_folder_path_1, file_name) == '0o440'
+
     # Part 2: existing-mnemonic
     runner = CliRunner()
     # Create index 1 and 2
@@ -77,6 +82,11 @@ def test_regeneration(monkeypatch) -> None:
         keystore_2_0 = json.load(f)
     assert keystore_1_1['pubkey'] == keystore_2_0['pubkey']
     assert keystore_1_1['path'] == keystore_2_0['path']
+
+    # Verify file permissions
+    if os.name == 'posix':
+        for file_name in part_2_key_files:
+            assert get_permissions(validator_keys_folder_path_2, file_name) == '0o440'
 
     # Clean up
     clean_key_folder(folder_path_1)
