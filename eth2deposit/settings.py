@@ -9,6 +9,7 @@ class BaseChainSetting(NamedTuple):
     GENESIS_FORK_VERSION: bytes
 
 
+# Do not translate the following:
 MAINNET = 'mainnet'
 WITTI = 'witti'
 ALTONA = 'altona'
@@ -16,7 +17,6 @@ MEDALLA = 'medalla'
 SPADINA = 'spadina'
 ZINKEN = 'zinken'
 PYRMONT = 'pyrmont'
-
 
 # Eth2 Mainnet setting
 MainnetSetting = BaseChainSetting(ETH2_NETWORK_NAME=MAINNET, GENESIS_FORK_VERSION=bytes.fromhex('00000000'))

@@ -8,9 +8,9 @@ from eth2deposit.cli.new_mnemonic import new_mnemonic
 def check_python_version() -> None:
     '''
     Checks that the python version running is sufficient and exits if not.
-    '''
+    ''' # Do not translate
     if sys.version_info < (3, 7):
-        click.pause('Your python version is insufficient, please install version 3.7 or greater.')
+        click.pause('Your python version is insufficient, please install version 3.7 or greater.') # Translate
         sys.exit()
 
 
