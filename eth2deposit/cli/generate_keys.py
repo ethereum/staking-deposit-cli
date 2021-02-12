@@ -9,6 +9,9 @@ from eth2deposit.credentials import (
     CredentialList,
 )
 from eth2deposit.exceptions import ValidationError
+from eth2deposit.intl.utils import (
+    load_text,
+)
 from eth2deposit.utils.validation import (
     verify_deposit_data_json,
     validate_password_strength,
@@ -64,32 +67,30 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
     '''
     decorators = [
         click.option(
-            '--num_validators',
-            prompt='Please choose how many validators you wish to run',
-            help='The number of validators keys you want to generate (you can always generate more later)',
+            load_text('en', ['num_validators', 'argument']),
+            help=load_text('en', ['num_validators', 'help']),
+            prompt=load_text('en', ['num_validators', 'prompt']),
             required=True,
             type=click.IntRange(0, 2**32 - 1),
         ),
         click.option(
-            '--folder',
+            load_text('en', ['folder', 'argument']),
             default=os.getcwd(),
-            help='The folder to place the generated keystores and deposit_data.json in',
+            help=load_text('en', ['folder', 'help']),
             type=click.Path(exists=True, file_okay=False, dir_okay=True),
         ),
         click.option(
-            '--chain',
+            load_text('en', ['chain', 'argument']),
             default=MAINNET,
-            help='The version of eth2 you are targeting. use "mainnet" if you are depositing ETH',
-            prompt='Please choose the (mainnet or testnet) network/chain name',
+            help=load_text('en', ['chain', 'help']),
+            prompt=load_text('en', ['chain', 'prompt']),
             type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
         ),
         click.password_option(
-            '--keystore_password',
+            load_text('en', ['keystore_password', 'argument']),
             callback=validate_password,
-            help=('The password that will secure your keystores. You will need to re-enter this to decrypt them when '
-                  'you setup your eth2 validators. (It is reccomened not to use this argument, and wait for the CLI '
-                  'to ask you for your mnemonic as otherwise it will appear in your shell history.)'),
-            prompt='Type the password that secures your validator keystore(s)',
+            help=load_text('en', ['keystore_password', 'help']),
+            prompt=load_text('en', ['keystore_password', 'prompt']),
         ),
     ]
     for decorator in reversed(decorators):

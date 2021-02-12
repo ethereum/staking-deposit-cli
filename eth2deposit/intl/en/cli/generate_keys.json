@@ -1,0 +1,23 @@
+{
+    "generate_keys_arguments_decorator": {
+        "num_validators": {
+            "argument": "--num_validators",
+            "help": "The number of validators keys you want to generate (you can always generate more later)",
+            "prompt": "Please choose how many validators you wish to run"
+        },
+        "folder": {
+            "argument": "--folder",
+            "help": "The number of validators keys you want to generate (you can always generate more later)"
+        },
+        "chain": {
+            "argument": "--chain",
+            "help": "The version of eth2 you are targeting. Use \"mainnet\" if you are depositing ETH",
+            "prompt": "Please choose the (mainnet or testnet) network/chain name"
+        },
+        "keystore_password": {
+            "argument": "--keystore_password",
+            "help": "The version of eth2 you are targeting. Use \"mainnet\" if you are depositing ETH",
+            "prompt": "The password that will secure your keystores. You will need to re-enter this to decrypt them when you setup your eth2 validators. (It is reccomened not to use this argument, and wait for the CLI to ask you for your mnemonic as otherwise it will appear in your shell history.)"
+        }
+    }
+}
