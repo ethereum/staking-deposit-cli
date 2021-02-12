@@ -67,30 +67,30 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
     '''
     decorators = [
         click.option(
-            load_text('en', ['num_validators', 'argument']),
-            help=load_text('en', ['num_validators', 'help']),
-            prompt=load_text('en', ['num_validators', 'prompt']),
+            load_text('en', ['arguments_decorator', 'num_validators', 'argument']),
+            help=load_text('en', ['arguments_decorator', 'num_validators', 'help']),
+            prompt=load_text('en', ['arguments_decorator', 'num_validators', 'prompt']),
             required=True,
             type=click.IntRange(0, 2**32 - 1),
         ),
         click.option(
-            load_text('en', ['folder', 'argument']),
+            load_text('en', ['arguments_decorator', 'folder', 'argument']),
             default=os.getcwd(),
-            help=load_text('en', ['folder', 'help']),
+            help=load_text('en', ['arguments_decorator', 'folder', 'help']),
             type=click.Path(exists=True, file_okay=False, dir_okay=True),
         ),
         click.option(
-            load_text('en', ['chain', 'argument']),
+            load_text('en', ['arguments_decorator', 'chain', 'argument']),
             default=MAINNET,
-            help=load_text('en', ['chain', 'help']),
-            prompt=load_text('en', ['chain', 'prompt']),
+            help=load_text('en', ['arguments_decorator', 'chain', 'help']),
+            prompt=load_text('en', ['arguments_decorator', 'chain', 'prompt']),
             type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
         ),
         click.password_option(
-            load_text('en', ['keystore_password', 'argument']),
+            load_text('en', ['arguments_decorator', 'keystore_password', 'argument']),
             callback=validate_password,
-            help=load_text('en', ['keystore_password', 'help']),
-            prompt=load_text('en', ['keystore_password', 'prompt']),
+            help=load_text('en', ['arguments_decorator', 'keystore_password', 'help']),
+            prompt=load_text('en', ['arguments_decorator', 'keystore_password', 'prompt']),
         ),
     ]
     for decorator in reversed(decorators):
