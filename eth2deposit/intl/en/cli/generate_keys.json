@@ -1,5 +1,5 @@
 {
-    "arguments_decorator": {
+    "generate_keys_arguments_decorator": {
         "num_validators": {
             "argument": "--num_validators",
             "help": "The number of validators keys you want to generate (you can always generate more later)",
