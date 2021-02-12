@@ -68,4 +68,4 @@ def validate_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
 
 def validate_password_strength(password: str) -> None:
     if len(password) < 8:
-        raise ValidationError(f"The password length should be at least 8. Got {len(password)}.")
+        raise ValidationError(f"The password length should be at least 8. Got {len(password)}. Please retype")

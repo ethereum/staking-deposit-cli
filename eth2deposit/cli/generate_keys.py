@@ -39,23 +39,23 @@ def validate_password(cts: click.Context, param: Any, password: str) -> str:
     try:
         validate_password_strength(password)
     except ValidationError as e:
-        click.echo(f'Error: {e} Please retype.')
+        click.echo(e)
     else:
         is_valid_password = True
 
     while not is_valid_password:
-        password = get_password(text='Type the password that secures your validator keystore(s)')
+        password = get_password(load_text('en', ['msg_password_prompt']))
         try:
             validate_password_strength(password)
         except ValidationError as e:
-            click.echo(f'Error: {e} Please retype.')
+            click.echo(e)
         else:
             # Confirm password
-            password_confirmation = get_password(text='Repeat for confirmation')
+            password_confirmation = get_password(load_text('en', ['msg_password_confirm']))
             if password == password_confirmation:
                 is_valid_password = True
             else:
-                click.echo('Error: the two entered values do not match. Please retype again.')
+                click.echo(load_text('en', ['err_password_mismatch']))
 
     return password
 
@@ -111,7 +111,7 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
         os.mkdir(folder)
     click.clear()
     click.echo(RHINO_0)
-    click.echo('Creating your keys.')
+    click.echo(load_text('en', ['msg_key_creation']))
     credentials = CredentialList.from_mnemonic(
         mnemonic=mnemonic,
         mnemonic_password=mnemonic_password,
@@ -123,8 +123,8 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
     keystore_filefolders = credentials.export_keystores(password=keystore_password, folder=folder)
     deposits_file = credentials.export_deposit_data_json(folder=folder)
     if not credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=keystore_password):
-        raise ValidationError("Failed to verify the keystores.")
+        raise ValidationError(load_text('en', ['err_verify_keystores']))
     if not verify_deposit_data_json(deposits_file):
-        raise ValidationError("Failed to verify the deposit data JSON files.")
-    click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)
-    click.pause('\n\nPress any key.')
+        raise ValidationError(load_text('en', ['err_verify_deposit']))
+    click.echo(load_text('en', ['msg_creation_success']) + folder)
+    click.pause(load_text('en', ['msg_pause']))

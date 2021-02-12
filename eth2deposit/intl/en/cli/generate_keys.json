@@ -1,4 +1,9 @@
 {
+    "validate_password": {
+        "msg_password_prompt": "Type the password that secures your validator keystore(s)",
+        "msg_password_confirm": "Repeat for confirmation",
+        "err_password_mismatch": "Error: the two entered values do not match. Please type again."
+    },
     "generate_keys_arguments_decorator": {
         "num_validators": {
             "argument": "--num_validators",
@@ -19,5 +24,12 @@
             "help": "The version of eth2 you are targeting. Use \"mainnet\" if you are depositing ETH",
             "prompt": "The password that will secure your keystores. You will need to re-enter this to decrypt them when you setup your eth2 validators. (It is reccomened not to use this argument, and wait for the CLI to ask you for your mnemonic as otherwise it will appear in your shell history.)"
         }
+    },
+    "generate_keys": {
+        "msg_key_creation": "Creating your keys.",
+        "msg_creation_success": "\nSuccess!\nYour keys can be found at: ",
+        "msg_pause": "\n\nPress any key.",
+        "err_verify_keystores": "Failed to verify the keystores.",
+        "err_verify_deposit": "Failed to verify the deposit data JSON files."
     }
 }
