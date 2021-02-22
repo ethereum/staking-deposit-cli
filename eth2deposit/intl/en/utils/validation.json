@@ -1,0 +1,8 @@
+{
+    "verify_deposit_data_json": {
+        "msg_deposit_verification": "Verifying your deposits:\t"
+    },
+    "validate_password_strength": {
+        "msg_password_length": "The password length should be at least 8. Please retype"
+    }
+}

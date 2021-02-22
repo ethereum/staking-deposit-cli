@@ -9,6 +9,7 @@ from typing import Any, Dict
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from eth2deposit.exceptions import ValidationError
+from eth2deposit.intl.utils import load_text
 from eth2deposit.utils.ssz import (
     compute_deposit_domain,
     compute_signing_root,
@@ -27,7 +28,7 @@ def verify_deposit_data_json(filefolder: str) -> bool:
     """
     with open(filefolder, 'r') as f:
         deposit_json = json.load(f)
-        with click.progressbar(deposit_json, label='Verifying your deposits:\t',
+        with click.progressbar(deposit_json, label=load_text('en', ['msg_deposit_verification']),
                                show_percent=False, show_pos=True) as deposits:
             return all([validate_deposit(deposit) for deposit in deposits])
     return False
@@ -68,4 +69,4 @@ def validate_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
 
 def validate_password_strength(password: str) -> None:
     if len(password) < 8:
-        raise ValidationError(f"The password length should be at least 8. Got {len(password)}. Please retype")
+        raise ValidationError(load_text('en', ['msg_password_length']))

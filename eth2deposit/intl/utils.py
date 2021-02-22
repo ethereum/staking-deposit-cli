@@ -13,7 +13,7 @@ from eth2deposit.utils.constants import INTL_CONETENT_PATH
 
 def _get_from_dict(dataDict: Dict[str, Any], mapList: List[str]) -> str:
     '''
-    Iterate nested dictionary
+    Iterate nested dictionaries
     '''
     return reduce(dict.get, mapList, dataDict)  # type: ignore
 

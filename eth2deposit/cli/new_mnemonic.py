@@ -3,6 +3,7 @@ from typing import (
     Any,
 )
 
+from eth2deposit.intl.utils import load_text
 from eth2deposit.key_handling.key_derivation.mnemonic import (
     get_languages,
     get_mnemonic,
@@ -18,14 +19,14 @@ languages = get_languages(WORD_LISTS_PATH)
 
 
 @click.command(
-    help='Generate a new mnemonic and keys',
+    help=load_text('en', ['arg_new_mnemonic', 'help']),
 )
 @click.pass_context
 @click.option(
-    '--mnemonic_language',
-    default='english',
-    help='The language that your mnemonic is in.',
-    prompt='Please choose your mnemonic language',
+    load_text('en', ['arg_mnemonic_language', 'argument']),
+    default=load_text('en', ['arg_mnemonic_language', 'default']),
+    help=load_text('en', ['arg_mnemonic_language', 'help']),
+    prompt=load_text('en', ['arg_mnemonic_language', 'prompt']),
     type=click.Choice(languages, case_sensitive=False),
 )
 @generate_keys_arguments_decorator
@@ -34,12 +35,13 @@ def new_mnemonic(ctx: click.Context, mnemonic_language: str, **kwargs: Any) -> N
     test_mnemonic = ''
     while mnemonic != test_mnemonic:
         click.clear()
+        # ToDo: Figure out why changing this line causes pytest to get stuck collecting.
         click.echo('This is your seed phrase. Write it down and store it safely, it is the ONLY way to retrieve your deposit.')  # noqa: E501
         click.echo('\n\n%s\n\n' % mnemonic)
-        click.pause('Press any key when you have written down your mnemonic.')
+        click.pause(load_text('en', ['msg_press_any_key']))
 
         click.clear()
-        test_mnemonic = click.prompt('Please type your mnemonic (separated by spaces) to confirm you have written it down\n\n')  # noqa: E501
+        test_mnemonic = click.prompt(load_text('en', ['msg_mnemonic_retype_prompt']))
         test_mnemonic = test_mnemonic.lower()
     click.clear()
     # Do NOT use mnemonic_password.

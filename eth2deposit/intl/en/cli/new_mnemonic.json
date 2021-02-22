@@ -1,0 +1,18 @@
+{
+    "<module>": {
+        "arg_new_mnemonic": {
+            "help": "Generate a new mnemonic and keys"
+        },
+        "arg_mnemonic_language": {
+            "argument": "--mnemonic_language",
+            "default": "english",
+            "help": "The language that your mnemonic is in",
+            "prompt": "Please choose your mnemonic language"
+        }
+    },
+    "new_mnemonic": {
+        "msg_mnemonic_presentation": "This is your mnemonic (seed phrase). Write it down and store it safely, it is the ONLY way to retrieve your deposit.",
+        "msg_press_any_key": "Press any key when you have written down your mnemonic.",
+        "msg_mnemonic_retype_prompt": "Please type your mnemonic (separated by spaces) to confirm you have written it down\n\n"
+    }
+}

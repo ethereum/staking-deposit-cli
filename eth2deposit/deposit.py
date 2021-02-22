@@ -3,6 +3,7 @@ import click
 
 from eth2deposit.cli.existing_mnemonic import existing_mnemonic
 from eth2deposit.cli.new_mnemonic import new_mnemonic
+from eth2deposit.intl.utils import load_text
 
 
 def check_python_version() -> None:
@@ -10,7 +11,7 @@ def check_python_version() -> None:
     Checks that the python version running is sufficient and exits if not.
     '''
     if sys.version_info < (3, 7):
-        click.pause('Your python version is insufficient, please install version 3.7 or greater.')
+        click.pause(load_text('en', ['err_python_version']))
         sys.exit()
 
 
