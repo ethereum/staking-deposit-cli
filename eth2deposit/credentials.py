@@ -5,7 +5,6 @@ import json
 from typing import Dict, List
 from py_ecc.bls import G2ProofOfPossession as bls
 
-from eth2deposit.intl.utils import load_text
 from eth2deposit.exceptions import ValidationError
 from eth2deposit.key_handling.key_derivation.path import mnemonic_and_path_to_key
 from eth2deposit.key_handling.keystore import (
@@ -20,6 +19,7 @@ from eth2deposit.utils.constants import (
     MIN_DEPOSIT_AMOUNT,
 )
 from eth2deposit.utils.crypto import SHA256
+from eth2deposit.utils.intl import load_text
 from eth2deposit.utils.ssz import (
     compute_deposit_domain,
     compute_signing_root,

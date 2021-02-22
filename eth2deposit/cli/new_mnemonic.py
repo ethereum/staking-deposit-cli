@@ -3,12 +3,12 @@ from typing import (
     Any,
 )
 
-from eth2deposit.intl.utils import load_text
 from eth2deposit.key_handling.key_derivation.mnemonic import (
     get_languages,
     get_mnemonic,
 )
 from eth2deposit.utils.constants import WORD_LISTS_PATH
+from eth2deposit.utils.intl import load_text
 
 from .generate_keys import (
     generate_keys,

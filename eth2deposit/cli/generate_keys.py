@@ -9,9 +9,6 @@ from eth2deposit.credentials import (
     CredentialList,
 )
 from eth2deposit.exceptions import ValidationError
-from eth2deposit.intl.utils import (
-    load_text,
-)
 from eth2deposit.utils.validation import (
     verify_deposit_data_json,
     validate_password_strength,
@@ -21,6 +18,7 @@ from eth2deposit.utils.constants import (
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )
 from eth2deposit.utils.ascii_art import RHINO_0
+from eth2deposit.utils.intl import load_text
 from eth2deposit.settings import (
     ALL_CHAINS,
     MAINNET,

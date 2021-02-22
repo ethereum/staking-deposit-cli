@@ -3,7 +3,7 @@ import click
 
 from eth2deposit.cli.existing_mnemonic import existing_mnemonic
 from eth2deposit.cli.new_mnemonic import new_mnemonic
-from eth2deposit.intl.utils import load_text
+from eth2deposit.utils.intl import load_text
 
 
 def check_python_version() -> None:

@@ -9,7 +9,7 @@ from typing import Any, Dict
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from eth2deposit.exceptions import ValidationError
-from eth2deposit.intl.utils import load_text
+from eth2deposit.utils.intl import load_text
 from eth2deposit.utils.ssz import (
     compute_deposit_domain,
     compute_signing_root,
