@@ -8,7 +8,7 @@ from typing import (
 )
 import os
 
-from eth2deposit.utils.constants import INTL_CONETENT_PATH
+from eth2deposit.utils.constants import INTL_CONTENT_PATH
 
 
 def _get_from_dict(dataDict: Dict[str, Any], mapList: List[str]) -> str:
@@ -34,7 +34,7 @@ def load_text(lang: str, params: List[str], file_path: str='', func: str='') -> 
     # Determine path to json text
     file_path_list = os.path.normpath(file_path).split(os.path.sep)
     rel_path_list = file_path_list[file_path_list.index('eth2deposit') + 1:]
-    json_path = os.path.join(INTL_CONETENT_PATH, lang, *rel_path_list)
+    json_path = os.path.join(INTL_CONTENT_PATH, lang, *rel_path_list)
 
     # browse json until text is found
     with open(json_path) as f:
