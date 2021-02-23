@@ -35,8 +35,7 @@ def new_mnemonic(ctx: click.Context, mnemonic_language: str, **kwargs: Any) -> N
     test_mnemonic = ''
     while mnemonic != test_mnemonic:
         click.clear()
-        # ToDo: Figure out why changing this line causes pytest to get stuck collecting.
-        click.echo('This is your seed phrase. Write it down and store it safely, it is the ONLY way to retrieve your deposit.')  # noqa: E501
+        click.echo(load_text('en', ['msg_mnemonic_presentation']))
         click.echo('\n\n%s\n\n' % mnemonic)
         click.pause(load_text('en', ['msg_press_any_key']))
 

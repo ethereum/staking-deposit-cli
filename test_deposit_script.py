@@ -41,7 +41,7 @@ async def main():
     parsing = False
     async for out in proc.stdout:
         output = out.decode('utf-8').rstrip()
-        if output.startswith("This is your seed phrase."):
+        if output.startswith("This is your mnemonic"):
             parsing = True
         elif output.startswith("Please type your mnemonic"):
             parsing = False
