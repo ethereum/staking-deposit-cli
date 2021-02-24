@@ -40,7 +40,7 @@ def new_mnemonic(ctx: click.Context, mnemonic_language: str, **kwargs: Any) -> N
         click.pause(load_text('en', ['msg_press_any_key']))
 
         click.clear()
-        test_mnemonic = click.prompt(load_text('en', ['msg_mnemonic_retype_prompt']))
+        test_mnemonic = click.prompt(load_text('en', ['msg_mnemonic_retype_prompt']) + '\n\n')
         test_mnemonic = test_mnemonic.lower()
     click.clear()
     # Do NOT use mnemonic_password.

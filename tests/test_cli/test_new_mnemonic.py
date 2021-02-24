@@ -7,6 +7,7 @@ from click.testing import CliRunner
 from eth2deposit.cli import new_mnemonic
 from eth2deposit.deposit import cli
 from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
+from eth2deposit.utils.intl import load_text
 from .helpers import clean_key_folder, get_permissions, get_uuid
 
 
@@ -82,11 +83,12 @@ async def test_script() -> None:
 
     seed_phrase = ''
     parsing = False
+    intl_file_path = os.path.join(os.getcwd(), 'eth2deposit/../eth2deposit/cli/new_mnemonic.json')
     async for out in proc.stdout:
         output = out.decode('utf-8').rstrip()
-        if output.startswith("This is your mnemonic"):
+        if output.startswith(load_text('en', ['msg_mnemonic_presentation'], intl_file_path, 'new_mnemonic')):
             parsing = True
-        elif output.startswith("Please type your mnemonic"):
+        elif output.startswith(load_text('en', ['msg_mnemonic_retype_prompt'], intl_file_path, 'new_mnemonic')):
             parsing = False
         elif parsing:
             seed_phrase += output
