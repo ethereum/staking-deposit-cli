@@ -21,7 +21,7 @@
         },
         "keystore_password": {
             "argument": "--keystore_password",
-            "help": "The password that will secure your keystores. You will need to re-enter this to decrypt them when you setup your eth2 validators. (It is reccomened not to use this argument, and wait for the CLI to ask you for your mnemonic as otherwise it will appear in your shell history.)",
+            "help": "The password that will secure your keystores. You will need to re-enter this to decrypt them when you setup your eth2 validators. (It is recommended not to use this argument, and wait for the CLI to ask you for your mnemonic as otherwise it will appear in your shell history.)",
             "prompt": "The password that will secure your keystores. You will need to re-enter this to decrypt them when you setup your eth2 validators."
         }
     },
