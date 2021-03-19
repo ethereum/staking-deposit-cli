@@ -1,7 +1,7 @@
 from typing import Dict, NamedTuple
 
 
-DEPOSIT_CLI_VERSION = '1.1.0'
+DEPOSIT_CLI_VERSION = '1.1.1'
 
 
 class BaseChainSetting(NamedTuple):
@@ -16,6 +16,7 @@ MEDALLA = 'medalla'
 SPADINA = 'spadina'
 ZINKEN = 'zinken'
 PYRMONT = 'pyrmont'
+PRATER = 'prater'
 
 
 # Eth2 Mainnet setting
@@ -32,6 +33,8 @@ SpadinaSetting = BaseChainSetting(ETH2_NETWORK_NAME=SPADINA, GENESIS_FORK_VERSIO
 ZinkenSetting = BaseChainSetting(ETH2_NETWORK_NAME=ZINKEN, GENESIS_FORK_VERSION=bytes.fromhex('00000003'))
 # Eth2 pre-launch testnet (spec v1.0.0)
 PyrmontSetting = BaseChainSetting(ETH2_NETWORK_NAME=PYRMONT, GENESIS_FORK_VERSION=bytes.fromhex('00002009'))
+# Eth2 testnet (spec v1.0.1)
+PraterSetting = BaseChainSetting(ETH2_NETWORK_NAME=PRATER, GENESIS_FORK_VERSION=bytes.fromhex('00001020'))
 
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
@@ -42,6 +45,7 @@ ALL_CHAINS: Dict[str, BaseChainSetting] = {
     SPADINA: SpadinaSetting,
     ZINKEN: ZinkenSetting,
     PYRMONT: PyrmontSetting,
+    PRATER: PraterSetting,
 }
 
 
