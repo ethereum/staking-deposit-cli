@@ -1,7 +1,7 @@
 import pytest
 
 from eth2deposit.credentials import CredentialList
-from eth2deposit.settings import MedallaSetting
+from eth2deposit.settings import MainnetSetting
 
 
 def test_from_mnemonic() -> None:
@@ -11,6 +11,6 @@ def test_from_mnemonic() -> None:
             mnemonic_password="",
             num_keys=1,
             amounts=[32, 32],
-            chain_setting=MedallaSetting,
+            chain_setting=MainnetSetting,
             start_index=1,
         )
