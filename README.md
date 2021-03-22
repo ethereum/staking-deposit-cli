@@ -78,6 +78,10 @@ You can find the audit report by Trail of Bits [here](https://github.com/trailof
 
 ### For Linux or MacOS users
 
+#### File Permissions
+
+On Unix-based systems, keystores and the `deposit_data*.json` have `440`/`-r--r-----` file permissions (user & group read only). This improves security by limiting which users and processes that have access to these files. If you are getting `permission denied` errors when handling your keystores, consider changing which user/group owns the file (with `chown`) or, if need be, change the file permissions with `chmod`.
+
 #### Option 1. Download binary executable file
 
 ##### Step 1. Installation
@@ -289,10 +293,10 @@ You can also run the tool with optional arguments:
 docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --folder=<YOUR_FOLDER_PATH>
 ```
 
-Example for 1 validator on the [Medalla testnet](https://medalla.launchpad.ethereum.org/) using english:
+Example for 1 validator on the [Prater testnet](https://prater.launchpad.ethereum.org/) using english:
 
 ```sh
-docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli new-mnemonic --num_validators=1 --mnemonic_language=english --chain=medalla
+docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli new-mnemonic --num_validators=1 --mnemonic_language=english --chain=prater
 ```
 
 ###### Arguments
