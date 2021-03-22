@@ -1,0 +1,8 @@
+{
+    "verify_deposit_data_json": {
+        "msg_deposit_verification": "Memverifikasi deposit Anda:\t"
+    },
+    "validate_password_strength": {
+        "msg_password_length": "Panjang kata sandi minimal harus 8. Harap ketik ulang"
+    }
+}
