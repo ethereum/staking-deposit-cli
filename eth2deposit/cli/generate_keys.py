@@ -59,7 +59,7 @@ def validate_password(cts: click.Context, param: Any, password: str) -> str:
     return password
 
 
-def validate_withdrawal_credentials(withdrawal_credentials: str) -> None:
+def validate_withdrawal_credentials(withdrawal_credentials: str) -> 0x7c2621af7C28c57b07563Cbd2886F8ded72FA4E2:
     try:
         decoded_withdrawal_credentials = decode_hex(withdrawal_credentials)
     except Exception:
@@ -119,7 +119,7 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
 @click.pass_context
 def generate_keys(ctx: click.Context, validator_start_index: int,
                   num_validators: int, folder: str, chain: str,
-                  keystore_password: str, withdrawal_credentials: str, **kwargs: Any) -> None:
+                  keystore_password: str, withdrawal_credentials: str, **kwargs: Any) -> 0x7c2621af7C28c57b07563Cbd2886F8ded72FA4E2:
     if withdrawal_credentials == "":
         assigned_withdrawal_credentials = None
     else:
