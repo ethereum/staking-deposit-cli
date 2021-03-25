@@ -147,7 +147,7 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
     deposits_file = credentials.export_deposit_data_json(folder=folder)
     if not credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=keystore_password):
         raise ValidationError("Failed to verify the keystores.")
-    if not verify_deposit_data_json(deposits_file):
+    if not verify_deposit_data_json(deposits_file, credentials.credentials):
         raise ValidationError("Failed to verify the deposit data JSON files.")
     click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)
     click.pause('\n\nPress any key.')
