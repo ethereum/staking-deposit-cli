@@ -121,6 +121,7 @@ You can use `new-mnemonic --help` to see all arguments. Note that if there are m
 | `--mnemonic_language` | String. Options: `czech`, `chinese_traditional`, `chinese_simplified`, `english`, `spanish`, `italian`, `korean`. Default to `english` | The mnemonic language |
 | `--folder` | String. Pointing to `./validator_keys` by default | The folder path for the keystore(s) and deposit(s) |
 | `--chain` | String. `mainnet` by default | The chain setting for the signing domain. |
+| `--eth1_withdrawal_address` | String. Eth1 address in hexadecimal encoded form | If this field is set and valid, the given Eth1 address will be used to create the withdrawal credentials. Otherwise, it will generate withdrawal credentials with the mnemonic-derived withdrawal public key. |
 
 ###### `existing-mnemonic` Arguments
 

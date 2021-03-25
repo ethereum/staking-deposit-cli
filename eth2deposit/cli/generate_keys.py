@@ -111,7 +111,8 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             default=None,
             callback=validate_eth1_withdrawal_address,
             help=('If this field is set and valid, the given Eth1 address will be used to create the '
-                  'withdrawal credentials.'),
+                  'withdrawal credentials. Otherwise, it will generate withdrawal credentials with the '
+                  'mnemonic-derived withdrawal public key.'),
         ),
     ]
     for decorator in reversed(decorators):
