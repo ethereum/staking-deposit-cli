@@ -1,8 +1,12 @@
 import os
 import click
+from enum import Enum
 import time
 import json
-from typing import Dict, List
+from typing import Dict, List, Optional
+
+from eth_typing import Address, HexAddress
+from eth_utils import to_canonical_address
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from eth2deposit.exceptions import ValidationError
@@ -14,6 +18,7 @@ from eth2deposit.key_handling.keystore import (
 from eth2deposit.settings import DEPOSIT_CLI_VERSION, BaseChainSetting
 from eth2deposit.utils.constants import (
     BLS_WITHDRAWAL_PREFIX,
+    ETH1_ADDRESS_WITHDRAWAL_PREFIX,
     ETH2GWEI,
     MAX_DEPOSIT_AMOUNT,
     MIN_DEPOSIT_AMOUNT,
@@ -27,13 +32,19 @@ from eth2deposit.utils.ssz import (
 )
 
 
+class WithdrawalType(Enum):
+    BLS_WITHDRAWAL = 0
+    ETH1_ADDRESS_WITHDRAWAL = 1
+
+
 class Credential:
     """
     A Credential object contains all of the information for a single validator and the corresponding functionality.
     Once created, it is the only object that should be required to perform any processing for a validator.
     """
     def __init__(self, *, mnemonic: str, mnemonic_password: str,
-                 index: int, amount: int, chain_setting: BaseChainSetting):
+                 index: int, amount: int, chain_setting: BaseChainSetting,
+                 hex_eth1_withdrawal_address: Optional[HexAddress]):
         # Set path as EIP-2334 format
         # https://eips.ethereum.org/EIPS/eip-2334
         purpose = '12381'
@@ -48,6 +59,7 @@ class Credential:
             mnemonic=mnemonic, path=self.signing_key_path, password=mnemonic_password)
         self.amount = amount
         self.chain_setting = chain_setting
+        self.hex_eth1_withdrawal_address = hex_eth1_withdrawal_address
 
     @property
     def signing_pk(self) -> bytes:
@@ -58,9 +70,38 @@ class Credential:
         return bls.SkToPk(self.withdrawal_sk)
 
     @property
+    def eth1_withdrawal_address(self) -> Optional[Address]:
+        if self.hex_eth1_withdrawal_address is None:
+            return None
+        return to_canonical_address(self.hex_eth1_withdrawal_address)
+
+    @property
+    def withdrawal_prefix(self) -> bytes:
+        if self.eth1_withdrawal_address is not None:
+            return ETH1_ADDRESS_WITHDRAWAL_PREFIX
+        else:
+            return BLS_WITHDRAWAL_PREFIX
+
+    @property
+    def withdrawal_type(self) -> WithdrawalType:
+        if self.withdrawal_prefix == BLS_WITHDRAWAL_PREFIX:
+            return WithdrawalType.BLS_WITHDRAWAL
+        elif self.withdrawal_prefix == ETH1_ADDRESS_WITHDRAWAL_PREFIX:
+            return WithdrawalType.ETH1_ADDRESS_WITHDRAWAL
+        else:
+            raise ValueError(f"Invalid withdrawal_prefix {self.withdrawal_prefix.hex()}")
+
+    @property
     def withdrawal_credentials(self) -> bytes:
-        withdrawal_credentials = BLS_WITHDRAWAL_PREFIX
-        withdrawal_credentials += SHA256(self.withdrawal_pk)[1:]
+        if self.withdrawal_type == WithdrawalType.BLS_WITHDRAWAL:
+            withdrawal_credentials = BLS_WITHDRAWAL_PREFIX
+            withdrawal_credentials += SHA256(self.withdrawal_pk)[1:]
+        elif self.withdrawal_type == WithdrawalType.ETH1_ADDRESS_WITHDRAWAL:
+            withdrawal_credentials = ETH1_ADDRESS_WITHDRAWAL_PREFIX
+            withdrawal_credentials += b'\x00' * 11
+            withdrawal_credentials += self.eth1_withdrawal_address
+        else:
+            raise ValueError(f"Invalid withdrawal_type {self.withdrawal_type}")
         return withdrawal_credentials
 
     @property
@@ -129,7 +170,8 @@ class CredentialList:
                       num_keys: int,
                       amounts: List[int],
                       chain_setting: BaseChainSetting,
-                      start_index: int) -> 'CredentialList':
+                      start_index: int,
+                      hex_eth1_withdrawal_address: Optional[HexAddress]) -> 'CredentialList':
         if len(amounts) != num_keys:
             raise ValueError(
                 f"The number of keys ({num_keys}) doesn't equal to the corresponding deposit amounts ({len(amounts)})."
@@ -138,7 +180,8 @@ class CredentialList:
         with click.progressbar(key_indices, label='Creating your keys:\t\t',
                                show_percent=False, show_pos=True) as indices:
             return cls([Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
-                                   index=index, amount=amounts[index - start_index], chain_setting=chain_setting)
+                                   index=index, amount=amounts[index - start_index], chain_setting=chain_setting,
+                                   hex_eth1_withdrawal_address=hex_eth1_withdrawal_address)
                         for index in indices])
 
     def export_keystores(self, password: str, folder: str) -> List[str]:

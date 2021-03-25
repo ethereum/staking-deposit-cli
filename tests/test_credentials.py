@@ -13,4 +13,5 @@ def test_from_mnemonic() -> None:
             amounts=[32, 32],
             chain_setting=MainnetSetting,
             start_index=1,
+            hex_eth1_withdrawal_address=None,
         )
