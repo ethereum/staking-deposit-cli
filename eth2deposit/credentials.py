@@ -96,7 +96,10 @@ class Credential:
         if self.withdrawal_type == WithdrawalType.BLS_WITHDRAWAL:
             withdrawal_credentials = BLS_WITHDRAWAL_PREFIX
             withdrawal_credentials += SHA256(self.withdrawal_pk)[1:]
-        elif self.withdrawal_type == WithdrawalType.ETH1_ADDRESS_WITHDRAWAL:
+        elif (
+            self.withdrawal_type == WithdrawalType.ETH1_ADDRESS_WITHDRAWAL
+            and self.eth1_withdrawal_address is not None
+        ):
             withdrawal_credentials = ETH1_ADDRESS_WITHDRAWAL_PREFIX
             withdrawal_credentials += b'\x00' * 11
             withdrawal_credentials += self.eth1_withdrawal_address

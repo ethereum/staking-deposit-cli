@@ -10,7 +10,7 @@ from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
 from.helpers import clean_key_folder, get_permissions, get_uuid
 
 
-def test_existing_mnemonic() -> None:
+def test_existing_mnemonic_bls_withdrawal() -> None:
     # Prepare folder
     my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
     clean_key_folder(my_folder_path)
@@ -23,6 +23,47 @@ def test_existing_mnemonic() -> None:
         '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword', 'yes']
     data = '\n'.join(inputs)
     arguments = ['existing-mnemonic', '--folder', my_folder_path, '--mnemonic-password', 'TREZOR']
+    result = runner.invoke(cli, arguments, input=data)
+
+    assert result.exit_code == 0
+
+    # Check files
+    validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
+    _, _, key_files = next(os.walk(validator_keys_folder_path))
+
+    all_uuid = [
+        get_uuid(validator_keys_folder_path + '/' + key_file)
+        for key_file in key_files
+        if key_file.startswith('keystore')
+    ]
+    assert len(set(all_uuid)) == 5
+
+    # Verify file permissions
+    if os.name == 'posix':
+        for file_name in key_files:
+            assert get_permissions(validator_keys_folder_path, file_name) == '0o440'
+    # Clean up
+    clean_key_folder(my_folder_path)
+
+
+def test_existing_mnemonic_eth1_address_withdrawal() -> None:
+    # Prepare folder
+    my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
+    clean_key_folder(my_folder_path)
+    if not os.path.exists(my_folder_path):
+        os.mkdir(my_folder_path)
+
+    runner = CliRunner()
+    inputs = [
+        'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+        '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword', 'yes']
+    data = '\n'.join(inputs)
+    arguments = [
+        'existing-mnemonic',
+        '--folder', my_folder_path,
+        '--mnemonic-password', 'TREZOR',
+        '--eth1_withdrawal_address', '0x00000000219ab540356cbb839cbe05303d7705fa',
+    ]
     result = runner.invoke(cli, arguments, input=data)
 
     assert result.exit_code == 0
