@@ -18,6 +18,7 @@ from eth2deposit.utils.constants import (
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )
 from eth2deposit.utils.ascii_art import RHINO_0
+from eth2deposit.utils.click import jit_option
 from eth2deposit.utils.intl import load_text
 from eth2deposit.settings import (
     ALL_CHAINS,
@@ -64,31 +65,32 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
     to obtain the necessary arguments for the generate_keys() subcommand.
     '''
     decorators = [
-        click.option(
-            load_text(['num_validators', 'argument']),
-            help=load_text(['num_validators', 'help']),
-            prompt=load_text(['num_validators', 'prompt']),
+        jit_option(
+            help=lambda: load_text(['num_validators', 'help']),
+            param_decls=lambda: load_text(['num_validators', 'argument']),
+            prompt=lambda: load_text(['num_validators', 'prompt']),
             required=True,
             type=click.IntRange(0, 2**32 - 1),
         ),
-        click.option(
-            load_text(['folder', 'argument']),
+        jit_option(
             default=os.getcwd(),
-            help=load_text(['folder', 'help']),
+            help=lambda: load_text(['folder', 'help']),
+            param_decls=lambda: load_text(['folder', 'argument']),
             type=click.Path(exists=True, file_okay=False, dir_okay=True),
         ),
-        click.option(
-            load_text(['chain', 'argument']),
+        jit_option(
             default=MAINNET,
-            help=load_text(['chain', 'help']),
-            prompt=load_text(['chain', 'prompt']),
+            help=lambda: load_text(['chain', 'help']),
+            param_decls=lambda: load_text(['chain', 'argument']),
+            prompt=lambda: load_text(['chain', 'prompt']),
             type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
         ),
-        click.password_option(
-            load_text(['keystore_password', 'argument']),
+        jit_option(
             callback=validate_password,
-            help=load_text(['keystore_password', 'help']),
-            prompt=load_text(['keystore_password', 'prompt']),
+            help=lambda: load_text(['keystore_password', 'help']),
+            hide_input=True,
+            param_decls=lambda: load_text(['keystore_password', 'argument']),
+            prompt=lambda: load_text(['keystore_password', 'prompt']),
         ),
     ]
     for decorator in reversed(decorators):

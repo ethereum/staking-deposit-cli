@@ -7,6 +7,7 @@ from eth2deposit.key_handling.key_derivation.mnemonic import (
     get_languages,
     get_mnemonic,
 )
+from eth2deposit.utils.click import jit_option
 from eth2deposit.utils.constants import WORD_LISTS_PATH
 from eth2deposit.utils.intl import load_text
 
@@ -22,11 +23,11 @@ languages = get_languages(WORD_LISTS_PATH)
     help=load_text(['arg_new_mnemonic', 'help']),
 )
 @click.pass_context
-@click.option(
-    load_text(['arg_mnemonic_language', 'argument']),
-    default=load_text(['arg_mnemonic_language', 'default']),
-    help=load_text(['arg_mnemonic_language', 'help']),
-    prompt=load_text(['arg_mnemonic_language', 'prompt']),
+@jit_option(
+    default=lambda: load_text(['arg_mnemonic_language', 'default']),
+    help=lambda: load_text(['arg_mnemonic_language', 'help']),
+    param_decls=lambda: load_text(['arg_mnemonic_language', 'argument']),
+    prompt=lambda: load_text(['arg_mnemonic_language', 'prompt']),
     type=click.Choice(languages, case_sensitive=False),
 )
 @generate_keys_arguments_decorator
