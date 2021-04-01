@@ -86,9 +86,9 @@ async def test_script() -> None:
     intl_file_path = os.path.join(os.getcwd(), 'eth2deposit/../eth2deposit/cli/new_mnemonic.json')
     async for out in proc.stdout:
         output = out.decode('utf-8').rstrip()
-        if output.startswith(load_text('en', ['msg_mnemonic_presentation'], intl_file_path, 'new_mnemonic')):
+        if output.startswith(load_text(['msg_mnemonic_presentation'], intl_file_path, 'new_mnemonic')):
             parsing = True
-        elif output.startswith(load_text('en', ['msg_mnemonic_retype_prompt'], intl_file_path, 'new_mnemonic')):
+        elif output.startswith(load_text(['msg_mnemonic_retype_prompt'], intl_file_path, 'new_mnemonic')):
             parsing = False
         elif parsing:
             seed_phrase += output

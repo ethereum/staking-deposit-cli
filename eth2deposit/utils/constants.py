@@ -13,10 +13,19 @@ MAX_DEPOSIT_AMOUNT = 2 ** 5 * ETH2GWEI
 
 
 # File/folder constants
-INTL_CONTENT_PATH = os.path.join('eth2deposit', 'intl')
 WORD_LISTS_PATH = os.path.join('eth2deposit', 'key_handling', 'key_derivation', 'word_lists')
 DEFAULT_VALIDATOR_KEYS_FOLDER_NAME = 'validator_keys'
 
+# Internationalisation constants
+INTL_CONTENT_PATH = os.path.join('eth2deposit', 'intl')
+INTL_LANG_OPTIONS = {
+    'cs': ('Český Jazyk', 'cs', 'Cesky Jazyk', 'Czech'),
+    'en': ('English', 'en'),
+    'es': ('Español', 'Espanol', 'es', 'Spanish'),
+    'it': ('Italiano', 'it', 'Italian'),
+    'ko': ('조선말', '한국어', 'ko', 'Korean'),
+    'zh': ('汉语', 'zh', 'Chinease'),
+}
 
 # Sundry constants
 UNICODE_CONTROL_CHARS = list(range(0x00, 0x20)) + list(range(0x7F, 0xA0))

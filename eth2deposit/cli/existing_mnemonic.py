@@ -10,6 +10,7 @@ from eth2deposit.key_handling.key_derivation.mnemonic import (
 from eth2deposit.utils.constants import (
     WORD_LISTS_PATH,
 )
+from eth2deposit.utils.click import jit_option
 from eth2deposit.utils.intl import load_text
 from .generate_keys import (
     generate_keys,
@@ -21,40 +22,42 @@ def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
     if verify_mnemonic(mnemonic, WORD_LISTS_PATH):
         return mnemonic
     else:
-        raise ValidationError(load_text('en', ['err_invalid_mnemonic']))
+        raise ValidationError(load_text(['err_invalid_mnemonic']))
 
 
 @click.command(
-    help=load_text('en', ['arg_existing_mnemonic', 'help']),
+    help=load_text(['arg_existing_mnemonic', 'help'], func='existing_mnemonic'),
 )
 @click.pass_context
-@click.option(
-    load_text('en', ['arg_mnemonic', 'argument']),
+@jit_option(
     callback=validate_mnemonic,
-    help=load_text('en', ['arg_mnemonic', 'help']),
-    prompt=load_text('en', ['arg_mnemonic', 'prompt']),
+    help=lambda: load_text(['arg_mnemonic', 'help'], func='existing_mnemonic'),
+    param_decls=load_text(['arg_mnemonic', 'argument'], func='existing_mnemonic'),
+    prompt=lambda: load_text(['arg_mnemonic', 'prompt'], func='existing_mnemonic'),
     required=True,
     type=str,
 )
-@click.password_option(
-    load_text('en', ['arg_mnemonic_password', 'argument']),
+@jit_option(
+    confirmation_prompt=True,
     default='',
-    help=load_text('en', ['arg_mnemonic_password', 'help']),
+    help=load_text(['arg_mnemonic_password', 'help'], func='existing_mnemonic'),
+    hidden=True,
+    param_decls=load_text(['arg_mnemonic_password', 'argument'], func='existing_mnemonic'),
     prompt=False,
 )
-@click.option(
-    load_text('en', ['arg_validator_start_index', 'argument']),
+@jit_option(
     confirmation_prompt=True,
     default=0,
-    help=load_text('en', ['arg_validator_start_index', 'help']),
-    prompt=load_text('en', ['arg_validator_start_index', 'prompt']),
+    help=lambda: load_text(['arg_validator_start_index', 'help'], func='existing_mnemonic'),
+    param_decls=load_text(['arg_validator_start_index', 'argument'], func='existing_mnemonic'),
+    prompt=lambda: load_text(['arg_validator_start_index', 'prompt'], func='existing_mnemonic'),
     type=click.IntRange(0, 2**32 - 1),
 )
 @generate_keys_arguments_decorator
 def existing_mnemonic(ctx: click.Context, mnemonic: str, mnemonic_password: str, **kwargs: Any) -> None:
     if mnemonic_password != '':
         click.clear()
-        click.confirm(load_text('en', ['msg_mnemonic_password_confirm']), abort=True)
+        click.confirm(load_text(['msg_mnemonic_password_confirm']), abort=True)
 
-    ctx.obj = {'mnemonic': mnemonic, 'mnemonic_password': mnemonic_password}
+    ctx.obj.update({'mnemonic': mnemonic, 'mnemonic_password': mnemonic_password})
     ctx.forward(generate_keys)

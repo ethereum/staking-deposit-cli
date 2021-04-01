@@ -19,14 +19,14 @@ languages = get_languages(WORD_LISTS_PATH)
 
 
 @click.command(
-    help=load_text('en', ['arg_new_mnemonic', 'help']),
+    help=load_text(['arg_new_mnemonic', 'help']),
 )
 @click.pass_context
 @click.option(
-    load_text('en', ['arg_mnemonic_language', 'argument']),
-    default=load_text('en', ['arg_mnemonic_language', 'default']),
-    help=load_text('en', ['arg_mnemonic_language', 'help']),
-    prompt=load_text('en', ['arg_mnemonic_language', 'prompt']),
+    load_text(['arg_mnemonic_language', 'argument']),
+    default=load_text(['arg_mnemonic_language', 'default']),
+    help=load_text(['arg_mnemonic_language', 'help']),
+    prompt=load_text(['arg_mnemonic_language', 'prompt']),
     type=click.Choice(languages, case_sensitive=False),
 )
 @generate_keys_arguments_decorator
@@ -35,12 +35,12 @@ def new_mnemonic(ctx: click.Context, mnemonic_language: str, **kwargs: Any) -> N
     test_mnemonic = ''
     while mnemonic != test_mnemonic:
         click.clear()
-        click.echo(load_text('en', ['msg_mnemonic_presentation']))
+        click.echo(load_text(['msg_mnemonic_presentation']))
         click.echo('\n\n%s\n\n' % mnemonic)
-        click.pause(load_text('en', ['msg_press_any_key']))
+        click.pause(load_text(['msg_press_any_key']))
 
         click.clear()
-        test_mnemonic = click.prompt(load_text('en', ['msg_mnemonic_retype_prompt']) + '\n\n')
+        test_mnemonic = click.prompt(load_text(['msg_mnemonic_retype_prompt']) + '\n\n')
         test_mnemonic = test_mnemonic.lower()
     click.clear()
     # Do NOT use mnemonic_password.

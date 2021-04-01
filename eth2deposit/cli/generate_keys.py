@@ -42,18 +42,18 @@ def validate_password(cts: click.Context, param: Any, password: str) -> str:
         is_valid_password = True
 
     while not is_valid_password:
-        password = get_password(load_text('en', ['msg_password_prompt']))
+        password = get_password(load_text(['msg_password_prompt']))
         try:
             validate_password_strength(password)
         except ValidationError as e:
             click.echo(e)
         else:
             # Confirm password
-            password_confirmation = get_password(load_text('en', ['msg_password_confirm']))
+            password_confirmation = get_password(load_text(['msg_password_confirm']))
             if password == password_confirmation:
                 is_valid_password = True
             else:
-                click.echo(load_text('en', ['err_password_mismatch']))
+                click.echo(load_text(['err_password_mismatch']))
 
     return password
 
@@ -65,30 +65,30 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
     '''
     decorators = [
         click.option(
-            load_text('en', ['num_validators', 'argument']),
-            help=load_text('en', ['num_validators', 'help']),
-            prompt=load_text('en', ['num_validators', 'prompt']),
+            load_text(['num_validators', 'argument']),
+            help=load_text(['num_validators', 'help']),
+            prompt=load_text(['num_validators', 'prompt']),
             required=True,
             type=click.IntRange(0, 2**32 - 1),
         ),
         click.option(
-            load_text('en', ['folder', 'argument']),
+            load_text(['folder', 'argument']),
             default=os.getcwd(),
-            help=load_text('en', ['folder', 'help']),
+            help=load_text(['folder', 'help']),
             type=click.Path(exists=True, file_okay=False, dir_okay=True),
         ),
         click.option(
-            load_text('en', ['chain', 'argument']),
+            load_text(['chain', 'argument']),
             default=MAINNET,
-            help=load_text('en', ['chain', 'help']),
-            prompt=load_text('en', ['chain', 'prompt']),
+            help=load_text(['chain', 'help']),
+            prompt=load_text(['chain', 'prompt']),
             type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
         ),
         click.password_option(
-            load_text('en', ['keystore_password', 'argument']),
+            load_text(['keystore_password', 'argument']),
             callback=validate_password,
-            help=load_text('en', ['keystore_password', 'help']),
-            prompt=load_text('en', ['keystore_password', 'prompt']),
+            help=load_text(['keystore_password', 'help']),
+            prompt=load_text(['keystore_password', 'prompt']),
         ),
     ]
     for decorator in reversed(decorators):
@@ -109,7 +109,7 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
         os.mkdir(folder)
     click.clear()
     click.echo(RHINO_0)
-    click.echo(load_text('en', ['msg_key_creation']))
+    click.echo(load_text(['msg_key_creation']))
     credentials = CredentialList.from_mnemonic(
         mnemonic=mnemonic,
         mnemonic_password=mnemonic_password,
@@ -121,8 +121,8 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
     keystore_filefolders = credentials.export_keystores(password=keystore_password, folder=folder)
     deposits_file = credentials.export_deposit_data_json(folder=folder)
     if not credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=keystore_password):
-        raise ValidationError(load_text('en', ['err_verify_keystores']))
+        raise ValidationError(load_text(['err_verify_keystores']))
     if not verify_deposit_data_json(deposits_file):
-        raise ValidationError(load_text('en', ['err_verify_deposit']))
-    click.echo(load_text('en', ['msg_creation_success']) + folder)
-    click.pause(load_text('en', ['msg_pause']))
+        raise ValidationError(load_text(['err_verify_deposit']))
+    click.echo(load_text(['msg_creation_success']) + folder)
+    click.pause(load_text(['msg_pause']))

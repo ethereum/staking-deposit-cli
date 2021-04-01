@@ -136,19 +136,19 @@ class CredentialList:
                 f"The number of keys ({num_keys}) doesn't equal to the corresponding deposit amounts ({len(amounts)})."
             )
         key_indices = range(start_index, start_index + num_keys)
-        with click.progressbar(key_indices, label=load_text('en', ['msg_key_creation']),
+        with click.progressbar(key_indices, label=load_text(['msg_key_creation']),
                                show_percent=False, show_pos=True) as indices:
             return cls([Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
                                    index=index, amount=amounts[index - start_index], chain_setting=chain_setting)
                         for index in indices])
 
     def export_keystores(self, password: str, folder: str) -> List[str]:
-        with click.progressbar(self.credentials, label=load_text('en', ['msg_keystore_creation']),
+        with click.progressbar(self.credentials, label=load_text(['msg_keystore_creation']),
                                show_percent=False, show_pos=True) as credentials:
             return [credential.save_signing_keystore(password=password, folder=folder) for credential in credentials]
 
     def export_deposit_data_json(self, folder: str) -> str:
-        with click.progressbar(self.credentials, label=load_text('en', ['msg_depositdata_creation']),
+        with click.progressbar(self.credentials, label=load_text(['msg_depositdata_creation']),
                                show_percent=False, show_pos=True) as credentials:
             deposit_data = [cred.deposit_datum_dict for cred in credentials]
         filefolder = os.path.join(folder, 'deposit_data-%i.json' % time.time())
@@ -160,7 +160,7 @@ class CredentialList:
 
     def verify_keystores(self, keystore_filefolders: List[str], password: str) -> bool:
         with click.progressbar(zip(self.credentials, keystore_filefolders),
-                               label=load_text('en', ['msg_keystore_verification']),
+                               label=load_text(['msg_keystore_verification']),
                                length=len(self.credentials), show_percent=False, show_pos=True) as items:
             return all(credential.verify_keystore(keystore_filefolder=filefolder, password=password)
                        for credential, filefolder in items)
