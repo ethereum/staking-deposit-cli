@@ -21,7 +21,10 @@ def _get_from_dict(dataDict: Dict[str, Any], mapList: List[str]) -> str:
     '''
     Iterate nested dictionaries
     '''
-    return reduce(dict.get, mapList, dataDict)  # type: ignore
+    try:
+        return reduce(dict.get, mapList, dataDict)  # type: ignore
+    except TypeError:
+        raise KeyError('%s not in internationalisation json file.' %mapList)
 
 
 def load_text(params: List[str], file_path: str='', func: str='', lang: str=config.language) -> str:

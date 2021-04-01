@@ -32,7 +32,7 @@ class JITOption(click.Option):
         self.callable_prompt = prompt
 
         return super().__init__(
-            param_decls=[param_decls],
+            param_decls=[_value_of(param_decls)],
             default=_value_of(default),
             help=_value_of(help),
             prompt=_value_of(prompt),
