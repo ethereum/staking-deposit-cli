@@ -20,14 +20,14 @@ languages = get_languages(WORD_LISTS_PATH)
 
 
 @click.command(
-    help=load_text(['arg_new_mnemonic', 'help']),
+    help=load_text(['arg_new_mnemonic', 'help'], func='new_mnemonic'),
 )
 @click.pass_context
 @jit_option(
-    default=lambda: load_text(['arg_mnemonic_language', 'default']),
-    help=lambda: load_text(['arg_mnemonic_language', 'help']),
-    param_decls=lambda: load_text(['arg_mnemonic_language', 'argument']),
-    prompt=lambda: load_text(['arg_mnemonic_language', 'prompt']),
+    default=lambda: load_text(['arg_mnemonic_language', 'default'], func='new_mnemonic'),
+    help=lambda: load_text(['arg_mnemonic_language', 'help'], func='new_mnemonic'),
+    param_decls=lambda: load_text(['arg_mnemonic_language', 'argument'], func='new_mnemonic'),
+    prompt=lambda: load_text(['arg_mnemonic_language', 'prompt'], func='new_mnemonic'),
     type=click.Choice(languages, case_sensitive=False),
 )
 @generate_keys_arguments_decorator

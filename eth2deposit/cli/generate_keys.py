@@ -66,31 +66,31 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
     '''
     decorators = [
         jit_option(
-            help=lambda: load_text(['num_validators', 'help']),
-            param_decls=lambda: load_text(['num_validators', 'argument']),
-            prompt=lambda: load_text(['num_validators', 'prompt']),
+            help=lambda: load_text(['num_validators', 'help'], func='generate_keys_arguments_decorator'),
+            param_decls=lambda: load_text(['num_validators', 'argument'], func='generate_keys_arguments_decorator'),
+            prompt=lambda: load_text(['num_validators', 'prompt'], func='generate_keys_arguments_decorator'),
             required=True,
             type=click.IntRange(0, 2**32 - 1),
         ),
         jit_option(
             default=os.getcwd(),
-            help=lambda: load_text(['folder', 'help']),
-            param_decls=lambda: load_text(['folder', 'argument']),
+            help=lambda: load_text(['folder', 'help'], func='generate_keys_arguments_decorator'),
+            param_decls=lambda: load_text(['folder', 'argument'], func='generate_keys_arguments_decorator'),
             type=click.Path(exists=True, file_okay=False, dir_okay=True),
         ),
         jit_option(
             default=MAINNET,
-            help=lambda: load_text(['chain', 'help']),
-            param_decls=lambda: load_text(['chain', 'argument']),
-            prompt=lambda: load_text(['chain', 'prompt']),
+            help=lambda: load_text(['chain', 'help'], func='generate_keys_arguments_decorator'),
+            param_decls=lambda: load_text(['chain', 'argument'], func='generate_keys_arguments_decorator'),
+            prompt=lambda: load_text(['chain', 'prompt'], func='generate_keys_arguments_decorator'),
             type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
         ),
         jit_option(
             callback=validate_password,
-            help=lambda: load_text(['keystore_password', 'help']),
+            help=lambda: load_text(['keystore_password', 'help'], func='generate_keys_arguments_decorator'),
             hide_input=True,
-            param_decls=lambda: load_text(['keystore_password', 'argument']),
-            prompt=lambda: load_text(['keystore_password', 'prompt']),
+            param_decls=lambda: load_text(['keystore_password', 'argument'], func='generate_keys_arguments_decorator'),
+            prompt=lambda: load_text(['keystore_password', 'prompt'], func='generate_keys_arguments_decorator'),
         ),
     ]
     for decorator in reversed(decorators):
