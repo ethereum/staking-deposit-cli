@@ -24,7 +24,7 @@ def _get_from_dict(dataDict: Dict[str, Any], mapList: List[str]) -> str:
     return reduce(dict.get, mapList, dataDict)  # type: ignore
 
 
-def load_text(params: List[str], file_path: str='', func: str='') -> str:
+def load_text(params: List[str], file_path: str='', func: str='', lang: str=config.language) -> str:
     '''
     Determine and return the appropriate internationalisation text for a given set of `params`.
     '''
@@ -40,7 +40,7 @@ def load_text(params: List[str], file_path: str='', func: str='') -> str:
     # Determine path to json text
     file_path_list = os.path.normpath(file_path).split(os.path.sep)
     rel_path_list = file_path_list[file_path_list.index('eth2deposit') + 1:]
-    json_path = os.path.join(INTL_CONTENT_PATH, config.language, *rel_path_list)
+    json_path = os.path.join(INTL_CONTENT_PATH, lang, *rel_path_list)
 
     # browse json until text is found
     with open(json_path) as f:
