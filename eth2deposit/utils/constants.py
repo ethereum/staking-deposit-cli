@@ -6,6 +6,7 @@ ZERO_BYTES32 = b'\x00' * 32
 # Eth2-spec constants taken from https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/beacon-chain.md
 DOMAIN_DEPOSIT = bytes.fromhex('03000000')
 BLS_WITHDRAWAL_PREFIX = bytes.fromhex('00')
+ETH1_ADDRESS_WITHDRAWAL_PREFIX = bytes.fromhex('01')
 
 ETH2GWEI = 10 ** 9
 MIN_DEPOSIT_AMOUNT = 2 ** 0 * ETH2GWEI
