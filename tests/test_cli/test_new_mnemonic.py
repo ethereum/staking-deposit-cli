@@ -25,7 +25,7 @@ def test_new_mnemonic(monkeypatch) -> None:
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
-    inputs = ['english', '1', 'mainnet', 'MyPassword', 'MyPassword', 'fakephrase']
+    inputs = ['english', 'english', '1', 'mainnet', 'MyPassword', 'MyPassword', 'fakephrase']
     data = '\n'.join(inputs)
     result = runner.invoke(cli, ['new-mnemonic', '--folder', my_folder_path], input=data)
     assert result.exit_code == 0
@@ -68,7 +68,9 @@ async def test_script() -> None:
     await proc.wait()
 
     cmd_args = [
-        run_script_cmd + ' new-mnemonic',
+        run_script_cmd,
+        '--language', 'english',
+        'new-mnemonic',
         '--num_validators', '5',
         '--mnemonic_language', 'english',
         '--chain', 'mainnet',
@@ -86,9 +88,9 @@ async def test_script() -> None:
     intl_file_path = os.path.join(os.getcwd(), 'eth2deposit/../eth2deposit/cli/new_mnemonic.json')
     async for out in proc.stdout:
         output = out.decode('utf-8').rstrip()
-        if output.startswith(load_text(['msg_mnemonic_presentation'], intl_file_path, 'new_mnemonic')):
+        if output.startswith(load_text(['msg_mnemonic_presentation'], file_path=intl_file_path, func='new_mnemonic')):
             parsing = True
-        elif output.startswith(load_text(['msg_mnemonic_retype_prompt'], intl_file_path, 'new_mnemonic')):
+        elif output.startswith(load_text(['msg_mnemonic_retype_prompt'], file_path=intl_file_path, func='new_mnemonic')):
             parsing = False
         elif parsing:
             seed_phrase += output

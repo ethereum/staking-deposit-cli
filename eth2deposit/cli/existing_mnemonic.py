@@ -28,7 +28,6 @@ def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
 @click.command(
     help=load_text(['arg_existing_mnemonic', 'help'], func='existing_mnemonic'),
 )
-@click.pass_context
 @jit_option(
     callback=validate_mnemonic,
     help=lambda: load_text(['arg_mnemonic', 'help'], func='existing_mnemonic'),
@@ -54,10 +53,12 @@ def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
     type=click.IntRange(0, 2**32 - 1),
 )
 @generate_keys_arguments_decorator
+@click.pass_context
 def existing_mnemonic(ctx: click.Context, mnemonic: str, mnemonic_password: str, **kwargs: Any) -> None:
     if mnemonic_password != '':
         click.clear()
         click.confirm(load_text(['msg_mnemonic_password_confirm']), abort=True)
 
+    ctx.obj = {} if ctx.obj is None else ctx.obj  # Create a new ctx.obj if it doesn't exist
     ctx.obj.update({'mnemonic': mnemonic, 'mnemonic_password': mnemonic_password})
     ctx.forward(generate_keys)

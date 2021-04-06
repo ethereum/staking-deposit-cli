@@ -87,6 +87,7 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
         ),
         jit_option(
             callback=validate_password,
+            confirmation_prompt=True,
             help=lambda: load_text(['keystore_password', 'help'], func='generate_keys_arguments_decorator'),
             hide_input=True,
             param_decls=lambda: load_text(['keystore_password', 'argument'], func='generate_keys_arguments_decorator'),

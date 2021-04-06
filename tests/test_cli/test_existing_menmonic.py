@@ -22,7 +22,7 @@ def test_existing_mnemonic() -> None:
         'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
         '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword', 'yes']
     data = '\n'.join(inputs)
-    arguments = ['existing-mnemonic', '--folder', my_folder_path, '--mnemonic-password', 'TREZOR']
+    arguments = ['--language', 'english', 'existing-mnemonic', '--folder', my_folder_path, '--mnemonic-password', 'TREZOR']
     result = runner.invoke(cli, arguments, input=data)
 
     assert result.exit_code == 0
@@ -65,6 +65,7 @@ async def test_script() -> None:
 
     cmd_args = [
         run_script_cmd,
+        '--language', 'english',
         'existing-mnemonic',
         '--num_validators', '1',
         '--mnemonic="abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"',
