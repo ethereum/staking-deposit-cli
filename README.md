@@ -118,9 +118,10 @@ You can use `new-mnemonic --help` to see all arguments. Note that if there are m
 | Argument | Type | Description |
 | -------- | -------- | -------- |
 | `--num_validators`  | Non-negative integer | The number of signing keys you want to generate. Note that the child key(s) are generated via the same master key. |
-| `--mnemonic_language` | String. Options: `czech`, `chinese_traditional`, `chinese_simplified`, `english`, `spanish`, `italian`, `korean`. Default to `english` | The mnemonic language |
+| `--mnemonic_language` | String. Options: `chinese_simplified`, `chinese_traditional`, `czech`, `english`, `italian`, `korean`, `portuguese`, `spanish`. Default to `english` | The mnemonic language |
 | `--folder` | String. Pointing to `./validator_keys` by default | The folder path for the keystore(s) and deposit(s) |
 | `--chain` | String. `mainnet` by default | The chain setting for the signing domain. |
+| `--eth1_withdrawal_address` | String. Eth1 address in hexadecimal encoded form | If this field is set and valid, the given Eth1 address will be used to create the withdrawal credentials. Otherwise, it will generate withdrawal credentials with the mnemonic-derived withdrawal public key in [EIP-2334 format](https://eips.ethereum.org/EIPS/eip-2334#eth2-specific-parameters). |
 
 ###### `existing-mnemonic` Arguments
 
@@ -132,6 +133,7 @@ You can use `existing-mnemonic --help` to see all arguments. Note that if there 
 | `--num_validators`  | Non-negative integer | The number of signing keys you want to generate. Note that the child key(s) are generated via the same master key. |
 | `--folder` | String. Pointing to `./validator_keys` by default | The folder path for the keystore(s) and deposit(s) |
 | `--chain` | String. `mainnet` by default | The chain setting for the signing domain. |
+| `--eth1_withdrawal_address` | String. Eth1 address in hexadecimal encoded form | If this field is set and valid, the given Eth1 address will be used to create the withdrawal credentials. Otherwise, it will generate withdrawal credentials with the mnemonic-derived withdrawal public key in [EIP-2334 format](https://eips.ethereum.org/EIPS/eip-2334#eth2-specific-parameters). |
 
 ###### Successful message
 
@@ -293,10 +295,10 @@ You can also run the tool with optional arguments:
 docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --folder=<YOUR_FOLDER_PATH>
 ```
 
-Example for 1 validator on the [Medalla testnet](https://medalla.launchpad.ethereum.org/) using english:
+Example for 1 validator on the [Prater testnet](https://prater.launchpad.ethereum.org/) using english:
 
 ```sh
-docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli new-mnemonic --num_validators=1 --mnemonic_language=english --chain=medalla
+docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli new-mnemonic --num_validators=1 --mnemonic_language=english --chain=prater
 ```
 
 ###### Arguments
