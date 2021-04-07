@@ -1,0 +1,140 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "validate_password": {
+            "type": "object",
+            "properties": {
+                "msg_password_prompt": {
+                    "type": "string"
+                },
+                "msg_password_confirm": {
+                    "type": "string"
+                },
+                "err_password_mismatch": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "msg_password_prompt",
+                "msg_password_confirm",
+                "err_password_mismatch"
+            ]
+        },
+        "generate_keys_arguments_decorator": {
+            "type": "object",
+            "properties": {
+                "num_validators": {
+                    "type": "object",
+                    "properties": {
+                        "argument": {
+                            "type": "string"
+                        },
+                        "help": {
+                            "type": "string"
+                        },
+                        "prompt": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "argument",
+                        "help",
+                        "prompt"
+                    ]
+                },
+                "folder": {
+                    "type": "object",
+                    "properties": {
+                        "argument": {
+                            "type": "string"
+                        },
+                        "help": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "argument",
+                        "help"
+                    ]
+                },
+                "chain": {
+                    "type": "object",
+                    "properties": {
+                        "argument": {
+                            "type": "string"
+                        },
+                        "help": {
+                            "type": "string"
+                        },
+                        "prompt": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "argument",
+                        "help",
+                        "prompt"
+                    ]
+                },
+                "keystore_password": {
+                    "type": "object",
+                    "properties": {
+                        "argument": {
+                            "type": "string"
+                        },
+                        "help": {
+                            "type": "string"
+                        },
+                        "prompt": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "argument",
+                        "help",
+                        "prompt"
+                    ]
+                }
+            },
+            "required": [
+                "num_validators",
+                "folder",
+                "chain",
+                "keystore_password"
+            ]
+        },
+        "generate_keys": {
+            "type": "object",
+            "properties": {
+                "msg_key_creation": {
+                    "type": "string"
+                },
+                "msg_creation_success": {
+                    "type": "string"
+                },
+                "msg_pause": {
+                    "type": "string"
+                },
+                "err_verify_keystores": {
+                    "type": "string"
+                },
+                "err_verify_deposit": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "msg_key_creation",
+                "msg_creation_success",
+                "msg_pause",
+                "err_verify_keystores",
+                "err_verify_deposit"
+            ]
+        }
+    },
+    "required": [
+        "validate_password",
+        "generate_keys_arguments_decorator",
+        "generate_keys"
+    ]
+}
