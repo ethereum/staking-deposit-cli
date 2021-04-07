@@ -1,0 +1,8 @@
+{
+    "verify_deposit_data_json": {
+        "msg_deposit_verification": "예치금 검증 중:\t"
+    },
+    "validate_password_strength": {
+        "msg_password_length": "비밀번호는 8자 이상이어야 합니다. 다시 입력하세요."
+    }
+}

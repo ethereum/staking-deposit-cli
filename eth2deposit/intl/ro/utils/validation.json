@@ -1,0 +1,8 @@
+{
+    "verify_deposit_data_json": {
+        "msg_deposit_verification": "Se verifică depozitele tale:\t"
+    },
+    "validate_password_strength": {
+        "msg_password_length": "Parola trebuie să aibă o lungime de cel puțin 8. Te rugăm să o reintroduci"
+    }
+}

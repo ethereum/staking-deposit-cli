@@ -1,0 +1,5 @@
+{
+    "check_python_version": {
+        "err_python_version": "Python 버전이 너무 낮습니다. 3.7 이상 버전을 설치하세요."
+    }
+}

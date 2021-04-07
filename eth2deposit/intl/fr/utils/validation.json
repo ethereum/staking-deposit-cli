@@ -1,0 +1,8 @@
+{
+    "verify_deposit_data_json": {
+        "msg_deposit_verification": "Vérification de vos dépôts :\t"
+    },
+    "validate_password_strength": {
+        "msg_password_length": "Le mot de passe doit comporter au moins 8 caractères. Veuillez recommencer."
+    }
+}
