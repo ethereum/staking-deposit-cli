@@ -1,5 +1,5 @@
 {
-    "<module>": {
+    "new_mnemonic": {
         "arg_new_mnemonic": {
             "help": "生成一个新的助记符和密钥"
         },
@@ -8,9 +8,7 @@
             "default": "英语",
             "help": "您的助记符所使用的语言",
             "prompt": "请选择您的助记符语言"
-        }
-    },
-    "new_mnemonic": {
+        },
         "msg_mnemonic_presentation": "这是您的助记符（助记词）。请记下它并存放在安全的地方，它是取回您存款的唯一方式。",
         "msg_press_any_key": "在您记下助记符后，按任意键。",
         "msg_mnemonic_retype_prompt": "请输入您的助记符（用空格分隔）以确认您已记下了"

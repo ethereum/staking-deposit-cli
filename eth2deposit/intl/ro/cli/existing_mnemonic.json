@@ -2,7 +2,7 @@
     "validate_mnemonic": {
         "err_invalid_mnemonic": "Acesta nu este un mnemonic corect, verifică dacă e scris corect."
     },
-    "<module>": {
+    "existing_mnemonic": {
         "arg_existing_mnemonic": {
             "help": "Generează (sau recuperează) chei dintr-un mnemonic existent"
         },
@@ -19,9 +19,7 @@
             "argument": "--validator_start_index",
             "help": "Introdu indexul (numărul de cheie) de la care vrei să începi să generezi mai multe chei. De exemplu, dacă ai generat 4 chei în trecut, aici trebuie să introduci 4.",
             "prompt": "Introdu indexul (numărul de cheie) de la care vrei să începi să generezi mai multe chei. De exemplu, dacă ai generat 4 chei în trecut, aici trebuie să introduci 4."
-        }
-    },
-    "existing_mnemonic": {
+        },
         "msg_mnemonic_password_confirm": "Știi absolut sigur că ai folosit o parolă de mnemonic? (Aceasta este diferită de parola depozitului de chei!) Dacă folosești parolă atunci când nu e cazul, poți să pierzi fonduri!"
     }
 }

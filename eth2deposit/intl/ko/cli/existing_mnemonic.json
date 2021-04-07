@@ -2,7 +2,7 @@
     "validate_mnemonic": {
         "err_invalid_mnemonic": "유효한 니모닉이 아닙니다. 오타가 있는지 확인하세요."
     },
-    "<module>": {
+    "existing_mnemonic": {
         "arg_existing_mnemonic": {
             "help": "기존 니모닉에서 키 생성(또는 복구)"
         },
@@ -19,9 +19,7 @@
             "argument": "--validator_start_index",
             "help": "키를 추가로 생성하기 시작할 인덱스(생성 완료된 키 개수)를 입력하세요. 과거에 생성한 키가 총 4개라면 여기에 4를 입력하면 됩니다.",
             "prompt": "키를 추가로 생성하기 시작할 인덱스(생성 완료된 키 개수)를 입력하세요. 과거에 생성한 키가 총 4개라면 여기에 4를 입력하면 됩니다."
-        }
-    },
-    "existing_mnemonic": {
+        },
         "msg_mnemonic_password_confirm": "니모닉 비밀번호를 사용한 적이 있다고 확실히 확신하십니까? (키스토어 비밀번호와 다른 것입니다!) 착오로 인해 사용하면 자금을 잃어버릴 수 있습니다!"
     }
 }

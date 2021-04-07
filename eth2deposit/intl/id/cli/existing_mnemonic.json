@@ -2,7 +2,7 @@
     "validate_mnemonic": {
         "err_invalid_mnemonic": "Bukan mnemonik yang valid, harap pastikan tidak ada kesalahan ketik."
     },
-    "<module>": {
+    "existing_mnemonic": {
         "arg_existing_mnemonic": {
             "help": "Buat (atau pulihkan) kunci dari mnemonik yang sudah ada"
         },
@@ -19,9 +19,7 @@
             "argument": "--validator_start_index",
             "help": "Masukkan indeks (nomor kunci) yang Anda inginkan untuk mulai membuat lebih banyak kunci. Misalnya, jika Anda pernah membuat 4 kunci sebelumnya, masukkan 4 di sini.",
             "prompt": "Masukkan indeks (nomor kunci) yang Anda inginkan untuk mulai membuat lebih banyak kunci. Misalnya, jika Anda pernah membuat 4 kunci sebelumnya, masukkan 4 di sini."
-        }
-    },
-    "existing_mnemonic": {
+        },
         "msg_mnemonic_password_confirm": "Apakah Anda benar-benar yakin bahwa Anda menggunakan kata sandi mnemonik? (Ini berbeda dari kata sandi keystore!) Menggunakan kata sandi saat Anda tidak seharusnya melakukannya dapat mengakibatkan hilangnya dana!"
     }
 }

@@ -2,7 +2,7 @@
     "validate_mnemonic": {
         "err_invalid_mnemonic": "这不是一个有效的助记符，请检查有无打字错误。"
     },
-    "<module>": {
+    "existing_mnemonic": {
         "arg_existing_mnemonic": {
             "help": "从现有助记符中生成（或恢复）密钥"
         },
@@ -19,9 +19,7 @@
             "argument": "--validator_start_index",
             "help": "输入您想要开始生成更多密钥的索引（密钥号码）。例如，如果您在过去生成了 4 个密钥，请在此处输入 4。",
             "prompt": "输入您想要开始生成更多密钥的索引（密钥号码）。例如，如果您在过去生成了 4 个密钥，请在此处输入 4。"
-        }
-    },
-    "existing_mnemonic": {
+        },
         "msg_mnemonic_password_confirm": "您是否绝对肯定您启用了助记密码？（这不同于密钥库密码！） 如果您不确定启用了助记密码而硬要输入，则可能会造成资金损失！"
     }
 }
