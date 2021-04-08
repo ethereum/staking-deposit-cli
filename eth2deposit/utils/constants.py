@@ -33,8 +33,8 @@ INTL_LANG_OPTIONS = {
     'zh-CN': ('简体中文', 'zh-CN', 'zh', 'Chinease'),
 }
 MNEMONIC_LANG_OPTIONS = {
-    'chinease_simplified': ('简体中文', 'zh', 'zh-CN', 'Chinese Simplified'),
-    'chinease_traditional': ('繁體中文', 'zh-tw', 'Chinese Traditional'),
+    'chinese_simplified': ('简体中文', 'zh', 'zh-CN', 'Chinese Simplified'),
+    'chinese_traditional': ('繁體中文', 'zh-tw', 'Chinese Traditional'),
     'czech': ('čeština', 'český jazyk', 'cs', 'Czech'),
     'english': ('English', 'en'),
     'italian': ('Italiano', 'it', 'Italian'),

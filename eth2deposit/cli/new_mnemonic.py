@@ -4,19 +4,29 @@ from typing import (
 )
 
 from eth2deposit.key_handling.key_derivation.mnemonic import (
-    get_languages,
     get_mnemonic,
 )
-from eth2deposit.utils.click import jit_option
-from eth2deposit.utils.constants import WORD_LISTS_PATH
-from eth2deposit.utils.intl import load_text
+from eth2deposit.utils.click import (
+    captive_prompt_callback,
+    choice_prompt_func,
+    jit_option,
+)
+from eth2deposit.utils.constants import (
+    MNEMONIC_LANG_OPTIONS,
+    WORD_LISTS_PATH,
+)
+from eth2deposit.utils.intl import (
+    fuzzy_reverse_dict_lookup,
+    load_text,
+    get_first_options,
+)
 
 from .generate_keys import (
     generate_keys,
     generate_keys_arguments_decorator,
 )
 
-languages = get_languages(WORD_LISTS_PATH)
+languages = get_first_options(MNEMONIC_LANG_OPTIONS)
 
 
 @click.command(
@@ -24,11 +34,14 @@ languages = get_languages(WORD_LISTS_PATH)
 )
 @click.pass_context
 @jit_option(
+    callback=captive_prompt_callback(
+        lambda mnemonic_language: fuzzy_reverse_dict_lookup(mnemonic_language, MNEMONIC_LANG_OPTIONS),
+        choice_prompt_func(lambda: load_text(['arg_mnemonic_language', 'prompt'], func='new_mnemonic'), languages)()
+    ),
     default=lambda: load_text(['arg_mnemonic_language', 'default'], func='new_mnemonic'),
     help=lambda: load_text(['arg_mnemonic_language', 'help'], func='new_mnemonic'),
     param_decls=lambda: load_text(['arg_mnemonic_language', 'argument'], func='new_mnemonic'),
-    prompt=lambda: load_text(['arg_mnemonic_language', 'prompt'], func='new_mnemonic'),
-    type=click.Choice(languages, case_sensitive=False),
+    prompt=choice_prompt_func(lambda: load_text(['arg_mnemonic_language', 'prompt'], func='new_mnemonic'), languages),
 )
 @generate_keys_arguments_decorator
 def new_mnemonic(ctx: click.Context, mnemonic_language: str, **kwargs: Any) -> None:

@@ -5,7 +5,7 @@
         },
         "arg_mnemonic_language": {
             "argument": "--lingua_mnemonico",
-            "default": "italian",
+            "default": "Italiano",
             "help": "La lingua del mnemonico",
             "prompt": "Scegli la lingua del mnemonico"
         },
