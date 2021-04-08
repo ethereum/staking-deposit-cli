@@ -1,6 +1,6 @@
 {
     "validate_password": {
-        "msg_password_prompt": "Type the password that secures your validator keystore(s)",
+        "msg_password_prompt": "Create a password that secures your validator keystore(s)",
         "msg_password_confirm": "Repeat for confirmation",
         "err_password_mismatch": "Error: the two entered values do not match. Please type again."
     },
