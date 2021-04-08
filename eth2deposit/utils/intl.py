@@ -27,7 +27,7 @@ def _get_from_dict(dataDict: Dict[str, Any], mapList: List[str]) -> str:
         raise KeyError('%s not in internationalisation json file.' % mapList)
 
 
-def load_text(params: List[str], file_path: str='', func: str='', lang: str=config.language) -> str:
+def load_text(params: List[str], file_path: str='', func: str='', lang: str='') -> str:
     '''
     Determine and return the appropriate internationalisation text for a given set of `params`.
     '''
@@ -39,6 +39,9 @@ def load_text(params: List[str], file_path: str='', func: str='', lang: str=conf
     if func == '':
         # Auto-detect function based on call stack
         func = inspect.stack()[1].function
+
+    if lang == '':
+        lang = config.language
 
     # Determine path to json text
     file_path_list = os.path.normpath(file_path).split(os.path.sep)

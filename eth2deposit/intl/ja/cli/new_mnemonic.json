@@ -5,7 +5,7 @@
         },
         "arg_mnemonic_language": {
             "argument": "--mnemonic_language",
-            "default": "英語",
+            "default": "english",
             "help": "ニーモニックの言語",
             "prompt": "ニーモニックの言語を選択してください"
         },

@@ -5,7 +5,7 @@
         },
         "arg_mnemonic_language": {
             "argument": "_mnemonic_language",
-            "default": "anglais",
+            "default": "english",
             "help": "Langue de votre phrase mnémonique",
             "prompt": "Veuillez choisir la langue de votre phrase mnémonique."
         },

@@ -5,7 +5,7 @@
         },
         "arg_mnemonic_language": {
             "argument": "--mnemonic_language",
-            "default": "英语",
+            "default": "english",
             "help": "您的助记符所使用的语言",
             "prompt": "请选择您的助记符语言"
         },
