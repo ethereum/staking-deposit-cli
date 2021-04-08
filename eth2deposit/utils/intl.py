@@ -1,20 +1,21 @@
 import inspect
+import difflib
 from functools import reduce
 import json
 from typing import (
     Any,
     Dict,
+    Iterable,
     List,
-    Sequence,
+    Tuple,
 )
 import os
-import unicodedata
 
 from eth2deposit.utils import config
 from eth2deposit.utils.constants import (
     INTL_CONTENT_PATH,
-    INTL_LANG_OPTIONS,
 )
+from eth2deposit.exceptions import ValidationError
 
 
 def _get_from_dict(dataDict: Dict[str, Any], mapList: List[str]) -> str:
@@ -54,24 +55,30 @@ def load_text(params: List[str], file_path: str='', func: str='', lang: str='') 
         return _get_from_dict(text_dict, [func] + params)
 
 
-def get_translation_languages() -> Sequence[str]:
+def get_first_options(options: Dict[str, Tuple[str, ...]]) -> List[str]:
     '''
-    Returns the primary name for the languages available
+    Returns the first `option` in the values of the `options` dict.
     '''
-    return list(map(lambda x: x[0], INTL_LANG_OPTIONS.values()))
+    return list(map(lambda x: x[0], options.values()))
 
 
-def _normalize_caseless(text: str) -> str:
+def _closest_match(text: str, options: Iterable[str]) -> str:
     '''
-    Normalize and remove case of input string
+    Finds the closest match to `text` in the `options_list`
     '''
-    return unicodedata.normalize("NFKD", text.casefold())
+    match = difflib.get_close_matches(text, options, n=1, cutoff=0.6)
+    if len(match) == 0:
+        raise ValidationError('%s is not a valid language option' % text)
+    return match[0]
 
 
-def get_language_iso_name(long_name: str) -> str:
+def fuzzy_reverse_dict_lookup(text: str, options: Dict[str, Tuple[str, ...]]) -> str:
     '''
-    Given the long version of a name, return the ISO 639-1 name
+    Returns the closest match to `text` out of the `options`
+    :param text: The test string that needs to be found
+    :param options: A dict with keys (the value that will be returned)
+                    and values a list of the options to be matched against
     '''
-    reversed_language_dict = {_normalize_caseless(lang): iso_name
-                              for iso_name, langs in INTL_LANG_OPTIONS.items() for lang in langs}
-    return reversed_language_dict[_normalize_caseless(long_name)]
+    reverse_lookup_dict = {value: key for key, values in options.items() for value in values}
+    match = _closest_match(text, reverse_lookup_dict.keys())
+    return reverse_lookup_dict[match]

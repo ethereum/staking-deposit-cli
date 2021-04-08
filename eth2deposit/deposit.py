@@ -7,11 +7,13 @@ import sys
 from eth2deposit.cli.existing_mnemonic import existing_mnemonic
 from eth2deposit.cli.new_mnemonic import new_mnemonic
 from eth2deposit.utils import config
+from eth2deposit.utils.constants import INTL_LANG_OPTIONS
 from eth2deposit.utils.intl import (
-    get_language_iso_name,
-    get_translation_languages,
+    get_first_options,
+    fuzzy_reverse_dict_lookup,
     load_text,
 )
+from eth2deposit.exceptions import ValidationError
 
 
 def check_python_version() -> None:
@@ -29,9 +31,9 @@ def process_language_callback(ctx: click.Context, param: Any, language: str) -> 
     '''
     while True:
         try:
-            return get_language_iso_name(language)
-        except KeyError:
-            click.echo('Please select a valid language: (%s)' % get_translation_languages())
+            return fuzzy_reverse_dict_lookup(language, INTL_LANG_OPTIONS)
+        except ValidationError:
+            language = click.prompt('Please select a valid language (%s): ' % get_first_options(INTL_LANG_OPTIONS))
 
 
 @click.group()
@@ -40,7 +42,7 @@ def process_language_callback(ctx: click.Context, param: Any, language: str) -> 
     '--language',
     callback=process_language_callback,
     default='English',
-    prompt='Please choose your language (%s)' % get_translation_languages(),
+    prompt='Please choose your language (%s)' % get_first_options(INTL_LANG_OPTIONS),
     required=True,
     type=str,
 )

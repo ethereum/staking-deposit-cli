@@ -20,12 +20,28 @@ DEFAULT_VALIDATOR_KEYS_FOLDER_NAME = 'validator_keys'
 # Internationalisation constants
 INTL_CONTENT_PATH = os.path.join('eth2deposit', 'intl')
 INTL_LANG_OPTIONS = {
-    'cs': ('Český Jazyk', 'cs', 'Cesky Jazyk', 'Czech'),
+    'ar': ('العربية', 'ar', 'Arabic'),
+    'el': ('ελληνικά', 'el', 'Greek'),
     'en': ('English', 'en'),
-    'es': ('Español', 'Espanol', 'es', 'Spanish'),
+    'fr': ('Français', 'Francais', 'fr', 'French'),
+    'id': ('Bahasa melayu', 'Melayu', 'id', 'Malay'),
     'it': ('Italiano', 'it', 'Italian'),
-    'ko': ('조선말', '한국어', 'ko', 'Korean'),
-    'zh': ('汉语', 'zh', 'Chinease'),
+    'ja': ('日本語', 'ja', 'Japanese'),
+    'ko': ('한국어', '조선말', '韓國語', 'ko', 'Korean'),
+    'pt-BR': ('Português do Brasil', 'Brasil', 'pt-BR', 'Brazilian Portuguese'),
+    'ro': ('român', 'limba română', 'ro', 'Romainian'),
+    'zh-CN': ('简体中文', 'zh-CN', 'zh', 'Chinease'),
+}
+MNEMONIC_LANG_OPTIONS = {
+    'chinease_simplified': ('简体中文', 'zh', 'zh-CN', 'Chinese Simplified'),
+    'chinease_traditional': ('繁體中文', 'zh-tw', 'Chinese Traditional'),
+    'czech': ('čeština', 'český jazyk', 'cs', 'Czech'),
+    'english': ('English', 'en'),
+    'italian': ('Italiano', 'it', 'Italian'),
+    'korean': ('한국어', '조선말', '韓國語', 'ko', 'Korean'),
+    # Portuguese mnemonics are in both pt & pt-BR
+    'portuguese': ('Português', 'Português do Brasil', 'pt', 'pt-BR', 'Portuguese'),
+    'spanish': ('Español', 'es', 'Spanish'),
 }
 
 # Sundry constants
