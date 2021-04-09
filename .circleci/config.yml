@@ -124,8 +124,16 @@ jobs:
             pyenv global 3.7.5;
             pyinstaller --distpath ./${BUILD_FILE_NAME} ./build_configs/linux/build.spec;
       - run:
+          name: Test executable binaries
+          command: |
+            export PYTHONHASHSEED=42
+            export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
+            export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-linux-amd64;
+            python test_binary_script.py ./${BUILD_FILE_NAME};
+      - run:
           name: Compress the file
           command: |
+            export PYTHONHASHSEED=42
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
             export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-linux-amd64;
             tar -zcvf ${BUILD_FILE_NAME}.tar.gz ./${BUILD_FILE_NAME};
@@ -153,8 +161,16 @@ jobs:
             $BUILD_FILE_NAME_PATH = ".\" + $BUILD_FILE_NAME
             pyinstaller --distpath $BUILD_FILE_NAME_PATH .\build_configs\windows\build.spec
       - run:
+          name: Test executable binaries
+          command: |
+            $PYTHONHASHSEED = 42
+            $CIRCLE_SHORT_SHA1 = $env:CIRCLE_SHA1.substring(0,7)
+            $BUILD_FILE_NAME = "eth2deposit-cli-" + $CIRCLE_SHORT_SHA1 + "-windows-amd64"
+            python test_binary_script.py .\${BUILD_FILE_NAME}
+      - run:
           name: Compress the file
           command: |
+            $PYTHONHASHSEED = 42
             $CIRCLE_SHORT_SHA1 = $env:CIRCLE_SHA1.substring(0,7)
             $BUILD_FILE_NAME = "eth2deposit-cli-" + $CIRCLE_SHORT_SHA1 + "-windows-amd64"
             $BUILD_FILE_NAME_PATH = ".\" + $BUILD_FILE_NAME
@@ -186,8 +202,16 @@ jobs:
             mkdir ${BUILD_FILE_NAME};
             pyinstaller --distpath ./${BUILD_FILE_NAME} ./build_configs/macos/build.spec;
       - run:
+          name: Test executable binaries
+          command: |
+            export PYTHONHASHSEED=42
+            export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
+            export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-darwin-amd64;
+            python3 test_binary_script.py ./${BUILD_FILE_NAME};
+      - run:
           name: Compress the file
           command: |
+            export PYTHONHASHSEED=42
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
             export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-darwin-amd64;
             tar -zcvf ${BUILD_FILE_NAME}.tar.gz ./${BUILD_FILE_NAME};
