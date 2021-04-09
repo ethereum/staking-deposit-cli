@@ -51,3 +51,6 @@ pyinstaller-hooks-contrib==2021.1 \
 importlib-metadata==3.10.0 \
     --hash=sha256:c9db46394197244adf2f0b08ec5bc3cf16757e9590b02af1fca085c16c0d600a \
     --hash=sha256:d2d46ef77ffc85cbf7dac7e81dd663fde71c45326131bea8033b9bad42268ebe
+zipp==3.4.1 \
+    --hash=sha256:3607921face881ba3e026887d8150cca609d517579abe052ac81fc5aeffdbd76 \
+    --hash=sha256:51cb66cc54621609dd593d1787f286ee42a5c0adbb4b29abea5a63edc3e03098
