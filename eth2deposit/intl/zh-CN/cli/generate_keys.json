@@ -16,7 +16,7 @@
         },
         "chain": {
             "argument": "--chain",
-            "help": "您正在对准的 eth2 版本。如果您要存入以太币，请使用“主网”",
+            "help": "您正在对准的 eth2 版本。如果您要存入以太币，请使用 \"mainnet\"",
             "prompt": "请选择（主网或测试网）网络名/链名"
         },
         "keystore_password": {

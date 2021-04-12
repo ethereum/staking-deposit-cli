@@ -4,7 +4,7 @@
             "help": "Générer un nouvel élément mnémonique et des clés"
         },
         "arg_mnemonic_language": {
-            "argument": "_mnemonic_language",
+            "argument": "--mnemonic_language",
             "default": "english",
             "help": "Langue de votre phrase mnémonique",
             "prompt": "Veuillez choisir la langue de votre phrase mnémonique."
