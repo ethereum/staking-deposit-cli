@@ -35,7 +35,7 @@ venv_build_test: venv_build
 	${VENV_NAME}/bin/python -m pip install -r requirements_test.txt
 
 venv_test: venv_build_test
-	$(VENV_ACTIVATE) && python -m pytest .
+	$(VENV_ACTIVATE) && python -m pytest ./tests
 
 venv_lint: venv_build_test
 	$(VENV_ACTIVATE) && flake8 --config=flake8.ini ./eth2deposit ./tests && mypy --config-file mypy.ini -p eth2deposit
