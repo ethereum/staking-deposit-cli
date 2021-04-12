@@ -7,7 +7,8 @@ from typing import (
     Dict,
     Iterable,
     List,
-    Tuple,
+    Mapping,
+    Sequence,
 )
 import os
 
@@ -18,7 +19,7 @@ from eth2deposit.utils.constants import (
 from eth2deposit.exceptions import ValidationError
 
 
-def _get_from_dict(dataDict: Dict[str, Any], mapList: List[str]) -> str:
+def _get_from_dict(dataDict: Dict[str, Any], mapList: Iterable[str]) -> str:
     '''
     Iterate nested dictionaries
     '''
@@ -55,7 +56,7 @@ def load_text(params: List[str], file_path: str='', func: str='', lang: str='') 
         return _get_from_dict(text_dict, [func] + params)
 
 
-def get_first_options(options: Dict[str, Tuple[str, ...]]) -> List[str]:
+def get_first_options(options: Mapping[str, Sequence[str]]) -> List[str]:
     '''
     Returns the first `option` in the values of the `options` dict.
     '''
@@ -72,7 +73,7 @@ def _closest_match(text: str, options: Iterable[str]) -> str:
     return match[0]
 
 
-def fuzzy_reverse_dict_lookup(text: str, options: Dict[str, Tuple[str, ...]]) -> str:
+def fuzzy_reverse_dict_lookup(text: str, options: Mapping[str, Sequence[str]]) -> str:
     '''
     Returns the closest match to `text` out of the `options`
     :param text: The test string that needs to be found
