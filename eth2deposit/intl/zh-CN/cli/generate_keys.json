@@ -1,7 +1,7 @@
 {
     "validate_password": {
         "msg_password_prompt": "输入密码以保护您的验证者密钥库",
-        "msg_password_confirm": "重复以确认",
+        "msg_password_confirm": "重复输入以确认",
         "err_password_mismatch": "错误：输入的两个值不匹配。请再次输入。"
     },
     "generate_keys_arguments_decorator": {
