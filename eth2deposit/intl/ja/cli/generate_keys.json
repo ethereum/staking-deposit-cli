@@ -6,21 +6,17 @@
     },
     "generate_keys_arguments_decorator": {
         "num_validators": {
-            "argument": "--num_validators",
             "help": "生成するバリデーターキーの数 (後からいつでも追加で生成できます)",
             "prompt": "実行したいバリデーターの数を選択してください"
         },
         "folder": {
-            "argument": "--folder",
             "help": "生成するバリデーターキーの数 (後からいつでも追加で生成できます)"
         },
         "chain": {
-            "argument": "--chain",
             "help": "ターゲットとしている eth2 のバージョン。ETH を入金する場合は \"mainnet\" を使用してください。",
             "prompt": "(mainnet または testnet) ネットワーク/チェーン名を選択してください"
         },
         "keystore_password": {
-            "argument": "--keystore_password",
             "help": "キーを生成するために使用したニーモニック。 (この引数を使用せずにCLIからニーモニックの入力が求められるのを待つことをお勧めします。そうしないとシェル履歴に表示されます。)",
             "prompt": "キーストアを保護するパスワード。eth2 バリデーターをセットアップする際に復号化するためにこれを再入力する必要があります。"
         }

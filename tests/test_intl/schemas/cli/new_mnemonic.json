@@ -19,9 +19,6 @@
                 "arg_mnemonic_language": {
                     "type": "object",
                     "properties": {
-                        "argument": {
-                            "type": "string"
-                        },
                         "default": {
                             "type": "string"
                         },
@@ -33,7 +30,6 @@
                         }
                     },
                     "required": [
-                        "argument",
                         "default",
                         "help",
                         "prompt"

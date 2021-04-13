@@ -4,7 +4,6 @@
             "help": "Generate a new mnemonic and keys"
         },
         "arg_mnemonic_language": {
-            "argument": "--mnemonic_language",
             "default": "english",
             "help": "The language that your mnemonic is in",
             "prompt": "Please choose your mnemonic language"

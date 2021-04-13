@@ -4,7 +4,6 @@
             "help": "生成一个新的助记符和密钥"
         },
         "arg_mnemonic_language": {
-            "argument": "--mnemonic_language",
             "default": "简体中文",
             "help": "您的助记符所使用的语言",
             "prompt": "请选择您的助记符语言"

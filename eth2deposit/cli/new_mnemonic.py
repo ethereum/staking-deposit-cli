@@ -40,7 +40,7 @@ languages = get_first_options(MNEMONIC_LANG_OPTIONS)
     ),
     default=lambda: load_text(['arg_mnemonic_language', 'default'], func='new_mnemonic'),
     help=lambda: load_text(['arg_mnemonic_language', 'help'], func='new_mnemonic'),
-    param_decls=lambda: load_text(['arg_mnemonic_language', 'argument'], func='new_mnemonic'),
+    param_decls='--mnemonic_language',
     prompt=choice_prompt_func(lambda: load_text(['arg_mnemonic_language', 'prompt'], func='new_mnemonic'), languages),
 )
 @generate_keys_arguments_decorator

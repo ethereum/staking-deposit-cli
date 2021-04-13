@@ -4,7 +4,6 @@
             "help": "Genera un nuovo mnemonico e chiavi"
         },
         "arg_mnemonic_language": {
-            "argument": "--lingua_mnemonico",
             "default": "Italiano",
             "help": "La lingua del mnemonico",
             "prompt": "Scegli la lingua del mnemonico"

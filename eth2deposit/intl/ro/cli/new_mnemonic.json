@@ -4,7 +4,6 @@
             "help": "Generează un nou mnemonic și chei"
         },
         "arg_mnemonic_language": {
-            "argument": "--mnemonic_language",
             "default": "english",
             "help": "Limba mnemonicului",
             "prompt": "Alege limba mnemonicului"

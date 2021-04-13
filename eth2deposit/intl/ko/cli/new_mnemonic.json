@@ -4,7 +4,6 @@
             "help": "새 니모닉 및 키 생성"
         },
         "arg_mnemonic_language": {
-            "argument": "--mnemonic_language",
             "default": "한국어",
             "help": "니모닉이 작성된 언어",
             "prompt": "니모닉 언어를 선택하세요."

@@ -4,7 +4,6 @@
             "help": "新しいニーモニックとキーを生成"
         },
         "arg_mnemonic_language": {
-            "argument": "--mnemonic_language",
             "default": "english",
             "help": "ニーモニックの言語",
             "prompt": "ニーモニックの言語を選択してください"

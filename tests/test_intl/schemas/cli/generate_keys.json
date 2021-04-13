@@ -27,9 +27,6 @@
                 "num_validators": {
                     "type": "object",
                     "properties": {
-                        "argument": {
-                            "type": "string"
-                        },
                         "help": {
                             "type": "string"
                         },
@@ -38,7 +35,6 @@
                         }
                     },
                     "required": [
-                        "argument",
                         "help",
                         "prompt"
                     ]
@@ -46,24 +42,17 @@
                 "folder": {
                     "type": "object",
                     "properties": {
-                        "argument": {
-                            "type": "string"
-                        },
                         "help": {
                             "type": "string"
                         }
                     },
                     "required": [
-                        "argument",
                         "help"
                     ]
                 },
                 "chain": {
                     "type": "object",
                     "properties": {
-                        "argument": {
-                            "type": "string"
-                        },
                         "help": {
                             "type": "string"
                         },
@@ -72,7 +61,6 @@
                         }
                     },
                     "required": [
-                        "argument",
                         "help",
                         "prompt"
                     ]
@@ -80,9 +68,6 @@
                 "keystore_password": {
                     "type": "object",
                     "properties": {
-                        "argument": {
-                            "type": "string"
-                        },
                         "help": {
                             "type": "string"
                         },
@@ -91,7 +76,6 @@
                         }
                     },
                     "required": [
-                        "argument",
                         "help",
                         "prompt"
                     ]

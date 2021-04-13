@@ -30,9 +30,6 @@
                 "arg_mnemonic": {
                     "type": "object",
                     "properties": {
-                        "argument": {
-                            "type": "string"
-                        },
                         "help": {
                             "type": "string"
                         },
@@ -41,7 +38,6 @@
                         }
                     },
                     "required": [
-                        "argument",
                         "help",
                         "prompt"
                     ]
@@ -49,24 +45,17 @@
                 "arg_mnemonic_password": {
                     "type": "object",
                     "properties": {
-                        "argument": {
-                            "type": "string"
-                        },
                         "help": {
                             "type": "string"
                         }
                     },
                     "required": [
-                        "argument",
                         "help"
                     ]
                 },
                 "arg_validator_start_index": {
                     "type": "object",
                     "properties": {
-                        "argument": {
-                            "type": "string"
-                        },
                         "help": {
                             "type": "string"
                         },
@@ -75,7 +64,6 @@
                         }
                     },
                     "required": [
-                        "argument",
                         "help",
                         "prompt"
                     ]

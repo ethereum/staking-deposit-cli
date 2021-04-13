@@ -6,21 +6,17 @@
     },
     "generate_keys_arguments_decorator": {
         "num_validators": {
-            "argument": "--num_validators",
             "help": "Nombre de clés de validateurs que vous souhaitez générer (vous pourrez en générer davantage plus tard)",
             "prompt": "Veuillez choisir le nombre de validateurs que vous souhaitez exécuter"
         },
         "folder": {
-            "argument": "--folder",
             "help": "Nombre de clés de validateurs que vous souhaitez générer (vous pourrez en générer davantage plus tard)"
         },
         "chain": {
-            "argument": "--chain",
             "help": "Version d'Eth2 que vous ciblez. Utilisez \"mainnet\" si vous déposez de l'ETH.",
             "prompt": "Veuillez choisir un nom de chaîne/réseau : mainnet (réseau principal) ou testnet (réseau de test)."
         },
         "keystore_password": {
-            "argument": "--keystore_password",
             "help": "Mot de passe qui sécurisera vos keystores. Vous devrez le saisir de nouveau pour les décrypter quand vous configurerez vos validateurs Eth2. (Il est recommandé de ne pas utiliser ce argument et d'attendre que l'ILC vous demande votre phrase mnémonique, sinon il apparaîtra dans l'historique de votre interpréteur.)",
             "prompt": "Mot de passe qui sécurisera vos keystores. Vous devrez le saisir de nouveau pour les décrypter quand vous configurerez vos validateurs Eth2."
         }

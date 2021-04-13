@@ -4,7 +4,6 @@
             "help": "Buat mnemonik dan kunci baru"
         },
         "arg_mnemonic_language": {
-            "argument": "--mnemonic_language",
             "default": "english",
             "help": "Bahasa mnemonik Anda",
             "prompt": "Silakan pilih bahasa mnemonik Anda"

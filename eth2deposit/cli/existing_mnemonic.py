@@ -31,7 +31,7 @@ def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
 @jit_option(
     callback=validate_mnemonic,
     help=lambda: load_text(['arg_mnemonic', 'help'], func='existing_mnemonic'),
-    param_decls=load_text(['arg_mnemonic', 'argument'], func='existing_mnemonic'),
+    param_decls='--mnemonic',
     prompt=lambda: load_text(['arg_mnemonic', 'prompt'], func='existing_mnemonic'),
     required=True,
     type=str,
@@ -41,14 +41,14 @@ def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
     default='',
     help=load_text(['arg_mnemonic_password', 'help'], func='existing_mnemonic'),
     hidden=True,
-    param_decls=load_text(['arg_mnemonic_password', 'argument'], func='existing_mnemonic'),
+    param_decls='--mnemonic-password',
     prompt=False,
 )
 @jit_option(
     confirmation_prompt=True,
     default=0,
     help=lambda: load_text(['arg_validator_start_index', 'help'], func='existing_mnemonic'),
-    param_decls=load_text(['arg_validator_start_index', 'argument'], func='existing_mnemonic'),
+    param_decls="--validator_start_index",
     prompt=lambda: load_text(['arg_validator_start_index', 'prompt'], func='existing_mnemonic'),
     type=click.IntRange(0, 2**32 - 1),
 )

@@ -6,21 +6,17 @@
     },
     "generate_keys_arguments_decorator": {
         "num_validators": {
-            "argument": "--num_validatori",
             "help": "Il numero di chiavi di validatori che si desidera generare (è sempre possibile generarne altre in seguito)",
             "prompt": "Scegli quanti validatori vuoi eseguire"
         },
         "folder": {
-            "argument": "--cartella",
             "help": "Il numero di chiavi di validatori che si desidera generare (è sempre possibile generarne altre in seguito)"
         },
         "chain": {
-            "argument": "--catena",
             "help": "La versione di eth2 desiderata. Utilizzare \"mainnet\" se depositano ETH",
             "prompt": "Scegli il nome delle rete/catena (rete principale o di test)"
         },
         "keystore_password": {
-            "argument": "--password_archiviochiavi",
             "help": "La password che proteggerà gli archivi chiavi. Dovrà essere inserita per decrittografare le chiavi durante la configurazione dei validatori eth2 (è consigliabile non utilizzare questo argomento e attendere che il CLI chieda il mnemonico, altrimenti apparirà nella cronologia della shell).",
             "prompt": "La password che proteggerà gli archivi chiavi. Dovrai inserirla nuovamente per decrittografare gli archivi quando configurerai i tuoi validatori eth2."
         }

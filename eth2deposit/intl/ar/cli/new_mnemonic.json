@@ -4,7 +4,6 @@
             "help": "إنشاء مساعد ذاكرة جديد ومفاتيح جديدة"
         },
         "arg_mnemonic_language": {
-            "argument": "--mnemonic_language",
             "default": "english",
             "help": "اللغة التي يتكلمها مساعد الذاكرة الخاص بك",
             "prompt": "الرجاء اختيار لغة مساعد الذاكرة الخاص بك"
