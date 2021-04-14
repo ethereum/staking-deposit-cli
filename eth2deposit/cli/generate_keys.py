@@ -108,13 +108,11 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             param_decls='--keystore_password',
             prompt=lambda: load_text(['keystore_password', 'prompt'], func='generate_keys_arguments_decorator'),
         ),
-        click.option(
-            '--eth1_withdrawal_address',
-            default=None,
+        jit_option(
             callback=validate_eth1_withdrawal_address,
-            help=('If this field is set and valid, the given Eth1 address will be used to create the '
-                  'withdrawal credentials. Otherwise, it will generate withdrawal credentials with the '
-                  'mnemonic-derived withdrawal public key.'),
+            default=None,
+            help=lambda: load_text(['eth1_withdrawal_address', 'help'], func='generate_keys_arguments_decorator'),
+            param_decls='--eth1_withdrawal_address',
         ),
     ]
     for decorator in reversed(decorators):
