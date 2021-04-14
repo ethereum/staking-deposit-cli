@@ -24,9 +24,13 @@ def _get_from_dict(dataDict: Dict[str, Any], mapList: Iterable[str]) -> str:
     Iterate nested dictionaries
     '''
     try:
-        return reduce(dict.get, mapList, dataDict)  # type: ignore
+        ans = reduce(dict.get, mapList, dataDict)
+        assert isinstance(ans, str)
+        return ans
     except TypeError:
         raise KeyError('%s not in internationalisation json file.' % mapList)
+    except AssertionError:
+        raise KeyError('The provided params (%s) were incomplete.' % mapList)
 
 
 def load_text(params: List[str], file_path: str='', func: str='', lang: str='') -> str:
@@ -50,10 +54,16 @@ def load_text(params: List[str], file_path: str='', func: str='', lang: str='') 
     rel_path_list = file_path_list[file_path_list.index('eth2deposit') + 1:]
     json_path = os.path.join(INTL_CONTENT_PATH, lang, *rel_path_list)
 
-    # browse json until text is found
-    with open(json_path) as f:
-        text_dict = json.load(f)
-        return _get_from_dict(text_dict, [func] + params)
+    try:
+        # browse json until text is found
+        with open(json_path) as f:
+            text_dict = json.load(f)
+            return _get_from_dict(text_dict, [func] + params)
+    except (KeyError, FileNotFoundError):
+        # If text not found in lang, try return English version
+        if lang == 'en':
+            raise KeyError('%s not in %s file' % ([func] + params, json_path))
+        return load_text(params, file_path, func, 'en')
 
 
 def get_first_options(options: Mapping[str, Sequence[str]]) -> List[str]:

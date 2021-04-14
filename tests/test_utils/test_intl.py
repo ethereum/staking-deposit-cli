@@ -28,6 +28,30 @@ def test_load_text(params: List[str], file_path: str, func: str, lang: str, foun
 
 
 @pytest.mark.parametrize(
+    'params, file_path, func, lang, valid', [
+        (['arg_mnemonic_language', 'prompt'], os.path.join('eth2deposit', 'cli', 'new_mnemonic.json'),
+         'new_mnemonic', 'zz', True),  # invalid language, should revert to english
+        (['arg_mnemonic_language'], os.path.join('eth2deposit', 'cli', 'new_mnemonic.json'),
+         'new_mnemonic', 'en', False),  # incomplete params
+        (['arg_mnemonic_language', 'prompt'], os.path.join('eth2deposit', 'cli', 'invalid.json'),
+         'new_mnemonic', 'en', False),  # invalid json path
+        (['arg_mnemonic_language', 'prompt'], os.path.join('eth2deposit', 'cli', 'invalid.json'),
+         'new_mnemonic', 'zz', False),  # invalid json path in invalid language
+    ]
+)
+def test_load_text_en_fallover(params: List[str], file_path: str, func: str, lang: str, valid: bool) -> None:
+    if valid:
+        assert load_text(params, file_path, func, lang) == load_text(params, file_path, func, 'en')
+    else:
+        try:
+            load_text(params, file_path, func, lang)
+        except KeyError:
+            pass
+        else:
+            assert False
+
+
+@pytest.mark.parametrize(
     'options, first_options', [
         ({'a': ['a', 1], 'b': range(5), 'c': [chr(i) for i in range(65, 90)]}, ['a', 0, 'A']),
     ]
