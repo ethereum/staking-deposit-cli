@@ -6,6 +6,7 @@ from eth2deposit.cli.new_mnemonic import new_mnemonic
 from eth2deposit.utils.click import (
     captive_prompt_callback,
     choice_prompt_func,
+    jit_option,
 )
 from eth2deposit.utils import config
 from eth2deposit.utils.constants import INTL_LANG_OPTIONS
@@ -27,7 +28,7 @@ def check_python_version() -> None:
 
 @click.group()
 @click.pass_context
-@click.option(
+@jit_option(
     '--language',
     callback=captive_prompt_callback(
         lambda language: fuzzy_reverse_dict_lookup(language, INTL_LANG_OPTIONS),
@@ -36,7 +37,6 @@ def check_python_version() -> None:
     default='English',
     help='The language you wish to use the CLI in.',
     prompt=choice_prompt_func(lambda: 'Please choose your language', get_first_options(INTL_LANG_OPTIONS))(),
-    required=True,
     type=str,
 )
 def cli(ctx: click.Context, language: str) -> None:

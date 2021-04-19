@@ -14,6 +14,7 @@ from eth2deposit.credentials import (
 from eth2deposit.exceptions import ValidationError
 from eth2deposit.utils.validation import (
     verify_deposit_data_json,
+    validate_int_range,
     validate_password_strength,
 )
 from eth2deposit.utils.constants import (
@@ -21,7 +22,10 @@ from eth2deposit.utils.constants import (
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )
 from eth2deposit.utils.ascii_art import RHINO_0
-from eth2deposit.utils.click import jit_option
+from eth2deposit.utils.click import (
+    captive_prompt_callback,
+    jit_option,
+)
 from eth2deposit.utils.intl import load_text
 from eth2deposit.settings import (
     ALL_CHAINS,
@@ -80,11 +84,13 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
     '''
     decorators = [
         jit_option(
+            callback=captive_prompt_callback(
+                lambda num: validate_int_range(num, 0, 2**32),
+                load_text(['num_validators', 'prompt'], func='generate_keys_arguments_decorator')
+            ),
             help=lambda: load_text(['num_validators', 'help'], func='generate_keys_arguments_decorator'),
             param_decls="--num_validators",
             prompt=lambda: load_text(['num_validators', 'prompt'], func='generate_keys_arguments_decorator'),
-            required=True,
-            type=click.IntRange(0, 2**32 - 1),
         ),
         jit_option(
             default=os.getcwd(),

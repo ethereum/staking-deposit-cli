@@ -98,3 +98,16 @@ def validate_deposit(deposit_data_dict: Dict[str, Any], credential: Credential) 
 def validate_password_strength(password: str) -> None:
     if len(password) < 8:
         raise ValidationError(load_text(['msg_password_length']))
+
+
+def validate_int_range(num: Any, low: int, high: int) -> int:
+    '''
+    Verifies that `num` is an `int` andlow <= num < high
+    '''
+    try:
+        num_int = int(num)  # Try cast to int
+        assert num_int == float(num)  # Check num is not float
+        assert low <= num_int < high  # Check num in range
+        return num_int
+    except (ValueError, AssertionError):
+        raise ValidationError(load_text(['err_not_positive_integer']))

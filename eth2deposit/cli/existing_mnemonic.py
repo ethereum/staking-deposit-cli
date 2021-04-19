@@ -10,8 +10,12 @@ from eth2deposit.key_handling.key_derivation.mnemonic import (
 from eth2deposit.utils.constants import (
     WORD_LISTS_PATH,
 )
-from eth2deposit.utils.click import jit_option
+from eth2deposit.utils.click import (
+    captive_prompt_callback,
+    jit_option,
+)
 from eth2deposit.utils.intl import load_text
+from eth2deposit.utils.validation import validate_int_range
 from .generate_keys import (
     generate_keys,
     generate_keys_arguments_decorator,
@@ -33,7 +37,6 @@ def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
     help=lambda: load_text(['arg_mnemonic', 'help'], func='existing_mnemonic'),
     param_decls='--mnemonic',
     prompt=lambda: load_text(['arg_mnemonic', 'prompt'], func='existing_mnemonic'),
-    required=True,
     type=str,
 )
 @jit_option(
@@ -45,12 +48,15 @@ def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
     prompt=False,
 )
 @jit_option(
+    callback=captive_prompt_callback(
+        lambda num: validate_int_range(num, 0, 2**32),
+        load_text(['arg_validator_start_index', 'prompt'], func='existing_mnemonic')
+    ),
     confirmation_prompt=True,
     default=0,
     help=lambda: load_text(['arg_validator_start_index', 'help'], func='existing_mnemonic'),
     param_decls="--validator_start_index",
     prompt=lambda: load_text(['arg_validator_start_index', 'prompt'], func='existing_mnemonic'),
-    type=click.IntRange(0, 2**32 - 1),
 )
 @generate_keys_arguments_decorator
 @click.pass_context

@@ -74,16 +74,16 @@ def jit_option(*args: Any, **kwargs: Any) -> Callable[[Any], Any]:
 
 
 def captive_prompt_callback(
-    processing_func: Callable[[str], str],
+    processing_func: Callable[[str], Any],
     prompt: str
-) -> Callable[[click.Context, Any, str], str]:
+) -> Callable[[click.Context, str, str], Any]:
     '''
     Traps the user in a prompt until the value chosen is acceptable
     as defined by `processing_func` not returning a ValidationError
     :param processing_func: A function to process the user's input that possibly raises a ValidationError
     :param prompt_func: the function that returns the text to prompt the user with
     '''
-    def callback(ctx: click.Context, param: Any, user_input: str) -> str:
+    def callback(ctx: click.Context, param: Any, user_input: str) -> Any:
         while True:
             try:
                 return processing_func(user_input)
