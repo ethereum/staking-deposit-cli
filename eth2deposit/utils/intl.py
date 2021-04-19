@@ -73,7 +73,7 @@ def get_first_options(options: Mapping[str, Sequence[str]]) -> List[str]:
     return list(map(lambda x: x[0], options.values()))
 
 
-def _closest_match(text: str, options: Iterable[str]) -> str:
+def closest_match(text: str, options: Iterable[str]) -> str:
     '''
     Finds the closest match to `text` in the `options_list`
     '''
@@ -91,5 +91,5 @@ def fuzzy_reverse_dict_lookup(text: str, options: Mapping[str, Sequence[str]]) -
                     and values a list of the options to be matched against
     '''
     reverse_lookup_dict = {value: key for key, values in options.items() for value in values}
-    match = _closest_match(text, reverse_lookup_dict.keys())
+    match = closest_match(text, reverse_lookup_dict.keys())
     return reverse_lookup_dict[match]

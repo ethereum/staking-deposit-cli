@@ -7,5 +7,8 @@
     },
     "validate_int_range": {
         "err_not_positive_integer": "That is not a positive integer. Please retype."
+    },
+    "validate_choice": {
+        "err_invalid_choice": "That is not one of the valid choices. Please retype your choice."
     }
 }

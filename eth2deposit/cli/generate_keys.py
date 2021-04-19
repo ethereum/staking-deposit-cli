@@ -24,9 +24,13 @@ from eth2deposit.utils.constants import (
 from eth2deposit.utils.ascii_art import RHINO_0
 from eth2deposit.utils.click import (
     captive_prompt_callback,
+    choice_prompt_func,
     jit_option,
 )
-from eth2deposit.utils.intl import load_text
+from eth2deposit.utils.intl import (
+    closest_match,
+    load_text,
+)
 from eth2deposit.settings import (
     ALL_CHAINS,
     MAINNET,
@@ -99,11 +103,20 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             type=click.Path(exists=True, file_okay=False, dir_okay=True),
         ),
         jit_option(
+            callback=captive_prompt_callback(
+                lambda x: closest_match(x, list(ALL_CHAINS.keys())),
+                choice_prompt_func(
+                    lambda: load_text(['chain', 'prompt'], func='generate_keys_arguments_decorator'),
+                    list(ALL_CHAINS.keys())
+                )(),
+            ),
             default=MAINNET,
             help=lambda: load_text(['chain', 'help'], func='generate_keys_arguments_decorator'),
             param_decls='--chain',
-            prompt=lambda: load_text(['chain', 'prompt'], func='generate_keys_arguments_decorator'),
-            type=click.Choice(ALL_CHAINS.keys(), case_sensitive=False),
+            prompt=choice_prompt_func(
+                lambda: load_text(['chain', 'prompt'], func='generate_keys_arguments_decorator'),
+                list(ALL_CHAINS.keys())
+            ),
         ),
         jit_option(
             callback=validate_password,
