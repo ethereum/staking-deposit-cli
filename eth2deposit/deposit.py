@@ -34,6 +34,7 @@ def check_python_version() -> None:
         choice_prompt_func(lambda: 'Please choose your language', get_first_options(INTL_LANG_OPTIONS))(),
     ),
     default='English',
+    help='The language you wish to use the CLI in.',
     prompt=choice_prompt_func(lambda: 'Please choose your language', get_first_options(INTL_LANG_OPTIONS))(),
     required=True,
     type=str,
