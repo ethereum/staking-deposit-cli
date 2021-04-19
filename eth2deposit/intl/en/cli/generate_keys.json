@@ -4,6 +4,10 @@
         "msg_password_confirm": "Repeat for confirmation",
         "err_password_mismatch": "Error: the two entered values do not match. Please type again."
     },
+    "validate_eth1_withdrawal_address": {
+        "err_invalid_ECDSA_hex_addr": "The given Eth1 address is not in hexadecimal encoded form.",
+        "msg_ECDSA_addr_withdrawal": "**[Warning] you are setting an Eth1 address as your withdrawal address. Please ensure that you have control over this address.**"
+    },
     "generate_keys_arguments_decorator": {
         "num_validators": {
             "help": "The number of validators keys you want to generate (you can always generate more later)",

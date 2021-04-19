@@ -66,11 +66,10 @@ def validate_eth1_withdrawal_address(cts: click.Context, param: Any, address: st
     if address is None:
         return None
     if not is_hex_address(address):
-        raise ValueError("The given Eth1 address is not in hexadecimal encoded form.")
+        raise ValueError(load_text(['err_invalid_ECDSA_hex_addr']))
 
     normalized_address = to_normalized_address(address)
-    click.echo(f'\n**[Warning] you are setting Eth1 address {normalized_address} as your withdrawal address. '
-               'Please ensure that you have control over this address.**\n')
+    click.echo('\n%s\n' % load_text(['msg_ECDSA_addr_withdrawal']))
     return normalized_address
 
 
