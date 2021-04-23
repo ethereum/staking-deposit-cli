@@ -1,9 +1,4 @@
 {
-    "validate_password": {
-        "msg_password_prompt": "Saisissez le mot de passe qui sécurise les keystores de vos validateurs.",
-        "msg_password_confirm": "Veuillez confirmer le mot de passe.",
-        "err_password_mismatch": "Erreur : Les deux valeurs saisies ne correspondent pas. Veuillez réessayer."
-    },
     "generate_keys_arguments_decorator": {
         "num_validators": {
             "help": "Nombre de clés de validateurs que vous souhaitez générer (vous pourrez en générer davantage plus tard)",
@@ -18,7 +13,9 @@
         },
         "keystore_password": {
             "help": "Mot de passe qui sécurisera vos keystores. Vous devrez le saisir de nouveau pour les décrypter quand vous configurerez vos validateurs Eth2. (Il est recommandé de ne pas utiliser ce argument et d'attendre que l'ILC vous demande votre phrase mnémonique, sinon il apparaîtra dans l'historique de votre interpréteur.)",
-            "prompt": "Mot de passe qui sécurisera vos keystores. Vous devrez le saisir de nouveau pour les décrypter quand vous configurerez vos validateurs Eth2."
+            "prompt": "Mot de passe qui sécurisera vos keystores. Vous devrez le saisir de nouveau pour les décrypter quand vous configurerez vos validateurs Eth2.",
+            "confirm": "Veuillez confirmer le mot de passe.",
+            "mismatch": "Erreur : Les deux valeurs saisies ne correspondent pas. Veuillez réessayer."
         }
     },
     "generate_keys": {

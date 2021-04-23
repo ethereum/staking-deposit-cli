@@ -1,9 +1,4 @@
 {
-    "validate_password": {
-        "msg_password_prompt": "Digite a senha do(s) keystore(s) do validador",
-        "msg_password_confirm": "Repita para confirmar",
-        "err_password_mismatch": "Erro: os dois valores inseridos não coincidem. Digite-os novamente."
-    },
     "generate_keys_arguments_decorator": {
         "num_validators": {
             "help": "A quantidade de chaves de validadores que você deseja gerar (poderá gerar mais depois)",
@@ -18,7 +13,9 @@
         },
         "keystore_password": {
             "help": "A senha que protegerá seus keystores. Você precisará digitá-la para descriptografá-los ao configurar seus validadores eth2. (Recomenda-se não usar esse argumento e esperar que a CLI solicite o seu mnemônico; caso contrário, aparecerá no histórico do shell.)",
-            "prompt": "A senha que protegerá seus keystores. Você precisará digitá-la para descriptografá-los ao configurar seus validadores eth2."
+            "prompt": "A senha que protegerá seus keystores. Você precisará digitá-la para descriptografá-los ao configurar seus validadores eth2.",
+            "confirm": "Repita para confirmar",
+            "mismatch": "Erro: os dois valores inseridos não coincidem. Digite-os novamente."
         }
     },
     "generate_keys": {

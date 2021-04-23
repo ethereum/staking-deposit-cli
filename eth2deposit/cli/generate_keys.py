@@ -42,34 +42,6 @@ def get_password(text: str) -> str:
     return click.prompt(text, hide_input=True, show_default=False, type=str)
 
 
-def validate_password(cts: click.Context, param: Any, password: str) -> str:
-    is_valid_password = False
-
-    # The given password has passed confirmation
-    try:
-        validate_password_strength(password)
-    except ValidationError as e:
-        click.echo(e)
-    else:
-        is_valid_password = True
-
-    while not is_valid_password:
-        password = get_password(load_text(['msg_password_prompt']))
-        try:
-            validate_password_strength(password)
-        except ValidationError as e:
-            click.echo(e)
-        else:
-            # Confirm password
-            password_confirmation = get_password(load_text(['msg_password_confirm']))
-            if password == password_confirmation:
-                is_valid_password = True
-            else:
-                click.echo(load_text(['err_password_mismatch']))
-
-    return password
-
-
 def validate_eth1_withdrawal_address(cts: click.Context, param: Any, address: str) -> HexAddress:
     if address is None:
         return None
@@ -79,6 +51,18 @@ def validate_eth1_withdrawal_address(cts: click.Context, param: Any, address: st
     normalized_address = to_normalized_address(address)
     click.echo('\n%s\n' % load_text(['msg_ECDSA_addr_withdrawal']))
     return normalized_address
+
+
+def validate_password_callback(prompt: str,
+                               confirm_prompt: str, mismatch_msg: str) -> Callable[[click.Context, str, str], Any]:
+    def password_processing(pw: str) -> str:
+        validate_password_strength(pw)
+        pw_repeat = click.prompt(confirm_prompt, hide_input=True)
+        if pw_repeat != pw:
+            click.echo(mismatch_msg)
+            raise ValidationError('Passwords do not match.')
+        return pw
+    return captive_prompt_callback(password_processing, prompt, True)
 
 
 def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[..., Any]:
@@ -119,8 +103,11 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             ),
         ),
         jit_option(
-            callback=validate_password,
-            confirmation_prompt=True,
+            callback=validate_password_callback(
+                load_text(['keystore_password', 'prompt'], func='generate_keys_arguments_decorator'),
+                load_text(['keystore_password', 'confirm'], func='generate_keys_arguments_decorator'),
+                load_text(['keystore_password', 'mismatch'], func='generate_keys_arguments_decorator'),
+            ),
             help=lambda: load_text(['keystore_password', 'help'], func='generate_keys_arguments_decorator'),
             hide_input=True,
             param_decls='--keystore_password',

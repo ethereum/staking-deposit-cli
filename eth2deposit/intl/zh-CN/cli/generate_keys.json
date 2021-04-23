@@ -1,9 +1,4 @@
 {
-    "validate_password": {
-        "msg_password_prompt": "输入密码以保护您的验证者密钥库",
-        "msg_password_confirm": "重复输入以确认",
-        "err_password_mismatch": "错误：输入的两个值不匹配。请再次输入。"
-    },
     "generate_keys_arguments_decorator": {
         "num_validators": {
             "help": "您想要生成的验证者密钥数量（您以后随时可以生成更多密钥）",
@@ -18,7 +13,9 @@
         },
         "keystore_password": {
             "help": "用来保护您密钥库的密码。您在设置您的 eth2 验证者时需要重新输入密码以便解密它们。（建议不要使用此参数，而是等待 CLI 要求您提供您的助记符，否则它将出现在您的 shell 历史中。）",
-            "prompt": "用来保护您密钥库的密码。您在设置您的 eth2 验证者时需要重新输入密码以便解密它们。"
+            "prompt": "用来保护您密钥库的密码。您在设置您的 eth2 验证者时需要重新输入密码以便解密它们。",
+            "confirm": "重复输入以确认",
+            "mismatch": "错误：输入的两个值不匹配。请再次输入。"
         }
     },
     "generate_keys": {

@@ -1,9 +1,4 @@
 {
-    "validate_password": {
-        "msg_password_prompt": "Ketik kata sandi yang mengamankan keystore validator Anda",
-        "msg_password_confirm": "Ulangi untuk konfirmasi",
-        "err_password_mismatch": "Kesalahan: dua nilai yang dimasukkan tidak cocok. Silakan ketik ulang."
-    },
     "generate_keys_arguments_decorator": {
         "num_validators": {
             "help": "Jumlah kunci validator yang ingin Anda buat (Anda selalu dapat menghasilkan lebih banyak lagi nanti)",
@@ -18,7 +13,9 @@
         },
         "keystore_password": {
             "help": "Kata sandi yang akan mengamankan keystore Anda. Anda perlu memasukkan ulang ini untuk mendekripsinya ketika Anda mengatur validator eth2 Anda. (Disarankan untuk tidak menggunakan argumen ini, dan tunggu CLI menanyakan mnemonik Anda supaya tidak akan muncul dalam riwayat shell Anda.)",
-            "prompt": "Kata sandi yang akan mengamankan keystore Anda. Anda perlu memasukkan ulang ini untuk mendekripsinya ketika Anda mengatur validator eth2 Anda."
+            "prompt": "Kata sandi yang akan mengamankan keystore Anda. Anda perlu memasukkan ulang ini untuk mendekripsinya ketika Anda mengatur validator eth2 Anda.",
+            "confirm": "Ulangi untuk konfirmasi",
+            "mismatch": "Kesalahan: dua nilai yang dimasukkan tidak cocok. Silakan ketik ulang."
         }
     },
     "generate_keys": {

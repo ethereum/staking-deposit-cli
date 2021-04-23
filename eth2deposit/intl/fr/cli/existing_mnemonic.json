@@ -11,7 +11,8 @@
             "prompt": "Veuillez saisir votre phrase mnémonique en séparant les mots par des espaces (\" \")"
         },
         "arg_mnemonic_password": {
-            "help": "Ce n'est certainement pas l'argument que vous recherchez : il est destiné aux mots de passe mnémoniques, pas aux mots de passe de keystores. Fournir un mot de passe ici sans en avoir un utilisé initialement peut entraîner la perte de clés (et donc de fonds) ! Notez également que si vous avez utilisé cet outil pour générer votre phrase mnémonique initialement, cela signifie que vous n'avez pas utilisé de mot de passe mnémonique. Cependant, si vous êtes certain d'avoir utilisé un mot de passe pour \"augmenter\" la sécurité de votre phrase mnémonique, c'est ici que vous devez le saisir."
+            "help": "Ce n'est certainement pas l'argument que vous recherchez : il est destiné aux mots de passe mnémoniques, pas aux mots de passe de keystores. Fournir un mot de passe ici sans en avoir un utilisé initialement peut entraîner la perte de clés (et donc de fonds) ! Notez également que si vous avez utilisé cet outil pour générer votre phrase mnémonique initialement, cela signifie que vous n'avez pas utilisé de mot de passe mnémonique. Cependant, si vous êtes certain d'avoir utilisé un mot de passe pour \"augmenter\" la sécurité de votre phrase mnémonique, c'est ici que vous devez le saisir.",
+            "confirm": "Veuillez confirmer le mot de passe."
         },
         "arg_validator_start_index": {
             "help": "Saisissez l'index (numéro de clé) à partir duquel vous souhaitez commencer à générer d'autres clés. Par exemple, si vous avez généré 4 clés dans le passé, entrez 4.",

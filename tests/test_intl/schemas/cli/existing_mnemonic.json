@@ -47,10 +47,14 @@
                     "properties": {
                         "help": {
                             "type": "string"
+                        },
+                        "confirm": {
+                            "type": "string"
                         }
                     },
                     "required": [
-                        "help"
+                        "help",
+                        "confirm"
                     ]
                 },
                 "arg_validator_start_index": {

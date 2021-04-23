@@ -2,25 +2,6 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "type": "object",
     "properties": {
-        "validate_password": {
-            "type": "object",
-            "properties": {
-                "msg_password_prompt": {
-                    "type": "string"
-                },
-                "msg_password_confirm": {
-                    "type": "string"
-                },
-                "err_password_mismatch": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "msg_password_prompt",
-                "msg_password_confirm",
-                "err_password_mismatch"
-            ]
-        },
         "generate_keys_arguments_decorator": {
             "type": "object",
             "properties": {
@@ -73,11 +54,19 @@
                         },
                         "prompt": {
                             "type": "string"
+                        },
+                        "confirm": {
+                            "type": "string"
+                        },
+                        "mismatch": {
+                            "type": "string"
                         }
                     },
                     "required": [
                         "help",
-                        "prompt"
+                        "prompt",
+                        "confirm",
+                        "mismatch"
                     ]
                 }
             },
@@ -117,7 +106,6 @@
         }
     },
     "required": [
-        "validate_password",
         "generate_keys_arguments_decorator",
         "generate_keys"
     ]

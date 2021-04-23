@@ -11,7 +11,8 @@
             "prompt": "Por favor, digite seu mnemônico separado por espaços (\" \")"
         },
         "arg_mnemonic_password": {
-            "help": "Este, quase com certeza, não é o argumento que você está procurando: é para senhas mnemônicas, não para senhas do keystore. Se você fornecer uma senha aqui e não tiver usado uma inicialmente, poderá perder suas chaves (e, portanto, seus fundos!). Note também que se você tiver usado essa ferramenta para gerar seu mnemônico inicial, então não usou uma senha mnemônica. Porém, se tiver certeza de ter usado uma senha para \"aumentar\" a segurança do seu mnemônico, digite-a aqui."
+            "help": "Este, quase com certeza, não é o argumento que você está procurando: é para senhas mnemônicas, não para senhas do keystore. Se você fornecer uma senha aqui e não tiver usado uma inicialmente, poderá perder suas chaves (e, portanto, seus fundos!). Note também que se você tiver usado essa ferramenta para gerar seu mnemônico inicial, então não usou uma senha mnemônica. Porém, se tiver certeza de ter usado uma senha para \"aumentar\" a segurança do seu mnemônico, digite-a aqui.",
+            "confirm": "Repita para confirmar"
         },
         "arg_validator_start_index": {
             "help": "Digite o índice (número de chave) a partir do qual deseja gerar mais chaves. Por exemplo, se você gerou 4 chaves antes, digite 4 aqui.",

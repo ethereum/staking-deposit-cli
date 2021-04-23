@@ -1,9 +1,4 @@
 {
-    "validate_password": {
-        "msg_password_prompt": "Create a password that secures your validator keystore(s)",
-        "msg_password_confirm": "Repeat for confirmation",
-        "err_password_mismatch": "Error: the two entered values do not match. Please type again."
-    },
     "validate_eth1_withdrawal_address": {
         "err_invalid_ECDSA_hex_addr": "The given Eth1 address is not in hexadecimal encoded form.",
         "msg_ECDSA_addr_withdrawal": "**[Warning] you are setting an Eth1 address as your withdrawal address. Please ensure that you have control over this address.**"
@@ -22,7 +17,9 @@
         },
         "keystore_password": {
             "help": "The password that will secure your keystores. You will need to re-enter this to decrypt them when you setup your eth2 validators. (It is recommended not to use this argument, and wait for the CLI to ask you for your mnemonic as otherwise it will appear in your shell history.)",
-            "prompt": "The password that will secure your keystores. You will need to re-enter this to decrypt them when you setup your eth2 validators."
+            "prompt": "Create a password that secures your validator keystore(s). You will need to re-enter this to decrypt them when you setup your eth2 validators.",
+            "confirm": "Repeat for confirmation",
+            "mismatch": "Error: the two entered values do not match. Please type again."
         },
         "eth1_withdrawal_address": {
             "help": "If this field is set and valid, the given Eth1 address will be used to create the withdrawal credentials. Otherwise, it will generate withdrawal credentials with the mnemonic-derived withdrawal public key."
