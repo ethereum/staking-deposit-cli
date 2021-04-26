@@ -153,9 +153,10 @@ async def test_script() -> None:
             parsing = True
         elif output.startswith(load_text(['msg_mnemonic_retype_prompt'], mnemonic_json_file, 'new_mnemonic')):
             parsing = False
-        elif output.startswith(load_text(['keystore_password', 'confrim'],
+        elif output.startswith(load_text(['keystore_password', 'confirm'],
                                          generate_keys_json_file, 'generate_keys_arguments_decorator')):
-            proc.stdin.write(b'MyPassword\n')
+            proc.stdin.write(b'MyPassword')
+            proc.stdin.write(b'\n')
         elif parsing:
             seed_phrase += output
             if len(seed_phrase) > 0:
