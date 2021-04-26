@@ -18,7 +18,7 @@
         "keystore_password": {
             "help": "The password that will secure your keystores. You will need to re-enter this to decrypt them when you setup your eth2 validators. (It is recommended not to use this argument, and wait for the CLI to ask you for your mnemonic as otherwise it will appear in your shell history.)",
             "prompt": "Create a password that secures your validator keystore(s). You will need to re-enter this to decrypt them when you setup your eth2 validators.",
-            "confirm": "Repeat for confirmation",
+            "confirm": "Repeat your keystore password for confirmation",
             "mismatch": "Error: the two entered values do not match. Please type again."
         },
         "eth1_withdrawal_address": {

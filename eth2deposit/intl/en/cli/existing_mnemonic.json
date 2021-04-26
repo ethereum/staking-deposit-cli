@@ -13,7 +13,7 @@
         "arg_mnemonic_password": {
             "help": "This is almost certainly not the argument you are looking for: it is for mnemonic passwords, not keystore passwords. Providing a password here when you didn't use one initially, can result in lost keys (and therefore funds)! Also note that if you used this tool to generate your mnemonic initially, then you did not use a mnemonic password. However, if you are certain you used a password to \"increase\" the security of your mnemonic, this is where you enter it.",
             "prompt": "Enter your mnemonic password (if you used one). Make sure you won't forget it, it can not be recovered.",
-            "confirm": "Repeat for confirmation"
+            "confirm": "Repeat your mnemonic password for confirmation. Providing a password here when you didn't use one initially, can result in lost keys (and therefore funds)! Also note that if you used this tool to generate your mnemonic initially, then you did not use a mnemonic password. However, if you are certain you used a password to \"increase\" the security of your mnemonic, this is where you enter it."
         },
         "arg_validator_start_index": {
             "help": "Enter the index (key number) you wish to start generating more keys from. For example, if you've generated 4 keys in the past, you'd enter 4 here.",
