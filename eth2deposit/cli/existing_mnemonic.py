@@ -56,9 +56,9 @@ def validate_mnemonic(ctx: click.Context, param: Any, mnemonic: str) -> str:
 @jit_option(
     callback=captive_prompt_callback(
         lambda num: validate_int_range(num, 0, 2**32),
-        load_text(['arg_validator_start_index', 'prompt'], func='existing_mnemonic')
+        load_text(['arg_validator_start_index', 'prompt'], func='existing_mnemonic'),
+        load_text(['arg_validator_start_index', 'confirm'], func='existing_mnemonic'),
     ),
-    confirmation_prompt=True,
     default=0,
     help=lambda: load_text(['arg_validator_start_index', 'help'], func='existing_mnemonic'),
     param_decls="--validator_start_index",
