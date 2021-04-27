@@ -95,9 +95,10 @@ def validate_deposit(deposit_data_dict: Dict[str, Any], credential: Credential) 
     return signed_deposit.hash_tree_root == deposit_message_root
 
 
-def validate_password_strength(password: str) -> None:
+def validate_password_strength(password: str) -> str:
     if len(password) < 8:
         raise ValidationError(load_text(['msg_password_length']))
+    return password
 
 
 def validate_int_range(num: Any, low: int, high: int) -> int:

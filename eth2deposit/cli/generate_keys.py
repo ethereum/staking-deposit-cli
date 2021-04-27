@@ -53,18 +53,6 @@ def validate_eth1_withdrawal_address(cts: click.Context, param: Any, address: st
     return normalized_address
 
 
-def validate_password_callback(prompt: str,
-                               confirm_prompt: str, mismatch_msg: str) -> Callable[[click.Context, str, str], Any]:
-    def password_processing(pw: str) -> str:
-        validate_password_strength(pw)
-        pw_repeat = click.prompt(confirm_prompt, hide_input=True)
-        if pw_repeat != pw:
-            click.echo(mismatch_msg)
-            raise ValidationError('Passwords do not match.')
-        return pw
-    return captive_prompt_callback(password_processing, prompt, True)
-
-
 def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[..., Any]:
     '''
     This is a decorator that, when applied to a parent-command, implements the
@@ -103,10 +91,12 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             ),
         ),
         jit_option(
-            callback=validate_password_callback(
+            callback=captive_prompt_callback(
+                validate_password_strength,
                 load_text(['keystore_password', 'prompt'], func='generate_keys_arguments_decorator'),
                 load_text(['keystore_password', 'confirm'], func='generate_keys_arguments_decorator'),
                 load_text(['keystore_password', 'mismatch'], func='generate_keys_arguments_decorator'),
+                True,
             ),
             help=lambda: load_text(['keystore_password', 'help'], func='generate_keys_arguments_decorator'),
             hide_input=True,

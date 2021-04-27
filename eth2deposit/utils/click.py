@@ -2,6 +2,7 @@ import click
 from typing import (
     Any,
     Callable,
+    Optional,
     Sequence,
     Tuple,
     Union,
@@ -76,19 +77,31 @@ def jit_option(*args: Any, **kwargs: Any) -> Callable[[Any], Any]:
 def captive_prompt_callback(
     processing_func: Callable[[str], Any],
     prompt: str,
+    confirmation_prompt: Optional[str]=None,
+    confirmation_error_message: str='',
+
     hide_input: bool=False,
 ) -> Callable[[click.Context, str, str], Any]:
     '''
     Traps the user in a prompt until the value chosen is acceptable
     as defined by `processing_func` not returning a ValidationError
     :param processing_func: A function to process the user's input that possibly raises a ValidationError
-    :param prompt_func: the function that returns the text to prompt the user with
+    :param prompt: the text to prompt the user with, should their input raise an error when passed to processing_func()
+    :param confirmation_prompt: the optional prompt for confirming user input (the user must repeat their input)
+    :param confirmation_error_message: the message displayed to the user should their input and confirmation not match
     :param hide_input: bool, hides the input as the user types
     '''
     def callback(ctx: click.Context, param: Any, user_input: str) -> Any:
         while True:
             try:
-                return processing_func(user_input)
+                processed_input = processing_func(user_input)
+                # Logic for confirming user input:
+                if confirmation_prompt is not None and processed_input != '':
+                    confirmation_input = click.prompt(confirmation_prompt, hide_input=hide_input)
+                    if processing_func(confirmation_input) != processed_input:
+                        click.echo(confirmation_error_message)
+                        raise ValidationError('User confirmation does not match.')
+                return processed_input
             except ValidationError:
                 user_input = click.prompt(prompt, hide_input=hide_input)
     return callback

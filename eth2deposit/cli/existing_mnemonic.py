@@ -1,7 +1,6 @@
 import click
 from typing import (
     Any,
-    Callable,
 )
 
 from eth2deposit.exceptions import ValidationError
@@ -30,23 +29,6 @@ def validate_mnemonic(ctx: click.Context, param: Any, mnemonic: str) -> str:
         raise ValidationError(load_text(['err_invalid_mnemonic']))
 
 
-def mnemonic_password_callback(
-    prompt: str,
-    confirmation_prompt: str,
-) -> Callable[[click.Context, str, str], str]:
-    '''
-    If a user has entered a password, make them repeat it until it matches.
-    '''
-    def password_processing(pw: str) -> str:
-        if pw != '':
-            pw_repeat = click.prompt(confirmation_prompt, hide_input=True)
-            if pw_repeat != pw:
-                raise ValidationError('Passwords do not match.')
-        return pw
-
-    return captive_prompt_callback(password_processing, prompt, True)
-
-
 @click.command(
     help=load_text(['arg_existing_mnemonic', 'help'], func='existing_mnemonic'),
 )
@@ -58,9 +40,12 @@ def mnemonic_password_callback(
     type=str,
 )
 @jit_option(
-    callback=mnemonic_password_callback(
+    callback=captive_prompt_callback(
+        lambda x: x,
         load_text(['arg_mnemonic_password', 'prompt'], func='existing_mnemonic'),
         load_text(['arg_mnemonic_password', 'confirm'], func='existing_mnemonic'),
+        load_text(['arg_mnemonic_password', 'mismatch'], func='existing_mnemonic'),
+        True,
     ),
     default='',
     help=lambda: load_text(['arg_mnemonic_password', 'help'], func='existing_mnemonic'),
