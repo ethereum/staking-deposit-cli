@@ -14,6 +14,7 @@ from eth2deposit.utils.click import (
     captive_prompt_callback,
     jit_option,
 )
+from eth2deposit.utils import config
 from eth2deposit.utils.intl import load_text
 from eth2deposit.utils.validation import validate_int_range
 from .generate_keys import (
@@ -56,9 +57,9 @@ def validate_mnemonic(ctx: click.Context, param: Any, mnemonic: str) -> str:
 @jit_option(
     callback=captive_prompt_callback(
         lambda num: validate_int_range(num, 0, 2**32),
-        load_text(['arg_validator_start_index', 'prompt'], func='existing_mnemonic')
+        load_text(['arg_validator_start_index', 'prompt'], func='existing_mnemonic'),
+        load_text(['arg_validator_start_index', 'confirm'], func='existing_mnemonic'),
     ),
-    confirmation_prompt=True,
     default=0,
     help=lambda: load_text(['arg_validator_start_index', 'help'], func='existing_mnemonic'),
     param_decls="--validator_start_index",
@@ -67,7 +68,7 @@ def validate_mnemonic(ctx: click.Context, param: Any, mnemonic: str) -> str:
 @generate_keys_arguments_decorator
 @click.pass_context
 def existing_mnemonic(ctx: click.Context, mnemonic: str, mnemonic_password: str, **kwargs: Any) -> None:
-    if mnemonic_password != '':
+    if mnemonic_password != '' and not config.non_interactive:
         click.clear()
         click.confirm(load_text(['msg_mnemonic_password_confirm']), abort=True)
 

@@ -18,7 +18,8 @@
         },
         "arg_validator_start_index": {
             "help": "Enter the index (key number) you wish to start generating more keys from. For example, if you've generated 4 keys in the past, you'd enter 4 here.",
-            "prompt": "Enter the index (key number) you wish to start generating more keys from. For example, if you've generated 4 keys in the past, you'd enter 4 here."
+            "prompt": "Enter the index (key number) you wish to start generating more keys from. For example, if you've generated 4 keys in the past, you'd enter 4 here.",
+            "confirm": "Please repeat the index to confirm"
         },
         "msg_mnemonic_password_confirm": "Are you absolutely certain that you used a mnemonic password? (This is different from a keystore password!) Using one when you are not supposed to can result in loss of funds!"
     }

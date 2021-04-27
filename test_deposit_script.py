@@ -26,6 +26,7 @@ async def main():
     cmd_args = [
         run_script_cmd,
         '--language', 'english',
+        '--non_interactive',
         'new-mnemonic',
         '--num_validators', '1',
         '--mnemonic_language', 'english',

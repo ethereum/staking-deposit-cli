@@ -9,7 +9,6 @@ from eth_utils import decode_hex
 
 from eth2deposit.deposit import cli
 from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME, ETH1_ADDRESS_WITHDRAWAL_PREFIX
-from eth2deposit.utils.intl import load_text
 from.helpers import clean_key_folder, get_permissions, get_uuid
 
 
@@ -109,7 +108,6 @@ def test_existing_mnemonic_eth1_address_withdrawal() -> None:
 
 
 @pytest.mark.asyncio
-@pytest.mark.skip(reason="I'm tired of debugging this for now")
 async def test_script() -> None:
     my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
     if not os.path.exists(my_folder_path):
@@ -129,6 +127,7 @@ async def test_script() -> None:
     cmd_args = [
         run_script_cmd,
         '--language', 'english',
+        '--non_interactive',
         'existing-mnemonic',
         '--num_validators', '1',
         '--mnemonic="abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"',
@@ -140,28 +139,8 @@ async def test_script() -> None:
     ]
     proc = await asyncio.create_subprocess_shell(
         ' '.join(cmd_args),
-        stdin=asyncio.subprocess.PIPE,
-        stdout=asyncio.subprocess.PIPE,
     )
-    intl_file_path = os.path.join(os.getcwd(), 'eth2deposit', 'cli')
-    mnemonic_json_file = os.path.join(intl_file_path, 'existing_mnemonic.json')
-    generate_keys_json_file = os.path.join(intl_file_path, 'generate_keys.json')
-    confirmations = [
-        (load_text(['arg_mnemonic_password', 'confirm'], mnemonic_json_file, 'existing_mnemonic'), b'TREZOR'),
-        (load_text(['keystore_password', 'confirm'], generate_keys_json_file, 'generate_keys_arguments_decorator'),
-         b'MyPassword'),
-        (load_text(['msg_mnemonic_password_confirm'], mnemonic_json_file, 'existing_mnemonic'), b'y'),
-    ]
-
-    confirmation = confirmations.pop(0)
-    async for out in proc.stdout:
-        output = out.decode('utf-8').rstrip()
-        if output.startswith(confirmation[0]):
-            proc.stdin.write(confirmation[1])
-            proc.stdin.write(b'\n')
-            if len(confirmations) > 0:
-                confirmation = confirmations.pop(0)
-
+    await proc.wait()
     # Check files
     validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     _, _, key_files = next(os.walk(validator_keys_folder_path))
