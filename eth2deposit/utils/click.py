@@ -9,6 +9,7 @@ from typing import (
 )
 
 from eth2deposit.exceptions import ValidationError
+from eth2deposit.utils import config
 
 
 def _value_of(f: Union[Callable[[], Any], Any]) -> Any:
@@ -79,7 +80,6 @@ def captive_prompt_callback(
     prompt: str,
     confirmation_prompt: Optional[str]=None,
     confirmation_error_message: str='',
-
     hide_input: bool=False,
 ) -> Callable[[click.Context, str, str], Any]:
     '''
@@ -92,6 +92,8 @@ def captive_prompt_callback(
     :param hide_input: bool, hides the input as the user types
     '''
     def callback(ctx: click.Context, param: Any, user_input: str) -> Any:
+        if config.non_interactive:
+            return processing_func(user_input)
         while True:
             try:
                 processed_input = processing_func(user_input)

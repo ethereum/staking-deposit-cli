@@ -109,7 +109,6 @@ def test_new_mnemonic_eth1_address_withdrawal(monkeypatch) -> None:
 
 
 @pytest.mark.asyncio
-@pytest.mark.skip(reason="I'm tired of debugging this for now")
 async def test_script() -> None:
     my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
     if not os.path.exists(my_folder_path):
@@ -129,6 +128,7 @@ async def test_script() -> None:
     cmd_args = [
         run_script_cmd,
         '--language', 'english',
+        '--non_interactive',
         'new-mnemonic',
         '--num_validators', '5',
         '--mnemonic_language', 'english',
@@ -144,19 +144,13 @@ async def test_script() -> None:
 
     seed_phrase = ''
     parsing = False
-    intl_file_path = os.path.join(os.getcwd(), 'eth2deposit/../eth2deposit/cli/')
-    mnemonic_json_file = os.path.join(intl_file_path, 'new_mnemonic.json')
-    generate_keys_json_file = os.path.join(intl_file_path, 'generate_keys.json')
+    mnemonic_json_file = os.path.join(os.getcwd(), 'eth2deposit/../eth2deposit/cli/', 'new_mnemonic.json')
     async for out in proc.stdout:
         output = out.decode('utf-8').rstrip()
         if output.startswith(load_text(['msg_mnemonic_presentation'], mnemonic_json_file, 'new_mnemonic')):
             parsing = True
         elif output.startswith(load_text(['msg_mnemonic_retype_prompt'], mnemonic_json_file, 'new_mnemonic')):
             parsing = False
-        elif output.startswith(load_text(['keystore_password', 'confirm'],
-                                         generate_keys_json_file, 'generate_keys_arguments_decorator')):
-            proc.stdin.write(b'MyPassword')
-            proc.stdin.write(b'\n')
         elif parsing:
             seed_phrase += output
             if len(seed_phrase) > 0:

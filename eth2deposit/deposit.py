@@ -39,8 +39,16 @@ def check_python_version() -> None:
     prompt=choice_prompt_func(lambda: 'Please choose your language', get_first_options(INTL_LANG_OPTIONS))(),
     type=str,
 )
-def cli(ctx: click.Context, language: str) -> None:
+@click.option(
+    '--non_interactive',
+    default=False,
+    is_flag=True,
+    help='Disables interactive prompts.',
+    hidden=True,
+)
+def cli(ctx: click.Context, language: str, non_interactive: bool) -> None:
     config.language = language
+    config.non_interactive = non_interactive  # Remove interactive commands
 
 
 cli.add_command(existing_mnemonic)
