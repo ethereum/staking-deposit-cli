@@ -61,7 +61,7 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
     decorators = [
         jit_option(
             callback=captive_prompt_callback(
-                lambda num: validate_int_range(num, 0, 2**32),
+                lambda num: validate_int_range(num, 1, 2**32),
                 load_text(['num_validators', 'prompt'], func='generate_keys_arguments_decorator')
             ),
             help=lambda: load_text(['num_validators', 'help'], func='generate_keys_arguments_decorator'),
