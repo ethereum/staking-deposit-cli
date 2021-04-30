@@ -16,7 +16,8 @@
         },
         "arg_validator_start_index": {
             "help": "Digite o índice (número de chave) a partir do qual deseja gerar mais chaves. Por exemplo, se você gerou 4 chaves antes, digite 4 aqui.",
-            "prompt": "Digite o índice (número de chave) a partir do qual deseja gerar mais chaves. Por exemplo, se você gerou 4 chaves antes, digite 4 aqui."
+            "prompt": "Digite o índice (número de chave) a partir do qual deseja gerar mais chaves. Por exemplo, se você gerou 4 chaves antes, digite 4 aqui.",
+            "confirm": "Repita para confirmar"
         },
         "msg_mnemonic_password_confirm": "Você tem certeza absoluta de ter usado uma senha mnemônica? (não é igual a uma senha do keystore!). Se você usar uma num momento inadequado, pode sofrer uma perda de fundos!"
     }

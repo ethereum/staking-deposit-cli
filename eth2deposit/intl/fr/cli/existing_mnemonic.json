@@ -16,7 +16,8 @@
         },
         "arg_validator_start_index": {
             "help": "Saisissez l'index (numéro de clé) à partir duquel vous souhaitez commencer à générer d'autres clés. Par exemple, si vous avez généré 4 clés dans le passé, entrez 4.",
-            "prompt": "Saisissez l'index (numéro de clé) à partir duquel vous souhaitez commencer à générer d'autres clés. Par exemple, si vous avez généré 4 clés dans le passé, entrez 4."
+            "prompt": "Saisissez l'index (numéro de clé) à partir duquel vous souhaitez commencer à générer d'autres clés. Par exemple, si vous avez généré 4 clés dans le passé, entrez 4.",
+            "confirm": "Veuillez confirmer le mot de passe."
         },
         "msg_mnemonic_password_confirm": "Êtes-vous absolument certain d'avoir utilisé un mot de passe mnémonique ? (Différent d'un mot de passe de keystore !) Si vous en utilisez un sans être censé le faire, cela peut entraîner une perte de fonds !"
     }

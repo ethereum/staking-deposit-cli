@@ -16,7 +16,8 @@
         },
         "arg_validator_start_index": {
             "help": "Inserisci l'indice (numero di chiave) da cui desideri iniziare a generare ulteriori chiavi. Ad esempio, se hai generato 4 chiavi in passato, inserisci 4.",
-            "prompt": "Inserisci l'indice (numero di chiave) da cui desideri iniziare a generare ulteriori chiavi. Ad esempio, se hai generato 4 chiavi in passato, inserisci 4."
+            "prompt": "Inserisci l'indice (numero di chiave) da cui desideri iniziare a generare ulteriori chiavi. Ad esempio, se hai generato 4 chiavi in passato, inserisci 4.",
+            "confirm": "Ripeti per conferma"
         },
         "msg_mnemonic_password_confirm": "Hai la certezza assoluta di aver usato una password mnemonica? È diversa da una password dell'archivio chiavi. Se non devi utilizzarne una ma lo fai, potresti perdere fondi!"
     }

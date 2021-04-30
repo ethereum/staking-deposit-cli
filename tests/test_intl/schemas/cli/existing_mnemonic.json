@@ -65,11 +65,15 @@
                         },
                         "prompt": {
                             "type": "string"
+                        },
+                        "confirm":{
+                            "type": "string"
                         }
                     },
                     "required": [
                         "help",
-                        "prompt"
+                        "prompt",
+                        "confirm"
                     ]
                 },
                 "msg_mnemonic_password_confirm": {

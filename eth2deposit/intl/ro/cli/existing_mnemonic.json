@@ -16,7 +16,8 @@
         },
         "arg_validator_start_index": {
             "help": "Introdu indexul (numărul de cheie) de la care vrei să începi să generezi mai multe chei. De exemplu, dacă ai generat 4 chei în trecut, aici trebuie să introduci 4.",
-            "prompt": "Introdu indexul (numărul de cheie) de la care vrei să începi să generezi mai multe chei. De exemplu, dacă ai generat 4 chei în trecut, aici trebuie să introduci 4."
+            "prompt": "Introdu indexul (numărul de cheie) de la care vrei să începi să generezi mai multe chei. De exemplu, dacă ai generat 4 chei în trecut, aici trebuie să introduci 4.",
+            "confirm": "Repetă parola, pentru confirmare"
         },
         "msg_mnemonic_password_confirm": "Știi absolut sigur că ai folosit o parolă de mnemonic? (Aceasta este diferită de parola depozitului de chei!) Dacă folosești parolă atunci când nu e cazul, poți să pierzi fonduri!"
     }
