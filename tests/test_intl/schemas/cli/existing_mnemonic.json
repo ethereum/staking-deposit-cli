@@ -75,17 +75,13 @@
                         "prompt",
                         "confirm"
                     ]
-                },
-                "msg_mnemonic_password_confirm": {
-                    "type": "string"
                 }
             },
             "required": [
                 "arg_existing_mnemonic",
                 "arg_mnemonic",
                 "arg_mnemonic_password",
-                "arg_validator_start_index",
-                "msg_mnemonic_password_confirm"
+                "arg_validator_start_index"
             ]
         }
     },

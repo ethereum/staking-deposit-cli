@@ -12,13 +12,12 @@
         },
         "arg_mnemonic_password": {
             "help": "Aproape sigur acesta nu este argumentul pe care îl cauți: este vorba despre parole de mnemonice, nu despre parolele de cheie. Dacă introduci aici o parolă, în condițiile în care inițial nu ai folosit parolă, poate duce la pierderi de chei (și, prin urmare, de fonduri)! De reținut: dacă ați folosit acest instrument la generarea inițială a mnemonicului, atunci nu ai folosit parolă de mnemonic. În schimb, dacă știi sigur că ai creat o parolă pentru „a îmbunătăți” securitatea mnemonicului, acesta este locul în care trebuie s-o introduci.",
-            "confirm": "Repetă parola, pentru confirmare"
+            "confirm": "Știi absolut sigur că ai folosit o parolă de mnemonic? (Aceasta este diferită de parola depozitului de chei!) Dacă folosești parolă atunci când nu e cazul, poți să pierzi fonduri! Repetă parola, pentru confirmare"
         },
         "arg_validator_start_index": {
             "help": "Introdu indexul (numărul de cheie) de la care vrei să începi să generezi mai multe chei. De exemplu, dacă ai generat 4 chei în trecut, aici trebuie să introduci 4.",
             "prompt": "Introdu indexul (numărul de cheie) de la care vrei să începi să generezi mai multe chei. De exemplu, dacă ai generat 4 chei în trecut, aici trebuie să introduci 4.",
             "confirm": "Repetă parola, pentru confirmare"
-        },
-        "msg_mnemonic_password_confirm": "Știi absolut sigur că ai folosit o parolă de mnemonic? (Aceasta este diferită de parola depozitului de chei!) Dacă folosești parolă atunci când nu e cazul, poți să pierzi fonduri!"
+        }
     }
 }
