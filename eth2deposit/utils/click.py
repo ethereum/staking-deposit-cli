@@ -79,7 +79,7 @@ def captive_prompt_callback(
     processing_func: Callable[[str], Any],
     prompt: Callable[[], str],
     confirmation_prompt: Optional[Callable[[], str]]=None,
-    confirmation_error_message: Callable[[], str]=lambda: '',
+    confirmation_mismatch_msg: Callable[[], str]=lambda: '',
     hide_input: bool=False,
 ) -> Callable[[click.Context, str, str], Any]:
     '''
@@ -88,7 +88,7 @@ def captive_prompt_callback(
     :param processing_func: A function to process the user's input that possibly raises a ValidationError
     :param prompt: the text to prompt the user with, should their input raise an error when passed to processing_func()
     :param confirmation_prompt: the optional prompt for confirming user input (the user must repeat their input)
-    :param confirmation_error_message: the message displayed to the user should their input and confirmation not match
+    :param confirmation_mismatch_msg: the message displayed to the user should their input and confirmation not match
     :param hide_input: bool, hides the input as the user types
     '''
     def callback(ctx: click.Context, param: Any, user_input: str) -> Any:
@@ -101,10 +101,10 @@ def captive_prompt_callback(
                 if confirmation_prompt is not None and processed_input != '':
                     confirmation_input = click.prompt(confirmation_prompt(), hide_input=hide_input)
                     if processing_func(confirmation_input) != processed_input:
-                        click.echo(confirmation_error_message())
-                        raise ValidationError('User confirmation does not match.')
+                        raise ValidationError(confirmation_mismatch_msg())
                 return processed_input
-            except ValidationError:
+            except ValidationError as e:
+                click.echo(e)
                 user_input = click.prompt(prompt(), hide_input=hide_input)
     return callback
 
