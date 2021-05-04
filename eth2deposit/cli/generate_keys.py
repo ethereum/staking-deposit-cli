@@ -62,7 +62,7 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
         jit_option(
             callback=captive_prompt_callback(
                 lambda num: validate_int_range(num, 1, 2**32),
-                load_text(['num_validators', 'prompt'], func='generate_keys_arguments_decorator')
+                lambda: load_text(['num_validators', 'prompt'], func='generate_keys_arguments_decorator')
             ),
             help=lambda: load_text(['num_validators', 'help'], func='generate_keys_arguments_decorator'),
             param_decls="--num_validators",
@@ -80,7 +80,7 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
                 choice_prompt_func(
                     lambda: load_text(['chain', 'prompt'], func='generate_keys_arguments_decorator'),
                     list(ALL_CHAINS.keys())
-                )(),
+                ),
             ),
             default=MAINNET,
             help=lambda: load_text(['chain', 'help'], func='generate_keys_arguments_decorator'),
@@ -93,9 +93,9 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
         jit_option(
             callback=captive_prompt_callback(
                 validate_password_strength,
-                load_text(['keystore_password', 'prompt'], func='generate_keys_arguments_decorator'),
-                load_text(['keystore_password', 'confirm'], func='generate_keys_arguments_decorator'),
-                load_text(['keystore_password', 'mismatch'], func='generate_keys_arguments_decorator'),
+                lambda:load_text(['keystore_password', 'prompt'], func='generate_keys_arguments_decorator'),
+                lambda:load_text(['keystore_password', 'confirm'], func='generate_keys_arguments_decorator'),
+                lambda: load_text(['keystore_password', 'mismatch'], func='generate_keys_arguments_decorator'),
                 True,
             ),
             help=lambda: load_text(['keystore_password', 'help'], func='generate_keys_arguments_decorator'),

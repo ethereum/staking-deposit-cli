@@ -77,9 +77,9 @@ def jit_option(*args: Any, **kwargs: Any) -> Callable[[Any], Any]:
 
 def captive_prompt_callback(
     processing_func: Callable[[str], Any],
-    prompt: str,
-    confirmation_prompt: Optional[str]=None,
-    confirmation_error_message: str='',
+    prompt: Callable[[], str],
+    confirmation_prompt: Optional[Callable[[], str]]=None,
+    confirmation_error_message: Callable[[], str]=lambda: '',
     hide_input: bool=False,
 ) -> Callable[[click.Context, str, str], Any]:
     '''
@@ -99,13 +99,13 @@ def captive_prompt_callback(
                 processed_input = processing_func(user_input)
                 # Logic for confirming user input:
                 if confirmation_prompt is not None and processed_input != '':
-                    confirmation_input = click.prompt(confirmation_prompt, hide_input=hide_input)
+                    confirmation_input = click.prompt(confirmation_prompt(), hide_input=hide_input)
                     if processing_func(confirmation_input) != processed_input:
-                        click.echo(confirmation_error_message)
+                        click.echo(confirmation_error_message())
                         raise ValidationError('User confirmation does not match.')
                 return processed_input
             except ValidationError:
-                user_input = click.prompt(prompt, hide_input=hide_input)
+                user_input = click.prompt(prompt(), hide_input=hide_input)
     return callback
 
 

@@ -36,7 +36,7 @@ languages = get_first_options(MNEMONIC_LANG_OPTIONS)
 @jit_option(
     callback=captive_prompt_callback(
         lambda mnemonic_language: fuzzy_reverse_dict_lookup(mnemonic_language, MNEMONIC_LANG_OPTIONS),
-        choice_prompt_func(lambda: load_text(['arg_mnemonic_language', 'prompt'], func='new_mnemonic'), languages)()
+        choice_prompt_func(lambda: load_text(['arg_mnemonic_language', 'prompt'], func='new_mnemonic'), languages),
     ),
     default=lambda: load_text(['arg_mnemonic_language', 'default'], func='new_mnemonic'),
     help=lambda: load_text(['arg_mnemonic_language', 'help'], func='new_mnemonic'),

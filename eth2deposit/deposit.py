@@ -32,7 +32,7 @@ def check_python_version() -> None:
     '--language',
     callback=captive_prompt_callback(
         lambda language: fuzzy_reverse_dict_lookup(language, INTL_LANG_OPTIONS),
-        choice_prompt_func(lambda: 'Please choose your language', get_first_options(INTL_LANG_OPTIONS))(),
+        choice_prompt_func(lambda: 'Please choose your language', get_first_options(INTL_LANG_OPTIONS)),
     ),
     default='English',
     help='The language you wish to use the CLI in.',
