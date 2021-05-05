@@ -26,10 +26,7 @@
                         "help": {
                             "type": "string"
                         }
-                    },
-                    "required": [
-                        "help"
-                    ]
+                    }
                 },
                 "chain": {
                     "type": "object",
@@ -72,7 +69,6 @@
             },
             "required": [
                 "num_validators",
-                "folder",
                 "chain",
                 "keystore_password"
             ]

@@ -9,7 +9,7 @@
             "prompt": "Please choose how many validators you wish to run"
         },
         "folder": {
-            "help": "The number of validators keys you want to generate (you can always generate more later)"
+            "help": "The folder path for the keystore(s) and deposit(s). Pointing to `./validator_keys` by default."
         },
         "chain": {
             "help": "The version of eth2 you are targeting. Use \"mainnet\" if you are depositing ETH",

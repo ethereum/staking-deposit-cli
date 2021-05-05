@@ -4,9 +4,6 @@
             "help": "Numărul de chei de validator pe care vrei să le generezi (poți genera oricând mai multe)",
             "prompt": "Alege câți validatori vrei să rulezi"
         },
-        "folder": {
-            "help": "Numărul de chei de validator pe care vrei să le generezi (poți genera oricând mai multe)"
-        },
         "chain": {
             "help": "Versiunea de eth2 țintă. Dacă depui ETH, folosește „mainnet”",
             "prompt": "Alege numele de rețea/lanț (mainnet sau testnet)"

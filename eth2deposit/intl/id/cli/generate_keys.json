@@ -4,9 +4,6 @@
             "help": "Jumlah kunci validator yang ingin Anda buat (Anda selalu dapat menghasilkan lebih banyak lagi nanti)",
             "prompt": "Silakan pilih berapa banyak validator yang ingin Anda jalankan"
         },
-        "folder": {
-            "help": "Jumlah kunci validator yang ingin Anda buat (Anda selalu dapat menghasilkan lebih banyak lagi nanti)"
-        },
         "chain": {
             "help": "Versi eth2 yang Anda targetkan. Gunakan \"mainnet\" jika Anda menyetorkan ETH",
             "prompt": "Pilih nama jaringan / rantai (mainnet atau testnet)"

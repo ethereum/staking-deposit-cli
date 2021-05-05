@@ -4,9 +4,6 @@
             "help": "A quantidade de chaves de validadores que você deseja gerar (poderá gerar mais depois)",
             "prompt": "Por favor, escolha quantos validadores deseja executar"
         },
-        "folder": {
-            "help": "A quantidade de chaves de validadores que você deseja gerar (poderá gerar mais depois)"
-        },
         "chain": {
             "help": "A versão de eth2 do seu interesse. Use \"mainnet\" se estiver depositando ETH",
             "prompt": "Selecione o nome da rede/cadeia (mainnet ou testnet)"

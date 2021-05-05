@@ -4,9 +4,6 @@
             "help": "Nombre de clés de validateurs que vous souhaitez générer (vous pourrez en générer davantage plus tard)",
             "prompt": "Veuillez choisir le nombre de validateurs que vous souhaitez exécuter"
         },
-        "folder": {
-            "help": "Nombre de clés de validateurs que vous souhaitez générer (vous pourrez en générer davantage plus tard)"
-        },
         "chain": {
             "help": "Version d'Eth2 que vous ciblez. Utilisez \"mainnet\" si vous déposez de l'ETH.",
             "prompt": "Veuillez choisir un nom de chaîne/réseau : mainnet (réseau principal) ou testnet (réseau de test)."
