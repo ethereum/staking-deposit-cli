@@ -1,0 +1,5 @@
+{
+    "check_python_version": {
+        "err_python_version": "Votre version de Python est insuffisante. Veuillez installer la version 3.7 ou supérieure."
+    }
+}

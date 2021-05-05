@@ -3,14 +3,15 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Introduction](#introduction)
 - [Tutorial for users](#tutorial-for-users)
   - [Build requirements](#build-requirements)
   - [For Linux or MacOS users](#for-linux-or-macos-users)
+    - [File Permissions](#file-permissions)
     - [Option 1. Download binary executable file](#option-1-download-binary-executable-file)
       - [Step 1. Installation](#step-1-installation)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json)
+        - [language Argument](#language-argument)
         - [Commands](#commands)
         - [`new-mnemonic` Arguments](#new-mnemonic-arguments)
         - [`existing-mnemonic` Arguments](#existing-mnemonic-arguments)
@@ -19,6 +20,7 @@
       - [Step 0. Python version checking](#step-0-python-version-checking)
       - [Step 1. Installation](#step-1-installation-1)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-1)
+        - [Language Argument](#language-argument)
         - [Commands](#commands-1)
         - [Arguments](#arguments)
         - [Successful message](#successful-message-1)
@@ -26,6 +28,7 @@
       - [Step 0. Python version checking](#step-0-python-version-checking-1)
       - [Step 1. Installation](#step-1-installation-2)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-2)
+        - [Language Argument](#language-argument-1)
         - [Commands](#commands-2)
         - [Arguments](#arguments-1)
     - [Option 4. Use Docker image](#option-4-use-docker-image)
@@ -37,18 +40,21 @@
     - [Option 1. Download binary executable file](#option-1-download-binary-executable-file-1)
       - [Step 1. Installation](#step-1-installation-3)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-4)
+        - [Language Argument](#language-argument-2)
         - [Commands](#commands-3)
         - [Arguments](#arguments-3)
     - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python-1)
       - [Step 0. Python version checking](#step-0-python-version-checking-2)
       - [Step 1. Installation](#step-1-installation-4)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-5)
+        - [Language Argument](#language-argument-3)
         - [Commands](#commands-4)
         - [Arguments](#arguments-4)
     - [Option 3. Build `deposit-cli` with `virtualenv`](#option-3-build-deposit-cli-with-virtualenv-1)
       - [Step 0. Python version checking](#step-0-python-version-checking-3)
       - [Step 1. Installation](#step-1-installation-5)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-6)
+        - [Language Argument](#language-argument-4)
         - [Commands](#commands-5)
         - [Arguments](#arguments-5)
 - [Development](#development)
@@ -102,6 +108,14 @@ or run the following command to enter the interactive CLI and generate keys from
 ./deposit existing-mnemonic
 ```
 
+###### language Argument
+
+The Launchpad offers many language/internationalization options. If you wish to select one as a CLI argument, it must be passed in before one of the commands is chosen.
+
+| Argument | Type | Description |
+| -------- | -------- | -------- |
+| `--language` | String. Options: `العربية`, `ελληνικά`, `English`, `Français`, `Bahasa melayu`, `Italiano`, `日本語`, `한국어`, `Português do Brasil`, `român`, `简体中文`. Default to `English` | The language you wish to use the CLI in. |
+
 ###### Commands
 
 The CLI offers different commands depending on what you want to do with the tool.
@@ -118,7 +132,7 @@ You can use `new-mnemonic --help` to see all arguments. Note that if there are m
 | Argument | Type | Description |
 | -------- | -------- | -------- |
 | `--num_validators`  | Non-negative integer | The number of signing keys you want to generate. Note that the child key(s) are generated via the same master key. |
-| `--mnemonic_language` | String. Options: `chinese_simplified`, `chinese_traditional`, `czech`, `english`, `italian`, `korean`, `portuguese`, `spanish`. Default to `english` | The mnemonic language |
+| `--mnemonic_language` | String. Options: `简体中文`, `繁體中文`, `český jazyk`, `English`, `Italiano`, `한국어`, `Português`, `Español`. Default to `English` | The mnemonic language |
 | `--folder` | String. Pointing to `./validator_keys` by default | The folder path for the keystore(s) and deposit(s) |
 | `--chain` | String. `mainnet` by default | The chain setting for the signing domain. |
 | `--eth1_withdrawal_address` | String. Eth1 address in hexadecimal encoded form | If this field is set and valid, the given Eth1 address will be used to create the withdrawal credentials. Otherwise, it will generate withdrawal credentials with the mnemonic-derived withdrawal public key in [EIP-2334 format](https://eips.ethereum.org/EIPS/eip-2334#eth2-specific-parameters). |
@@ -199,6 +213,9 @@ You can also run the tool with optional arguments:
 ./deposit.sh existing-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
+###### Language Argument
+
+See [here](#language_argument) for `--language` arguments.
 ###### Commands
 
 See [here](#commands)
@@ -261,6 +278,10 @@ python3 ./eth2deposit/deposit.py new-mnemonic --num_validators=<NUM_VALIDATORS> 
 ```sh
 python3 ./eth2deposit/deposit.py existing-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
+
+###### Language Argument
+
+See [here](#language_argument) for `--language` arguments.
 
 ###### Commands
 
@@ -341,6 +362,10 @@ deposit.exe new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=e
 deposit.exe existing-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
+###### Language Argument
+
+See [here](#language_argument) for `--language` arguments.
+
 ###### Commands
 
 See [here](#commands)
@@ -398,6 +423,10 @@ You can also run the tool with optional arguments:
 ```sh
 ./deposit.sh existing-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
+
+###### Language Argument
+
+See [here](#language_argument) for `--language` arguments.
 
 ###### Commands
 
@@ -458,6 +487,10 @@ python .\eth2deposit\deposit.py new-mnemonic --num_validators=<NUM_VALIDATORS> -
 ```cmd
 python .\eth2deposit\deposit.pyexisting-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
+
+###### Language Argument
+
+See [here](#language_argument) for `--language` arguments.
 
 ###### Commands
 

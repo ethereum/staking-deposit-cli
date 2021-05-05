@@ -1,0 +1,15 @@
+{
+    "new_mnemonic": {
+        "arg_new_mnemonic": {
+            "help": "Générer un nouvel élément mnémonique et des clés"
+        },
+        "arg_mnemonic_language": {
+            "default": "english",
+            "help": "Langue de votre phrase mnémonique",
+            "prompt": "Veuillez choisir la langue de votre phrase mnémonique."
+        },
+        "msg_mnemonic_presentation": "Ceci est votre phrase mnémonique (seed). Notez-la et conservez-la en sécurité. Elle constitue le SEUL moyen de récupérer votre dépôt.",
+        "msg_press_any_key": "Une fois que vous avez écrit votre phrase mnémonique, appuyez sur n'importe quelle touche.",
+        "msg_mnemonic_retype_prompt": "Veuillez saisir votre phrase mnémonique (avec les mots séparés par des espaces) pour confirmer que vous l'avez écrite."
+    }
+}

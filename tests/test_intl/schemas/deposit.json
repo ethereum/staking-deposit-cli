@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "check_python_version": {
+            "type": "object",
+            "properties": {
+                "err_python_version": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "err_python_version"
+            ]
+        }
+    },
+    "required": [
+        "check_python_version"
+    ]
+}

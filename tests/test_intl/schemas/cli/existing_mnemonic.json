@@ -1,0 +1,92 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "validate_mnemonic": {
+            "type": "object",
+            "properties": {
+                "err_invalid_mnemonic": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "err_invalid_mnemonic"
+            ]
+        },
+        "existing_mnemonic": {
+            "type": "object",
+            "properties": {
+                "arg_existing_mnemonic": {
+                    "type": "object",
+                    "properties": {
+                        "help": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "help"
+                    ]
+                },
+                "arg_mnemonic": {
+                    "type": "object",
+                    "properties": {
+                        "help": {
+                            "type": "string"
+                        },
+                        "prompt": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "help",
+                        "prompt"
+                    ]
+                },
+                "arg_mnemonic_password": {
+                    "type": "object",
+                    "properties": {
+                        "help": {
+                            "type": "string"
+                        },
+                        "confirm": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "help",
+                        "confirm"
+                    ]
+                },
+                "arg_validator_start_index": {
+                    "type": "object",
+                    "properties": {
+                        "help": {
+                            "type": "string"
+                        },
+                        "prompt": {
+                            "type": "string"
+                        },
+                        "confirm":{
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "help",
+                        "prompt",
+                        "confirm"
+                    ]
+                }
+            },
+            "required": [
+                "arg_existing_mnemonic",
+                "arg_mnemonic",
+                "arg_mnemonic_password",
+                "arg_validator_start_index"
+            ]
+        }
+    },
+    "required": [
+        "validate_mnemonic",
+        "existing_mnemonic"
+    ]
+}

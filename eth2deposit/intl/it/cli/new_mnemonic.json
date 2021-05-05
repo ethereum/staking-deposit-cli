@@ -1,0 +1,15 @@
+{
+    "new_mnemonic": {
+        "arg_new_mnemonic": {
+            "help": "Genera un nuovo mnemonico e chiavi"
+        },
+        "arg_mnemonic_language": {
+            "default": "Italiano",
+            "help": "La lingua del mnemonico",
+            "prompt": "Scegli la lingua del mnemonico"
+        },
+        "msg_mnemonic_presentation": "Questo è il tuo mnemonico (seed phrase). Prendi nota e tienilo in un luogo sicuro. Rappresenta l'UNICO modo per recuperare il tuo deposito.",
+        "msg_press_any_key": "Dopo aver preso nota del mnemonico, premi qualsiasi tasto.",
+        "msg_mnemonic_retype_prompt": "Digita il tuo mnemonico (separato da spazi) per confermare di averlo scritto."
+    }
+}

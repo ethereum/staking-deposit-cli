@@ -1,0 +1,8 @@
+{
+    "verify_deposit_data_json": {
+        "msg_deposit_verification": "التحقق من الإيداعات الخاصة بك:\t"
+    },
+    "validate_password_strength": {
+        "msg_password_length": "يجب أن يكون طول كلمة المرور 8 على الأقل. الرجاء إعادة الكتابة"
+    }
+}

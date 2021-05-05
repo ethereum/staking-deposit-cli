@@ -21,10 +21,16 @@ def test_existing_mnemonic_bls_withdrawal() -> None:
 
     runner = CliRunner()
     inputs = [
+        'TREZOR',
         'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
-        '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword', 'yes']
+        '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword']
     data = '\n'.join(inputs)
-    arguments = ['existing-mnemonic', '--folder', my_folder_path, '--mnemonic-password', 'TREZOR']
+    arguments = [
+        '--language', 'english',
+        'existing-mnemonic',
+        '--folder', my_folder_path,
+        '--mnemonic-password', 'TREZOR',
+    ]
     result = runner.invoke(cli, arguments, input=data)
 
     assert result.exit_code == 0
@@ -57,11 +63,13 @@ def test_existing_mnemonic_eth1_address_withdrawal() -> None:
 
     runner = CliRunner()
     inputs = [
+        'TREZOR',
         'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
-        '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword', 'yes']
+        '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword']
     data = '\n'.join(inputs)
     eth1_withdrawal_address = '0x00000000219ab540356cbb839cbe05303d7705fa'
     arguments = [
+        '--language', 'english',
         'existing-mnemonic',
         '--folder', my_folder_path,
         '--mnemonic-password', 'TREZOR',
@@ -118,6 +126,8 @@ async def test_script() -> None:
 
     cmd_args = [
         run_script_cmd,
+        '--language', 'english',
+        '--non_interactive',
         'existing-mnemonic',
         '--num_validators', '1',
         '--mnemonic="abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"',
@@ -129,15 +139,8 @@ async def test_script() -> None:
     ]
     proc = await asyncio.create_subprocess_shell(
         ' '.join(cmd_args),
-        stdin=asyncio.subprocess.PIPE,
-        stdout=asyncio.subprocess.PIPE,
     )
-
-    async for out in proc.stdout:
-        output = out.decode('utf-8').rstrip()
-        if output.startswith('Running deposit-cli...'):
-            proc.stdin.write(b'y\n')
-
+    await proc.wait()
     # Check files
     validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     _, _, key_files = next(os.walk(validator_keys_folder_path))

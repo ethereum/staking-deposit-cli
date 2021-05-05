@@ -5,11 +5,14 @@ block_cipher = None
 
 a = Analysis(['../../eth2deposit/deposit.py'],
              binaries=[],
-             datas=[('../../eth2deposit/key_handling/key_derivation/word_lists/*.txt', './eth2deposit/key_handling/key_derivation/word_lists/')],
+             datas=[
+                 ('../../eth2deposit/key_handling/key_derivation/word_lists/*.txt', './eth2deposit/key_handling/key_derivation/word_lists/'),
+                 ('../../eth2deposit/intl', './eth2deposit/intl',)
+             ],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
-             excludes=[],
+             excludes=['FixTk', 'tcl', 'tk', '_tkinter', 'tkinter', 'Tkinter'],
              win_no_prefer_redirects=False,
              win_private_assemblies=False,
              cipher=block_cipher,

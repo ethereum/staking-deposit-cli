@@ -1,0 +1,23 @@
+{
+    "validate_mnemonic": {
+        "err_invalid_mnemonic": "Isso não é um mnemônico válido. Verifique se há erros de digitação."
+    },
+    "existing_mnemonic": {
+        "arg_existing_mnemonic": {
+            "help": "Gerar (ou recuperar) chaves a partir de um mnemônico existente"
+        },
+        "arg_mnemonic": {
+            "help": "O mnemônico que você usou para gerar suas chaves. (Recomenda-se não usar este argumento e esperar até que a CLI pergunte pelo seu mnemônico; caso contrário, ele aparecerá no seu histórico do shell.)",
+            "prompt": "Por favor, digite seu mnemônico separado por espaços (\" \")"
+        },
+        "arg_mnemonic_password": {
+            "help": "Este, quase com certeza, não é o argumento que você está procurando: é para senhas mnemônicas, não para senhas do keystore. Se você fornecer uma senha aqui e não tiver usado uma inicialmente, poderá perder suas chaves (e, portanto, seus fundos!). Note também que se você tiver usado essa ferramenta para gerar seu mnemônico inicial, então não usou uma senha mnemônica. Porém, se tiver certeza de ter usado uma senha para \"aumentar\" a segurança do seu mnemônico, digite-a aqui.",
+            "confirm": "Você tem certeza absoluta de ter usado uma senha mnemônica? (não é igual a uma senha do keystore!). Se você usar uma num momento inadequado, pode sofrer uma perda de fundos! Repita para confirmar"
+        },
+        "arg_validator_start_index": {
+            "help": "Digite o índice (número de chave) a partir do qual deseja gerar mais chaves. Por exemplo, se você gerou 4 chaves antes, digite 4 aqui.",
+            "prompt": "Digite o índice (número de chave) a partir do qual deseja gerar mais chaves. Por exemplo, se você gerou 4 chaves antes, digite 4 aqui.",
+            "confirm": "Repita para confirmar"
+        }
+    }
+}

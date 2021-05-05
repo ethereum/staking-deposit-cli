@@ -10,6 +10,7 @@ from eth_utils import decode_hex
 from eth2deposit.cli import new_mnemonic
 from eth2deposit.deposit import cli
 from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME, ETH1_ADDRESS_WITHDRAWAL_PREFIX
+from eth2deposit.utils.intl import load_text
 from .helpers import clean_key_folder, get_permissions, get_uuid
 
 
@@ -27,7 +28,7 @@ def test_new_mnemonic_bls_withdrawal(monkeypatch) -> None:
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
-    inputs = ['english', '1', 'mainnet', 'MyPassword', 'MyPassword', 'fakephrase']
+    inputs = ['english', 'english', '1', 'mainnet', 'MyPassword', 'MyPassword', 'fakephrase']
     data = '\n'.join(inputs)
     result = runner.invoke(cli, ['new-mnemonic', '--folder', my_folder_path], input=data)
     assert result.exit_code == 0
@@ -70,6 +71,7 @@ def test_new_mnemonic_eth1_address_withdrawal(monkeypatch) -> None:
     data = '\n'.join(inputs)
     eth1_withdrawal_address = '0x00000000219ab540356cbb839cbe05303d7705fa'
     arguments = [
+        '--language', 'english',
         'new-mnemonic',
         '--folder', my_folder_path,
         '--eth1_withdrawal_address', eth1_withdrawal_address,
@@ -124,7 +126,10 @@ async def test_script() -> None:
     await proc.wait()
 
     cmd_args = [
-        run_script_cmd + ' new-mnemonic',
+        run_script_cmd,
+        '--language', 'english',
+        '--non_interactive',
+        'new-mnemonic',
         '--num_validators', '5',
         '--mnemonic_language', 'english',
         '--chain', 'mainnet',
@@ -139,11 +144,12 @@ async def test_script() -> None:
 
     seed_phrase = ''
     parsing = False
+    mnemonic_json_file = os.path.join(os.getcwd(), 'eth2deposit/../eth2deposit/cli/', 'new_mnemonic.json')
     async for out in proc.stdout:
         output = out.decode('utf-8').rstrip()
-        if output.startswith("This is your seed phrase."):
+        if output.startswith(load_text(['msg_mnemonic_presentation'], mnemonic_json_file, 'new_mnemonic')):
             parsing = True
-        elif output.startswith("Please type your mnemonic"):
+        elif output.startswith(load_text(['msg_mnemonic_retype_prompt'], mnemonic_json_file, 'new_mnemonic')):
             parsing = False
         elif parsing:
             seed_phrase += output

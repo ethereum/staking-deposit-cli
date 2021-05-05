@@ -1,0 +1,15 @@
+{
+    "new_mnemonic": {
+        "arg_new_mnemonic": {
+            "help": "Generează un nou mnemonic și chei"
+        },
+        "arg_mnemonic_language": {
+            "default": "english",
+            "help": "Limba mnemonicului",
+            "prompt": "Alege limba mnemonicului"
+        },
+        "msg_mnemonic_presentation": "Acesta este mnemonicul (fraza sămânță). Scrie-l și păstrează-l în siguranță, este SINGURA cale de a prelua depunerea.",
+        "msg_press_any_key": "După ce ți-ai notat mnemonicul, apasă orice tastă.",
+        "msg_mnemonic_retype_prompt": "Tastează mnemonicul (separat cu spații) pentru a confirma faptul că ți l-ai notat"
+    }
+}

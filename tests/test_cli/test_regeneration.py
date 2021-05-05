@@ -33,7 +33,7 @@ def test_regeneration(monkeypatch) -> None:
     runner = CliRunner()
     # Create index 0 and 1
     my_password = "MyPassword"
-    inputs = ['english', '2', 'mainnet', my_password, my_password, mock_mnemonic]
+    inputs = ['english', 'english', '2', 'mainnet', my_password, my_password, mock_mnemonic]
     data = '\n'.join(inputs)
     result = runner.invoke(cli, ['new-mnemonic', '--folder', folder_path_1], input=data)
     assert result.exit_code == 0
@@ -56,8 +56,9 @@ def test_regeneration(monkeypatch) -> None:
     runner = CliRunner()
     # Create index 1 and 2
     inputs = [
+        'english',
         mock_mnemonic,
-        '1', '1', '2', 'mainnet', 'MyPassword', 'MyPassword', 'yes']
+        '1', '1', '2', 'mainnet', 'MyPassword', 'MyPassword']
     data = '\n'.join(inputs)
     arguments = ['existing-mnemonic', '--folder', folder_path_2]
     result = runner.invoke(cli, arguments, input=data)

@@ -9,6 +9,7 @@ from typing import Any, Dict, Sequence
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from eth2deposit.exceptions import ValidationError
+from eth2deposit.utils.intl import load_text
 from eth2deposit.utils.ssz import (
     compute_deposit_domain,
     compute_signing_root,
@@ -33,7 +34,7 @@ def verify_deposit_data_json(filefolder: str, credentials: Sequence[Credential])
     """
     with open(filefolder, 'r') as f:
         deposit_json = json.load(f)
-        with click.progressbar(deposit_json, label='Verifying your deposits:\t',
+        with click.progressbar(deposit_json, label=load_text(['msg_deposit_verification']),
                                show_percent=False, show_pos=True) as deposits:
             return all([validate_deposit(deposit, credential) for deposit, credential in zip(deposits, credentials)])
     return False
@@ -94,6 +95,20 @@ def validate_deposit(deposit_data_dict: Dict[str, Any], credential: Credential) 
     return signed_deposit.hash_tree_root == deposit_message_root
 
 
-def validate_password_strength(password: str) -> None:
+def validate_password_strength(password: str) -> str:
     if len(password) < 8:
-        raise ValidationError(f"The password length should be at least 8. Got {len(password)}.")
+        raise ValidationError(load_text(['msg_password_length']))
+    return password
+
+
+def validate_int_range(num: Any, low: int, high: int) -> int:
+    '''
+    Verifies that `num` is an `int` andlow <= num < high
+    '''
+    try:
+        num_int = int(num)  # Try cast to int
+        assert num_int == float(num)  # Check num is not float
+        assert low <= num_int < high  # Check num in range
+        return num_int
+    except (ValueError, AssertionError):
+        raise ValidationError(load_text(['err_not_positive_integer']))

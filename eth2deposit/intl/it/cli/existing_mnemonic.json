@@ -1,0 +1,23 @@
+{
+    "validate_mnemonic": {
+        "err_invalid_mnemonic": "Questo non è un mnemonico valido. Controlla che la grafia sia corretta."
+    },
+    "existing_mnemonic": {
+        "arg_existing_mnemonic": {
+            "help": "Genera (o recupera) chiavi da un mnemonico esistente"
+        },
+        "arg_mnemonic": {
+            "help": "Il mnemonico che hai usato per generare le chiavi (è consigliabile non utilizzare questo argomento e attendere che il CLI chieda il mnemonico, altrimenti apparirà nella cronologia della shell).",
+            "prompt": "Inserisci il mnemonico separato da spazi (\" \")"
+        },
+        "arg_mnemonic_password": {
+            "help": "Quasi sicuramente questo non è l'argomento che stai cercando: è per le password mnemoniche, non per le password dell'archivio chiavi. Fornire una password qui se non ne hai utilizzata una inizialmente può causare la perdita di chiavi (e quindi fondi)! Tieni presente inoltre che se hai usato questo strumento per generare il tuo mnemonico inizialmente, significa che non hai usato una password mnemonica. Se invece hai la certezza di aver usato una password per \"aumentare\" la sicurezza del tuo mnemonico, inseriscila qui.",
+            "confirm": "Hai la certezza assoluta di aver usato una password mnemonica? È diversa da una password dell'archivio chiavi. Se non devi utilizzarne una ma lo fai, potresti perdere fondi! Ripeti per conferma"
+        },
+        "arg_validator_start_index": {
+            "help": "Inserisci l'indice (numero di chiave) da cui desideri iniziare a generare ulteriori chiavi. Ad esempio, se hai generato 4 chiavi in passato, inserisci 4.",
+            "prompt": "Inserisci l'indice (numero di chiave) da cui desideri iniziare a generare ulteriori chiavi. Ad esempio, se hai generato 4 chiavi in passato, inserisci 4.",
+            "confirm": "Ripeti per conferma"
+        }
+    }
+}

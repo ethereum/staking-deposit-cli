@@ -10,61 +10,63 @@ from eth2deposit.key_handling.key_derivation.mnemonic import (
 from eth2deposit.utils.constants import (
     WORD_LISTS_PATH,
 )
+from eth2deposit.utils.click import (
+    captive_prompt_callback,
+    jit_option,
+)
+from eth2deposit.utils.intl import load_text
+from eth2deposit.utils.validation import validate_int_range
 from .generate_keys import (
     generate_keys,
     generate_keys_arguments_decorator,
 )
 
 
-def validate_mnemonic(cts: click.Context, param: Any, mnemonic: str) -> str:
+def validate_mnemonic(ctx: click.Context, param: Any, mnemonic: str) -> str:
     if verify_mnemonic(mnemonic, WORD_LISTS_PATH):
         return mnemonic
     else:
-        raise ValidationError('That is not a valid mnemonic, please check for typos.')
+        raise ValidationError(load_text(['err_invalid_mnemonic']))
 
 
 @click.command(
-    help='Generate (or recover) keys from an existing mnemonic',
+    help=load_text(['arg_existing_mnemonic', 'help'], func='existing_mnemonic'),
 )
-@click.pass_context
-@click.option(
-    '--mnemonic',
+@jit_option(
     callback=validate_mnemonic,
-    help=('The mnemonic that you used to generate your keys. (It is recommended not to use this argument, and wait for '
-          'the CLI to ask you for your mnemonic as otherwise it will appear in your shell history.)'),
-    prompt='Please enter your mnemonic separated by spaces (" ")',
-    required=True,
+    help=lambda: load_text(['arg_mnemonic', 'help'], func='existing_mnemonic'),
+    param_decls='--mnemonic',
+    prompt=lambda: load_text(['arg_mnemonic', 'prompt'], func='existing_mnemonic'),
     type=str,
 )
-@click.password_option(
-    '--mnemonic-password',
+@jit_option(
+    callback=captive_prompt_callback(
+        lambda x: x,
+        lambda: load_text(['arg_mnemonic_password', 'prompt'], func='existing_mnemonic'),
+        lambda: load_text(['arg_mnemonic_password', 'confirm'], func='existing_mnemonic'),
+        lambda: load_text(['arg_mnemonic_password', 'mismatch'], func='existing_mnemonic'),
+        True,
+    ),
     default='',
-    help=('This is almost certainly not the argument you are looking for: it is for mnemonic passwords, not keystore '
-          'passwords. Providing a password here when you didn\'t use one initially, can result in lost keys (and '
-          'therefore funds)! Also note that if you used this tool to generate your mnemonic intially, then you did not '
-          'use a mnemonic password. However, if you are certain you used a password to "increase" the security of your '
-          'mnemonic, this is where you enter it.'),
+    help=lambda: load_text(['arg_mnemonic_password', 'help'], func='existing_mnemonic'),
+    hidden=True,
+    param_decls='--mnemonic-password',
     prompt=False,
 )
-@click.option(
-    '--validator_start_index',
-    confirmation_prompt=True,
+@jit_option(
+    callback=captive_prompt_callback(
+        lambda num: validate_int_range(num, 0, 2**32),
+        lambda: load_text(['arg_validator_start_index', 'prompt'], func='existing_mnemonic'),
+        lambda: load_text(['arg_validator_start_index', 'confirm'], func='existing_mnemonic'),
+    ),
     default=0,
-    help=('Enter the index (key number) you wish to start generating more keys from. '
-          'For example, if you\'ve generated 4 keys in the past, you\'d enter 4 here,'),
-    prompt=('Enter the index (key number) you wish to start generating more keys from. '
-            'For example, if you\'ve generated 4 keys in the past, you\'d enter 4 here,'),
-    type=click.IntRange(0, 2**32 - 1),
+    help=lambda: load_text(['arg_validator_start_index', 'help'], func='existing_mnemonic'),
+    param_decls="--validator_start_index",
+    prompt=lambda: load_text(['arg_validator_start_index', 'prompt'], func='existing_mnemonic'),
 )
 @generate_keys_arguments_decorator
+@click.pass_context
 def existing_mnemonic(ctx: click.Context, mnemonic: str, mnemonic_password: str, **kwargs: Any) -> None:
-    if mnemonic_password != '':
-        click.clear()
-        click.confirm(
-            ('Are you absolutely certain that you used a mnemonic password? '
-             '(This is different from a keystore password!) '
-             'Using one when you are not supposed to can result in loss of funds!'),
-            abort=True)
-
-    ctx.obj = {'mnemonic': mnemonic, 'mnemonic_password': mnemonic_password}
+    ctx.obj = {} if ctx.obj is None else ctx.obj  # Create a new ctx.obj if it doesn't exist
+    ctx.obj.update({'mnemonic': mnemonic, 'mnemonic_password': mnemonic_password})
     ctx.forward(generate_keys)

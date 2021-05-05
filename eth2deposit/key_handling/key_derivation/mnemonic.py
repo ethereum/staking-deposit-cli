@@ -5,9 +5,11 @@ from secrets import randbits
 from typing import (
     Optional,
     Sequence,
-    Tuple,
 )
 
+from eth2deposit.utils.constants import (
+    MNEMONIC_LANG_OPTIONS,
+)
 from eth2deposit.utils.crypto import (
     SHA256,
     PBKDF2,
@@ -69,23 +71,12 @@ def get_seed(*, mnemonic: str, password: str) -> bytes:
     return PBKDF2(password=encoded_mnemonic, salt=salt, dklen=64, c=2048, prf='sha512')
 
 
-def get_languages(path: str) -> Tuple[str, ...]:
-    """
-    Walk the `path` and list all the languages with word-lists available.
-    """
-    path = _resource_path(path)
-    (_, _, filenames) = next(os.walk(path))
-    filenames = [f for f in filenames if f[-4:] == '.txt']
-    languages = tuple([name[:-4] for name in filenames])
-    return languages
-
-
 def determine_mnemonic_language(mnemonic: str, words_path: str) -> Sequence[str]:
     """
     Given a `mnemonic` determine what language[s] it is written in.
     There are collisions between word-lists, so multiple candidate languages are returned.
     """
-    languages = get_languages(words_path)
+    languages = MNEMONIC_LANG_OPTIONS.keys()
     word_language_map = {word: lang for lang in languages for word in _get_word_list(lang, words_path)}
     try:
         mnemonic_list = mnemonic.split(' ')

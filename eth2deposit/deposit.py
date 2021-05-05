@@ -1,8 +1,20 @@
-import sys
 import click
+import sys
 
 from eth2deposit.cli.existing_mnemonic import existing_mnemonic
 from eth2deposit.cli.new_mnemonic import new_mnemonic
+from eth2deposit.utils.click import (
+    captive_prompt_callback,
+    choice_prompt_func,
+    jit_option,
+)
+from eth2deposit.utils import config
+from eth2deposit.utils.constants import INTL_LANG_OPTIONS
+from eth2deposit.utils.intl import (
+    get_first_options,
+    fuzzy_reverse_dict_lookup,
+    load_text,
+)
 
 
 def check_python_version() -> None:
@@ -10,13 +22,33 @@ def check_python_version() -> None:
     Checks that the python version running is sufficient and exits if not.
     '''
     if sys.version_info < (3, 7):
-        click.pause('Your python version is insufficient, please install version 3.7 or greater.')
+        click.pause(load_text(['err_python_version']))
         sys.exit()
 
 
 @click.group()
-def cli() -> None:
-    pass
+@click.pass_context
+@jit_option(
+    '--language',
+    callback=captive_prompt_callback(
+        lambda language: fuzzy_reverse_dict_lookup(language, INTL_LANG_OPTIONS),
+        choice_prompt_func(lambda: 'Please choose your language', get_first_options(INTL_LANG_OPTIONS)),
+    ),
+    default='English',
+    help='The language you wish to use the CLI in.',
+    prompt=choice_prompt_func(lambda: 'Please choose your language', get_first_options(INTL_LANG_OPTIONS))(),
+    type=str,
+)
+@click.option(
+    '--non_interactive',
+    default=False,
+    is_flag=True,
+    help='Disables interactive prompts.',
+    hidden=True,
+)
+def cli(ctx: click.Context, language: str, non_interactive: bool) -> None:
+    config.language = language
+    config.non_interactive = non_interactive  # Remove interactive commands
 
 
 cli.add_command(existing_mnemonic)

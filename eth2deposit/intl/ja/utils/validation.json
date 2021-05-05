@@ -1,0 +1,8 @@
+{
+    "verify_deposit_data_json": {
+        "msg_deposit_verification": "入金確認中:"
+    },
+    "validate_password_strength": {
+        "msg_password_length": "パスワードの長さは少なくとも8文字でなければなりません。再入力してください"
+    }
+}
