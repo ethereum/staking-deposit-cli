@@ -58,9 +58,9 @@ lru-dict==1.1.6 \
     --hash=sha256:365457660e3d05b76f1aba3e0f7fedbfcd6528e97c5115a351ddd0db488354cc
 pyrsistent==0.16.1 \
     --hash=sha256:aa2ae1c2e496f4d6777f869ea5de7166a8ccb9c2e06ebcf6c7ff1b670c98c5ef
-eth-hash==0.2.0 \
-    --hash=sha256:1b9cb34dd3cd99c85c2bd6a1420ceae39a2eee8bf080efd264bcda8be3edecc8 \
-    --hash=sha256:499dc02d098f69856d1a6dd005529c16174157d4fb2a9fe20c41f69e39f8f176
+eth-hash==0.3.1 \
+    --hash=sha256:a3bc7f1c12eb086525999de7f83b9e7ad39740b31f0f4eccb17377ed70de24dd \
+    --hash=sha256:aee46d9c43b98ac6d4ddf957cf75d4d0a5174ee814cc6b53dd6134dcedb459bf
 cytoolz==0.11.0 \
     --hash=sha256:c64f3590c3eb40e1548f0d3c6b2ccde70493d0b8dc6cc7f9f3fec0bb3dcd4222
 toolz==0.10.0 \
