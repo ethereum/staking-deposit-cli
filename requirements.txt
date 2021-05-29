@@ -1,6 +1,6 @@
-py_ecc==5.1.0 \
-    --hash=sha256:1ba0453d39887cdb63e0855ba317b67f8bd571371bb3cafefae3e2e5206e45c5 \
-    --hash=sha256:934d6506f8b9487cc669562eb11beaf9b0a9ca408ffd94d0961c9cdde71336f2
+py_ecc==5.2.0 \
+    --hash=sha256:525b95aae5bbc185baff7dbfdb9bbd14d2c9454a797457f3edc85fd14c2ad7a6 \
+    --hash=sha256:f0aabdc82813ecb2e75e0531e3850295ff1a96bedfba42f15b5bc7f39ced64ba
 pycryptodome==3.9.8 \
     --hash=sha256:02e51e1d5828d58f154896ddfd003e2e7584869c275e5acbe290443575370fba \
     --hash=sha256:03d5cca8618620f45fd40f827423f82b86b3a202c8d44108601b0f5f56b04299 \
