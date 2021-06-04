@@ -80,7 +80,7 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
     decorators = [
         click.option(
             '--num_validators',
-            prompt='Please choose how many validators you wish to run',
+            prompt='Please choose how many new validators you wish to run',
             help='The number of validators keys you want to generate (you can always generate more later)',
             required=True,
             type=click.IntRange(0, 2**32 - 1),
