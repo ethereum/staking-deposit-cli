@@ -3,7 +3,6 @@ version: 2.1
 tox_common: &tox_common
   working_directory: ~/repo
   steps:
-    - checkout
     - restore_cache:
         key: tox-deps3-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
     - run:
