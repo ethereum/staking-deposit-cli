@@ -5,7 +5,7 @@
     },
     "generate_keys_arguments_decorator": {
         "num_validators": {
-            "help": "The number of new validators keys you want to generate (you can always generate more later)",
+            "help": "The number of new validator keys you want to generate (you can always generate more later)",
             "prompt": "Please choose how many new validators you wish to run"
         },
         "folder": {
