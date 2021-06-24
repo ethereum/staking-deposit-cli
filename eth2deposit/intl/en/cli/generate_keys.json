@@ -5,8 +5,8 @@
     },
     "generate_keys_arguments_decorator": {
         "num_validators": {
-            "help": "The number of validators keys you want to generate (you can always generate more later)",
-            "prompt": "Please choose how many validators you wish to run"
+            "help": "The number of new validators keys you want to generate (you can always generate more later)",
+            "prompt": "Please choose how many new validators you wish to run"
         },
         "folder": {
             "help": "The folder path for the keystore(s) and deposit(s). Pointing to `./validator_keys` by default."
