@@ -114,6 +114,11 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
                   'withdrawal credentials. Otherwise, it will generate withdrawal credentials with the '
                   'mnemonic-derived withdrawal public key.'),
         ),
+        click.option(
+            '--quiet', '-q',
+            help=('Suppress the output of useless stuff.'),
+            is_flag=True,
+        ),
     ]
     for decorator in reversed(decorators):
         function = decorator(function)
@@ -124,7 +129,7 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
 @click.pass_context
 def generate_keys(ctx: click.Context, validator_start_index: int,
                   num_validators: int, folder: str, chain: str, keystore_password: str,
-                  eth1_withdrawal_address: HexAddress, **kwargs: Any) -> None:
+                  eth1_withdrawal_address: HexAddress, quiet: bool = False, **kwargs: Any) -> None:
     mnemonic = ctx.obj['mnemonic']
     mnemonic_password = ctx.obj['mnemonic_password']
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
@@ -132,8 +137,9 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
     chain_setting = get_chain_setting(chain)
     if not os.path.exists(folder):
         os.mkdir(folder)
-    click.clear()
-    click.echo(RHINO_0)
+    if not quiet:
+        click.clear()
+        click.echo(RHINO_0)
     click.echo('Creating your keys.')
     credentials = CredentialList.from_mnemonic(
         mnemonic=mnemonic,
@@ -150,5 +156,6 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
         raise ValidationError("Failed to verify the keystores.")
     if not verify_deposit_data_json(deposits_file, credentials.credentials):
         raise ValidationError("Failed to verify the deposit data JSON files.")
-    click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)
-    click.pause('\n\nPress any key.')
+    if not quiet:
+        click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)
+        click.pause('\n\nPress any key.')
