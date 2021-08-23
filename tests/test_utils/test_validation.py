@@ -3,8 +3,8 @@ from typing import (
     Any,
 )
 
-from eth2deposit.exceptions import ValidationError
-from eth2deposit.utils.validation import (
+from staking_deposit.exceptions import ValidationError
+from staking_deposit.utils.validation import (
     validate_int_range,
     validate_password_strength,
 )

@@ -1,6 +1,6 @@
 import pytest
 
-from eth2deposit.utils.crypto import (
+from staking_deposit.utils.crypto import (
     scrypt,
     PBKDF2,
     AES_128_CTR,

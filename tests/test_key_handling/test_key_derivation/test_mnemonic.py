@@ -5,10 +5,10 @@ from typing import (
     Sequence,
 )
 
-from eth2deposit.utils.constants import (
+from staking_deposit.utils.constants import (
     MNEMONIC_LANG_OPTIONS,
 )
-from eth2deposit.key_handling.key_derivation.mnemonic import (
+from staking_deposit.key_handling.key_derivation.mnemonic import (
     _index_to_word,
     _get_word_list,
     get_seed,
@@ -17,7 +17,7 @@ from eth2deposit.key_handling.key_derivation.mnemonic import (
 )
 
 
-WORD_LISTS_PATH = os.path.join(os.getcwd(), 'eth2deposit', 'key_handling', 'key_derivation', 'word_lists')
+WORD_LISTS_PATH = os.path.join(os.getcwd(), 'staking_deposit', 'key_handling', 'key_derivation', 'word_lists')
 all_languages = MNEMONIC_LANG_OPTIONS.keys()
 
 test_vector_filefolder = os.path.join('tests', 'test_key_handling',

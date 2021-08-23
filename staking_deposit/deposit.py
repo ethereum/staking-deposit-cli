@@ -1,16 +1,16 @@
 import click
 import sys
 
-from eth2deposit.cli.existing_mnemonic import existing_mnemonic
-from eth2deposit.cli.new_mnemonic import new_mnemonic
-from eth2deposit.utils.click import (
+from staking_deposit.cli.existing_mnemonic import existing_mnemonic
+from staking_deposit.cli.new_mnemonic import new_mnemonic
+from staking_deposit.utils.click import (
     captive_prompt_callback,
     choice_prompt_func,
     jit_option,
 )
-from eth2deposit.utils import config
-from eth2deposit.utils.constants import INTL_LANG_OPTIONS
-from eth2deposit.utils.intl import (
+from staking_deposit.utils import config
+from staking_deposit.utils.constants import INTL_LANG_OPTIONS
+from staking_deposit.utils.intl import (
     get_first_options,
     fuzzy_reverse_dict_lookup,
     load_text,

@@ -3,19 +3,19 @@ from typing import (
     Any,
 )
 
-from eth2deposit.key_handling.key_derivation.mnemonic import (
+from staking_deposit.key_handling.key_derivation.mnemonic import (
     get_mnemonic,
 )
-from eth2deposit.utils.click import (
+from staking_deposit.utils.click import (
     captive_prompt_callback,
     choice_prompt_func,
     jit_option,
 )
-from eth2deposit.utils.constants import (
+from staking_deposit.utils.constants import (
     MNEMONIC_LANG_OPTIONS,
     WORD_LISTS_PATH,
 )
-from eth2deposit.utils.intl import (
+from staking_deposit.utils.intl import (
     fuzzy_reverse_dict_lookup,
     load_text,
     get_first_options,

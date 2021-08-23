@@ -38,10 +38,10 @@ venv_test: venv_build_test
 	$(VENV_ACTIVATE) && python -m pytest ./tests
 
 venv_lint: venv_build_test
-	$(VENV_ACTIVATE) && flake8 --config=flake8.ini ./eth2deposit ./tests && mypy --config-file mypy.ini -p eth2deposit
+	$(VENV_ACTIVATE) && flake8 --config=flake8.ini ./staking_deposit ./tests && mypy --config-file mypy.ini -p staking_deposit
 
 venv_deposit: venv_build
-	$(VENV_ACTIVATE) && python ./eth2deposit/deposit.py $(filter-out $@,$(MAKECMDGOALS))
+	$(VENV_ACTIVATE) && python ./staking_deposit/deposit.py $(filter-out $@,$(MAKECMDGOALS))
 
 build_macos: venv_build
 	${VENV_NAME}/bin/python -m pip install -r ./build_configs/macos/requirements.txt

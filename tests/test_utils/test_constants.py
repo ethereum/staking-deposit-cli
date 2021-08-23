@@ -4,7 +4,7 @@ from typing import (
     List,
 )
 
-from eth2deposit.utils.constants import _add_index_to_options
+from staking_deposit.utils.constants import _add_index_to_options
 
 
 @pytest.mark.parametrize(

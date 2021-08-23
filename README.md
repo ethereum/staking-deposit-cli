@@ -260,23 +260,23 @@ pip3 install -r requirements.txt
 Run one of the following command to enter the interactive CLI:
 
 ```sh
-python3 ./eth2deposit/deposit.py new-mnemonic
+python3 ./staking_deposit/deposit.py new-mnemonic
 ```
 
 or
 
 ```sh
-python3 ./eth2deposit/deposit.py existing-mnemonic
+python3 ./staking_deposit/deposit.py existing-mnemonic
 ```
 
 You can also run the tool with optional arguments:
 
 ```sh
-python3 ./eth2deposit/deposit.py new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+python3 ./staking_deposit/deposit.py new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
 ```sh
-python3 ./eth2deposit/deposit.py existing-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+python3 ./staking_deposit/deposit.py existing-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
 ###### Language Argument
@@ -469,23 +469,23 @@ pip3 install -r requirements.txt
 Run one of the following command to enter the interactive CLI:
 
 ```cmd
-python .\eth2deposit\deposit.py new-mnemonic
+python .\staking_deposit\deposit.py new-mnemonic
 ```
 
 or
 
 ```cmd
-python .\eth2deposit\deposit.py existing-mnemonic
+python .\staking_deposit\deposit.py existing-mnemonic
 ```
 
 You can also run the tool with optional arguments:
 
 ```cmd
-python .\eth2deposit\deposit.py new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+python .\staking_deposit\deposit.py new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
 ```cmd
-python .\eth2deposit\deposit.pyexisting-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+python .\staking_deposit\deposit.pyexisting-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
 ###### Language Argument

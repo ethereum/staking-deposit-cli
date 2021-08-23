@@ -8,24 +8,24 @@ from typing import Any, Dict, Sequence
 
 from py_ecc.bls import G2ProofOfPossession as bls
 
-from eth2deposit.exceptions import ValidationError
-from eth2deposit.utils.intl import load_text
-from eth2deposit.utils.ssz import (
+from staking_deposit.exceptions import ValidationError
+from staking_deposit.utils.intl import load_text
+from staking_deposit.utils.ssz import (
     compute_deposit_domain,
     compute_signing_root,
     DepositData,
     DepositMessage,
 )
-from eth2deposit.credentials import (
+from staking_deposit.credentials import (
     Credential,
 )
-from eth2deposit.utils.constants import (
+from staking_deposit.utils.constants import (
     MAX_DEPOSIT_AMOUNT,
     MIN_DEPOSIT_AMOUNT,
     BLS_WITHDRAWAL_PREFIX,
     ETH1_ADDRESS_WITHDRAWAL_PREFIX,
 )
-from eth2deposit.utils.crypto import SHA256
+from staking_deposit.utils.crypto import SHA256
 
 
 def verify_deposit_data_json(filefolder: str, credentials: Sequence[Credential]) -> bool:

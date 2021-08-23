@@ -7,7 +7,7 @@ from typing import (
     List,
 )
 
-from eth2deposit.utils.constants import INTL_CONTENT_PATH
+from staking_deposit.utils.constants import INTL_CONTENT_PATH
 
 
 TEST_SCHEMAS_FOLDER = os.path.join(os.path.dirname(__file__), 'schemas')

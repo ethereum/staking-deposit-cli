@@ -4,11 +4,11 @@ from typing import (
     List,
 )
 
-from eth2deposit.utils.constants import (
+from staking_deposit.utils.constants import (
     INTL_LANG_OPTIONS,
     MNEMONIC_LANG_OPTIONS,
 )
-from eth2deposit.utils.intl import (
+from staking_deposit.utils.intl import (
     fuzzy_reverse_dict_lookup,
     get_first_options,
     load_text,
@@ -17,9 +17,9 @@ from eth2deposit.utils.intl import (
 
 @pytest.mark.parametrize(
     'params, file_path, func, lang, found_str', [
-        (['arg_mnemonic_language', 'prompt'], os.path.join('eth2deposit', 'cli', 'new_mnemonic.json'),
+        (['arg_mnemonic_language', 'prompt'], os.path.join('staking_deposit', 'cli', 'new_mnemonic.json'),
          'new_mnemonic', 'en', 'Please choose your mnemonic language'),
-        (['arg_mnemonic_language', 'prompt'], os.path.join('eth2deposit', 'cli', 'new_mnemonic.json'),
+        (['arg_mnemonic_language', 'prompt'], os.path.join('staking_deposit', 'cli', 'new_mnemonic.json'),
          'new_mnemonic', 'ja', 'ニーモニックの言語を選択してください'),
     ]
 )
@@ -29,13 +29,13 @@ def test_load_text(params: List[str], file_path: str, func: str, lang: str, foun
 
 @pytest.mark.parametrize(
     'params, file_path, func, lang, valid', [
-        (['arg_mnemonic_language', 'prompt'], os.path.join('eth2deposit', 'cli', 'new_mnemonic.json'),
+        (['arg_mnemonic_language', 'prompt'], os.path.join('staking_deposit', 'cli', 'new_mnemonic.json'),
          'new_mnemonic', 'zz', True),  # invalid language, should revert to english
-        (['arg_mnemonic_language'], os.path.join('eth2deposit', 'cli', 'new_mnemonic.json'),
+        (['arg_mnemonic_language'], os.path.join('staking_deposit', 'cli', 'new_mnemonic.json'),
          'new_mnemonic', 'en', False),  # incomplete params
-        (['arg_mnemonic_language', 'prompt'], os.path.join('eth2deposit', 'cli', 'invalid.json'),
+        (['arg_mnemonic_language', 'prompt'], os.path.join('staking_deposit', 'cli', 'invalid.json'),
          'new_mnemonic', 'en', False),  # invalid json path
-        (['arg_mnemonic_language', 'prompt'], os.path.join('eth2deposit', 'cli', 'invalid.json'),
+        (['arg_mnemonic_language', 'prompt'], os.path.join('staking_deposit', 'cli', 'invalid.json'),
          'new_mnemonic', 'zz', False),  # invalid json path in invalid language
     ]
 )

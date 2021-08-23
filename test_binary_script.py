@@ -3,7 +3,7 @@ import os
 import sys
 
 
-# For not importing eth2deposit here
+# For not importing staking_deposit here
 DEFAULT_VALIDATOR_KEYS_FOLDER_NAME = 'validator_keys'
 
 

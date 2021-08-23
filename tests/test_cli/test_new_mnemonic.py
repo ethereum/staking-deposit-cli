@@ -7,10 +7,10 @@ from click.testing import CliRunner
 
 from eth_utils import decode_hex
 
-from eth2deposit.cli import new_mnemonic
-from eth2deposit.deposit import cli
-from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME, ETH1_ADDRESS_WITHDRAWAL_PREFIX
-from eth2deposit.utils.intl import load_text
+from staking_deposit.cli import new_mnemonic
+from staking_deposit.deposit import cli
+from staking_deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME, ETH1_ADDRESS_WITHDRAWAL_PREFIX
+from staking_deposit.utils.intl import load_text
 from .helpers import clean_key_folder, get_permissions, get_uuid
 
 
@@ -144,7 +144,7 @@ async def test_script() -> None:
 
     seed_phrase = ''
     parsing = False
-    mnemonic_json_file = os.path.join(os.getcwd(), 'eth2deposit/../eth2deposit/cli/', 'new_mnemonic.json')
+    mnemonic_json_file = os.path.join(os.getcwd(), 'staking_deposit/../staking_deposit/cli/', 'new_mnemonic.json')
     async for out in proc.stdout:
         output = out.decode('utf-8').rstrip()
         if output.startswith(load_text(['msg_mnemonic_presentation'], mnemonic_json_file, 'new_mnemonic')):
