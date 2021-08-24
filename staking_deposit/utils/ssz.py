@@ -59,7 +59,7 @@ def compute_signing_root(ssz_object: Serializable, domain: bytes) -> bytes:
     """
     Return the signing root of an object by calculating the root of the object-domain tree.
     The root is the hash tree root of:
-    https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/beacon-chain.md#signingdata
+    https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#signingdata
     """
     if len(domain) != 32:
         raise ValueError(f"Domain should be in 32 bytes. Got {len(domain)}.")
@@ -72,7 +72,7 @@ def compute_signing_root(ssz_object: Serializable, domain: bytes) -> bytes:
 
 class DepositMessage(Serializable):
     """
-    Ref: https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/beacon-chain.md#depositmessage
+    Ref: https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#depositmessage
     """
     fields = [
         ('pubkey', bytes48),
@@ -83,7 +83,7 @@ class DepositMessage(Serializable):
 
 class DepositData(Serializable):
     """
-    Ref: https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/beacon-chain.md#depositdata
+    Ref: https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#depositdata
     """
     fields = [
         ('pubkey', bytes48),
