@@ -5,7 +5,7 @@ DEPOSIT_CLI_VERSION = '1.2.0'
 
 
 class BaseChainSetting(NamedTuple):
-    ETH2_NETWORK_NAME: str
+    NETWORK_NAME: str
     GENESIS_FORK_VERSION: bytes
 
 
@@ -14,12 +14,12 @@ PYRMONT = 'pyrmont'
 PRATER = 'prater'
 
 
-# Eth2 Mainnet setting
-MainnetSetting = BaseChainSetting(ETH2_NETWORK_NAME=MAINNET, GENESIS_FORK_VERSION=bytes.fromhex('00000000'))
-# Eth2 pre-launch testnet (spec v1.0.0)
-PyrmontSetting = BaseChainSetting(ETH2_NETWORK_NAME=PYRMONT, GENESIS_FORK_VERSION=bytes.fromhex('00002009'))
-# Eth2 testnet (spec v1.0.1)
-PraterSetting = BaseChainSetting(ETH2_NETWORK_NAME=PRATER, GENESIS_FORK_VERSION=bytes.fromhex('00001020'))
+# Mainnet setting
+MainnetSetting = BaseChainSetting(NETWORK_NAME=MAINNET, GENESIS_FORK_VERSION=bytes.fromhex('00000000'))
+# Pre-launch testnet (spec v1.0.0)
+PyrmontSetting = BaseChainSetting(NETWORK_NAME=PYRMONT, GENESIS_FORK_VERSION=bytes.fromhex('00002009'))
+# Testnet (spec v1.0.1)
+PraterSetting = BaseChainSetting(NETWORK_NAME=PRATER, GENESIS_FORK_VERSION=bytes.fromhex('00001020'))
 
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
