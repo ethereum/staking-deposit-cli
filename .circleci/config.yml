@@ -129,6 +129,11 @@ jobs:
             export PYTHONHASHSEED=42
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
             export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-linux-amd64;
+            export TEST_FOLDER_NAME=TMP_TEST_FOLDER
+            mkdir ${TEST_FOLDER_NAME}
+            cp ${BUILD_FILE_NAME} ${TEST_FOLDER_NAME}
+            cp test_binary_script.py ${TEST_FOLDER_NAME}
+            cd ${TEST_FOLDER_NAME}
             python test_binary_script.py ./${BUILD_FILE_NAME};
       - run:
           name: Compress the file
@@ -166,6 +171,11 @@ jobs:
             $PYTHONHASHSEED = 42
             $CIRCLE_SHORT_SHA1 = $env:CIRCLE_SHA1.substring(0,7)
             $BUILD_FILE_NAME = "eth2deposit-cli-" + $CIRCLE_SHORT_SHA1 + "-windows-amd64"
+            $TEST_FOLDER_NAME = "TMP_TEST_FOLDER"
+            mkdir ${TEST_FOLDER_NAME}
+            copy ${BUILD_FILE_NAME} ${TEST_FOLDER_NAME}
+            copy test_binary_script.py ${TEST_FOLDER_NAME}
+            cd ${TEST_FOLDER_NAME}
             python test_binary_script.py .\${BUILD_FILE_NAME}
       - run:
           name: Compress the file
@@ -207,6 +217,11 @@ jobs:
             export PYTHONHASHSEED=42
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
             export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-darwin-amd64;
+            export TEST_FOLDER_NAME=TMP_TEST_FOLDER
+            mkdir ${TEST_FOLDER_NAME}
+            cp ${BUILD_FILE_NAME} ${TEST_FOLDER_NAME}
+            cp test_binary_script.py ${TEST_FOLDER_NAME}
+            cd ${TEST_FOLDER_NAME}
             python3 test_binary_script.py ./${BUILD_FILE_NAME};
       - run:
           name: Compress the file
