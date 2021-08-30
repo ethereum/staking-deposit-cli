@@ -173,7 +173,7 @@ jobs:
             $BUILD_FILE_NAME = "eth2deposit-cli-" + $CIRCLE_SHORT_SHA1 + "-windows-amd64"
             $TEST_FOLDER_NAME = "TMP_TEST_FOLDER"
             mkdir ${TEST_FOLDER_NAME}
-            copy ${BUILD_FILE_NAME} ${TEST_FOLDER_NAME}
+            Copy-item ${BUILD_FILE_NAME} -destination ${TEST_FOLDER_NAME} -recurse
             copy test_binary_script.py ${TEST_FOLDER_NAME}
             cd ${TEST_FOLDER_NAME}
             python test_binary_script.py ${BUILD_FILE_NAME}
