@@ -55,8 +55,7 @@ def load_text(params: List[str], file_path: str='', func: str='', lang: str='') 
     # Determine path to json text
     file_path_list = os.path.normpath(file_path).split(os.path.sep)
     rel_path_list = file_path_list[file_path_list.index('eth2deposit') + 1:]
-    json_path = os.path.join(INTL_CONTENT_PATH, lang, *rel_path_list)
-    json_path = resource_path(json_path)
+    json_path = resource_path(os.path.join(INTL_CONTENT_PATH, lang, *rel_path_list))
 
     try:
         # browse json until text is found

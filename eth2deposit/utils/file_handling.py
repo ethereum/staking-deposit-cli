@@ -12,5 +12,4 @@ def resource_path(relative_path: str) -> str:
         base_path = sys._MEIPASS  # type: ignore
     except Exception:
         base_path = os.path.abspath(".")
-    print(base_path, relative_path)
     return os.path.join(base_path, relative_path)
