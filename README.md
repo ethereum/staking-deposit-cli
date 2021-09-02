@@ -73,7 +73,7 @@
 
 Please read [Launchpad Validator FAQs](https://launchpad.ethereum.org/faq#keys) before generating the keys.
 
-You can find the audit report by Trail of Bits [here](https://github.com/trailofbits/publications/blob/master/reviews/ETH2DepositCLI.pdf).
+You can find the audit report by Trail of Bits [here](https://github.com/trailofbits/publications/blob/master/reviews/staking_depositCLI.pdf).
 
 ## Tutorial for users
 

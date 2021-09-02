@@ -19,7 +19,7 @@ from staking_deposit.utils.constants import (
 from staking_deposit.utils.file_handling import (
     resource_path,
 )
-from eth2deposit.exceptions import ValidationError
+from staking_deposit.exceptions import ValidationError
 
 
 def _get_from_dict(dataDict: Dict[str, Any], mapList: Iterable[str]) -> str:

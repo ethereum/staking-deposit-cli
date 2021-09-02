@@ -13,7 +13,7 @@ from staking_deposit.utils.crypto import (
     SHA256,
     PBKDF2,
 )
-from eth2deposit.utils.file_handling import (
+from staking_deposit.utils.file_handling import (
     resource_path,
 )
 
