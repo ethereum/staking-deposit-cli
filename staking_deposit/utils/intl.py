@@ -16,7 +16,10 @@ from staking_deposit.utils import config
 from staking_deposit.utils.constants import (
     INTL_CONTENT_PATH,
 )
-from staking_deposit.exceptions import ValidationError
+from staking_deposit.utils.file_handling import (
+    resource_path,
+)
+from eth2deposit.exceptions import ValidationError
 
 
 def _get_from_dict(dataDict: Dict[str, Any], mapList: Iterable[str]) -> str:
@@ -52,7 +55,7 @@ def load_text(params: List[str], file_path: str='', func: str='', lang: str='') 
     # Determine path to json text
     file_path_list = os.path.normpath(file_path).split(os.path.sep)
     rel_path_list = file_path_list[file_path_list.index('staking_deposit') + 1:]
-    json_path = os.path.join(INTL_CONTENT_PATH, lang, *rel_path_list)
+    json_path = resource_path(os.path.join(INTL_CONTENT_PATH, lang, *rel_path_list))
 
     try:
         # browse json until text is found

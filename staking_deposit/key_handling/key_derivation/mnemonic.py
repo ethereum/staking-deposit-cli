@@ -1,5 +1,4 @@
 import os
-import sys
 from unicodedata import normalize
 from secrets import randbits
 from typing import (
@@ -14,19 +13,9 @@ from staking_deposit.utils.crypto import (
     SHA256,
     PBKDF2,
 )
-
-
-def _resource_path(relative_path: str) -> str:
-    """
-    Get the absolute path to a resource in a manner friendly to PyInstaller.
-    PyInstaller creates a temp folder and stores path in _MEIPASS which this function swaps
-    into a resource path so it is avaible both when building binaries and running natively.
-    """
-    try:
-        base_path = sys._MEIPASS  # type: ignore
-    except Exception:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
+from eth2deposit.utils.file_handling import (
+    resource_path,
+)
 
 
 def _get_word_list(language: str, path: str) -> Sequence[str]:
@@ -35,7 +24,7 @@ def _get_word_list(language: str, path: str) -> Sequence[str]:
 
     Ref: https://github.com/bitcoin/bips/blob/master/bip-0039/bip-0039-wordlists.md
     """
-    path = _resource_path(path)
+    path = resource_path(path)
     dirty_list = open(os.path.join(path, '%s.txt' % language), encoding='utf-8').readlines()
     return [word.replace('\n', '') for word in dirty_list]
 
