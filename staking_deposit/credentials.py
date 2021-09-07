@@ -139,7 +139,7 @@ class Credential:
         datum_dict.update({'deposit_message_root': self.deposit_message.hash_tree_root})
         datum_dict.update({'deposit_data_root': signed_deposit_datum.hash_tree_root})
         datum_dict.update({'fork_version': self.chain_setting.GENESIS_FORK_VERSION})
-        datum_dict.update({'NETWORK_NAME': self.chain_setting.NETWORK_NAME})
+        datum_dict.update({'network_name': self.chain_setting.NETWORK_NAME})
         datum_dict.update({'deposit_cli_version': DEPOSIT_CLI_VERSION})
         return datum_dict
 
