@@ -2,14 +2,14 @@ import os
 import json
 import pytest
 
-from eth2deposit.key_handling.key_derivation.tree import (
+from staking_deposit.key_handling.key_derivation.tree import (
     _flip_bits_256,
     _IKM_to_lamport_SK,
     _parent_SK_to_lamport_PK,
     _HKDF_mod_r,
 )
 
-from eth2deposit.key_handling.key_derivation.path import (
+from staking_deposit.key_handling.key_derivation.path import (
     mnemonic_and_path_to_key,
     path_to_nodes,
 )

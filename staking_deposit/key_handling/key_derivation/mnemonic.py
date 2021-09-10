@@ -6,14 +6,14 @@ from typing import (
     Sequence,
 )
 
-from eth2deposit.utils.constants import (
+from staking_deposit.utils.constants import (
     MNEMONIC_LANG_OPTIONS,
 )
-from eth2deposit.utils.crypto import (
+from staking_deposit.utils.crypto import (
     SHA256,
     PBKDF2,
 )
-from eth2deposit.utils.file_handling import (
+from staking_deposit.utils.file_handling import (
     resource_path,
 )
 

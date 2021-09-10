@@ -119,7 +119,7 @@ jobs:
           command: |
             export PYTHONHASHSEED=42
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
-            export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-linux-amd64;
+            export BUILD_FILE_NAME=staking_deposit-cli-${CIRCLE_SHORT_SHA1}-linux-amd64;
             mkdir ${BUILD_FILE_NAME};
             pyenv global 3.7.5;
             pyinstaller --distpath ./${BUILD_FILE_NAME} ./build_configs/linux/build.spec;
@@ -128,7 +128,7 @@ jobs:
           command: |
             export PYTHONHASHSEED=42
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
-            export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-linux-amd64;
+            export BUILD_FILE_NAME=staking_deposit-cli-${CIRCLE_SHORT_SHA1}-linux-amd64;
             export TEST_FOLDER_NAME=TMP_TEST_FOLDER
             mkdir ${TEST_FOLDER_NAME}
             cp -r ${BUILD_FILE_NAME} ${TEST_FOLDER_NAME}
@@ -140,7 +140,7 @@ jobs:
           command: |
             export PYTHONHASHSEED=42
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
-            export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-linux-amd64;
+            export BUILD_FILE_NAME=staking_deposit-cli-${CIRCLE_SHORT_SHA1}-linux-amd64;
             tar -zcvf ${BUILD_FILE_NAME}.tar.gz ./${BUILD_FILE_NAME};
             mkdir /tmp/artifacts;
             cp ${BUILD_FILE_NAME}.tar.gz /tmp/artifacts;
@@ -161,7 +161,7 @@ jobs:
           command: |
             $PYTHONHASHSEED = 42
             $CIRCLE_SHORT_SHA1 = $env:CIRCLE_SHA1.substring(0,7)
-            $BUILD_FILE_NAME = "eth2deposit-cli-" + $CIRCLE_SHORT_SHA1 + "-windows-amd64"
+            $BUILD_FILE_NAME = "staking_deposit-cli-" + $CIRCLE_SHORT_SHA1 + "-windows-amd64"
             mkdir $BUILD_FILE_NAME
             $BUILD_FILE_NAME_PATH = ".\" + $BUILD_FILE_NAME
             pyinstaller --distpath $BUILD_FILE_NAME_PATH .\build_configs\windows\build.spec
@@ -170,7 +170,7 @@ jobs:
           command: |
             $PYTHONHASHSEED = 42
             $CIRCLE_SHORT_SHA1 = $env:CIRCLE_SHA1.substring(0,7)
-            $BUILD_FILE_NAME = "eth2deposit-cli-" + $CIRCLE_SHORT_SHA1 + "-windows-amd64"
+            $BUILD_FILE_NAME = "staking_deposit-cli-" + $CIRCLE_SHORT_SHA1 + "-windows-amd64"
             $TEST_FOLDER_NAME = "TMP_TEST_FOLDER"
             mkdir ${TEST_FOLDER_NAME}
             Copy-item ${BUILD_FILE_NAME} -destination ${TEST_FOLDER_NAME} -recurse
@@ -182,7 +182,7 @@ jobs:
           command: |
             $PYTHONHASHSEED = 42
             $CIRCLE_SHORT_SHA1 = $env:CIRCLE_SHA1.substring(0,7)
-            $BUILD_FILE_NAME = "eth2deposit-cli-" + $CIRCLE_SHORT_SHA1 + "-windows-amd64"
+            $BUILD_FILE_NAME = "staking_deposit-cli-" + $CIRCLE_SHORT_SHA1 + "-windows-amd64"
             $BUILD_FILE_NAME_PATH = ".\" + $BUILD_FILE_NAME
             $ZIP_FILE_NAME = $BUILD_FILE_NAME + ".zip"
             Compress-Archive -Path $BUILD_FILE_NAME_PATH -DestinationPath $ZIP_FILE_NAME
@@ -208,7 +208,7 @@ jobs:
           command: |
             export PYTHONHASHSEED=42
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
-            export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-darwin-amd64;
+            export BUILD_FILE_NAME=staking_deposit-cli-${CIRCLE_SHORT_SHA1}-darwin-amd64;
             mkdir ${BUILD_FILE_NAME};
             pyinstaller --distpath ./${BUILD_FILE_NAME} ./build_configs/macos/build.spec;
       - run:
@@ -216,7 +216,7 @@ jobs:
           command: |
             export PYTHONHASHSEED=42
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
-            export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-darwin-amd64;
+            export BUILD_FILE_NAME=staking_deposit-cli-${CIRCLE_SHORT_SHA1}-darwin-amd64;
             export TEST_FOLDER_NAME=TMP_TEST_FOLDER
             mkdir ${TEST_FOLDER_NAME}
             cp -r ${BUILD_FILE_NAME} ${TEST_FOLDER_NAME}
@@ -228,7 +228,7 @@ jobs:
           command: |
             export PYTHONHASHSEED=42
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
-            export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-darwin-amd64;
+            export BUILD_FILE_NAME=staking_deposit-cli-${CIRCLE_SHORT_SHA1}-darwin-amd64;
             tar -zcvf ${BUILD_FILE_NAME}.tar.gz ./${BUILD_FILE_NAME};
             mkdir /tmp/artifacts;
             cp ${BUILD_FILE_NAME}.tar.gz /tmp/artifacts;

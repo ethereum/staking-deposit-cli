@@ -3,11 +3,11 @@
 block_cipher = None
 
 
-a = Analysis(['../../eth2deposit/deposit.py'],
+a = Analysis(['../../staking_deposit/deposit.py'],
              binaries=None,
              datas=[
-                 ('../../eth2deposit/key_handling/key_derivation/word_lists/*.txt', './eth2deposit/key_handling/key_derivation/word_lists/'),
-                 ('../../eth2deposit/intl', './eth2deposit/intl'),
+                 ('../../staking_deposit/key_handling/key_derivation/word_lists/*.txt', './staking_deposit/key_handling/key_derivation/word_lists/'),
+                 ('../../staking_deposit/intl', './staking_deposit/intl'),
              ],
              hiddenimports=[],
              hookspath=[],

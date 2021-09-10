@@ -3,9 +3,9 @@ import os
 from pathlib import Path
 
 from click.testing import CliRunner
-from eth2deposit.cli import new_mnemonic
-from eth2deposit.deposit import cli
-from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
+from staking_deposit.cli import new_mnemonic
+from staking_deposit.deposit import cli
+from staking_deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
 from .helpers import clean_key_folder, get_permissions, get_uuid
 
 
