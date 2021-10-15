@@ -48,6 +48,8 @@ def test_new_mnemonic_bls_withdrawal(monkeypatch) -> None:
         for file_name in key_files:
             assert get_permissions(validator_keys_folder_path, file_name) == '0o440'
 
+    # Verify withdrawal warning file
+    assert os.path.exists(os.path.join(validator_keys_folder_path, 'NO_WITHDRAWAL_KEY_HERE.txt'))
     # Clean up
     clean_key_folder(my_folder_path)
 

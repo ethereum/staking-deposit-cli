@@ -203,6 +203,14 @@ class CredentialList:
             os.chmod(filefolder, int('440', 8))  # Read for owner & group
         return filefolder
 
+    def export_withdrawal_warning(self, folder: str) -> str:
+        filefolder = os.path.join(folder, 'NO_WITHDRAWAL_KEY_HERE.txt')
+        with open(filefolder, 'w') as f:
+            f.write('Write down and store your seed phrase safely, it is the ONLY way to retrieve your deposit.')
+        if os.name == 'posix':
+            os.chmod(filefolder, int('440', 8))  # Read for owner & group
+        return filefolder
+
     def verify_keystores(self, keystore_filefolders: List[str], password: str) -> bool:
         with click.progressbar(zip(self.credentials, keystore_filefolders), label='Verifying your keystores:\t',
                                length=len(self.credentials), show_percent=False, show_pos=True) as items:

@@ -146,6 +146,7 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
     )
     keystore_filefolders = credentials.export_keystores(password=keystore_password, folder=folder)
     deposits_file = credentials.export_deposit_data_json(folder=folder)
+    credentials.export_withdrawal_warning(folder=folder)
     if not credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=keystore_password):
         raise ValidationError("Failed to verify the keystores.")
     if not verify_deposit_data_json(deposits_file, credentials.credentials):
