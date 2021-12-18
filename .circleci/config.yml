@@ -147,6 +147,39 @@ jobs:
             sha256sum ${BUILD_FILE_NAME}.tar.gz | head -c 64 > /tmp/artifacts/${BUILD_FILE_NAME}.sha256
       - store_artifacts:
           path: /tmp/artifacts
+  build-linux-arm:
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: arm.medium
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: Install building requirements on Linux
+          command: |
+            env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.7.5;
+            pyenv global 3.7.5;
+            pip install -r ./build_configs/linux/requirements.txt;
+      - run:
+          name: Build with build.spec
+          command: |
+            export PYTHONHASHSEED=42
+            export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
+            export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-linux-aarch64;
+            mkdir ${BUILD_FILE_NAME};
+            pyenv global 3.7.5;
+            pyinstaller --distpath ./${BUILD_FILE_NAME} ./build_configs/linux/build.spec;
+      - run:
+          name: Compress the file
+          command: |
+            export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
+            export BUILD_FILE_NAME=eth2deposit-cli-${CIRCLE_SHORT_SHA1}-linux-aarch64;
+            tar -zcvf ${BUILD_FILE_NAME}.tar.gz ./${BUILD_FILE_NAME};
+            mkdir /tmp/artifacts;
+            cp ${BUILD_FILE_NAME}.tar.gz /tmp/artifacts;
+            sha256sum ${BUILD_FILE_NAME}.tar.gz | head -c 64 > /tmp/artifacts/${BUILD_FILE_NAME}.sha256
+      - store_artifacts:
+          path: /tmp/artifacts
   build-windows:
     executor:
       name: win/default
@@ -255,6 +288,7 @@ workflows:
   build_linux:
     jobs:
       - build-linux
+      - build-linux-arm
   build_windows:
     jobs:
         - build-windows
