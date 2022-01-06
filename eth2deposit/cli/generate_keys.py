@@ -102,7 +102,7 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             '--keystore_password',
             callback=validate_password,
             help=('The password that will secure your keystores. You will need to re-enter this to decrypt them when '
-                  'you setup your eth2 validators. (It is reccomened not to use this argument, and wait for the CLI '
+                  'you setup your eth2 validators. (It is recommended not to use this argument, and wait for the CLI '
                   'to ask you for your mnemonic as otherwise it will appear in your shell history.)'),
             prompt='Type the password that secures your validator keystore(s)',
         ),
