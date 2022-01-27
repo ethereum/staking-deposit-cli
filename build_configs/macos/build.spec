@@ -7,7 +7,7 @@ a = Analysis(['../../staking_deposit/deposit.py'],
              binaries=None,
              datas=[
                  ('../../staking_deposit/key_handling/key_derivation/word_lists/*.txt', './staking_deposit/key_handling/key_derivation/word_lists/'),
-                 ('../../staking_deposit/intl', './staking_deposit/intl'),
+                 ('../../staking_deposit/intl/', './staking_deposit/intl'),
              ],
              hiddenimports=[],
              hookspath=[],
