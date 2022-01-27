@@ -194,7 +194,7 @@ jobs:
           path: /tmp/artifacts
   build-macos:
     macos:
-      xcode: 11.3.0
+      xcode: 12.4.0
     working_directory: ~/repo
     steps:
       - run: xcodebuild -version
