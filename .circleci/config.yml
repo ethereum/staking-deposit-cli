@@ -102,7 +102,7 @@ jobs:
       - run:
           name: Run deposit script on Windows"
           command: python ./test_deposit_script.py
-  build-linux:
+  build-linux-amd64:
     machine:
       image: ubuntu-1604:202007-01
     working_directory: ~/repo
@@ -299,7 +299,7 @@ workflows:
       - win-py37-script
   build_linux:
     jobs:
-      - build-linux
+      - build-linux-amd64
       - build-linux-arm64
   build_windows:
     jobs:
