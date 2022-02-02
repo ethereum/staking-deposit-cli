@@ -43,7 +43,12 @@ def load_text(params: List[str], file_path: str='', func: str='', lang: str='') 
     if file_path == '':
         # Auto-detect file-path based on call stack
         file_path = inspect.stack()[1].filename
-        file_path = file_path[:-3] + '.json'     # replace .py with .json
+        if file_path[-4:] == '.pyc':
+            file_path = file_path[:-4] + '.json'  # replace .pyc with .json
+        elif file_path[-3:] == '.py':
+            file_path = file_path[:-3] + '.json'  # replace .py with .json
+        else:
+            raise KeyError("Wrong file_path %s", file_path)
 
     if func == '':
         # Auto-detect function based on call stack
