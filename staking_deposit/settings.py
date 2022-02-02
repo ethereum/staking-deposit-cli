@@ -11,6 +11,7 @@ class BaseChainSetting(NamedTuple):
 
 MAINNET = 'mainnet'
 PRATER = 'prater'
+KINTSUGI = 'kintsugi'
 KILN = 'kiln'
 
 
@@ -18,6 +19,8 @@ KILN = 'kiln'
 MainnetSetting = BaseChainSetting(NETWORK_NAME=MAINNET, GENESIS_FORK_VERSION=bytes.fromhex('00000000'))
 # Testnet (spec v1.0.1)
 PraterSetting = BaseChainSetting(NETWORK_NAME=PRATER, GENESIS_FORK_VERSION=bytes.fromhex('00001020'))
+# Merge Testnet (spec v1.1.4)
+KintsugiSetting = BaseChainSetting(NETWORK_NAME=KINTSUGI, GENESIS_FORK_VERSION=bytes.fromhex('0x60000069'))
 # Merge Testnet (spec v1.1.9)
 KilnSetting = BaseChainSetting(NETWORK_NAME=KILN, GENESIS_FORK_VERSION=bytes.fromhex('0x70000069'))
 
@@ -25,6 +28,7 @@ KilnSetting = BaseChainSetting(NETWORK_NAME=KILN, GENESIS_FORK_VERSION=bytes.fro
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
     MAINNET: MainnetSetting,
     PRATER: PraterSetting,
+    KINTSUGI: KintsugiSetting,
     KILN: KilnSetting,
 }
 
