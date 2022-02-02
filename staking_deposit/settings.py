@@ -10,22 +10,22 @@ class BaseChainSetting(NamedTuple):
 
 
 MAINNET = 'mainnet'
-PYRMONT = 'pyrmont'
 PRATER = 'prater'
+KILN = 'kiln'
 
 
 # Mainnet setting
 MainnetSetting = BaseChainSetting(NETWORK_NAME=MAINNET, GENESIS_FORK_VERSION=bytes.fromhex('00000000'))
-# Pre-launch testnet (spec v1.0.0)
-PyrmontSetting = BaseChainSetting(NETWORK_NAME=PYRMONT, GENESIS_FORK_VERSION=bytes.fromhex('00002009'))
 # Testnet (spec v1.0.1)
 PraterSetting = BaseChainSetting(NETWORK_NAME=PRATER, GENESIS_FORK_VERSION=bytes.fromhex('00001020'))
+# Merge Testnet (spec v1.1.9)
+KilnSetting = BaseChainSetting(NETWORK_NAME=KILN, GENESIS_FORK_VERSION=bytes.fromhex('0x70000069'))
 
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
     MAINNET: MainnetSetting,
-    PYRMONT: PyrmontSetting,
     PRATER: PraterSetting,
+    KILN: KilnSetting,
 }
 
 
