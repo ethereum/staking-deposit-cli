@@ -61,6 +61,8 @@
   - [Install basic requirements](#install-basic-requirements)
   - [Install testing requirements](#install-testing-requirements)
   - [Run tests](#run-tests)
+  - [Building Binaries](#building-binaries)
+      - [Mac M1 Binaries](#mac-m1-binaries)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -520,4 +522,14 @@ python3 -m pip install -r requirements_test.txt
 
 ```sh
 python3 -m pytest .
+```
+
+### Building Binaries
+**Developers Only**
+##### Mac M1 Binaries
+
+👋This is not the section you are looking for.👋
+If you are trying to **build the binary** on macos with an M1 Mac and you are using pyenv to manage your python version. You'll probably need to reinstall a given python version using:
+```
+env PYTHON_CONFIGURE_OPTS="--enable-framework" pyenv install 3.10.2
 ```

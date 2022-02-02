@@ -69,7 +69,7 @@ def jit_option(*args: Any, **kwargs: Any) -> Callable[[Any], Any]:
     """
 
     def decorator(f: Callable[[Any], Any]) -> Callable[[Any], Any]:
-        click.decorators._param_memo(f, JITOption(*args, **kwargs))  # type: ignore
+        click.decorators._param_memo(f, JITOption(*args, **kwargs))
         return f
 
     return decorator

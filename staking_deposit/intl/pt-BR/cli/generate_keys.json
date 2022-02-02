@@ -5,12 +5,12 @@
             "prompt": "Por favor, escolha quantos validadores deseja executar"
         },
         "chain": {
-            "help": "A versão de eth2 do seu interesse. Use \"mainnet\" se estiver depositando ETH",
+            "help": "A versão de Ethereum PoS do seu interesse. Use \"mainnet\" se estiver depositando ETH",
             "prompt": "Selecione o nome da rede/cadeia (mainnet ou testnet)"
         },
         "keystore_password": {
-            "help": "A senha que protegerá seus keystores. Você precisará digitá-la para descriptografá-los ao configurar seus validadores eth2. (Recomenda-se não usar esse argumento e esperar que a CLI solicite o seu mnemônico; caso contrário, aparecerá no histórico do shell.)",
-            "prompt": "A senha que protegerá seus keystores. Você precisará digitá-la para descriptografá-los ao configurar seus validadores eth2.",
+            "help": "A senha que protegerá seus keystores. Você precisará digitá-la para descriptografá-los ao configurar seus validadores Ethereum PoS. (Recomenda-se não usar esse argumento e esperar que a CLI solicite o seu mnemônico; caso contrário, aparecerá no histórico do shell.)",
+            "prompt": "A senha que protegerá seus keystores. Você precisará digitá-la para descriptografá-los ao configurar seus validadores Ethereum PoS.",
             "confirm": "Repita para confirmar",
             "mismatch": "Erro: os dois valores inseridos não coincidem. Digite-os novamente."
         }

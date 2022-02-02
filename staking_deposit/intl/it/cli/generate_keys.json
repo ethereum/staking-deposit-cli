@@ -5,12 +5,12 @@
             "prompt": "Scegli quanti validatori vuoi eseguire"
         },
         "chain": {
-            "help": "La versione di eth2 desiderata. Utilizzare \"mainnet\" se depositano ETH",
+            "help": "La versione desiderata della Ethereum PoS chain. Utilizzare \"mainnet\" se depositano ETH",
             "prompt": "Scegli il nome delle rete/catena (rete principale o di test)"
         },
         "keystore_password": {
-            "help": "La password che proteggerà gli archivi chiavi. Dovrà essere inserita per decrittografare le chiavi durante la configurazione dei validatori eth2 (è consigliabile non utilizzare questo argomento e attendere che il CLI chieda il mnemonico, altrimenti apparirà nella cronologia della shell).",
-            "prompt": "La password che proteggerà gli archivi chiavi. Dovrai inserirla nuovamente per decrittografare gli archivi quando configurerai i tuoi validatori eth2.",
+            "help": "La password che proteggerà gli archivi chiavi. Dovrà essere inserita per decrittografare le chiavi durante la configurazione dei validatori della Ethereum PoS chain (è consigliabile non utilizzare questo argomento e attendere che il CLI chieda il mnemonico, altrimenti apparirà nella cronologia della shell).",
+            "prompt": "La password che proteggerà gli archivi chiavi. Dovrai inserirla nuovamente per decrittografare gli archivi quando configurerai i tuoi validatori.",
             "confirm": "Ripeti per conferma",
             "mismatch": "Errore: i due valori inseriti non corrispondono. Ripeti l'inserimento."
         }
