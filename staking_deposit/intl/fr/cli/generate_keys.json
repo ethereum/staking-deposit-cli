@@ -5,12 +5,12 @@
             "prompt": "Veuillez choisir le nombre de validateurs que vous souhaitez exécuter"
         },
         "chain": {
-            "help": "Version d'Eth2 que vous ciblez. Utilisez \"mainnet\" si vous déposez de l'ETH.",
+            "help": "Version Ethereum Proof of Stake que vous ciblez. Utilisez \"mainnet\" si vous déposez de l'ETH.",
             "prompt": "Veuillez choisir un nom de chaîne/réseau : mainnet (réseau principal) ou testnet (réseau de test)."
         },
         "keystore_password": {
-            "help": "Mot de passe qui sécurisera vos keystores. Vous devrez le saisir de nouveau pour les décrypter quand vous configurerez vos validateurs Eth2. (Il est recommandé de ne pas utiliser ce argument et d'attendre que l'ILC vous demande votre phrase mnémonique, sinon il apparaîtra dans l'historique de votre interpréteur.)",
-            "prompt": "Mot de passe qui sécurisera vos keystores. Vous devrez le saisir de nouveau pour les décrypter quand vous configurerez vos validateurs Eth2.",
+            "help": "Mot de passe qui sécurisera vos keystores. Vous devrez le saisir de nouveau pour les décrypter quand vous configurerez vos validateurs Proof of Stake. (Il est recommandé de ne pas utiliser cet argument et d'attendre que l'ILC vous demande votre phrase mnémonique, sinon il apparaîtra dans l'historique de votre interpréteur.)",
+            "prompt": "Mot de passe qui sécurisera vos keystores. Vous devrez le saisir de nouveau pour les décrypter quand vous configurerez vos validateurs Proof of Stake.",
             "confirm": "Veuillez confirmer le mot de passe.",
             "mismatch": "Erreur : Les deux valeurs saisies ne correspondent pas. Veuillez réessayer."
         }
