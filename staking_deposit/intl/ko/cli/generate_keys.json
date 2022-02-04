@@ -1,0 +1,25 @@
+{
+    "generate_keys_arguments_decorator": {
+        "num_validators": {
+            "help": "생성하려는 검증자 키의 개수(나중에 언제든 생성 가능)",
+            "prompt": "실행하려는 검증자의 개수를 선택하세요."
+        },
+        "chain": {
+            "help": "타겟팅하려는 Ethereum PoS의 버전입니다. ETH를 예치한다면 \"mainnet\"을 사용하세요.",
+            "prompt": "(메인넷 또는 테스트넷) 네트워크/체인 이름을 선택하세요."
+        },
+        "keystore_password": {
+            "help": "키스토어를 안전하게 보호하는 비밀번호입니다. Ethereum PoS 검증자를 셋업할 때 다시 입력하여 복호화해야 합니다. (이 인수를 사용하지 말고 CLI가 니모닉을 요청할 때까지 기다리는 것이 좋습니다. 기다리지 않으면 셸 기록에 표시되기 때문입니다.)",
+            "prompt": "키스토어를 안전하게 보호하는 비밀번호입니다. Ethereum PoS 검증자를 셋업할 때 다시 입력하여 복호화해야 합니다.",
+            "confirm": "확인을 위해 동일하게 입력",
+            "mismatch": "오류: 입력한 두 값이 일치하지 않습니다. 다시 입력하세요."
+        }
+    },
+    "generate_keys": {
+        "msg_key_creation": "키 생성 중입니다.",
+        "msg_creation_success": "\n성공!\n키를 찾을 수 있는 위치: ",
+        "msg_pause": "\n\n아무 키나 누르세요.",
+        "err_verify_keystores": "키스토어를 검증하지 못했습니다.",
+        "err_verify_deposit": "예치금 데이터 JSON 파일을 검증하지 못했습니다."
+    }
+}

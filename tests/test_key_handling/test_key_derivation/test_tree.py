@@ -4,7 +4,7 @@ from py_ecc.bls import G2ProofOfPossession as bls
 import pytest
 
 
-from eth2deposit.key_handling.key_derivation.tree import (
+from staking_deposit.key_handling.key_derivation.tree import (
     _HKDF_mod_r,
     derive_child_SK,
     derive_master_SK,

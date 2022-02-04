@@ -1,0 +1,8 @@
+{
+    "verify_deposit_data_json": {
+        "msg_deposit_verification": "正在验证您的存款：\t"
+    },
+    "validate_password_strength": {
+        "msg_password_length": "密码长度至少应为 8。请重新输入"
+    }
+}

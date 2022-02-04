@@ -1,0 +1,25 @@
+{
+    "generate_keys_arguments_decorator": {
+        "num_validators": {
+            "help": "Jumlah kunci validator yang ingin Anda buat (Anda selalu dapat menghasilkan lebih banyak lagi nanti)",
+            "prompt": "Silakan pilih berapa banyak validator yang ingin Anda jalankan"
+        },
+        "chain": {
+            "help": "Versi Ethereum PoS yang Anda targetkan. Gunakan \"mainnet\" jika Anda menyetorkan ETH",
+            "prompt": "Pilih nama jaringan / rantai (mainnet atau testnet)"
+        },
+        "keystore_password": {
+            "help": "Kata sandi yang akan mengamankan keystore Anda. Anda perlu memasukkan ulang ini untuk mendekripsinya ketika Anda mengatur validator Ethereum PoS Anda. (Disarankan untuk tidak menggunakan argumen ini, dan tunggu CLI menanyakan mnemonik Anda supaya tidak akan muncul dalam riwayat shell Anda.)",
+            "prompt": "Kata sandi yang akan mengamankan keystore Anda. Anda perlu memasukkan ulang ini untuk mendekripsinya ketika Anda mengatur validator Ethereum PoS Anda.",
+            "confirm": "Ulangi untuk konfirmasi",
+            "mismatch": "Kesalahan: dua nilai yang dimasukkan tidak cocok. Silakan ketik ulang."
+        }
+    },
+    "generate_keys": {
+        "msg_key_creation": "Membuat kunci Anda.",
+        "msg_creation_success": "\nSukses!\nKunci Anda dapat ditemukan di: ",
+        "msg_pause": "\n\nTekan tombol apa saja.",
+        "err_verify_keystores": "Gagal memverifikasi keystore.",
+        "err_verify_deposit": "Gagal memverifikasi data setoran file JSON."
+    }
+}

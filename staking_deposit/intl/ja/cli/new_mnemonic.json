@@ -1,0 +1,15 @@
+{
+    "new_mnemonic": {
+        "arg_new_mnemonic": {
+            "help": "新しいニーモニックとキーを生成"
+        },
+        "arg_mnemonic_language": {
+            "default": "english",
+            "help": "ニーモニックの言語",
+            "prompt": "ニーモニックの言語を選択してください"
+        },
+        "msg_mnemonic_presentation": "これはあなたのニーモニック (シードフレーズ) です。書き留めて安全な場所に保管してください。これはあなたのデポジットを取得するための唯一の方法です。",
+        "msg_press_any_key": "ニーモニックを書き留めたら任意のキーを押してください。",
+        "msg_mnemonic_retype_prompt": "書き留めた内容を確認するには、スペースで区切ってニーモニックを入力してください。"
+    }
+}

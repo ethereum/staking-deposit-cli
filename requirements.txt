@@ -63,9 +63,8 @@ pyrsistent==0.16.1 \
 eth-hash==0.2.0 \
     --hash=sha256:1b9cb34dd3cd99c85c2bd6a1420ceae39a2eee8bf080efd264bcda8be3edecc8 \
     --hash=sha256:499dc02d098f69856d1a6dd005529c16174157d4fb2a9fe20c41f69e39f8f176
-cytoolz==0.10.1 \
-    --hash=sha256:82f5bba81d73a5a6b06f2a3553ff9003d865952fcb32e1df192378dd944d8a5c \
-    --hash=sha256:5161bef77f7b69bea64b4e052d0da17845e6adae6d09f91cc7e5acfc5cb2c5c4
+cytoolz==0.11.2 \
+    --hash=sha256:ea23663153806edddce7e4153d1d407d62357c05120a4e8485bddf1bd5ab22b4
 toolz==0.10.0 \
     --hash=sha256:08fdd5ef7c96480ad11c12d472de21acd32359996f69a5259299b540feba4560 \
     --hash=sha256:e71d8d91c8902fb7659c23e10e9698a8c5cbea985683b8a378c6fd67b52f2fc4 \

@@ -2,7 +2,7 @@ import os
 import json
 import pytest
 
-from eth2deposit.key_handling.keystore import (
+from staking_deposit.key_handling.keystore import (
     Keystore,
     ScryptKeystore,
     Pbkdf2Keystore,

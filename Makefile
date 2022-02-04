@@ -1,7 +1,7 @@
 VENV_NAME?=venv
 VENV_ACTIVATE=. $(VENV_NAME)/bin/activate
 PYTHON=${VENV_NAME}/bin/python3.8
-DOCKER_IMAGE="ethereum/eth2.0-deposit-cli:latest"
+DOCKER_IMAGE="ethereum/staking-deposit-cli:latest"
 
 help:
 	@echo "clean - remove build and Python file artifacts"
@@ -35,13 +35,13 @@ venv_build_test: venv_build
 	${VENV_NAME}/bin/python -m pip install -r requirements_test.txt
 
 venv_test: venv_build_test
-	$(VENV_ACTIVATE) && python -m pytest .
+	$(VENV_ACTIVATE) && python -m pytest ./tests
 
 venv_lint: venv_build_test
-	$(VENV_ACTIVATE) && flake8 --config=flake8.ini ./eth2deposit ./tests && mypy --config-file mypy.ini -p eth2deposit
+	$(VENV_ACTIVATE) && flake8 --config=flake8.ini ./staking_deposit ./tests && mypy --config-file mypy.ini -p staking_deposit
 
 venv_deposit: venv_build
-	$(VENV_ACTIVATE) && python ./eth2deposit/deposit.py $(filter-out $@,$(MAKECMDGOALS))
+	$(VENV_ACTIVATE) && python ./staking_deposit/deposit.py $(filter-out $@,$(MAKECMDGOALS))
 
 build_macos: venv_build
 	${VENV_NAME}/bin/python -m pip install -r ./build_configs/macos/requirements.txt

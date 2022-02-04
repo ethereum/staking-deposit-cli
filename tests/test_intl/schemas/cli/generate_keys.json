@@ -1,0 +1,108 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "generate_keys_arguments_decorator": {
+            "type": "object",
+            "properties": {
+                "num_validators": {
+                    "type": "object",
+                    "properties": {
+                        "help": {
+                            "type": "string"
+                        },
+                        "prompt": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "help",
+                        "prompt"
+                    ]
+                },
+                "folder": {
+                    "type": "object",
+                    "properties": {
+                        "help": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "chain": {
+                    "type": "object",
+                    "properties": {
+                        "help": {
+                            "type": "string"
+                        },
+                        "prompt": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "help",
+                        "prompt"
+                    ]
+                },
+                "keystore_password": {
+                    "type": "object",
+                    "properties": {
+                        "help": {
+                            "type": "string"
+                        },
+                        "prompt": {
+                            "type": "string"
+                        },
+                        "confirm": {
+                            "type": "string"
+                        },
+                        "mismatch": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "help",
+                        "prompt",
+                        "confirm",
+                        "mismatch"
+                    ]
+                }
+            },
+            "required": [
+                "num_validators",
+                "chain",
+                "keystore_password"
+            ]
+        },
+        "generate_keys": {
+            "type": "object",
+            "properties": {
+                "msg_key_creation": {
+                    "type": "string"
+                },
+                "msg_creation_success": {
+                    "type": "string"
+                },
+                "msg_pause": {
+                    "type": "string"
+                },
+                "err_verify_keystores": {
+                    "type": "string"
+                },
+                "err_verify_deposit": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "msg_key_creation",
+                "msg_creation_success",
+                "msg_pause",
+                "err_verify_keystores",
+                "err_verify_deposit"
+            ]
+        }
+    },
+    "required": [
+        "generate_keys_arguments_decorator",
+        "generate_keys"
+    ]
+}

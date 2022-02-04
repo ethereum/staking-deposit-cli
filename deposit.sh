@@ -9,7 +9,7 @@ if [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == "linux-android"* ]] || [[ "$OS
         exit 1
     fi
     echo "Running deposit-cli..."
-    python3 ./eth2deposit/deposit.py "$@"
+    python3 ./staking_deposit/deposit.py "$@"
 
 elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]]; then
     echo $OSTYPE
@@ -20,10 +20,10 @@ elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]]; then
         exit 1
     fi
     echo "Running deposit-cli..."
-    python ./eth2deposit/deposit.py "$@"
+    python ./staking_deposit/deposit.py "$@"
 
 else
-    echo "Sorry, to run deposit-cli on" $(uname -s)", please see the trouble-shooting on https://github.com/ethereum/eth2.0-deposit-cli"
+    echo "Sorry, to run deposit-cli on" $(uname -s)", please see the trouble-shooting on https://github.com/ethereum/staking-deposit-cli"
     exit 1
 
 fi

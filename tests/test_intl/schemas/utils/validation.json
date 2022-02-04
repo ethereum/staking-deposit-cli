@@ -1,0 +1,32 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "verify_deposit_data_json": {
+            "type": "object",
+            "properties": {
+                "msg_deposit_verification": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "msg_deposit_verification"
+            ]
+        },
+        "validate_password_strength": {
+            "type": "object",
+            "properties": {
+                "msg_password_length": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "msg_password_length"
+            ]
+        }
+    },
+    "required": [
+        "verify_deposit_data_json",
+        "validate_password_strength"
+    ]
+}

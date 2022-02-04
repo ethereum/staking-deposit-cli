@@ -1,0 +1,60 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "new_mnemonic": {
+            "type": "object",
+            "properties": {
+                "arg_new_mnemonic": {
+                    "type": "object",
+                    "properties": {
+                        "help": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "help"
+                    ]
+                },
+                "arg_mnemonic_language": {
+                    "type": "object",
+                    "properties": {
+                        "default": {
+                            "type": "string"
+                        },
+                        "help": {
+                            "type": "string"
+                        },
+                        "prompt": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "default",
+                        "help",
+                        "prompt"
+                    ]
+                },
+                "msg_mnemonic_presentation": {
+                    "type": "string"
+                },
+                "msg_press_any_key": {
+                    "type": "string"
+                },
+                "msg_mnemonic_retype_prompt": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "arg_new_mnemonic",
+                "arg_mnemonic_language",
+                "msg_mnemonic_presentation",
+                "msg_press_any_key",
+                "msg_mnemonic_retype_prompt"
+            ]
+        }
+    },
+    "required": [
+        "new_mnemonic"
+    ]
+}

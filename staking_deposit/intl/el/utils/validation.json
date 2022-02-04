@@ -1,0 +1,8 @@
+{
+    "verify_deposit_data_json": {
+        "msg_deposit_verification": "Επαλήθευση των καταθέσεών σας:\t"
+    },
+    "validate_password_strength": {
+        "msg_password_length": "Το μήκος του κωδικού πρόσβασης πρέπει να είναι τουλάχιστον 8. Πληκτρολογήστε ξανά"
+    }
+}

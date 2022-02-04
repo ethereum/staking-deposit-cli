@@ -1,0 +1,25 @@
+{
+    "generate_keys_arguments_decorator": {
+        "num_validators": {
+            "help": "Nombre de clés de validateurs que vous souhaitez générer (vous pourrez en générer davantage plus tard)",
+            "prompt": "Veuillez choisir le nombre de validateurs que vous souhaitez exécuter"
+        },
+        "chain": {
+            "help": "Version Ethereum Proof of Stake que vous ciblez. Utilisez \"mainnet\" si vous déposez de l'ETH.",
+            "prompt": "Veuillez choisir un nom de chaîne/réseau : mainnet (réseau principal) ou testnet (réseau de test)."
+        },
+        "keystore_password": {
+            "help": "Mot de passe qui sécurisera vos keystores. Vous devrez le saisir de nouveau pour les décrypter quand vous configurerez vos validateurs Proof of Stake. (Il est recommandé de ne pas utiliser cet argument et d'attendre que l'ILC vous demande votre phrase mnémonique, sinon il apparaîtra dans l'historique de votre interpréteur.)",
+            "prompt": "Mot de passe qui sécurisera vos keystores. Vous devrez le saisir de nouveau pour les décrypter quand vous configurerez vos validateurs Proof of Stake.",
+            "confirm": "Veuillez confirmer le mot de passe.",
+            "mismatch": "Erreur : Les deux valeurs saisies ne correspondent pas. Veuillez réessayer."
+        }
+    },
+    "generate_keys": {
+        "msg_key_creation": "Création de vos clés.",
+        "msg_creation_success": "\nOpération terminée !\nVos clés sont disponibles ici : ",
+        "msg_pause": "\n\nAppuyez sur n'importe quelle touche.",
+        "err_verify_keystores": "Impossible de vérifier les keystores.",
+        "err_verify_deposit": "Impossible de vérifier les fichiers JSON des données de dépôt."
+    }
+}

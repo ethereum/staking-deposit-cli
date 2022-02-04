@@ -1,0 +1,23 @@
+{
+    "validate_mnemonic": {
+        "err_invalid_mnemonic": "Ceci n'est pas une phrase mnémonique valide, veuillez vérifier s'il existe des fautes de frappe."
+    },
+    "existing_mnemonic": {
+        "arg_existing_mnemonic": {
+            "help": "Générer (ou récupérer) des clés à partir d'une phrase mnémonique existante"
+        },
+        "arg_mnemonic": {
+            "help": "Phrase mnémonique que vous avez utilisée pour générer vos clés. (Il est recommandé de ne pas utiliser ce argument, et d'attendre que l'ILC vous demande votre élément mnémonique, sinon il apparaîtra dans l'historique de votre interpréteur.)",
+            "prompt": "Veuillez saisir votre phrase mnémonique en séparant les mots par des espaces (\" \")"
+        },
+        "arg_mnemonic_password": {
+            "help": "Ce n'est certainement pas l'argument que vous recherchez : il est destiné aux mots de passe mnémoniques, pas aux mots de passe de keystores. Fournir un mot de passe ici sans en avoir un utilisé initialement peut entraîner la perte de clés (et donc de fonds) ! Notez également que si vous avez utilisé cet outil pour générer votre phrase mnémonique initialement, cela signifie que vous n'avez pas utilisé de mot de passe mnémonique. Cependant, si vous êtes certain d'avoir utilisé un mot de passe pour \"augmenter\" la sécurité de votre phrase mnémonique, c'est ici que vous devez le saisir.",
+            "confirm": "Êtes-vous absolument certain d'avoir utilisé un mot de passe mnémonique ? (Différent d'un mot de passe de keystore !) Si vous en utilisez un sans être censé le faire, cela peut entraîner une perte de fonds ! Veuillez confirmer le mot de passe."
+        },
+        "arg_validator_start_index": {
+            "help": "Saisissez l'index (numéro de clé) à partir duquel vous souhaitez commencer à générer d'autres clés. Par exemple, si vous avez généré 4 clés dans le passé, entrez 4.",
+            "prompt": "Saisissez l'index (numéro de clé) à partir duquel vous souhaitez commencer à générer d'autres clés. Par exemple, si vous avez généré 4 clés dans le passé, entrez 4.",
+            "confirm": "Veuillez confirmer le mot de passe."
+        }
+    }
+}

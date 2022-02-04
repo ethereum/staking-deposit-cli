@@ -1,0 +1,25 @@
+{
+    "generate_keys_arguments_decorator": {
+        "num_validators": {
+            "help": "Numărul de chei de validator pe care vrei să le generezi (poți genera oricând mai multe)",
+            "prompt": "Alege câți validatori vrei să rulezi"
+        },
+        "chain": {
+            "help": "Versiunea de Ethereum PoS țintă. Dacă depui ETH, folosește „mainnet”",
+            "prompt": "Alege numele de rețea/lanț (mainnet sau testnet)"
+        },
+        "keystore_password": {
+            "help": "Parola cu care securizezi depozitele de chei. Va trebui să o introduci din nou pentru a le decripta atunci când configurezi validatorii Ethereum PoS. (Îți recomandăm să nu folosești acest argument, ci să aștepți ca interfața linie de comandă să-ți ceară mnemonicul, altfel acesta o să apară în istoricul comenzilor de shell.)",
+            "prompt": "Parola cu care vei securiza depozitele de chei. Va trebui să o reintroduci pentru a le decripta atunci când configurezi validatorii Ethereum PoS.",
+            "confirm": "Repetă parola, pentru confirmare",
+            "mismatch": "Eroare: cele două valori introduse sunt diferite. Te rugăm să tastezi din nou."
+        }
+    },
+    "generate_keys": {
+        "msg_key_creation": "Se creează cheile.",
+        "msg_creation_success": "\nReușită!\nCheile se găsesc la: ",
+        "msg_pause": "\n\nApară o tastă oarecare.",
+        "err_verify_keystores": "Verificarea depozitelor de chei nu a reușit.",
+        "err_verify_deposit": "Verificarea datelor de depunere a fişierelor JSON a eşuat."
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "generate_keys_arguments_decorator": {
+        "num_validators": {
+            "help": "A quantidade de chaves de validadores que você deseja gerar (poderá gerar mais depois)",
+            "prompt": "Por favor, escolha quantos validadores deseja executar"
+        },
+        "chain": {
+            "help": "A versão de Ethereum PoS do seu interesse. Use \"mainnet\" se estiver depositando ETH",
+            "prompt": "Selecione o nome da rede/cadeia (mainnet ou testnet)"
+        },
+        "keystore_password": {
+            "help": "A senha que protegerá seus keystores. Você precisará digitá-la para descriptografá-los ao configurar seus validadores Ethereum PoS. (Recomenda-se não usar esse argumento e esperar que a CLI solicite o seu mnemônico; caso contrário, aparecerá no histórico do shell.)",
+            "prompt": "A senha que protegerá seus keystores. Você precisará digitá-la para descriptografá-los ao configurar seus validadores Ethereum PoS.",
+            "confirm": "Repita para confirmar",
+            "mismatch": "Erro: os dois valores inseridos não coincidem. Digite-os novamente."
+        }
+    },
+    "generate_keys": {
+        "msg_key_creation": "Criando suas chaves.",
+        "msg_creation_success": "\nSuccesso!\nSuas chaves se encontram em: ",
+        "msg_pause": "\n\nPressione qualquer tecla.",
+        "err_verify_keystores": "Não foi possível verificar os keystores.",
+        "err_verify_deposit": "Não foi possível verificar os dados JSON do depósito."
+    }
+}

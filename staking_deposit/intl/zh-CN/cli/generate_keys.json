@@ -1,0 +1,25 @@
+{
+    "generate_keys_arguments_decorator": {
+        "num_validators": {
+            "help": "您想要生成的验证者密钥数量（您以后随时可以生成更多密钥）",
+            "prompt": "请选择您想要运行多少验证者"
+        },
+        "chain": {
+            "help": "您正在对准的 Ethereum PoS 版本。如果您要存入以太币，请使用 \"mainnet\"",
+            "prompt": "请选择（主网或测试网）网络名/链名"
+        },
+        "keystore_password": {
+            "help": "用来保护您密钥库的密码。您在设置您的 Ethereum PoS 验证者时需要重新输入密码以便解密它们。（建议不要使用此参数，而是等待 CLI 要求您提供您的助记符，否则它将出现在您的 shell 历史中。）",
+            "prompt": "用来保护您密钥库的密码。您在设置您的 Ethereum PoS 验证者时需要重新输入密码以便解密它们。",
+            "confirm": "重复输入以确认",
+            "mismatch": "错误：输入的两个值不匹配。请再次输入。"
+        }
+    },
+    "generate_keys": {
+        "msg_key_creation": "正在创建您的密钥。",
+        "msg_creation_success": "\n成功！\n您的密钥可以在这里找到： ",
+        "msg_pause": "\n\n按任意键。",
+        "err_verify_keystores": "无法验证密钥库。",
+        "err_verify_deposit": "无法验证存款数据 JSON 文件。"
+    }
+}

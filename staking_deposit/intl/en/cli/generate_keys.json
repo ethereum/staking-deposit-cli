@@ -1,0 +1,35 @@
+{
+    "validate_eth1_withdrawal_address": {
+        "err_invalid_ECDSA_hex_addr": "The given Eth1 address is not in hexadecimal encoded form.",
+        "msg_ECDSA_addr_withdrawal": "**[Warning] you are setting an Eth1 address as your withdrawal address. Please ensure that you have control over this address.**"
+    },
+    "generate_keys_arguments_decorator": {
+        "num_validators": {
+            "help": "The number of new validator keys you want to generate (you can always generate more later)",
+            "prompt": "Please choose how many new validators you wish to run"
+        },
+        "folder": {
+            "help": "The folder path for the keystore(s) and deposit(s). Pointing to `./validator_keys` by default."
+        },
+        "chain": {
+            "help": "The name of Ethereum PoS chain you are targeting. Use \"mainnet\" if you are depositing ETH",
+            "prompt": "Please choose the (mainnet or testnet) network/chain name"
+        },
+        "keystore_password": {
+            "help": "The password that will secure your keystores. You will need to re-enter this to decrypt them when you setup your Ethereum validators. (It is recommended not to use this argument, and wait for the CLI to ask you for your mnemonic as otherwise it will appear in your shell history.)",
+            "prompt": "Create a password that secures your validator keystore(s). You will need to re-enter this to decrypt them when you setup your Ethereum validators.",
+            "confirm": "Repeat your keystore password for confirmation",
+            "mismatch": "Error: the two entered values do not match. Please type again."
+        },
+        "eth1_withdrawal_address": {
+            "help": "If this field is set and valid, the given Eth1 address will be used to create the withdrawal credentials. Otherwise, it will generate withdrawal credentials with the mnemonic-derived withdrawal public key."
+        }
+    },
+    "generate_keys": {
+        "msg_key_creation": "Creating your keys.",
+        "msg_creation_success": "\nSuccess!\nYour keys can be found at: ",
+        "msg_pause": "\n\nPress any key.",
+        "err_verify_keystores": "Failed to verify the keystores.",
+        "err_verify_deposit": "Failed to verify the deposit data JSON files."
+    }
+}

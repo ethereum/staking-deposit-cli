@@ -1,0 +1,25 @@
+{
+    "generate_keys_arguments_decorator": {
+        "num_validators": {
+            "help": "生成するバリデーターキーの数 (後からいつでも追加で生成できます)",
+            "prompt": "実行したいバリデーターの数を選択してください"
+        },
+        "chain": {
+            "help": "ターゲットとしている Ethereum PoS のバージョン。ETH を入金する場合は \"mainnet\" を使用してください。",
+            "prompt": "(mainnet または testnet) ネットワーク/チェーン名を選択してください"
+        },
+        "keystore_password": {
+            "help": "キーを生成するために使用したニーモニック。 (この引数を使用せずにCLIからニーモニックの入力が求められるのを待つことをお勧めします。そうしないとシェル履歴に表示されます。)",
+            "prompt": "キーストアを保護するパスワード。Ethereum PoS バリデーターをセットアップする際に復号化するためにこれを再入力する必要があります。",
+            "confirm": "確認のために繰り返し入力してください。",
+            "mismatch": "エラー：入力された2つの値が一致しません。もう一度入力してください。"
+        }
+    },
+    "generate_keys": {
+        "msg_key_creation": "キーを作成しています。",
+        "msg_creation_success": "\n成功しました！\nあなたのキーは次の場所で見つけることができます：",
+        "msg_pause": "\n任意のキーを押してください。",
+        "err_verify_keystores": "キーストアの確認に失敗しました。",
+        "err_verify_deposit": "入金データ JSON ファイルの確認に失敗しました。"
+    }
+}

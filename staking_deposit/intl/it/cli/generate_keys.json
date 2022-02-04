@@ -1,0 +1,25 @@
+{
+    "generate_keys_arguments_decorator": {
+        "num_validators": {
+            "help": "Il numero di chiavi di validatori che si desidera generare (è sempre possibile generarne altre in seguito)",
+            "prompt": "Scegli quanti validatori vuoi eseguire"
+        },
+        "chain": {
+            "help": "La versione desiderata della Ethereum PoS chain. Utilizzare \"mainnet\" se depositano ETH",
+            "prompt": "Scegli il nome delle rete/catena (rete principale o di test)"
+        },
+        "keystore_password": {
+            "help": "La password che proteggerà gli archivi chiavi. Dovrà essere inserita per decrittografare le chiavi durante la configurazione dei validatori della Ethereum PoS chain (è consigliabile non utilizzare questo argomento e attendere che il CLI chieda il mnemonico, altrimenti apparirà nella cronologia della shell).",
+            "prompt": "La password che proteggerà gli archivi chiavi. Dovrai inserirla nuovamente per decrittografare gli archivi quando configurerai i tuoi validatori.",
+            "confirm": "Ripeti per conferma",
+            "mismatch": "Errore: i due valori inseriti non corrispondono. Ripeti l'inserimento."
+        }
+    },
+    "generate_keys": {
+        "msg_key_creation": "Creazione delle tue chiavi.",
+        "msg_creation_success": "\nOperazione riuscita.\nLe tue chiavi si trovano in: ",
+        "msg_pause": "\n\nPremi qualunque tasto.",
+        "err_verify_keystores": "Verifica degli archivi chiavi non riuscita.",
+        "err_verify_deposit": "Verifica dei file JSON dei dati di deposito non riuscita."
+    }
+}

@@ -1,7 +1,7 @@
 import asyncio
 import os
 
-# For not importing eth2deposit here
+# For not importing staking_deposit here
 DEFAULT_VALIDATOR_KEYS_FOLDER_NAME = 'validator_keys'
 
 
@@ -24,7 +24,10 @@ async def main():
     print('[INFO] Installed')
 
     cmd_args = [
-        run_script_cmd + ' new-mnemonic',
+        run_script_cmd,
+        '--language', 'english',
+        '--non_interactive',
+        'new-mnemonic',
         '--num_validators', '1',
         '--mnemonic_language', 'english',
         '--chain', 'mainnet',
@@ -41,7 +44,7 @@ async def main():
     parsing = False
     async for out in proc.stdout:
         output = out.decode('utf-8').rstrip()
-        if output.startswith("This is your seed phrase."):
+        if output.startswith("This is your mnemonic"):
             parsing = True
         elif output.startswith("Please type your mnemonic"):
             parsing = False

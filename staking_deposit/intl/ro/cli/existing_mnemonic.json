@@ -1,0 +1,23 @@
+{
+    "validate_mnemonic": {
+        "err_invalid_mnemonic": "Acesta nu este un mnemonic corect, verifică dacă e scris corect."
+    },
+    "existing_mnemonic": {
+        "arg_existing_mnemonic": {
+            "help": "Generează (sau recuperează) chei dintr-un mnemonic existent"
+        },
+        "arg_mnemonic": {
+            "help": "Mnemonicul cu care ai generat cheile. (Îți recomandăm să nu folosești acest argument, ci să aștepți ca interfața linie de comandă să-ți ceară mnemonicul, altfel acesta o să apară în istoricul comenzilor de shell.)",
+            "prompt": "Introdu mnemonicul, separat cu spații („ ”)"
+        },
+        "arg_mnemonic_password": {
+            "help": "Aproape sigur acesta nu este argumentul pe care îl cauți: este vorba despre parole de mnemonice, nu despre parolele de cheie. Dacă introduci aici o parolă, în condițiile în care inițial nu ai folosit parolă, poate duce la pierderi de chei (și, prin urmare, de fonduri)! De reținut: dacă ați folosit acest instrument la generarea inițială a mnemonicului, atunci nu ai folosit parolă de mnemonic. În schimb, dacă știi sigur că ai creat o parolă pentru „a îmbunătăți” securitatea mnemonicului, acesta este locul în care trebuie s-o introduci.",
+            "confirm": "Știi absolut sigur că ai folosit o parolă de mnemonic? (Aceasta este diferită de parola depozitului de chei!) Dacă folosești parolă atunci când nu e cazul, poți să pierzi fonduri! Repetă parola, pentru confirmare"
+        },
+        "arg_validator_start_index": {
+            "help": "Introdu indexul (numărul de cheie) de la care vrei să începi să generezi mai multe chei. De exemplu, dacă ai generat 4 chei în trecut, aici trebuie să introduci 4.",
+            "prompt": "Introdu indexul (numărul de cheie) de la care vrei să începi să generezi mai multe chei. De exemplu, dacă ai generat 4 chei în trecut, aici trebuie să introduci 4.",
+            "confirm": "Repetă parola, pentru confirmare"
+        }
+    }
+}

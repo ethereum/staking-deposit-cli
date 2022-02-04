@@ -1,7 +1,7 @@
 import os
 
-from eth2deposit.key_handling.keystore import Keystore
-from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
+from staking_deposit.key_handling.keystore import Keystore
+from staking_deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
 
 
 def clean_key_folder(my_folder_path: str) -> None:

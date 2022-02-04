@@ -1,0 +1,23 @@
+{
+    "validate_mnemonic": {
+        "err_invalid_mnemonic": "Bukan mnemonik yang valid, harap pastikan tidak ada kesalahan ketik."
+    },
+    "existing_mnemonic": {
+        "arg_existing_mnemonic": {
+            "help": "Buat (atau pulihkan) kunci dari mnemonik yang sudah ada"
+        },
+        "arg_mnemonic": {
+            "help": "Mnemonik yang Anda gunakan untuk membuat kunci Anda. (Disarankan tidak menggunakan argumen ini, dan menunggu CLI menanyakan mnemonik Anda supaya tidak akan muncul di riwayat shell Anda.)",
+            "prompt": "Silakan masukkan mnemonik Anda dipisahkan dengan spasi (\" \")"
+        },
+        "arg_mnemonic_password": {
+            "help": "Ini kemungkinan bukan argumen yang Anda cari: ini untuk kata sandi mnemonik, bukan kata sandi keystore. Memasukkan kata sandi di sini ketika pada awalnya Anda tidak menggunakannya, dapat mengakibatkan kunci hilang (dan karenanya dana pun hilang)! Perhatikan juga bahwa jika Anda menggunakan alat ini untuk membuat mnemonik Anda pada awalnya, maka Anda tidak menggunakan kata sandi mnemonik. Namun, jika yakin Anda menggunakan kata sandi untuk \"meningkatkan\" keamanan mnemonik Anda, di sinilah Anda memasukkannya.",
+            "confirm": "Apakah Anda benar-benar yakin bahwa Anda menggunakan kata sandi mnemonik? (Ini berbeda dari kata sandi keystore!) Menggunakan kata sandi saat Anda tidak seharusnya melakukannya dapat mengakibatkan hilangnya dana! Ulangi untuk konfirmasi"
+        },
+        "arg_validator_start_index": {
+            "help": "Masukkan indeks (nomor kunci) yang Anda inginkan untuk mulai membuat lebih banyak kunci. Misalnya, jika Anda pernah membuat 4 kunci sebelumnya, masukkan 4 di sini.",
+            "prompt": "Masukkan indeks (nomor kunci) yang Anda inginkan untuk mulai membuat lebih banyak kunci. Misalnya, jika Anda pernah membuat 4 kunci sebelumnya, masukkan 4 di sini.",
+            "confirm": "Ulangi untuk konfirmasi"
+        }
+    }
+}
