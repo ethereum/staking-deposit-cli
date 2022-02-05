@@ -40,13 +40,13 @@ def test_bip39(language: str, test: Sequence[str]) -> None:
 
 
 @pytest.mark.parametrize(
-    'test_mnemonic,is_valid',
-    [(test_mnemonic[1], True)
+    'test_mnemonic',
+    [(test_mnemonic[1])
      for _, language_test_vectors in test_vectors.items()
      for test_mnemonic in language_test_vectors]
 )
-def test_verify_mnemonic(test_mnemonic: str, is_valid: bool) -> None:
-    assert verify_mnemonic(test_mnemonic, WORD_LISTS_PATH) == is_valid
+def test_verify_mnemonic(test_mnemonic: str) -> None:
+    assert verify_mnemonic(test_mnemonic, WORD_LISTS_PATH) is not None
 
 
 @pytest.mark.parametrize(
