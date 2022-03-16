@@ -52,9 +52,9 @@ class JITOption(click.Option):
         self.help = _value_of(self.callable_help)
         return super().get_help_record(ctx)
 
-    def get_default(self, ctx: click.Context) -> Any:
+    def get_default(self, ctx: click.Context, call: bool = True) -> Any:
         self.default = _value_of(self.callable_default)
-        return super().get_default(ctx)
+        return super().get_default(ctx, call)
 
 
 def jit_option(*args: Any, **kwargs: Any) -> Callable[[Any], Any]:
