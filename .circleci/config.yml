@@ -97,6 +97,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Install Python"
+          command: choco install python --version=3.10.3
+      - run:
           name: Install testing requirements on Windows
           command: python -m pip install -r requirements_test.txt
       - run:
@@ -198,6 +201,9 @@ jobs:
       shell: powershell.exe
     steps:
       - checkout
+      - run:
+          name: "Install Python"
+          command: choco install python --version=3.10.3
       - run:
           name: Install building requirements on Windows
           command: pip install -r ./build_configs/windows/requirements.txt
