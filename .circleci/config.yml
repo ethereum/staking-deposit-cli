@@ -92,7 +92,7 @@ jobs:
   # Job(s) with Windows OS
   win-py310-script:
     machine:
-      image: windows-server-2022-vs2022
+      image: windows-server-2022-vs2022:edge
     steps:
       - checkout
       - run:
@@ -193,7 +193,7 @@ jobs:
           path: /tmp/artifacts
   build-windows:
     machine:
-      image: windows-server-2022-vs2022
+      image: windows-server-2022-vs2022:edge
     steps:
       - checkout
       - run:
