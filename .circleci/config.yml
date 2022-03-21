@@ -114,7 +114,7 @@ jobs:
       - run:
           name: Install building requirements on Linux
           command: |
-            env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.10.2;
+            env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install -s 3.10.2;
             pyenv global 3.10.2;
             pip install -r ./build_configs/linux/requirements.txt;
       - run:
@@ -160,7 +160,7 @@ jobs:
       - run:
           name: Install building requirements on Linux ARM64
           command: |
-            env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.10.2;
+            env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install -s 3.10.2;
             pyenv global 3.10.2;
             pip install -r ./build_configs/linux/requirements.txt;
       - run:
