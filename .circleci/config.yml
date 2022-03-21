@@ -91,9 +91,9 @@ jobs:
           TOXENV: py38-script
   # Job(s) with Windows OS
   win-py310-script:
-    machine:
-      image: windows-server-2022-vs2022:edge
-    resource_class: large
+    executor:
+      name: win/default
+      shell: powershell.exe
     steps:
       - checkout
       - run:
@@ -193,9 +193,9 @@ jobs:
       - store_artifacts:
           path: /tmp/artifacts
   build-windows:
-    machine:
-      image: windows-server-2022-vs2022:edge
-    resource_class: medium+
+    executor:
+      name: win/default
+      shell: powershell.exe
     steps:
       - checkout
       - run:
