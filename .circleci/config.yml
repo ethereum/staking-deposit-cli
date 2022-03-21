@@ -93,6 +93,7 @@ jobs:
   win-py310-script:
     machine:
       image: windows-server-2022-vs2022:edge
+    resource_class: large
     steps:
       - checkout
       - run:
@@ -194,6 +195,7 @@ jobs:
   build-windows:
     machine:
       image: windows-server-2022-vs2022:edge
+    resource_class: medium+
     steps:
       - checkout
       - run:
