@@ -107,7 +107,7 @@ jobs:
           command: python ./test_deposit_script.py
   build-linux-amd64:
     machine:
-      image: ubuntu-2004:current
+      image: ubuntu-2004:202201-02
     working_directory: ~/repo
     steps:
       - checkout
@@ -152,7 +152,7 @@ jobs:
           path: /tmp/artifacts
   build-linux-arm64:
     machine:
-      image: ubuntu-2004:current
+      image: ubuntu-2004:202201-02
     resource_class: arm.medium
     working_directory: ~/repo
     steps:
