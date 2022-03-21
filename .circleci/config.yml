@@ -25,7 +25,7 @@ jobs:
   # Job(s) with Linux OS
   venv_build:
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.10
     working_directory: ~/repo
     steps:
       - checkout
@@ -40,7 +40,7 @@ jobs:
             - ./venv
   venv_pytest:
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.10
     working_directory: ~/repo
     steps:
       - checkout
@@ -56,7 +56,7 @@ jobs:
           path: test-reports/
   venv_lint:
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.10
     working_directory: ~/repo
     steps:
       - checkout
@@ -65,35 +65,34 @@ jobs:
       - run:
           name: Run linter with venv
           command: make venv_lint
-  tox-py37-core:
+  tox-py310-core:
     <<: *tox_common
     docker:
-      - image: circleci/python:3.7
+      - image: cimg/python:3.10
         environment:
-          TOXENV: py37-core
+          TOXENV: py310-core
   tox-py38-core:
     <<: *tox_common
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.8
         environment:
           TOXENV: py38-core
-  tox-py37-script:
+  tox-py310-script:
     <<: *tox_common
     docker:
-      - image: circleci/python:3.7
+      - image: cimg/python:3.10
         environment:
-          TOXENV: py37-script
+          TOXENV: py310-script
   tox-py38-script:
     <<: *tox_common
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.8
         environment:
           TOXENV: py38-script
   # Job(s) with Windows OS
-  win-py37-script:
-    executor:
-      name: win/default
-      shell: powershell.exe
+  win-py310-script:
+    machine:
+      image: windows-server-2022-vs2022
     steps:
       - checkout
       - run:
@@ -111,8 +110,8 @@ jobs:
       - run:
           name: Install building requirements on Linux
           command: |
-            env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.7.5;
-            pyenv global 3.7.5;
+            env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.8.13;
+            pyenv global 3.8.13;
             pip install -r ./build_configs/linux/requirements.txt;
       - run:
           name: Build with build.spec
@@ -121,7 +120,7 @@ jobs:
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
             export BUILD_FILE_NAME=staking_deposit-cli-${CIRCLE_SHORT_SHA1}-linux-amd64;
             mkdir ${BUILD_FILE_NAME};
-            pyenv global 3.7.5;
+            pyenv global 3.8.13;
             pyinstaller --distpath ./${BUILD_FILE_NAME} ./build_configs/linux/build.spec;
       - run:
           name: Test executable binaries
@@ -157,8 +156,8 @@ jobs:
       - run:
           name: Install building requirements on Linux ARM64
           command: |
-            env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.7.5;
-            pyenv global 3.7.5;
+            env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.8.13;
+            pyenv global 3.8.13;
             pip install -r ./build_configs/linux/requirements.txt;
       - run:
           name: Build with build.spec
@@ -167,7 +166,7 @@ jobs:
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
             export BUILD_FILE_NAME=staking_deposit-cli-${CIRCLE_SHORT_SHA1}-linux-arm64;
             mkdir ${BUILD_FILE_NAME};
-            pyenv global 3.7.5;
+            pyenv global 3.8.13;
             pyinstaller --distpath ./${BUILD_FILE_NAME} ./build_configs/linux/build.spec;
       - run:
           name: Test executable binaries
@@ -193,9 +192,8 @@ jobs:
       - store_artifacts:
           path: /tmp/artifacts
   build-windows:
-    executor:
-      name: win/default
-      shell: powershell.exe
+    machine:
+      image: windows-server-2022-vs2022
     steps:
       - checkout
       - run:
@@ -292,11 +290,11 @@ workflows:
       - venv_lint:
           requires:
             - venv_build
-      - tox-py37-core
+      - tox-py310-core
       - tox-py38-core
-      - tox-py37-script
+      - tox-py310-script
       - tox-py38-script
-      - win-py37-script
+      - win-py310-script
   build_linux:
     jobs:
       - build-linux-amd64

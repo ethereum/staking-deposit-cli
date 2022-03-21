@@ -81,7 +81,7 @@ You can find the audit report by Trail of Bits [here](https://github.com/trailof
 
 ### Build requirements
 
-- [Python **3.7+**](https://www.python.org/about/gettingstarted/)
+- [Python **3.8+**](https://www.python.org/about/gettingstarted/)
 - [pip3](https://pip.pypa.io/en/stable/installing/)
 
 ### For Linux or MacOS users
@@ -170,7 +170,7 @@ Your keys can be found at: <YOUR_FOLDER_PATH>
 
 ##### Step 0. Python version checking
 
-Ensure you are using Python version >= Python3.7:
+Ensure you are using Python version >= Python3.8:
 
 ```sh
 python3 -V
@@ -234,7 +234,7 @@ See [here](#successful-message)
 
 ##### Step 0. Python version checking
 
-Ensure you are using Python version >= Python3.7:
+Ensure you are using Python version >= Python3.8:
 
 ```sh
 python3 -V
@@ -381,7 +381,7 @@ See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 
 ##### Step 0. Python version checking
 
-Ensure you are using Python version >= Python3.7 (Assume that you've installed Python 3 as the main Python):
+Ensure you are using Python version >= Python3.8 (Assume that you've installed Python 3 as the main Python):
 
 ```sh
 python -V
@@ -443,7 +443,7 @@ See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 
 ##### Step 0. Python version checking
 
-Ensure you are using Python version >= Python3.7 (Assume that you've installed Python 3 as the main Python):
+Ensure you are using Python version >= Python3.8 (Assume that you've installed Python 3 as the main Python):
 
 ```cmd
 python -V
