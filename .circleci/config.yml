@@ -110,8 +110,8 @@ jobs:
       - run:
           name: Install building requirements on Linux
           command: |
-            env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.8.13;
-            pyenv global 3.8.13;
+            env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.10.3;
+            pyenv global 3.10.3;
             pip install -r ./build_configs/linux/requirements.txt;
       - run:
           name: Build with build.spec
@@ -120,7 +120,7 @@ jobs:
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
             export BUILD_FILE_NAME=staking_deposit-cli-${CIRCLE_SHORT_SHA1}-linux-amd64;
             mkdir ${BUILD_FILE_NAME};
-            pyenv global 3.8.13;
+            pyenv global 3.10.3;
             pyinstaller --distpath ./${BUILD_FILE_NAME} ./build_configs/linux/build.spec;
       - run:
           name: Test executable binaries
@@ -156,8 +156,8 @@ jobs:
       - run:
           name: Install building requirements on Linux ARM64
           command: |
-            env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.8.13;
-            pyenv global 3.8.13;
+            env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.8.12;
+            pyenv global 3.8.12;
             pip install -r ./build_configs/linux/requirements.txt;
       - run:
           name: Build with build.spec
@@ -166,7 +166,7 @@ jobs:
             export CIRCLE_SHORT_SHA1=$(eval echo $CIRCLE_SHA1 | cut -c -7)
             export BUILD_FILE_NAME=staking_deposit-cli-${CIRCLE_SHORT_SHA1}-linux-arm64;
             mkdir ${BUILD_FILE_NAME};
-            pyenv global 3.8.13;
+            pyenv global 3.10.3;
             pyinstaller --distpath ./${BUILD_FILE_NAME} ./build_configs/linux/build.spec;
       - run:
           name: Test executable binaries
