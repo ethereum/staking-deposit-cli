@@ -531,5 +531,5 @@ python3 -m pytest .
 👋This is not the section you are looking for.👋
 If you are trying to **build the binary** on macos with an M1 Mac and you are using pyenv to manage your python version. You'll probably need to reinstall a given python version using:
 ```
-env PYTHON_CONFIGURE_OPTS="--enable-framework" pyenv install 3.10.2
+env PYTHON_CONFIGURE_OPTS="--enable-framework" pyenv install 3.10.3
 ```
