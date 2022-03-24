@@ -4,6 +4,7 @@ import json
 from typing import (
     Sequence,
 )
+from unicodedata import normalize
 
 from staking_deposit.utils.constants import (
     MNEMONIC_LANG_OPTIONS,
@@ -13,7 +14,7 @@ from staking_deposit.key_handling.key_derivation.mnemonic import (
     _get_word_list,
     get_seed,
     get_mnemonic,
-    verify_mnemonic,
+    reconstruct_mnemonic,
 )
 
 
@@ -45,8 +46,22 @@ def test_bip39(language: str, test: Sequence[str]) -> None:
      for _, language_test_vectors in test_vectors.items()
      for test_mnemonic in language_test_vectors]
 )
-def test_verify_mnemonic(test_mnemonic: str) -> None:
-    assert verify_mnemonic(test_mnemonic, WORD_LISTS_PATH) is not None
+def test_reconstruct_mnemonic(test_mnemonic: str) -> None:
+    assert reconstruct_mnemonic(test_mnemonic, WORD_LISTS_PATH) is not None
+
+def abbreviate_mnemonic(mnemonic: str) -> str:
+    words = str.split(mnemonic)
+    words = [normalize('NFKC', word) for word in words]
+    return str.join(' ', words)
+
+@pytest.mark.parametrize(
+    'test_mnemonic',
+    [abbreviate_mnemonic(test_mnemonic[1])
+     for _, language_test_vectors in test_vectors.items()
+     for test_mnemonic in language_test_vectors]
+)
+def test_reconstruct_abbreviated_mnemonic(test_mnemonic: str) -> None:
+    assert reconstruct_mnemonic(test_mnemonic, WORD_LISTS_PATH) is not None
 
 
 @pytest.mark.parametrize(
