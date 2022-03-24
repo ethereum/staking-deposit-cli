@@ -49,10 +49,12 @@ def test_bip39(language: str, test: Sequence[str]) -> None:
 def test_reconstruct_mnemonic(test_mnemonic: str) -> None:
     assert reconstruct_mnemonic(test_mnemonic, WORD_LISTS_PATH) is not None
 
+
 def abbreviate_mnemonic(mnemonic: str) -> str:
     words = str.split(mnemonic)
     words = [normalize('NFKC', word) for word in words]
     return str.join(' ', words)
+
 
 @pytest.mark.parametrize(
     'test_mnemonic',
