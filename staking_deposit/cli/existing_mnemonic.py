@@ -5,7 +5,7 @@ from typing import (
 
 from staking_deposit.exceptions import ValidationError
 from staking_deposit.key_handling.key_derivation.mnemonic import (
-    verify_mnemonic,
+    reconstruct_mnemonic,
 )
 from staking_deposit.utils.constants import (
     WORD_LISTS_PATH,
@@ -23,7 +23,7 @@ from .generate_keys import (
 
 
 def validate_mnemonic(ctx: click.Context, param: Any, mnemonic: str) -> str:
-    mnemonic = verify_mnemonic(mnemonic, WORD_LISTS_PATH)
+    mnemonic = reconstruct_mnemonic(mnemonic, WORD_LISTS_PATH)
     if mnemonic is not None:
         return mnemonic
     else:

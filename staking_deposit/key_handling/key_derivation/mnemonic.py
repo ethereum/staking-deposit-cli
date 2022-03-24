@@ -91,10 +91,10 @@ def _get_checksum(entropy: bytes) -> int:
     return int.from_bytes(SHA256(entropy), 'big') >> (256 - checksum_length)
 
 
-def verify_mnemonic(mnemonic: str, words_path: str) -> str:
+def reconstruct_mnemonic(mnemonic: str, words_path: str) -> Optional[str]:
     """
-    Given a mnemonic, verify it against its own checksum and return
-    a reconstructed full version - useful in case it was abbreviated.
+    Given a mnemonic, a reconstructed the full version (incase the abbreviated words were used)
+    then verify it against its own checksum
     """
     try:
         languages = determine_mnemonic_language(mnemonic, words_path)
