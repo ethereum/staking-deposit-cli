@@ -9,5 +9,5 @@ setup(
     version='2.0.0',
     py_modules=["staking_deposit"],
     packages=find_packages(exclude=('tests', 'docs')),
-    python_requires=">=3.7,<4",
+    python_requires=">=3.8,<4",
 )
