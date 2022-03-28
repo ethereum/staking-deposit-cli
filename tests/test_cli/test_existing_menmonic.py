@@ -152,3 +152,50 @@ async def test_script() -> None:
 
     # Clean up
     clean_key_folder(my_folder_path)
+
+
+@pytest.mark.asyncio
+async def test_script_abbreviated_mnemonic() -> None:
+    my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
+    if not os.path.exists(my_folder_path):
+        os.mkdir(my_folder_path)
+
+    if os.name == 'nt':  # Windows
+        run_script_cmd = 'sh deposit.sh'
+    else:  # Mac or Linux
+        run_script_cmd = './deposit.sh'
+
+    install_cmd = run_script_cmd + ' install'
+    proc = await asyncio.create_subprocess_shell(
+        install_cmd,
+    )
+    await proc.wait()
+
+    cmd_args = [
+        run_script_cmd,
+        '--language', 'english',
+        '--non_interactive',
+        'existing-mnemonic',
+        '--num_validators', '1',
+        '--mnemonic="aban aban aban aban aban aban aban aban aban aban aban abou"',
+        '--mnemonic-password', 'TREZOR',
+        '--validator_start_index', '1',
+        '--chain', 'mainnet',
+        '--keystore_password', 'MyPassword',
+        '--folder', my_folder_path,
+    ]
+    proc = await asyncio.create_subprocess_shell(
+        ' '.join(cmd_args),
+    )
+    await proc.wait()
+    # Check files
+    validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
+    _, _, key_files = next(os.walk(validator_keys_folder_path))
+
+    # Verify file permissions
+    if os.name == 'posix':
+        for file_name in key_files:
+            assert get_permissions(validator_keys_folder_path, file_name) == '0o440'
+
+    # Clean up
+    clean_key_folder(my_folder_path)

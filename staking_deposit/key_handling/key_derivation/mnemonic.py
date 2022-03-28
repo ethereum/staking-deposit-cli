@@ -2,6 +2,7 @@ import os
 from unicodedata import normalize
 from secrets import randbits
 from typing import (
+    List,
     Optional,
     Sequence,
 )
@@ -68,9 +69,10 @@ def determine_mnemonic_language(mnemonic: str, words_path: str) -> Sequence[str]
     languages = MNEMONIC_LANG_OPTIONS.keys()
     word_language_map = {word: lang for lang in languages for word in _get_word_list(lang, words_path)}
     try:
-        mnemonic_list = mnemonic.split(' ')
-        word_languages = [word_language_map[word] for word in mnemonic_list]
-        return list(set(word_languages))
+        mnemonic_list = [normalize('NFKC', word)[:4] for word in mnemonic.lower().split(' ')]
+        word_languages = [[lang for word, lang in word_language_map.items() if normalize('NFKC', word)[:4] == abbrev]
+                          for abbrev in mnemonic_list]
+        return list(set(sum(word_languages, [])))
     except KeyError:
         raise ValueError('Word not found in mnemonic word lists for any language.')
 
@@ -90,30 +92,48 @@ def _get_checksum(entropy: bytes) -> int:
     return int.from_bytes(SHA256(entropy), 'big') >> (256 - checksum_length)
 
 
-def verify_mnemonic(mnemonic: str, words_path: str) -> bool:
+def abbreviate_words(words: Sequence[str]) -> List[str]:
     """
-    Given a mnemonic, verify it against its own checksum."
+    Given a series of word strings, return the 4-letter version of each word (which is unique according to BIP39)
+    """
+    return [normalize('NFKC', word)[:4] for word in words]
+
+
+def reconstruct_mnemonic(mnemonic: str, words_path: str) -> Optional[str]:
+    """
+    Given a mnemonic, a reconstructed the full version (incase the abbreviated words were used)
+    then verify it against its own checksum
     """
     try:
         languages = determine_mnemonic_language(mnemonic, words_path)
     except ValueError:
-        return False
+        return None
+    reconstructed_mnemonic = None
     for language in languages:
         try:
-            word_list = _get_word_list(language, words_path)
-            mnemonic_list = mnemonic.split(' ')
+            word_list = abbreviate_words(_get_word_list(language, words_path))
+            mnemonic_list = abbreviate_words(mnemonic.lower().split(' '))
             if len(mnemonic_list) not in range(12, 25, 3):
-                return False
+                return None
             word_indices = [_word_to_index(word_list, word) for word in mnemonic_list]
             mnemonic_int = _uint11_array_to_uint(word_indices)
             checksum_length = len(mnemonic_list) // 3
             checksum = mnemonic_int & 2**checksum_length - 1
             entropy = (mnemonic_int - checksum) >> checksum_length
             entropy_bits = entropy.to_bytes(checksum_length * 4, 'big')
-            return _get_checksum(entropy_bits) == checksum
+            full_word_list = _get_word_list(language, words_path)
+            if _get_checksum(entropy_bits) == checksum:
+                """
+                This check guarantees that only one language has a valid mnemonic.
+                It is needed to ensure abbrivated words aren't valid in multiple languages
+                """
+                assert reconstructed_mnemonic is None
+                reconstructed_mnemonic = ' '.join([_index_to_word(full_word_list, index) for index in word_indices])
+            else:
+                pass
         except ValueError:
             pass
-    return False
+    return reconstructed_mnemonic
 
 
 def get_mnemonic(*, language: str, words_path: str, entropy: Optional[bytes]=None) -> str:

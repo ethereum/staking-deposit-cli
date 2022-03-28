@@ -8,7 +8,7 @@
         },
         "arg_mnemonic": {
             "help": "The mnemonic that you used to generate your keys. (It is recommended not to use this argument, and wait for the CLI to ask you for your mnemonic as otherwise it will appear in your shell history.)",
-            "prompt": "Please enter your mnemonic separated by spaces (\" \")"
+            "prompt": "Please enter your mnemonic separated by spaces (\" \"). Note: you only need to enter the first 4 letters of each word if you'd prefer."
         },
         "arg_mnemonic_password": {
             "help": "This is almost certainly not the argument you are looking for: it is for mnemonic passwords, not keystore passwords. Providing a password here when you didn't use one initially, can result in lost keys (and therefore funds)! Also note that if you used this tool to generate your mnemonic initially, then you did not use a mnemonic password. However, if you are certain you used a password to \"increase\" the security of your mnemonic, this is where you enter it.",
