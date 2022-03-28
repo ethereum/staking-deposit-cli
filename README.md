@@ -68,7 +68,7 @@
 
 ## Introduction
 
-`deposit-cli` is a tool for creating [EIP-2335 format](https://eips.ethereum.org/EIPS/eip-2335) BLS12-381 keystores and a corresponding `deposit_data*.json` file for [Ethereum 2.0 Launchpad](https://github.com/ethereum/staking-launchpad).
+`deposit-cli` is a tool for creating [EIP-2335 format](https://eips.ethereum.org/EIPS/eip-2335) BLS12-381 keystores and a corresponding `deposit_data*.json` file for [Ethereum Staking Launchpad](https://github.com/ethereum/staking-launchpad).
 
 - **Warning: Please generate your keystores on your own safe, completely offline device.**
 - **Warning: Please backup your mnemonic, keystores, and password securely.**
@@ -94,7 +94,7 @@ On Unix-based systems, keystores and the `deposit_data*.json` have `440`/`-r--r-
 
 ##### Step 1. Installation
 
-See [releases page](https://github.com/ethereum/eth2.0-deposit-cli/releases) to download and decompress the corresponding binary files.
+See [releases page](https://github.com/ethereum/staking-deposit-cli/releases) to download and decompress the corresponding binary files.
 
 ##### Step 2. Create keys and `deposit_data-*.json`
 
@@ -338,7 +338,7 @@ See [here](#successful-message)
 
 ##### Step 1. Installation
 
-See [releases page](https://github.com/ethereum/eth2.0-deposit-cli/releases) to download and decompress the corresponding binary files.
+See [releases page](https://github.com/ethereum/staking-deposit-cli/releases) to download and decompress the corresponding binary files.
 
 ##### Step 2. Create keys and `deposit_data-*.json`
 
