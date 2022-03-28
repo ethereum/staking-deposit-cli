@@ -108,6 +108,7 @@ def reconstruct_mnemonic(mnemonic: str, words_path: str) -> Optional[str]:
         languages = determine_mnemonic_language(mnemonic, words_path)
     except ValueError:
         return None
+    reconstructed_mnemonic = None
     for language in languages:
         try:
             word_list = abbreviate_words(_get_word_list(language, words_path))
@@ -122,12 +123,17 @@ def reconstruct_mnemonic(mnemonic: str, words_path: str) -> Optional[str]:
             entropy_bits = entropy.to_bytes(checksum_length * 4, 'big')
             full_word_list = _get_word_list(language, words_path)
             if _get_checksum(entropy_bits) == checksum:
-                return ' '.join([_index_to_word(full_word_list, index) for index in word_indices])
+                """
+                This check guarantees that only one language has a valid mnemonic.
+                It is needed to ensure abbrivated words aren't valid in multiple languages
+                """
+                assert reconstructed_mnemonic is None
+                reconstructed_mnemonic = ' '.join([_index_to_word(full_word_list, index) for index in word_indices])
             else:
                 pass
         except ValueError:
             pass
-    return None
+    return reconstructed_mnemonic
 
 
 def get_mnemonic(*, language: str, words_path: str, entropy: Optional[bytes]=None) -> str:
