@@ -2,6 +2,7 @@ import os
 from unicodedata import normalize
 from secrets import randbits
 from typing import (
+    List,
     Optional,
     Sequence,
 )
@@ -91,6 +92,13 @@ def _get_checksum(entropy: bytes) -> int:
     return int.from_bytes(SHA256(entropy), 'big') >> (256 - checksum_length)
 
 
+def abbreviate_words(words: Sequence[str]) -> List[str]:
+    """
+    Given a series of word strings, return the 4-letter version of each word (which is unique according to BIP39)
+    """
+    return [normalize('NFKC', word)[:4] for word in words]
+
+
 def reconstruct_mnemonic(mnemonic: str, words_path: str) -> Optional[str]:
     """
     Given a mnemonic, a reconstructed the full version (incase the abbreviated words were used)
@@ -102,8 +110,8 @@ def reconstruct_mnemonic(mnemonic: str, words_path: str) -> Optional[str]:
         return None
     for language in languages:
         try:
-            word_list = [normalize('NFKC', word)[:4] for word in _get_word_list(language, words_path)]
-            mnemonic_list = [normalize('NFKC', word)[:4] for word in mnemonic.lower().split(' ')]
+            word_list = abbreviate_words(_get_word_list(language, words_path))
+            mnemonic_list = abbreviate_words(mnemonic.lower().split(' '))
             if len(mnemonic_list) not in range(12, 25, 3):
                 return None
             word_indices = [_word_to_index(word_list, word) for word in mnemonic_list]
