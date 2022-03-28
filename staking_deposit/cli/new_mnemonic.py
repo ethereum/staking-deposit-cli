@@ -5,6 +5,7 @@ from typing import (
 
 from staking_deposit.key_handling.key_derivation.mnemonic import (
     get_mnemonic,
+    reconstruct_mnemonic,
 )
 from staking_deposit.utils.click import (
     captive_prompt_callback,
@@ -47,7 +48,7 @@ languages = get_first_options(MNEMONIC_LANG_OPTIONS)
 def new_mnemonic(ctx: click.Context, mnemonic_language: str, **kwargs: Any) -> None:
     mnemonic = get_mnemonic(language=mnemonic_language, words_path=WORD_LISTS_PATH)
     test_mnemonic = ''
-    while mnemonic != test_mnemonic:
+    while mnemonic != reconstruct_mnemonic(test_mnemonic, WORD_LISTS_PATH):
         click.clear()
         click.echo(load_text(['msg_mnemonic_presentation']))
         click.echo('\n\n%s\n\n' % mnemonic)
@@ -55,7 +56,6 @@ def new_mnemonic(ctx: click.Context, mnemonic_language: str, **kwargs: Any) -> N
 
         click.clear()
         test_mnemonic = click.prompt(load_text(['msg_mnemonic_retype_prompt']) + '\n\n')
-        test_mnemonic = test_mnemonic.lower()
     click.clear()
     # Do NOT use mnemonic_password.
     ctx.obj = {'mnemonic': mnemonic, 'mnemonic_password': ''}
