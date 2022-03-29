@@ -4,7 +4,6 @@ import json
 from typing import (
     Sequence,
 )
-from unicodedata import normalize
 
 from staking_deposit.utils.constants import (
     MNEMONIC_LANG_OPTIONS,
@@ -12,6 +11,7 @@ from staking_deposit.utils.constants import (
 from staking_deposit.key_handling.key_derivation.mnemonic import (
     _index_to_word,
     _get_word_list,
+    abbreviate_words,
     get_seed,
     get_mnemonic,
     reconstruct_mnemonic,
@@ -52,7 +52,8 @@ def test_reconstruct_mnemonic(test_mnemonic: str) -> None:
 
 def abbreviate_mnemonic(mnemonic: str) -> str:
     words = str.split(mnemonic)
-    words = [normalize('NFKC', word) for word in words]
+    words = abbreviate_words(words)
+    assert all([len(word) <= 4 for word in words])
     return str.join(' ', words)
 
 
