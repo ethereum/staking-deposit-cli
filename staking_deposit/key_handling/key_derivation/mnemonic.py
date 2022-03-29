@@ -111,13 +111,13 @@ def reconstruct_mnemonic(mnemonic: str, words_path: str) -> Optional[str]:
     reconstructed_mnemonic = None
     for language in languages:
         try:
-            word_list = abbreviate_words(_get_word_list(language, words_path))
-            mnemonic_list = abbreviate_words(mnemonic.lower().split(' '))
-            if len(mnemonic_list) not in range(12, 25, 3):
+            abbrev_word_list = abbreviate_words(_get_word_list(language, words_path))
+            abbrev_mnemonic_list = abbreviate_words(mnemonic.lower().split(' '))
+            if len(abbrev_mnemonic_list) not in range(12, 25, 3):
                 return None
-            word_indices = [_word_to_index(word_list, word) for word in mnemonic_list]
+            word_indices = [_word_to_index(abbrev_word_list, word) for word in abbrev_mnemonic_list]
             mnemonic_int = _uint11_array_to_uint(word_indices)
-            checksum_length = len(mnemonic_list) // 3
+            checksum_length = len(abbrev_mnemonic_list) // 3
             checksum = mnemonic_int & 2**checksum_length - 1
             entropy = (mnemonic_int - checksum) >> checksum_length
             entropy_bits = entropy.to_bytes(checksum_length * 4, 'big')
