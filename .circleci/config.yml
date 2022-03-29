@@ -30,12 +30,12 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
+          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-v2
       - run:
           name: Install requirements in venv
           command: make venv_build_test
       - save_cache:
-          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
+          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-v2
           paths:
             - ./venv
   venv_pytest:
@@ -45,7 +45,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
+          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-v2
       - run:
           name: Run tests with venv
           command: make venv_test
@@ -61,7 +61,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
+          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-v2
       - run:
           name: Run linter with venv
           command: make venv_lint
