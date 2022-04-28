@@ -10,7 +10,10 @@ from eth_utils import to_canonical_address
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from staking_deposit.exceptions import ValidationError
-from staking_deposit.key_handling.key_derivation.path import mnemonic_and_path_to_key
+from staking_deposit.key_handling.key_derivation.path import (
+    mnemonic_and_path_to_key,
+    seed_and_path_to_key
+)
 from staking_deposit.key_handling.keystore import (
     Keystore,
     ScryptKeystore,
@@ -43,7 +46,7 @@ class Credential:
     A Credential object contains all of the information for a single validator and the corresponding functionality.
     Once created, it is the only object that should be required to perform any processing for a validator.
     """
-    def __init__(self, *, mnemonic: str, mnemonic_password: str,
+    def __init__(self, *, seed: Optional[bytes] = None, mnemonic: str, mnemonic_password: str,
                  index: int, amount: int, chain_setting: BaseChainSetting,
                  hex_eth1_withdrawal_address: Optional[HexAddress]):
         # Set path as EIP-2334 format
@@ -54,10 +57,12 @@ class Credential:
         withdrawal_key_path = f'm/{purpose}/{coin_type}/{account}/0'
         self.signing_key_path = f'{withdrawal_key_path}/0'
 
-        self.withdrawal_sk = mnemonic_and_path_to_key(
-            mnemonic=mnemonic, path=withdrawal_key_path, password=mnemonic_password)
-        self.signing_sk = mnemonic_and_path_to_key(
-            mnemonic=mnemonic, path=self.signing_key_path, password=mnemonic_password)
+        if seed is not None:
+            self.withdrawal_sk = seed_and_path_to_key(seed=seed, path=withdrawal_key_path)
+            self.signing_sk = seed_and_path_to_key(seed=seed, path=self.signing_key_path)
+        else:
+            self.withdrawal_sk = mnemonic_and_path_to_key(mnemonic=mnemonic, path=withdrawal_key_path, password=mnemonic_password)
+            self.signing_sk = mnemonic_and_path_to_key(mnemonic=mnemonic, path=self.signing_key_path, password=mnemonic_password)
         self.amount = amount
         self.chain_setting = chain_setting
         self.hex_eth1_withdrawal_address = hex_eth1_withdrawal_address
@@ -184,6 +189,27 @@ class CredentialList:
         with click.progressbar(key_indices, label=load_text(['msg_key_creation']),
                                show_percent=False, show_pos=True) as indices:
             return cls([Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
+                                   index=index, amount=amounts[index - start_index], chain_setting=chain_setting,
+                                   hex_eth1_withdrawal_address=hex_eth1_withdrawal_address)
+                        for index in indices])
+
+    @classmethod
+    def from_seed(cls,
+                  *,
+                  seed: bytes,
+                  num_keys: int,
+                  amounts: List[int],
+                  chain_setting: BaseChainSetting,
+                  start_index: int,
+                  hex_eth1_withdrawal_address: Optional[HexAddress]) -> 'CredentialList':
+        if len(amounts) != num_keys:
+            raise ValueError(
+                f"The number of keys ({num_keys}) doesn't equal to the corresponding deposit amounts ({len(amounts)})."
+            )
+        key_indices = range(start_index, start_index + num_keys)
+        with click.progressbar(key_indices, label=load_text(['msg_key_creation']),
+                               show_percent=False, show_pos=True) as indices:
+            return cls([Credential(seed=seed, mnemonic='', mnemonic_password='',
                                    index=index, amount=amounts[index - start_index], chain_setting=chain_setting,
                                    hex_eth1_withdrawal_address=hex_eth1_withdrawal_address)
                         for index in indices])

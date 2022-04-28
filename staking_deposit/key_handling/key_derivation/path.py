@@ -30,6 +30,9 @@ def mnemonic_and_path_to_key(*, mnemonic: str, path: str, password: str) -> int:
     compliant with BIP39 mnemonics that use passwords, but is not used by this CLI outside of tests.
     """
     seed = get_seed(mnemonic=mnemonic, password=password)
+    return seed_and_path_to_key(seed, path)
+
+def seed_and_path_to_key(seed: bytes, path: str) -> int:
     sk = derive_master_SK(seed)
     for node in path_to_nodes(path):
         sk = derive_child_SK(parent_SK=sk, index=node)
