@@ -13,10 +13,13 @@ MAINNET = 'mainnet'
 PRATER = 'prater'
 KINTSUGI = 'kintsugi'
 KILN = 'kiln'
+ROPSTEN = 'ropsten'
 
 
 # Mainnet setting
 MainnetSetting = BaseChainSetting(NETWORK_NAME=MAINNET, GENESIS_FORK_VERSION=bytes.fromhex('00000000'))
+# Ropsten setting
+RopstenSetting = BaseChainSetting(NETWORK_NAME=ROPSTEN, GENESIS_FORK_VERSION=bytes.fromhex('80000069'))
 # Testnet (spec v1.0.1)
 PraterSetting = BaseChainSetting(NETWORK_NAME=PRATER, GENESIS_FORK_VERSION=bytes.fromhex('00001020'))
 # Merge Testnet (spec v1.1.4)
@@ -30,6 +33,7 @@ ALL_CHAINS: Dict[str, BaseChainSetting] = {
     PRATER: PraterSetting,
     KINTSUGI: KintsugiSetting,
     KILN: KilnSetting,
+    ROPSTEN: RopstenSetting,
 }
 
 
