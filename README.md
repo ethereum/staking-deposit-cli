@@ -456,7 +456,7 @@ For the [virtualenv](https://virtualenv.pypa.io/en/latest/) users, you can creat
 ```cmd
 pip3 install virtualenv
 virtualenv venv
-.\venv\Scripts\activate
+./venv/Scripts/activate
 ```
 
 and install the dependencies:
@@ -471,23 +471,23 @@ pip3 install -r requirements.txt
 Run one of the following command to enter the interactive CLI:
 
 ```cmd
-python .\staking_deposit\deposit.py new-mnemonic
+python ./staking_deposit/deposit.py new-mnemonic
 ```
 
 or
 
 ```cmd
-python .\staking_deposit\deposit.py existing-mnemonic
+python ./staking_deposit/deposit.py existing-mnemonic
 ```
 
 You can also run the tool with optional arguments:
 
 ```cmd
-python .\staking_deposit\deposit.py new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+python ./staking_deposit/deposit.py new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
 ```cmd
-python .\staking_deposit\deposit.pyexisting-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+python ./staking_deposit/deposit.pyexisting-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
 ###### Language Argument
