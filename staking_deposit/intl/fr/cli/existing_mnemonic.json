@@ -17,7 +17,7 @@
         "arg_validator_start_index": {
             "help": "Saisissez l'index (numéro de clé) à partir duquel vous souhaitez commencer à générer d'autres clés. Par exemple, si vous avez généré 4 clés dans le passé, entrez 4.",
             "prompt": "Saisissez l'index (numéro de clé) à partir duquel vous souhaitez commencer à générer d'autres clés. Par exemple, si vous avez généré 4 clés dans le passé, entrez 4.",
-            "confirm": "Veuillez confirmer le mot de passe."
+            "confirm": "Veuillez confirmer l'index."
         }
     }
 }
