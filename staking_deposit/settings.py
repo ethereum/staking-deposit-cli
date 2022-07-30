@@ -20,10 +20,8 @@ KILN = 'kiln'
 MainnetSetting = BaseChainSetting(NETWORK_NAME=MAINNET, GENESIS_FORK_VERSION=bytes.fromhex('00000000'))
 # Ropsten setting
 RopstenSetting = BaseChainSetting(NETWORK_NAME=ROPSTEN, GENESIS_FORK_VERSION=bytes.fromhex('80000069'))
-# GOERLI (PRATER is alias)
-_GOERLI_GENESIS_FORK_VERSION = bytes.fromhex('00001020')
-GoerliSetting = BaseChainSetting(NETWORK_NAME=GOERLI, GENESIS_FORK_VERSION=_GOERLI_GENESIS_FORK_VERSION)
-PraterSetting = BaseChainSetting(NETWORK_NAME=PRATER, GENESIS_FORK_VERSION=_GOERLI_GENESIS_FORK_VERSION)
+# Goreli setting
+GoerliSetting = BaseChainSetting(NETWORK_NAME=GOERLI, GENESIS_FORK_VERSION=bytes.fromhex('00001020'))
 # Merge Testnet (spec v1.1.9)
 KilnSetting = BaseChainSetting(NETWORK_NAME=KILN, GENESIS_FORK_VERSION=bytes.fromhex('70000069'))
 
@@ -32,7 +30,7 @@ ALL_CHAINS: Dict[str, BaseChainSetting] = {
     MAINNET: MainnetSetting,
     ROPSTEN: RopstenSetting,
     GOERLI: GoerliSetting,
-    PRATER: PraterSetting,
+    PRATER: GoerliSetting,  # Prater is the old name of the Prater/Goerli testnet
     KILN: KilnSetting,
 }
 
