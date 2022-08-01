@@ -48,6 +48,7 @@ INTL_LANG_OPTIONS = _add_index_to_options({
     'ko': ['한국어', '조선말', '韓國語', 'ko', 'Korean'],
     'pt-BR': ['Português do Brasil', 'Brasil', 'pt-BR', 'Brazilian Portuguese'],
     'ro': ['român', 'limba română', 'ro', 'Romainian'],
+    'tr': ['Türkçe', 'tr', 'Turkish'],
     'zh-CN': ['简体中文', 'zh-CN', 'zh', 'Chinease'],
 })
 MNEMONIC_LANG_OPTIONS = _add_index_to_options({

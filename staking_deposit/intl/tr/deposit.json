@@ -1,0 +1,5 @@
+{
+    "check_python_version": {
+        "err_python_version": "Python sürümünüz yetersiz, lütfen 3.8 sürümü veya daha yenisini yükleyin."
+    }
+}

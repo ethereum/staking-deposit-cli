@@ -1,0 +1,35 @@
+{
+    "validate_eth1_withdrawal_address": {
+        "err_invalid_ECDSA_hex_addr": "Girilen Eth1 adresi onaltılık sistemde kodlanmamıştır.",
+        "msg_ECDSA_addr_withdrawal": "**[Uyarı] bir Eth1 adresini varlık çekme adresi olarak giriyorsunuz. Lütfen bu adresin kontrolünün sizde olduğundan emin olun.**"
+    },
+    "generate_keys_arguments_decorator": {
+        "num_validators": {
+            "help": "Oluşturmak istediğiniz yeni doğrulayıcı anahtarlarının sayısını giriniz (daha fazlasını daha sonra da oluşturabilirsiniz)",
+            "prompt": "Lütfen kaç tane doğrulayıcı çalıştırmak istediğinizi seçin"
+        },
+        "folder": {
+            "help": "Anahtar depoları ve depozitolar için dizin yolu. Varsayılan olarak `./validator_keys` yolunu gösterir."
+        },
+        "chain": {
+            "help": "Hedeflenen Ethereum PoS ağının ismi. Depozito olarak ETH kullanıyorsanız \"mainnet\" kullanın",
+            "prompt": "Lütfen (mainnet veya testnet) ağ/zincir adını seçin"
+        },
+        "keystore_password": {
+            "help": "Anahtar depolarınızı koruyacak şifre. Ethereum onaylayıcılarınızı kurarken bu şifreyi tekrar girmeniz gerekecek. (Bu parametreyi kullanmamanız ve size sorulduğunda ipucu kelimelerini girmeniz tavsiye edilir, aksi taktirde şifreniz komut satırı geçmişinde gözükecektir.)",
+            "prompt": "Onaylayıcı anahtar depolarınızı koruyan bir şifre oluşturun. Ethereum onaylayıcılarınızı kurarken bu şifreyi tekrar girmeniz gerekecek.",
+            "confirm": "Anahtar deposu şifrenizi onaylamak için tekrar girin",
+            "mismatch": "Hata: girilen değerler eşleşmiyor. Tekrar deneyin."
+        },
+        "eth1_withdrawal_address": {
+            "help": "Eğer bu alan girilmiş ve geçerliyse, verilen Eth1 adresi varlık çekme adresi olarak kullanılacaktır. Aksi taktirde, ipucu kelimelerinden üretilmiş bir genel anahtar kullanılır."
+        }
+    },
+    "generate_keys": {
+        "msg_key_creation": "Anahtarlarınız oluşturuluyor.",
+        "msg_creation_success": "\nBaşarılı!\nAnahtarlarınızı burada bulabilirsiniz: ",
+        "msg_pause": "\n\nHerhangi bir tuşa basın.",
+        "err_verify_keystores": "Anahtar depoları doğrulanamadı.",
+        "err_verify_deposit": "Depozito JSON dosyaları doğrulanamadı."
+    }
+}

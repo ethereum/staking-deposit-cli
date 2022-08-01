@@ -1,5 +1,7 @@
 # staking-deposit-cli
 
+[![GitPOAP Badge](https://public-api.gitpoap.io/v1/repo/ethereum/staking-deposit-cli/badge)](https://www.gitpoap.io/gh/ethereum/staking-deposit-cli)
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 

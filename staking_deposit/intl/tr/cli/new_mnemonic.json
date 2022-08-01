@@ -1,0 +1,15 @@
+{
+    "new_mnemonic": {
+        "arg_new_mnemonic": {
+            "help": "Yeni ipucu kelimeler ve anahtarlar oluşturun"
+        },
+        "arg_mnemonic_language": {
+            "default": "english",
+            "help": "İpucu kelimelerinizin dili",
+            "prompt": "Lütfen ipucu kelimelerinin dilini seçin"
+        },
+        "msg_mnemonic_presentation": "Bunlar ipucu kelimelerinizdir (tohum ifadeleri). Bir yere not alın ve güvenli bir şekilde saklayın. Depozitoyu YALNIZCA bununla geri alabilirsiniz.",
+        "msg_press_any_key": "İpucu kelimelerinizi not aldığınızda bir tuşa basın.",
+        "msg_mnemonic_retype_prompt": "Lütfen ipucu kelimelerinizi not aldığınızı doğrulamak amacıyla (aralarında boşluk bırakarak) yazın. Not: kelimelerin yalnızca ilk 4 harfini yazmanız yeterlidir."
+    }
+}
