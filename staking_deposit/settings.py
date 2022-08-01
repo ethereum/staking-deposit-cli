@@ -14,6 +14,7 @@ ROPSTEN = 'ropsten'
 GOERLI = 'goerli'
 PRATER = 'prater'
 KILN = 'kiln'
+SEPOLIA = 'sepolia'
 
 
 # Mainnet setting
@@ -24,6 +25,8 @@ RopstenSetting = BaseChainSetting(NETWORK_NAME=ROPSTEN, GENESIS_FORK_VERSION=byt
 GoerliSetting = BaseChainSetting(NETWORK_NAME=GOERLI, GENESIS_FORK_VERSION=bytes.fromhex('00001020'))
 # Merge Testnet (spec v1.1.9)
 KilnSetting = BaseChainSetting(NETWORK_NAME=KILN, GENESIS_FORK_VERSION=bytes.fromhex('70000069'))
+# Sepolia setting
+SepoliaSetting = BaseChainSetting(NETWORK_NAME=SEPOLIA, GENESIS_FORK_VERSION=bytes.fromhex('90000069'))
 
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
@@ -32,6 +35,7 @@ ALL_CHAINS: Dict[str, BaseChainSetting] = {
     GOERLI: GoerliSetting,
     PRATER: GoerliSetting,  # Prater is the old name of the Prater/Goerli testnet
     KILN: KilnSetting,
+    SEPOLIA: SepoliaSetting,
 }
 
 
