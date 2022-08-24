@@ -18,7 +18,6 @@ from staking_deposit.utils.validation import (
     validate_password_strength,
 )
 from staking_deposit.utils.constants import (
-    MAX_DEPOSIT_AMOUNT,
     ETH2GWEI,
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )

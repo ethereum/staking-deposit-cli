@@ -30,6 +30,7 @@ def test_existing_mnemonic_bls_withdrawal() -> None:
         'existing-mnemonic',
         '--folder', my_folder_path,
         '--mnemonic-password', 'TREZOR',
+        '--amount', 32,
     ]
     result = runner.invoke(cli, arguments, input=data)
 
@@ -74,6 +75,7 @@ def test_existing_mnemonic_eth1_address_withdrawal() -> None:
         '--folder', my_folder_path,
         '--mnemonic-password', 'TREZOR',
         '--eth1_withdrawal_address', eth1_withdrawal_address,
+        '--amount', 32,
     ]
     result = runner.invoke(cli, arguments, input=data)
 
@@ -136,6 +138,7 @@ async def test_script() -> None:
         '--chain', 'mainnet',
         '--keystore_password', 'MyPassword',
         '--folder', my_folder_path,
+        '--amount', '32',
     ]
     proc = await asyncio.create_subprocess_shell(
         ' '.join(cmd_args),
@@ -183,6 +186,7 @@ async def test_script_abbreviated_mnemonic() -> None:
         '--chain', 'mainnet',
         '--keystore_password', 'MyPassword',
         '--folder', my_folder_path,
+        '--amount', '32',
     ]
     proc = await asyncio.create_subprocess_shell(
         ' '.join(cmd_args),
@@ -197,5 +201,55 @@ async def test_script_abbreviated_mnemonic() -> None:
         for file_name in key_files:
             assert get_permissions(validator_keys_folder_path, file_name) == '0o440'
 
+    # Clean up
+    clean_key_folder(my_folder_path)
+
+def test_existing_mnemonic_amount() -> None:
+    # Prepare folder
+    my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
+    clean_key_folder(my_folder_path)
+    if not os.path.exists(my_folder_path):
+        os.mkdir(my_folder_path)
+
+    runner = CliRunner()
+    inputs = [
+        'TREZOR',
+        'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+        '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword']
+    data = '\n'.join(inputs)
+    eth1_withdrawal_address = '0x00000000219ab540356cbb839cbe05303d7705fa'
+    arguments = [
+        '--language', 'english',
+        'existing-mnemonic',
+        '--folder', my_folder_path,
+        '--mnemonic-password', 'TREZOR',
+        '--amount', 1
+    ]
+    result = runner.invoke(cli, arguments, input=data)
+
+    assert result.exit_code == 0
+
+    # Check files
+    validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
+    _, _, key_files = next(os.walk(validator_keys_folder_path))
+
+    deposit_file = [key_file for key_file in key_files if key_file.startswith('deposit_data')][0]
+    with open(validator_keys_folder_path + '/' + deposit_file, 'r') as f:
+        deposits_dict = json.load(f)
+    for deposit in deposits_dict:
+        amount = deposit['amount']
+        assert amount == (10 ** 9)
+
+    all_uuid = [
+        get_uuid(validator_keys_folder_path + '/' + key_file)
+        for key_file in key_files
+        if key_file.startswith('keystore')
+    ]
+    assert len(set(all_uuid)) == 5
+
+    # Verify file permissions
+    if os.name == 'posix':
+        for file_name in key_files:
+            assert get_permissions(validator_keys_folder_path, file_name) == '0o440'
     # Clean up
     clean_key_folder(my_folder_path)

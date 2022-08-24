@@ -60,7 +60,7 @@ def test_regeneration(monkeypatch) -> None:
         mock_mnemonic,
         '1', '1', '2', 'mainnet', 'MyPassword', 'MyPassword']
     data = '\n'.join(inputs)
-    arguments = ['existing-mnemonic', '--folder', folder_path_2]
+    arguments = ['existing-mnemonic', '--folder', folder_path_2, '--amount', 32]
     result = runner.invoke(cli, arguments, input=data)
 
     assert result.exit_code == 0

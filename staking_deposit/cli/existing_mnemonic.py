@@ -67,7 +67,7 @@ def validate_mnemonic(ctx: click.Context, param: Any, mnemonic: str) -> str:
 )
 @jit_option(
     callback=captive_prompt_callback(
-        lambda num: validate_int_range(num, MIN_DEPOSIT_ETH, MAX_DEPOSIT_ETH),
+        lambda num: validate_int_range(num, MIN_DEPOSIT_ETH, MAX_DEPOSIT_ETH + 1),
         lambda: load_text(['arg_amount', 'prompt'], func='existing_mnemonic'),
     ),
     default=32,
