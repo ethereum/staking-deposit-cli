@@ -8,7 +8,7 @@ from staking_deposit.key_handling.key_derivation.mnemonic import (
     reconstruct_mnemonic,
 )
 from staking_deposit.utils.constants import (
-    WORD_LISTS_PATH,
+    WORD_LISTS_PATH, MAX_DEPOSIT_ETH, MIN_DEPOSIT_ETH,
 )
 from staking_deposit.utils.click import (
     captive_prompt_callback,
@@ -67,7 +67,7 @@ def validate_mnemonic(ctx: click.Context, param: Any, mnemonic: str) -> str:
 )
 @jit_option(
     callback=captive_prompt_callback(
-        lambda num: validate_int_range(num, 1, 32),
+        lambda num: validate_int_range(num, MIN_DEPOSIT_ETH, MAX_DEPOSIT_ETH),
         lambda: load_text(['arg_amount', 'prompt'], func='existing_mnemonic'),
     ),
     default=32,
