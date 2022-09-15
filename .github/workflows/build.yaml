@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+
+env:
+  DOCKER_REGISTRY: ghcr.io
+  DOCKER_IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}
+
+      - name: Setup buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Fixup buildx
+        run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: 'linux/amd64,linux/arm64,linux/arm/v7'
+          push: ${{ startsWith(github.ref, 'refs/tags') }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+  build-native:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: linux
+            runner: ubuntu-latest
+          - os: macos
+            runner: macos-10.15
+          - os: windows
+            runner: windows-latest
+    env:
+      PYTHONHASHSEED: 42
+      BUILD_FILE_NAME: deposit-cli-${{ github.sha }}-${{ matrix.os }}-amd64
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+          architecture: x64
+      - name: Install building requirements on ${{ matrix.os }}
+        run: |
+          pip3 install -r ./build_configs/${{ matrix.os }}/requirements.txt;
+      - name: Build with build.spec
+        run: |
+          mkdir ${{ env.BUILD_FILE_NAME }};
+          pyinstaller --distpath ./${{ env.BUILD_FILE_NAME }} ./build_configs/${{ matrix.os }}/build.spec;
+      - name: Compress the file
+        run: |
+          tar -zcvf ${{ env.BUILD_FILE_NAME }}.tar.gz ./${{ env.BUILD_FILE_NAME }};
+          mkdir /tmp/artifacts;
+          cp ${{ env.BUILD_FILE_NAME }}.tar.gz /tmp/artifacts;
+      - name: Save checksum
+        if: ${{ matrix.os != 'macos' }}
+        run: sha256sum ${{ env.BUILD_FILE_NAME }}.tar.gz | head -c 64 > /tmp/artifacts/${{ env.BUILD_FILE_NAME }}.sha256
+      - name: Save checksum
+        if: ${{ matrix.os == 'macos' }}
+        run: shasum -a 256 ${{ env.BUILD_FILE_NAME }}.tar.gz | head -c 64 > /tmp/artifacts/${{ env.BUILD_FILE_NAME }}.sha256
+      - name: Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.os }}
+          path: /tmp/artifacts
