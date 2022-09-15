@@ -15,6 +15,8 @@ GOERLI = 'goerli'
 PRATER = 'prater'
 KILN = 'kiln'
 SEPOLIA = 'sepolia'
+L16_TESTNET = 'l16'
+LUKSO = 'lukso'
 
 
 # Mainnet setting
@@ -27,7 +29,10 @@ GoerliSetting = BaseChainSetting(NETWORK_NAME=GOERLI, GENESIS_FORK_VERSION=bytes
 KilnSetting = BaseChainSetting(NETWORK_NAME=KILN, GENESIS_FORK_VERSION=bytes.fromhex('70000069'))
 # Sepolia setting
 SepoliaSetting = BaseChainSetting(NETWORK_NAME=SEPOLIA, GENESIS_FORK_VERSION=bytes.fromhex('90000069'))
-
+# LUKSO L16 testnet setting
+LUKSOL16Setting = BaseChainSetting(NETWORK_NAME=L16_TESTNET, GENESIS_FORK_VERSION=bytes.fromhex('60000069'))
+# LUKSO mainnet setting - change when mainnet parameters are set
+LUKSOSetting = BaseChainSetting(NETWORK_NAME=LUKSO, GENESIS_FORK_VERSION=bytes.fromhex('60000069'))
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
     MAINNET: MainnetSetting,
@@ -36,6 +41,8 @@ ALL_CHAINS: Dict[str, BaseChainSetting] = {
     PRATER: GoerliSetting,  # Prater is the old name of the Prater/Goerli testnet
     KILN: KilnSetting,
     SEPOLIA: SepoliaSetting,
+    L16_TESTNET: LUKSOL16Setting,
+    LUKSO: LUKSOL16Setting
 }
 
 
