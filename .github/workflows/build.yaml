@@ -4,8 +4,8 @@ on:
   push:
 
 env:
-  DOCKER_REGISTRY: ghcr.io
-  DOCKER_IMAGE_NAME: ${{ github.repository }}
+  DOCKER_REGISTRY: europe-docker.pkg.dev
+  DOCKER_IMAGE_NAME: lks-lz-artifacts/docker-deposit-cli
 
 jobs:
   build-docker:
