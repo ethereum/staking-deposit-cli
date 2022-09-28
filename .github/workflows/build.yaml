@@ -9,6 +9,9 @@ env:
 
 jobs:
   build-docker:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -47,7 +50,7 @@ jobs:
           push: true
           tags: |
             ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.ref_name }}
-            ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:latest
 
   build-native:
     runs-on: ${{ matrix.runner }}
