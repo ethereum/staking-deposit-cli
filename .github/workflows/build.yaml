@@ -5,7 +5,7 @@ on:
 
 env:
   DOCKER_REGISTRY: europe-docker.pkg.dev
-  DOCKER_IMAGE_NAME: lks-lz-artifacts/docker-deposit-cli
+  DOCKER_IMAGE_NAME: lks-lz-artifacts/docker-deposit-cli/tools-staking-deposit-cli
 
 jobs:
   build-docker:
@@ -13,13 +13,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ env.DOCKER_REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -29,16 +22,33 @@ jobs:
 
       - name: Setup buildx
         uses: docker/setup-buildx-action@v1
+
       - name: Fixup buildx
         run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
+      - name: Authenticate to Google Cloud
+        id: gcpauth
+        uses: google-github-actions/auth@v0
+        with:
+          create_credentials_file: "true"
+          workload_identity_provider: "projects/311968610280/locations/global/workloadIdentityPools/github/providers/github"
+          service_account: "artifact-deployer@lks-lz-management.iam.gserviceaccount.com"
+
+      - name: login
+        run: |-
+          gcloud auth login --brief --cred-file="${{ steps.gcpauth.outputs.credentials_file_path }}"
+          gcloud auth configure-docker europe-docker.pkg.dev
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           platforms: 'linux/amd64,linux/arm64,linux/arm/v7'
-          push: ${{ startsWith(github.ref, 'refs/tags') }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          push: true
+          tags: |
+            ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.ref_name }}
+            ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
   build-native:
     runs-on: ${{ matrix.runner }}
     strategy:
