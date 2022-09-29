@@ -31,7 +31,7 @@ KilnSetting = BaseChainSetting(NETWORK_NAME=KILN, GENESIS_FORK_VERSION=bytes.fro
 SepoliaSetting = BaseChainSetting(NETWORK_NAME=SEPOLIA, GENESIS_FORK_VERSION=bytes.fromhex('90000069'))
 # LUKSO L16 testnet setting
 LUKSOL16Setting = BaseChainSetting(NETWORK_NAME=L16_TESTNET, GENESIS_FORK_VERSION=bytes.fromhex('60000069'))
-# LUKSO mainnet setting - change when mainnet parameters are set
+# LUKSO mainnet setting - change when mainnet parameters are set and launched - for now reverts to L16
 LUKSOSetting = BaseChainSetting(NETWORK_NAME=LUKSO, GENESIS_FORK_VERSION=bytes.fromhex('60000069'))
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
@@ -42,7 +42,7 @@ ALL_CHAINS: Dict[str, BaseChainSetting] = {
     KILN: KilnSetting,
     SEPOLIA: SepoliaSetting,
     L16_TESTNET: LUKSOL16Setting,
-    LUKSO: LUKSOL16Setting
+    LUKSO: LUKSOSetting # Due to change when mainnet is launched
 }
 
 
