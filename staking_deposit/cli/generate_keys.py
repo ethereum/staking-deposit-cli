@@ -5,8 +5,8 @@ from typing import (
     Callable,
 )
 
-from eth_typing import HexAddress
-from eth_utils import is_hex_address, to_normalized_address
+from eth_typing import HexAddress, HexStr
+from eth_utils import is_hex_address, to_normalized_address, decode_hex
 
 from staking_deposit.credentials import (
     CredentialList,
@@ -18,6 +18,7 @@ from staking_deposit.utils.validation import (
     validate_password_strength,
 )
 from staking_deposit.utils.constants import (
+    BLS_WITHDRAWAL_PREFIX,
     MAX_DEPOSIT_AMOUNT,
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )
@@ -52,6 +53,21 @@ def validate_eth1_withdrawal_address(cts: click.Context, param: Any, address: st
     normalized_address = to_normalized_address(address)
     click.echo('\n%s\n' % load_text(['msg_ECDSA_addr_withdrawal']))
     return normalized_address
+
+
+def validate_withdrawal_credentials(cts: click.Context, param: Any, withdrawal_credentials: str) -> HexAddress:
+    if withdrawal_credentials is None:
+        return None
+
+    try:
+        decoded_withdrawal_credentials = decode_hex(withdrawal_credentials)
+    except Exception:
+        raise ValueError(load_text(['err_invalid_withdrawal_credentials_value']))
+
+    if len(decoded_withdrawal_credentials) != 32 or decoded_withdrawal_credentials[:1] != BLS_WITHDRAWAL_PREFIX:
+        raise ValueError(load_text(['err_invalid_withdrawal_credentials_format']))
+
+    return decoded_withdrawal_credentials
 
 
 def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[..., Any]:
@@ -111,6 +127,12 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             help=lambda: load_text(['eth1_withdrawal_address', 'help'], func='generate_keys_arguments_decorator'),
             param_decls='--eth1_withdrawal_address',
         ),
+        jit_option(
+            callback=validate_withdrawal_credentials,
+            default=None,
+            help=lambda: load_text(['withdrawal_credentials', 'help'], func='generate_keys_arguments_decorator'),
+            param_decls='--withdrawal_credentials',
+        ),
     ]
     for decorator in reversed(decorators):
         function = decorator(function)
@@ -121,7 +143,8 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
 @click.pass_context
 def generate_keys(ctx: click.Context, validator_start_index: int,
                   num_validators: int, folder: str, chain: str, keystore_password: str,
-                  eth1_withdrawal_address: HexAddress, **kwargs: Any) -> None:
+                  eth1_withdrawal_address: HexAddress, withdrawal_credentials: HexStr,
+                  **kwargs: Any) -> None:
     mnemonic = ctx.obj['mnemonic']
     mnemonic_password = ctx.obj['mnemonic_password']
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
@@ -140,6 +163,7 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
         chain_setting=chain_setting,
         start_index=validator_start_index,
         hex_eth1_withdrawal_address=eth1_withdrawal_address,
+        hex_withdrawal_credentials=withdrawal_credentials,
     )
     keystore_filefolders = credentials.export_keystores(password=keystore_password, folder=folder)
     deposits_file = credentials.export_deposit_data_json(folder=folder)

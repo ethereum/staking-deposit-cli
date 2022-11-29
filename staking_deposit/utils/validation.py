@@ -62,7 +62,7 @@ def validate_deposit(deposit_data_dict: Dict[str, Any], credential: Credential) 
     if len(withdrawal_credentials) != 32:
         return False
     if withdrawal_credentials[:1] == BLS_WITHDRAWAL_PREFIX == credential.withdrawal_prefix:
-        if withdrawal_credentials[1:] != SHA256(credential.withdrawal_pk)[1:]:
+        if (withdrawal_credentials[1:] != credential.withdrawal_credentials[1:]) and (withdrawal_credentials[1:] != SHA256(credential.withdrawal_pk)[1:]):
             return False
     elif withdrawal_credentials[:1] == ETH1_ADDRESS_WITHDRAWAL_PREFIX == credential.withdrawal_prefix:
         if withdrawal_credentials[1:12] != b'\x00' * 11:
