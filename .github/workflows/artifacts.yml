@@ -1,0 +1,112 @@
+on:
+  workflow_call:
+    inputs:
+      sha:
+        description: "Github sha"
+        required: true
+        type: string
+      ref:
+        description: "Github ref"
+        required: true
+        type: string
+      tag_name:
+        description: "Github tag_name"
+        type: string
+      release_created:
+        description: "Github release_created"
+        type: string
+
+env:
+  DOCKER_REGISTRY: europe-docker.pkg.dev
+  DOCKER_IMAGE_NAME: lks-lz-artifacts/docker-deposit-cli/tools-staking-deposit-cli
+
+name: build artifacts
+jobs:
+  build-docker:
+    permissions:
+      contents: "read"
+      id-token: "write"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ${{ inputs.sha }}
+        uses: actions/checkout@master
+        with:
+          ref: ${{ inputs.sha }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}
+      - name: Setup buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Fixup buildx
+        run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - name: Authenticate to Google Cloud
+        id: gcpauth
+        uses: google-github-actions/auth@v1
+        with:
+          create_credentials_file: "true"
+          workload_identity_provider: "projects/311968610280/locations/global/workloadIdentityPools/github/providers/github"
+          service_account: "artifact-deployer@lks-lz-management.iam.gserviceaccount.com"
+      - name: login
+        run: |-
+          gcloud auth login --brief --cred-file="${{ steps.gcpauth.outputs.credentials_file_path }}"
+          gcloud auth configure-docker ${{ env.DOCKER_REGISTRY }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: "linux/amd64,linux/arm64,linux/arm/v7"
+          push: true
+          tags: |
+            ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ inputs.sha }}
+            ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ inputs.tag_name }}
+
+  build-native:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: linux
+            runner: ubuntu-18.04
+          - os: macos
+            runner: macos-10.15
+          - os: windows
+            runner: windows-latest
+    env:
+      PYTHONHASHSEED: 42
+      BUILD_FILE_NAME: deposit-cli-${{ inputs.tag_name }}-${{ matrix.os }}-amd64
+    steps:
+      - name: Checkout ${{ inputs.sha }}
+        uses: actions/checkout@master
+        with:
+          ref: ${{ inputs.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+          architecture: x64
+      - name: Install building requirements on ${{ matrix.os }}
+        run: |
+          pip3 install -r ./build_configs/${{ matrix.os }}/requirements.txt;
+      - name: Build with build.spec
+        run: |
+          mkdir ${{ env.BUILD_FILE_NAME }};
+          pyinstaller --distpath ./${{ env.BUILD_FILE_NAME }} ./build_configs/${{ matrix.os }}/build.spec;
+      - name: Compress the file
+        run: |
+          tar -zcvf ${{ env.BUILD_FILE_NAME }}.tar.gz ./${{ env.BUILD_FILE_NAME }};
+          mkdir /tmp/artifacts;
+          cp ${{ env.BUILD_FILE_NAME }}.tar.gz /tmp/artifacts;
+      - name: Save checksum
+        if: ${{ matrix.os != 'macos' }}
+        run: sha256sum ${{ env.BUILD_FILE_NAME }}.tar.gz | head -c 64 > /tmp/artifacts/${{ env.BUILD_FILE_NAME }}.sha256
+      - name: Save checksum
+        if: ${{ matrix.os == 'macos' }}
+        run: shasum -a 256 ${{ env.BUILD_FILE_NAME }}.tar.gz | head -c 64 > /tmp/artifacts/${{ env.BUILD_FILE_NAME }}.sha256
+      - name: Upload binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.os }}-${{ inputs.tag_name }}.zip
+          path: /tmp/artifacts

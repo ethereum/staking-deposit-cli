@@ -1,0 +1,107 @@
+on:
+  push:
+    branches:
+      - develop
+      - patch/*
+  pull_request:
+    branches:
+      - develop
+      - patch/*
+
+env:
+  MERGE_TO: master
+  PACKAGE_TYPE: python
+
+name: github release
+jobs:
+  release-please:
+    outputs:
+      tag_name: ${{ steps.version.outputs.tag_name }}
+      sha: ${{ steps.version.outputs.sha }}
+      release_created: ${{ steps.version.outputs.release_created }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Please release
+        uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: ${{ env.PACKAGE_TYPE }}
+          default-branch: develop
+      - id: version
+        name: Detect final version info
+        run: |
+          if [ "${{ steps.release.outputs.release_created }}" != "true" ]
+          then
+            SHA="${{ github.sha }}"
+            RELEASE_CREATED="false"
+            TAG_NAME="v$(node -pe 'require("./.release-please-manifest.json")["."]')-g${SHA:0:7}"
+          else
+            SHA="${{ steps.release.outputs.sha }}"
+            RELEASE_CREATED="true"
+            TAG_NAME="${{ steps.release.outputs.tag_name }}"
+          fi
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+          echo "release_created=$RELEASE_CREATED" >> $GITHUB_OUTPUT
+          echo "Tag: $TAG_NAME"
+          echo "Sha: $SHA"
+          echo "Release: $RELEASE_CREATED"
+
+  artifacts-job:
+    needs: release-please
+    uses: ./.github/workflows/artifacts.yml
+    with:
+      sha: ${{ needs.release-please.outputs.sha }}
+      ref: ${{ github.ref }}
+      tag_name: ${{ needs.release-please.outputs.tag_name }}
+      release_created: ${{ needs.release-please.outputs.release_created }}
+
+  release:
+    needs:
+      - artifacts-job
+      - release-please
+    runs-on: ubuntu-latest
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.release-please.sha }}
+          token: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
+        with:
+          draft: true
+          prerelease: true
+          body_path: CHANGELOG.md
+          tag_name: ${{ needs.release-please.outputs.tag_name }}
+          files: |
+            artifacts/**/*
+      - name: Merge develop into ${{ env.MERGE_TO }}
+        uses: devmasx/merge-branch@master
+        if: ${{ endsWith(github.ref, '/develop') }}
+        with:
+          type: now
+          from_branch: develop
+          target_branch: ${{ env.MERGE_TO }}
+          github_token: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
+
+  notify:
+    uses: ./.github/workflows/notify.yml
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
+    needs:
+      - release-please
+      - release
+    with:
+      sha: ${{ needs.release-please.outputs.sha }}
+      ref: ${{ github.ref }}
+      tag_name: ${{ needs.release-please.outputs.tag_name }}
+      release_created: ${{ needs.release-please.outputs.release_created }}

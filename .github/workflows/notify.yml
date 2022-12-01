@@ -1,0 +1,35 @@
+on:
+  workflow_call:
+    inputs:
+      sha:
+        description: "Github sha"
+        required: true
+        type: string
+      ref:
+        description: "Github ref"
+        required: true
+        type: string
+      tag_name:
+        description: "Github tag_name"
+        type: string
+      release_created:
+        description: "Github release_created"
+        type: string
+
+env:
+  PARENT_REPO: lukso-network/tools-wagyu-key-gen
+  WORKFLOW_ID: 39950170
+  PARENT_BRANCH: develop
+
+name: notify release
+jobs:
+  notify:
+    name: "Submodule Notify Parent"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Github Update develop
+        run: |
+          curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.DEVOPS_GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches \
+            -d '{"ref":"${{ env.PARENT_BRANCH }}"}'

@@ -11,3 +11,6 @@ venv/
 *.egg
 __pycache__
 .DS_Store
+.env
+.idea
+.secrets
