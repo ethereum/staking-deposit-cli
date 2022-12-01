@@ -1,4 +1,4 @@
-from staking_deposit.utils.crypto import (
+from utils.crypto import (
     HKDF,
     SHA256,
 )

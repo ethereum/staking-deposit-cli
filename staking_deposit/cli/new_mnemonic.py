@@ -3,20 +3,20 @@ from typing import (
     Any,
 )
 
-from staking_deposit.key_handling.key_derivation.mnemonic import (
+from key_handling.key_derivation.mnemonic import (
     get_mnemonic,
     reconstruct_mnemonic,
 )
-from staking_deposit.utils.click import (
+from utils.click import (
     captive_prompt_callback,
     choice_prompt_func,
     jit_option,
 )
-from staking_deposit.utils.constants import (
+from utils.constants import (
     MNEMONIC_LANG_OPTIONS,
     WORD_LISTS_PATH,
 )
-from staking_deposit.utils.intl import (
+from utils.intl import (
     fuzzy_reverse_dict_lookup,
     load_text,
     get_first_options,

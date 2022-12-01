@@ -7,14 +7,14 @@ from typing import (
     Sequence,
 )
 
-from staking_deposit.utils.constants import (
+from utils.constants import (
     MNEMONIC_LANG_OPTIONS,
 )
-from staking_deposit.utils.crypto import (
+from utils.crypto import (
     SHA256,
     PBKDF2,
 )
-from staking_deposit.utils.file_handling import (
+from utils.file_handling import (
     resource_path,
 )
 

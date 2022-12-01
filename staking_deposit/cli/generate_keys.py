@@ -8,30 +8,30 @@ from typing import (
 from eth_typing import HexAddress
 from eth_utils import is_hex_address, to_normalized_address
 
-from staking_deposit.credentials import (
+from credentials import (
     CredentialList,
 )
-from staking_deposit.exceptions import ValidationError
-from staking_deposit.utils.validation import (
+from exceptions import ValidationError
+from utils.validation import (
     verify_deposit_data_json,
     validate_int_range,
     validate_password_strength,
 )
-from staking_deposit.utils.constants import (
+from utils.constants import (
     MAX_DEPOSIT_AMOUNT,
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )
-from staking_deposit.utils.ascii_art import RHINO_0
-from staking_deposit.utils.click import (
+from utils.ascii_art import RHINO_0
+from utils.click import (
     captive_prompt_callback,
     choice_prompt_func,
     jit_option,
 )
-from staking_deposit.utils.intl import (
+from utils.intl import (
     closest_match,
     load_text,
 )
-from staking_deposit.settings import (
+from settings import (
     ALL_CHAINS,
     MAINNET,
     PRATER,
