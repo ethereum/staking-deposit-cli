@@ -33,7 +33,7 @@ from staking_deposit.utils.intl import (
 )
 from staking_deposit.settings import (
     ALL_CHAINS,
-    MAINNET,
+    LUKSO,
     PRATER,
     get_chain_setting,
 )
@@ -83,7 +83,7 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
                     list(ALL_CHAINS.keys())
                 ),
             ),
-            default=MAINNET,
+            default=LUKSO,
             help=lambda: load_text(['chain', 'help'], func='generate_keys_arguments_decorator'),
             param_decls='--chain',
             prompt=choice_prompt_func(
@@ -111,6 +111,12 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             help=lambda: load_text(['eth1_withdrawal_address', 'help'], func='generate_keys_arguments_decorator'),
             param_decls='--eth1_withdrawal_address',
         ),
+        jit_option(
+            callback=lambda ctx,param,x: int(x),
+            default=MAX_DEPOSIT_AMOUNT,
+            help=('Amount to use in all deposit data files.'),
+            param_decls='--amount',
+        ),
     ]
     for decorator in reversed(decorators):
         function = decorator(function)
@@ -121,10 +127,10 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
 @click.pass_context
 def generate_keys(ctx: click.Context, validator_start_index: int,
                   num_validators: int, folder: str, chain: str, keystore_password: str,
-                  eth1_withdrawal_address: HexAddress, **kwargs: Any) -> None:
+                  amount: int, eth1_withdrawal_address: HexAddress, **kwargs: Any) -> None:
     mnemonic = ctx.obj['mnemonic']
     mnemonic_password = ctx.obj['mnemonic_password']
-    amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
+    amounts = [amount] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     chain_setting = get_chain_setting(chain)
     if not os.path.exists(folder):
