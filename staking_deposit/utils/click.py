@@ -8,8 +8,8 @@ from typing import (
     Union,
 )
 
-from exceptions import ValidationError
-from utils import config
+from staking_deposit.exceptions import ValidationError
+from staking_deposit.utils import config
 
 
 def _value_of(f: Union[Callable[[], Any], Any]) -> Any:

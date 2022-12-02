@@ -7,7 +7,7 @@ from ssz import (
     bytes48,
     bytes96
 )
-from utils.constants import (
+from staking_deposit.utils.constants import (
     DOMAIN_DEPOSIT,
     ZERO_BYTES32,
 )

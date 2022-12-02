@@ -12,14 +12,14 @@ from typing import (
 )
 import os
 
-from utils import config
-from utils.constants import (
+from staking_deposit.utils import config
+from staking_deposit.utils.constants import (
     INTL_CONTENT_PATH,
 )
-from utils.file_handling import (
+from staking_deposit.utils.file_handling import (
     resource_path,
 )
-from exceptions import ValidationError
+from staking_deposit.exceptions import ValidationError
 
 
 def _get_from_dict(dataDict: Dict[str, Any], mapList: Iterable[str]) -> str:

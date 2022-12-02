@@ -3,19 +3,19 @@ from typing import (
     Any,
 )
 
-from exceptions import ValidationError
-from key_handling.key_derivation.mnemonic import (
+from staking_deposit.exceptions import ValidationError
+from staking_deposit.key_handling.key_derivation.mnemonic import (
     reconstruct_mnemonic,
 )
-from utils.constants import (
+from staking_deposit.utils.constants import (
     WORD_LISTS_PATH,
 )
-from utils.click import (
+from staking_deposit.utils.click import (
     captive_prompt_callback,
     jit_option,
 )
-from utils.intl import load_text
-from utils.validation import validate_int_range
+from staking_deposit.utils.intl import load_text
+from staking_deposit.utils.validation import validate_int_range
 from .generate_keys import (
     generate_keys,
     generate_keys_arguments_decorator,

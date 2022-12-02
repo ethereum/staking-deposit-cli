@@ -12,13 +12,13 @@ from typing import Any, Dict, Union
 from unicodedata import normalize
 from uuid import uuid4
 
-from utils.crypto import (
+from staking_deposit.utils.crypto import (
     AES_128_CTR,
     PBKDF2,
     scrypt,
     SHA256,
 )
-from utils.constants import (
+from staking_deposit.utils.constants import (
     UNICODE_CONTROL_CHARS,
 )
 

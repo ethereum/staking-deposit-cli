@@ -1,16 +1,16 @@
 import click
 import sys
 
-from cli.existing_mnemonic import existing_mnemonic
-from cli.new_mnemonic import new_mnemonic
-from utils.click import (
+from staking_deposit.cli.existing_mnemonic import existing_mnemonic
+from staking_deposit.cli.new_mnemonic import new_mnemonic
+from staking_deposit.utils.click import (
     captive_prompt_callback,
     choice_prompt_func,
     jit_option,
 )
-from utils import config
-from utils.constants import INTL_LANG_OPTIONS
-from utils.intl import (
+from staking_deposit.utils import config
+from staking_deposit.utils.constants import INTL_LANG_OPTIONS
+from staking_deposit.utils.intl import (
     get_first_options,
     fuzzy_reverse_dict_lookup,
     load_text,
