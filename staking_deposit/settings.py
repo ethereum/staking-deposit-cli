@@ -1,5 +1,5 @@
 from typing import Dict, NamedTuple
-from .settings import __version__
+from .version import __version__
 
 DEPOSIT_CLI_VERSION = __version__
 
