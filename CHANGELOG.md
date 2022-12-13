@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.2](https://github.com/lukso-network/tools-staking-deposit-cli/compare/v2.4.1...v2.4.2) (2022-12-13)
+
+
+### Bug Fixes
+
+* Inherit secrets to allow notification ([903e8bd](https://github.com/lukso-network/tools-staking-deposit-cli/commit/903e8bdd2f7a73ef626aaa75e2af1a6dcd6f0297))
+
 ## [2.4.1](https://github.com/lukso-network/tools-staking-deposit-cli/compare/v2.4.0...v2.4.1) (2022-12-12)
 
 
