@@ -32,4 +32,4 @@ jobs:
           curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.DEVOPS_GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches \
-            -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
+            -d '{"ref":"${{ env.PARENT_BRANCH }}", "inputs": {"tag": "${{ inputs.tag_name }}" } }'
