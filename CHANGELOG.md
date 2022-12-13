@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.3](https://github.com/lukso-network/tools-staking-deposit-cli/compare/v2.4.2...v2.4.3) (2022-12-13)
+
+
+### Bug Fixes
+
+* Use tags during submodule notify (the gui is expecting the input now) ([c98fc36](https://github.com/lukso-network/tools-staking-deposit-cli/commit/c98fc36afd6f1f71d127621967b464f027ca2881))
+
 ## [2.4.2](https://github.com/lukso-network/tools-staking-deposit-cli/compare/v2.4.1...v2.4.2) (2022-12-13)
 
 
