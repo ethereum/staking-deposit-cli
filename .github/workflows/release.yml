@@ -52,6 +52,7 @@ jobs:
   artifacts-job:
     needs: release-please
     uses: ./.github/workflows/artifacts.yml
+    secrets: inherit
     with:
       sha: ${{ needs.release-please.outputs.sha }}
       ref: ${{ github.ref }}
@@ -96,6 +97,7 @@ jobs:
 
   notify:
     uses: ./.github/workflows/notify.yml
+    secrets: inherit
     if: ${{ needs.release-please.outputs.release_created == 'true' }}
     needs:
       - release-please
