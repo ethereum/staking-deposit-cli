@@ -1,6 +1,7 @@
 import click
 from typing import (
     Any,
+    Callable,
 )
 
 from staking_deposit.exceptions import ValidationError
@@ -22,6 +23,39 @@ from .generate_keys import (
 )
 
 
+def load_mnemonic_arguments_decorator(function: Callable[..., Any]) -> Callable[..., Any]:
+    '''
+    This is a decorator that, when applied to a parent-command, implements the
+    to obtain the necessary arguments for the generate_keys() subcommand.
+    '''
+    decorators = [
+        jit_option(
+            callback=validate_mnemonic,
+            help=lambda: load_text(['arg_mnemonic', 'help'], func='existing_mnemonic'),
+            param_decls='--mnemonic',
+            prompt=lambda: load_text(['arg_mnemonic', 'prompt'], func='existing_mnemonic'),
+            type=str,
+        ),
+        jit_option(
+            callback=captive_prompt_callback(
+                lambda x: x,
+                lambda: load_text(['arg_mnemonic_password', 'prompt'], func='existing_mnemonic'),
+                lambda: load_text(['arg_mnemonic_password', 'confirm'], func='existing_mnemonic'),
+                lambda: load_text(['arg_mnemonic_password', 'mismatch'], func='existing_mnemonic'),
+                True,
+            ),
+            default='',
+            help=lambda: load_text(['arg_mnemonic_password', 'help'], func='existing_mnemonic'),
+            hidden=True,
+            param_decls='--mnemonic-password',
+            prompt=False,
+        ),
+    ]
+    for decorator in reversed(decorators):
+        function = decorator(function)
+    return function
+
+
 def validate_mnemonic(ctx: click.Context, param: Any, mnemonic: str) -> str:
     mnemonic = reconstruct_mnemonic(mnemonic, WORD_LISTS_PATH)
     if mnemonic is not None:
@@ -33,27 +67,7 @@ def validate_mnemonic(ctx: click.Context, param: Any, mnemonic: str) -> str:
 @click.command(
     help=load_text(['arg_existing_mnemonic', 'help'], func='existing_mnemonic'),
 )
-@jit_option(
-    callback=validate_mnemonic,
-    help=lambda: load_text(['arg_mnemonic', 'help'], func='existing_mnemonic'),
-    param_decls='--mnemonic',
-    prompt=lambda: load_text(['arg_mnemonic', 'prompt'], func='existing_mnemonic'),
-    type=str,
-)
-@jit_option(
-    callback=captive_prompt_callback(
-        lambda x: x,
-        lambda: load_text(['arg_mnemonic_password', 'prompt'], func='existing_mnemonic'),
-        lambda: load_text(['arg_mnemonic_password', 'confirm'], func='existing_mnemonic'),
-        lambda: load_text(['arg_mnemonic_password', 'mismatch'], func='existing_mnemonic'),
-        True,
-    ),
-    default='',
-    help=lambda: load_text(['arg_mnemonic_password', 'help'], func='existing_mnemonic'),
-    hidden=True,
-    param_decls='--mnemonic-password',
-    prompt=False,
-)
+@load_mnemonic_arguments_decorator
 @jit_option(
     callback=captive_prompt_callback(
         lambda num: validate_int_range(num, 0, 2**32),

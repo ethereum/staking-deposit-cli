@@ -1,8 +1,4 @@
 {
-    "validate_eth1_withdrawal_address": {
-        "err_invalid_ECDSA_hex_addr": "Girilen Eth1 adresi onaltılık sistemde kodlanmamıştır.",
-        "msg_ECDSA_addr_withdrawal": "**[Uyarı] bir Eth1 adresini varlık çekme adresi olarak giriyorsunuz. Lütfen bu adresin kontrolünün sizde olduğundan emin olun.**"
-    },
     "generate_keys_arguments_decorator": {
         "num_validators": {
             "help": "Oluşturmak istediğiniz yeni doğrulayıcı anahtarlarının sayısını giriniz (daha fazlasını daha sonra da oluşturabilirsiniz)",
