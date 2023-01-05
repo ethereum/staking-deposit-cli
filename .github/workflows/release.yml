@@ -25,6 +25,7 @@ jobs:
         uses: actions/checkout@master
       - name: Please release
         uses: google-github-actions/release-please-action@v3
+        if: ${{ github.event.number == '' }}
         id: release
         with:
           release-type: ${{ env.PACKAGE_TYPE }}
@@ -36,7 +37,7 @@ jobs:
           then
             SHA="${{ github.sha }}"
             RELEASE_CREATED="false"
-            TAG_NAME="v$(node -pe 'require("./.release-please-manifest.json")["."]')-g${SHA:0:7}"
+            TAG_NAME="v$(node -pe 'require("./.release-please-manifest.json")["."]')-${{ github.event.number }}"
           else
             SHA="${{ steps.release.outputs.sha }}"
             RELEASE_CREATED="true"
