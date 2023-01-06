@@ -9,7 +9,7 @@ from eth_utils import decode_hex
 
 from staking_deposit.deposit import cli
 from staking_deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME, ETH1_ADDRESS_WITHDRAWAL_PREFIX
-from.helpers import clean_key_folder, get_permissions, get_uuid
+from .helpers import clean_key_folder, get_permissions, get_uuid
 
 
 def test_existing_mnemonic_bls_withdrawal() -> None:

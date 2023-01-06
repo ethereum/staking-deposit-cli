@@ -1,11 +1,13 @@
 import click
 import json
+from typing import Any, Dict, Sequence
+
 from eth_typing import (
     BLSPubkey,
     BLSSignature,
+    HexAddress,
 )
-from typing import Any, Dict, Sequence
-
+from eth_utils import is_hex_address, to_normalized_address
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from staking_deposit.exceptions import ValidationError
@@ -112,3 +114,30 @@ def validate_int_range(num: Any, low: int, high: int) -> int:
         return num_int
     except (ValueError, AssertionError):
         raise ValidationError(load_text(['err_not_positive_integer']))
+
+
+def validate_eth1_withdrawal_address(cts: click.Context, param: Any, address: str) -> HexAddress:
+    if address is None:
+        return None
+    if not is_hex_address(address):
+        raise ValueError(load_text(['err_invalid_ECDSA_hex_addr']))
+
+    normalized_address = to_normalized_address(address)
+    click.echo('\n%s\n' % load_text(['msg_ECDSA_addr_withdrawal']))
+    return normalized_address
+
+
+def validate_bls_withdrawal_credentials(bls_withdrawal_credentials: str) -> bytes:
+    bls_withdrawal_credentials_bytes = bytes.fromhex(bls_withdrawal_credentials)
+    try:
+        assert len(bls_withdrawal_credentials_bytes) == 32
+        assert bls_withdrawal_credentials_bytes[:1] == BLS_WITHDRAWAL_PREFIX
+    except (ValueError, AssertionError):
+        raise ValidationError(load_text(['err_not_bls_form']))
+
+    return bls_withdrawal_credentials_bytes
+
+
+def validate_bls_withdrawal_credentials_matching(bls_withdrawal_credentials: bytes, credential: Credential) -> None:
+    if bls_withdrawal_credentials[1:] != SHA256(credential.withdrawal_pk)[1:]:
+        raise ValidationError(load_text(['err_not_matching']))

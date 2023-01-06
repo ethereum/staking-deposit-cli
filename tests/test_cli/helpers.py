@@ -1,19 +1,31 @@
 import os
 
 from staking_deposit.key_handling.keystore import Keystore
-from staking_deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
+from staking_deposit.utils.constants import (
+    DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME,
+    DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
+)
 
 
 def clean_key_folder(my_folder_path: str) -> None:
-    validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
-    if not os.path.exists(validator_keys_folder_path):
+    sub_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
+    clean_folder(my_folder_path, sub_folder_path)
+
+
+def clean_btec_folder(my_folder_path: str) -> None:
+    sub_folder_path = os.path.join(my_folder_path, DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME)
+    clean_folder(my_folder_path, sub_folder_path)
+
+
+def clean_folder(primary_folder_path: str, sub_folder_path: str) -> None:
+    if not os.path.exists(sub_folder_path):
         return
 
-    _, _, key_files = next(os.walk(validator_keys_folder_path))
+    _, _, key_files = next(os.walk(sub_folder_path))
     for key_file_name in key_files:
-        os.remove(os.path.join(validator_keys_folder_path, key_file_name))
-    os.rmdir(validator_keys_folder_path)
-    os.rmdir(my_folder_path)
+        os.remove(os.path.join(sub_folder_path, key_file_name))
+    os.rmdir(sub_folder_path)
+    os.rmdir(primary_folder_path)
 
 
 def get_uuid(key_file: str) -> str:
