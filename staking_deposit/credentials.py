@@ -187,15 +187,15 @@ class Credential:
         signed_bls_to_execution_change = self.get_bls_to_execution_change(validator_index)
         message = {
             'validator_index': signed_bls_to_execution_change.message.validator_index,
-            'from_bls_pubkey': signed_bls_to_execution_change.message.from_bls_pubkey.hex(),
-            'to_execution_address': signed_bls_to_execution_change.message.to_execution_address.hex(),
+            'from_bls_pubkey': '0x' + signed_bls_to_execution_change.message.from_bls_pubkey.hex(),
+            'to_execution_address': '0x' + signed_bls_to_execution_change.message.to_execution_address.hex(),
         }
         result_dict.update({'message': message})
-        result_dict.update({'signature': signed_bls_to_execution_change.signature})
+        result_dict.update({'signature': '0x' + signed_bls_to_execution_change.signature.hex()})
 
         # meta
         result_dict.update({'network_name': self.chain_setting.NETWORK_NAME})
-        result_dict.update({'genesis_validators_root': self.chain_setting.GENESIS_VALIDATORS_ROOT})
+        result_dict.update({'genesis_validators_root': '0x' + self.chain_setting.GENESIS_VALIDATORS_ROOT.hex()})
         result_dict.update({'deposit_cli_version': DEPOSIT_CLI_VERSION})
         return result_dict
 
@@ -259,7 +259,7 @@ class CredentialList:
 
         filefolder = os.path.join(folder, 'bls_to_execution_change-%i.json' % time.time())
         with open(filefolder, 'w') as f:
-            json.dump(bls_to_execution_changes, f, default=lambda x: x.hex())
+            json.dump(bls_to_execution_changes, f)
         if os.name == 'posix':
             os.chmod(filefolder, int('440', 8))  # Read for owner & group
         return filefolder
