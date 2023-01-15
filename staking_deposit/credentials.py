@@ -48,8 +48,7 @@ class Credential:
     """
     def __init__(self, *, mnemonic: str, mnemonic_password: str,
                  index: int, amount: int, chain_setting: BaseChainSetting,
-                 hex_eth1_withdrawal_address: Optional[HexAddress],
-                 btec_fork_version: Optional[bytes]=None):
+                 hex_eth1_withdrawal_address: Optional[HexAddress]):
         # Set path as EIP-2334 format
         # https://eips.ethereum.org/EIPS/eip-2334
         purpose = '12381'
@@ -65,7 +64,6 @@ class Credential:
         self.amount = amount
         self.chain_setting = chain_setting
         self.hex_eth1_withdrawal_address = hex_eth1_withdrawal_address
-        self.btec_fork_version = btec_fork_version
 
     @property
     def signing_pk(self) -> bytes:
@@ -167,16 +165,13 @@ class Credential:
         if self.eth1_withdrawal_address is None:
             raise ValueError("The execution address should NOT be empty.")
 
-        if self.btec_fork_version is None:
-            raise ValueError("The BLSToExecutionChange signing fork version should NOT be empty.")
-
         message = BLSToExecutionChange(
             validator_index=validator_index,
             from_bls_pubkey=self.withdrawal_pk,
             to_execution_address=self.eth1_withdrawal_address,
         )
         domain = compute_bls_to_execution_change_domain(
-            fork_version=self.btec_fork_version,
+            fork_version=self.chain_setting.GENESIS_FORK_VERSION,
             genesis_validators_root=self.chain_setting.GENESIS_VALIDATORS_ROOT,
         )
         signing_root = compute_signing_root(message, domain)
@@ -191,7 +186,7 @@ class Credential:
         result_dict: Dict[str, Any] = {}
         signed_bls_to_execution_change = self.get_bls_to_execution_change(validator_index)
         message = {
-            'valdiator_index': signed_bls_to_execution_change.message.validator_index,
+            'validator_index': signed_bls_to_execution_change.message.validator_index,
             'from_bls_pubkey': signed_bls_to_execution_change.message.from_bls_pubkey.hex(),
             'to_execution_address': signed_bls_to_execution_change.message.to_execution_address.hex(),
         }
@@ -199,7 +194,6 @@ class Credential:
         result_dict.update({'signature': signed_bls_to_execution_change.signature})
 
         # meta
-        result_dict.update({'fork_version': self.btec_fork_version})
         result_dict.update({'network_name': self.chain_setting.NETWORK_NAME})
         result_dict.update({'genesis_validators_root': self.chain_setting.GENESIS_VALIDATORS_ROOT})
         result_dict.update({'deposit_cli_version': DEPOSIT_CLI_VERSION})
@@ -222,8 +216,7 @@ class CredentialList:
                       amounts: List[int],
                       chain_setting: BaseChainSetting,
                       start_index: int,
-                      hex_eth1_withdrawal_address: Optional[HexAddress],
-                      btec_fork_version: Optional[bytes]=None) -> 'CredentialList':
+                      hex_eth1_withdrawal_address: Optional[HexAddress]) -> 'CredentialList':
         if len(amounts) != num_keys:
             raise ValueError(
                 f"The number of keys ({num_keys}) doesn't equal to the corresponding deposit amounts ({len(amounts)})."
@@ -233,8 +226,7 @@ class CredentialList:
                                show_percent=False, show_pos=True) as indices:
             return cls([Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
                                    index=index, amount=amounts[index - start_index], chain_setting=chain_setting,
-                                   hex_eth1_withdrawal_address=hex_eth1_withdrawal_address,
-                                   btec_fork_version=btec_fork_version)
+                                   hex_eth1_withdrawal_address=hex_eth1_withdrawal_address)
                         for index in indices])
 
     def export_keystores(self, password: str, folder: str) -> List[str]:

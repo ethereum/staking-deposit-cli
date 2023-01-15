@@ -27,13 +27,6 @@ DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME = 'bls_to_execution_changes'
 INTL_CONTENT_PATH = os.path.join('staking_deposit', 'intl')
 
 
-# BLSToExecutionChange signing fork versions
-CAPELLA = 'capella'
-BTEC_FORK_VERSIONS: Dict[str, bytes] = {
-    CAPELLA: bytes.fromhex('03000000'),
-}
-
-
 def _add_index_to_options(d: Dict[str, List[str]]) -> Dict[str, List[str]]:
     '''
     Adds the (1 indexed) index (in the dict) to the first element of value list.

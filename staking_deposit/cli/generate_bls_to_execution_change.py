@@ -16,8 +16,6 @@ from staking_deposit.utils.validation import (
     validate_int_range,
 )
 from staking_deposit.utils.constants import (
-    BTEC_FORK_VERSIONS,
-    CAPELLA,
     DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME,
     MAX_DEPOSIT_AMOUNT,
 )
@@ -72,22 +70,6 @@ FUNC_NAME = 'generate_bls_to_execution_change'
         list(key for key in ALL_CHAINS.keys() if key != PRATER)
     ),
 )
-@jit_option(
-    callback=captive_prompt_callback(
-        lambda x: closest_match(x, list(BTEC_FORK_VERSIONS.keys())),
-        choice_prompt_func(
-            lambda: load_text(['arg_fork', 'prompt'], func=FUNC_NAME),
-            list(BTEC_FORK_VERSIONS.keys())
-        ),
-    ),
-    default=CAPELLA,
-    help=lambda: load_text(['arg_fork', 'help'], func=FUNC_NAME),
-    param_decls='--fork',
-    prompt=choice_prompt_func(
-        lambda: load_text(['arg_fork', 'prompt'], func=FUNC_NAME),
-        list(key for key in BTEC_FORK_VERSIONS.keys())
-    ),
-)
 @load_mnemonic_arguments_decorator
 @jit_option(
     callback=captive_prompt_callback(
@@ -132,7 +114,6 @@ def generate_bls_to_execution_change(
         ctx: click.Context,
         bls_to_execution_changes_folder: str,
         chain: str,
-        fork: str,
         mnemonic: str,
         mnemonic_password: str,
         validator_start_index: int,
@@ -151,9 +132,6 @@ def generate_bls_to_execution_change(
     # Get chain setting
     chain_setting = get_chain_setting(chain)
 
-    # Get FORK_VERSION
-    fork_version = BTEC_FORK_VERSIONS[fork]
-
     # TODO: generate multiple?
     num_validators = 1
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
@@ -166,7 +144,6 @@ def generate_bls_to_execution_change(
         chain_setting=chain_setting,
         start_index=validator_start_index,
         hex_eth1_withdrawal_address=execution_address,
-        btec_fork_version=fork_version,
     )
 
     if len(credentials.credentials) != 1:

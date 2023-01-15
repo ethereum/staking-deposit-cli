@@ -25,7 +25,6 @@ def test_existing_mnemonic_bls_withdrawal() -> None:
         'generate-bls-to-execution-change',
         '--bls_to_execution_changes_folder', my_folder_path,
         '--chain', 'mainnet',
-        '--fork', 'capella',
         '--mnemonic', 'sister protect peanut hill ready work profit fit wish want small inflict flip member tail between sick setup bright duck morning sell paper worry',  # noqa: E501
         '--bls_withdrawal_credentials', '00bd0b5a34de5fb17df08410b5e615dda87caf4fb72d0aac91ce5e52fc6aa8de',
         '--validator_start_index', '0',
