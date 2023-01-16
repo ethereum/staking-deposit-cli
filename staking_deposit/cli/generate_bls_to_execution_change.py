@@ -129,7 +129,7 @@ def generate_bls_to_execution_change(
         validator_index: int,
         bls_withdrawal_credentials: bytes,
         execution_address: HexAddress,
-        devnet_chain_setting: dict,
+        devnet_chain_setting: str,
         **kwargs: Any) -> None:
     # Generate folder
     bls_to_execution_changes_folder = os.path.join(
@@ -173,7 +173,14 @@ def generate_bls_to_execution_change(
 
     btec_file = credentials.export_bls_to_execution_change_json(bls_to_execution_changes_folder, validator_index)
 
-    if not verify_bls_to_execution_change_json(btec_file, credentials.credentials):
+    json_file_validation_result = verify_bls_to_execution_change_json(
+        btec_file,
+        credentials.credentials,
+        input_validator_index=validator_index,
+        input_execution_address=execution_address,
+        chain_setting=chain_setting,
+    )
+    if not json_file_validation_result:
         raise ValidationError(load_text(['err_verify_btec']))
 
     click.pause(load_text(['msg_pause']))

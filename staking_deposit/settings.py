@@ -56,7 +56,9 @@ def get_chain_setting(chain_name: str = MAINNET) -> BaseChainSetting:
     return ALL_CHAINS[chain_name]
 
 
-def get_devnet_chain_setting(network_name: str, genesis_fork_version: str, genesis_validator_root: str):
+def get_devnet_chain_setting(network_name: str,
+                             genesis_fork_version: str,
+                             genesis_validator_root: str) -> BaseChainSetting:
     return BaseChainSetting(
         NETWORK_NAME=network_name,
         GENESIS_FORK_VERSION=decode_hex(genesis_fork_version),
