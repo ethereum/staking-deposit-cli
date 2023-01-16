@@ -18,6 +18,7 @@
         - [`new-mnemonic` Arguments](#new-mnemonic-arguments)
         - [`existing-mnemonic` Arguments](#existing-mnemonic-arguments)
         - [Successful message](#successful-message)
+        - [`generate-bls-to-execution-change` Arguments](#generate-bls-to-execution-change-arguments)
     - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python)
       - [Step 0. Python version checking](#step-0-python-version-checking)
       - [Step 1. Installation](#step-1-installation-1)
@@ -128,6 +129,7 @@ The CLI offers different commands depending on what you want to do with the tool
 | ------- | ----------- |
 | `new-mnemonic` | (Recommended) This command is used to generate keystores with a new mnemonic. |
 | `existing-mnemonic` | This command is used to re-generate or derive new keys from your existing mnemonic. Use this command, if (i) you have already generated keys with this CLI before, (ii) you want to reuse your mnemonic that you know is secure that you generated elsewhere (reusing your eth1 mnemonic .etc), or (iii) you lost your keystores and need to recover your keys. |
+| ``
 
 ###### `new-mnemonic` Arguments
 
@@ -167,6 +169,22 @@ Verifying your deposits:          [####################################]  <N>/<N
 Success!
 Your keys can be found at: <YOUR_FOLDER_PATH>
 ```
+
+###### `generate-bls-to-execution-change` Arguments 
+
+You can use `bls-to-execution-change --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
+
+| Argument | Type | Description |
+| -------- | -------- | -------- |
+| `--bls_to_execution_changes_folder` | String. Pointing to `./bls_to_execution_changes` by default | The folder path for the `bls_to_execution_change-*` JSON file(s) |
+| `--chain` | String. `mainnet` by default | The chain setting for the signing domain. |
+| `--mnemonic` | String. mnemonic split by space.  | The mnemonic you used to create withdrawal credentials. |
+| `--mnemonic_password` | Optional string. Empty by default. | The mnemonic password you used in your key generation. Note: It's not the keystore password. |
+| `--validator_start_index` | Non-negative integer | The index of the first validator's keys you generated withdrawal credentials with the mnemonic. |
+| `--validator_index`  | Non-negative integer | The index number of your validator in beacon chain state. |
+| `--bls_withdrawal_credentials` | String. | The old BLS withdrawal credentials of the given validator. It is for confirming you are using the correct keys. |
+| `--execution_address` | String. 20-byte Execution (Eth1) address in hexadecimal encoded form | The execution (Eth1) address you want to change to for withdrawals. |
+| `--devnet_chain_setting` | String. JSON string `'{"network_name": "<NETWORK_NAME>", "genesis_fork_version": "<GENESIS_FORK_VERSION>", "genesis_validator_root": "<GENESIS_VALIDATOR_ROOT>"}'` | The custom chain setting of a devnet or testnet. Note that it will override your `--chain` choice. |
 
 #### Option 2. Build `deposit-cli` with native Python
 
@@ -228,6 +246,7 @@ See [here](#commands)
 
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
+See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
 
 ###### Successful message
 See [here](#successful-message)
@@ -295,6 +314,7 @@ See [here](#commands)
 
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
+See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
 
 #### Option 4. Use Docker image
 
@@ -378,6 +398,7 @@ See [here](#commands)
 
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
+See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
 
 #### Option 2. Build `deposit-cli` with native Python
 
@@ -440,6 +461,7 @@ See [here](#commands)
 
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
+See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
 
 #### Option 3. Build `deposit-cli` with `virtualenv`
 
@@ -504,6 +526,7 @@ See [here](#commands)
 
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
+See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
 
 ## Development
 
