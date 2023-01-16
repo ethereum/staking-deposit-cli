@@ -1,5 +1,6 @@
 import os
 import click
+import json
 from typing import (
     Any,
 )
@@ -35,6 +36,7 @@ from staking_deposit.settings import (
     MAINNET,
     PRATER,
     get_chain_setting,
+    get_devnet_chain_setting,
 )
 from .existing_mnemonic import (
     load_mnemonic_arguments_decorator,
@@ -110,6 +112,12 @@ FUNC_NAME = 'generate_bls_to_execution_change'
     param_decls='--execution_address',
     prompt=lambda: load_text(['arg_execution_address', 'prompt'], func=FUNC_NAME),
 )
+@jit_option(
+    # Only for devnet tests
+    default=None,
+    help="[DEVNET ONLY] Set specific GENESIS_FORK_VERSION value",
+    param_decls='--devnet_chain_setting',
+)
 @click.pass_context
 def generate_bls_to_execution_change(
         ctx: click.Context,
@@ -121,6 +129,7 @@ def generate_bls_to_execution_change(
         validator_index: int,
         bls_withdrawal_credentials: bytes,
         execution_address: HexAddress,
+        devnet_chain_setting: dict,
         **kwargs: Any) -> None:
     # Generate folder
     bls_to_execution_changes_folder = os.path.join(
@@ -132,6 +141,15 @@ def generate_bls_to_execution_change(
 
     # Get chain setting
     chain_setting = get_chain_setting(chain)
+
+    if devnet_chain_setting is not None:
+        click.echo('\n%s\n' % '**[Warning] Using devnet chain setting to generate the SignedBLSToExecutionChange.**\t')
+        devnet_chain_setting_dict = json.loads(devnet_chain_setting)
+        chain_setting = get_devnet_chain_setting(
+            network_name=devnet_chain_setting_dict['network_name'],
+            genesis_fork_version=devnet_chain_setting_dict['genesis_fork_version'],
+            genesis_validator_root=devnet_chain_setting_dict['genesis_validator_root'],
+        )
 
     # TODO: generate multiple?
     num_validators = 1
