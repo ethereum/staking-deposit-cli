@@ -193,10 +193,14 @@ class Credential:
         result_dict.update({'message': message})
         result_dict.update({'signature': '0x' + signed_bls_to_execution_change.signature.hex()})
 
-        # meta
-        result_dict.update({'network_name': self.chain_setting.NETWORK_NAME})
-        result_dict.update({'genesis_validators_root': '0x' + self.chain_setting.GENESIS_VALIDATORS_ROOT.hex()})
-        result_dict.update({'deposit_cli_version': DEPOSIT_CLI_VERSION})
+        # metadata
+        metadata: Dict[str, Any] = {
+            'network_name': self.chain_setting.NETWORK_NAME,
+            'genesis_validators_root': '0x' + self.chain_setting.GENESIS_VALIDATORS_ROOT.hex(),
+            'deposit_cli_version': DEPOSIT_CLI_VERSION,
+        }
+
+        result_dict.update({'metadata': metadata})
         return result_dict
 
 

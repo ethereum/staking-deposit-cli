@@ -172,6 +172,7 @@ def validate_bls_to_execution_change(btec_dict: Dict[str, Any],
     from_bls_pubkey = BLSPubkey(decode_hex(btec_dict['message']['from_bls_pubkey']))
     to_execution_address = decode_hex(btec_dict['message']['to_execution_address'])
     signature = BLSSignature(decode_hex(btec_dict['signature']))
+    genesis_validators_root = decode_hex(btec_dict['metadata']['genesis_validators_root'])
 
     if validator_index != input_validator_index:
         return False
@@ -182,6 +183,8 @@ def validate_bls_to_execution_change(btec_dict: Dict[str, Any],
         or to_execution_address != decode_hex(input_execution_address)
     ):
         return False
+    if genesis_validators_root != chain_setting.GENESIS_VALIDATORS_ROOT:
+        return False
 
     message = BLSToExecutionChange(
         validator_index=validator_index,
@@ -190,7 +193,7 @@ def validate_bls_to_execution_change(btec_dict: Dict[str, Any],
     )
     domain = compute_bls_to_execution_change_domain(
         fork_version=chain_setting.GENESIS_FORK_VERSION,
-        genesis_validators_root=chain_setting.GENESIS_VALIDATORS_ROOT,
+        genesis_validators_root=genesis_validators_root,
     )
     signing_root = compute_signing_root(message, domain)
 
