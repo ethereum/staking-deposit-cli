@@ -14,6 +14,7 @@ from staking_deposit.utils.validation import (
     validate_bls_withdrawal_credentials_matching,
     validate_eth1_withdrawal_address,
     validate_int_range,
+    verify_bls_to_execution_change_json,
 )
 from staking_deposit.utils.constants import (
     DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME,
@@ -24,6 +25,7 @@ from staking_deposit.utils.click import (
     choice_prompt_func,
     jit_option,
 )
+from staking_deposit.exceptions import ValidationError
 from staking_deposit.utils.intl import (
     closest_match,
     load_text,
@@ -75,7 +77,6 @@ FUNC_NAME = 'generate_bls_to_execution_change'
     callback=captive_prompt_callback(
         lambda num: validate_int_range(num, 0, 2**32),
         lambda: load_text(['arg_validator_start_index', 'prompt'], func=FUNC_NAME),
-        lambda: load_text(['arg_validator_start_index', 'confirm'], func=FUNC_NAME),
     ),
     default=0,
     help=lambda: load_text(['arg_validator_start_index', 'help'], func=FUNC_NAME),
@@ -152,6 +153,9 @@ def generate_bls_to_execution_change(
     # Check if the given old bls_withdrawal_credentials is as same as the mnemonic generated
     validate_bls_withdrawal_credentials_matching(bls_withdrawal_credentials, credentials.credentials[0])
 
-    credentials.export_bls_to_execution_change_json(bls_to_execution_changes_folder, validator_index)
+    btec_file = credentials.export_bls_to_execution_change_json(bls_to_execution_changes_folder, validator_index)
+
+    if not verify_bls_to_execution_change_json(btec_file, credentials.credentials):
+        raise ValidationError(load_text(['err_verify_btec']))
 
     click.pause(load_text(['msg_pause']))

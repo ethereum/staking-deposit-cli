@@ -20,5 +20,8 @@
     },
     "validate_bls_withdrawal_credentials_matching": {
         "err_not_matching": "The given withdrawal credentials is matching the old BLS withdrawal credentials that mnemonic generated."
+    },
+    "verify_bls_to_execution_change_json": {
+        "msg_bls_to_execution_change_verification": "Verifying your BLSToExecutionChange file:\t"
     }
 }

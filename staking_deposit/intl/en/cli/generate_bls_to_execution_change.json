@@ -34,6 +34,7 @@
         },
         "msg_key_creation": "Creating your SignedBLSToExecutionChange.",
         "msg_creation_success": "\nSuccess!\nYour SignedBLSToExecutionChange data can be found at: ",
-        "msg_pause": "\n\nPress any key."
+        "msg_pause": "\n\nPress any key.",
+        "err_verify_btec": "Failed to verify the bls_to_execution_change JSON files."
     }
 }

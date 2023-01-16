@@ -7,7 +7,7 @@ from eth_typing import (
     BLSSignature,
     HexAddress,
 )
-from eth_utils import is_hex_address, to_normalized_address
+from eth_utils import is_hex_address, to_normalized_address, decode_hex
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from staking_deposit.exceptions import ValidationError
@@ -29,6 +29,10 @@ from staking_deposit.utils.constants import (
 )
 from staking_deposit.utils.crypto import SHA256
 
+
+#
+# Deposit
+#
 
 def verify_deposit_data_json(filefolder: str, credentials: Sequence[Credential]) -> bool:
     """
@@ -125,6 +129,33 @@ def validate_eth1_withdrawal_address(cts: click.Context, param: Any, address: st
     normalized_address = to_normalized_address(address)
     click.echo('\n%s\n' % load_text(['msg_ECDSA_addr_withdrawal']))
     return normalized_address
+
+#
+# BLSToExecutionChange
+#
+
+
+def verify_bls_to_execution_change_json(filefolder: str, credentials: Sequence[Credential]) -> bool:
+    """
+    Validate every BLSToExecutionChange found in the bls_to_execution_change JSON file folder.
+    """
+    with open(filefolder, 'r') as f:
+        btec_json = json.load(f)
+        with click.progressbar(btec_json, label=load_text(['msg_bls_to_execution_change_verification']),
+                               show_percent=False, show_pos=True) as btecs:
+            return all([validate_bls_to_execution_change(btec, credential) for btec, credential in zip(btecs, credentials)])
+    return False
+
+
+def validate_bls_to_execution_change(btec_dict: Dict[str, Any], credential: Credential) -> bool:
+    # TODO
+    # FIXME
+    ...
+    # validator_index = btec_dict['message']['validator_index']
+    # from_bls_pubkey = BLSPubkey(decode_hex(btec_dict['message']['from_bls_pubkey']))
+    # to_execution_address = decode_hex(btec_dict['message']['to_execution_address'])
+
+    return True
 
 
 def validate_bls_withdrawal_credentials(bls_withdrawal_credentials: str) -> bytes:
