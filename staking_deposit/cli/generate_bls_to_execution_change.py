@@ -183,4 +183,6 @@ def generate_bls_to_execution_change(
     if not json_file_validation_result:
         raise ValidationError(load_text(['err_verify_btec']))
 
+    click.echo(load_text(['msg_creation_success']) + str(bls_to_execution_changes_folder))
+
     click.pause(load_text(['msg_pause']))
