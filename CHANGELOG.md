@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.4](https://github.com/lukso-network/tools-staking-deposit-cli/compare/v2.4.3...v2.4.4) (2023-01-20)
+
+
+### Bug Fixes
+
+* Disable release-please process on pull_requests. It should only track things on push to develop or patch/* ([f52d510](https://github.com/lukso-network/tools-staking-deposit-cli/commit/f52d5109617dfb44c097606aa7bbc38a3cfda6ef))
+
 ## [2.4.3](https://github.com/lukso-network/tools-staking-deposit-cli/compare/v2.4.2...v2.4.3) (2022-12-13)
 
 
