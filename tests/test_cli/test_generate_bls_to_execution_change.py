@@ -6,19 +6,17 @@ from staking_deposit.deposit import cli
 from staking_deposit.utils.constants import DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME
 from .helpers import (
     clean_btec_folder,
-    get_permissions,
+    prepare_testing_folder,
+    verify_file_permission,
 )
 
 
 def test_existing_mnemonic_bls_withdrawal() -> None:
     # Prepare folder
-    my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
-    clean_btec_folder(my_folder_path)
-    if not os.path.exists(my_folder_path):
-        os.mkdir(my_folder_path)
+    my_folder_path = prepare_testing_folder(os)
 
     runner = CliRunner()
-    inputs = ['0']  # confirm `validator_start_index`
+    inputs = []
     data = '\n'.join(inputs)
     arguments = [
         '--language', 'english',
@@ -26,7 +24,7 @@ def test_existing_mnemonic_bls_withdrawal() -> None:
         '--bls_to_execution_changes_folder', my_folder_path,
         '--chain', 'mainnet',
         '--mnemonic', 'sister protect peanut hill ready work profit fit wish want small inflict flip member tail between sick setup bright duck morning sell paper worry',  # noqa: E501
-        '--bls_withdrawal_credentials', '00bd0b5a34de5fb17df08410b5e615dda87caf4fb72d0aac91ce5e52fc6aa8de',
+        '--bls_withdrawal_credentials', '0x00bd0b5a34de5fb17df08410b5e615dda87caf4fb72d0aac91ce5e52fc6aa8de',
         '--validator_start_index', '0',
         '--validator_index', '1',
         '--execution_address', '3434343434343434343434343434343434343434',
@@ -42,9 +40,44 @@ def test_existing_mnemonic_bls_withdrawal() -> None:
     assert len(set(btec_files)) == 1
 
     # Verify file permissions
-    if os.name == 'posix':
-        for file_name in btec_files:
-            assert get_permissions(bls_to_execution_changes_folder_path, file_name) == '0o440'
+    verify_file_permission(os, folder_path=bls_to_execution_changes_folder_path, files=btec_files)
+
+    # Clean up
+    clean_btec_folder(my_folder_path)
+
+
+def test_existing_mnemonic_bls_withdrawal_interactive() -> None:
+    # Prepare folder
+    my_folder_path = prepare_testing_folder(os)
+
+    runner = CliRunner()
+    inputs = [
+        'mainnet',  # network/chain
+        'sister protect peanut hill ready work profit fit wish want small inflict flip member tail between sick setup bright duck morning sell paper worry',  # noqa: E501
+        '0',  # validator_start_index
+        '1',  # validator_index
+        '0x00bd0b5a34de5fb17df08410b5e615dda87caf4fb72d0aac91ce5e52fc6aa8de',
+        '0x3434343434343434343434343434343434343434',
+
+    ]
+    data = '\n'.join(inputs)
+    arguments = [
+        '--language', 'english',
+        'generate-bls-to-execution-change',
+        '--bls_to_execution_changes_folder', my_folder_path,
+    ]
+    result = runner.invoke(cli, arguments, input=data)
+    assert result.exit_code == 0
+
+    # Check files
+    bls_to_execution_changes_folder_path = os.path.join(my_folder_path, DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME)
+    _, _, btec_files = next(os.walk(bls_to_execution_changes_folder_path))
+
+    # TODO verify file content
+    assert len(set(btec_files)) == 1
+
+    # Verify file permissions
+    verify_file_permission(os, folder_path=bls_to_execution_changes_folder_path, files=btec_files)
 
     # Clean up
     clean_btec_folder(my_folder_path)

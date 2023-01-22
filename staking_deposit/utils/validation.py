@@ -203,8 +203,17 @@ def validate_bls_to_execution_change(btec_dict: Dict[str, Any],
     return True
 
 
-def validate_bls_withdrawal_credentials(bls_withdrawal_credentials: str) -> bytes:
+def normalize_bls_withdrawal_credentials_to_bytes(bls_withdrawal_credentials: str) -> bytes:
+    if bls_withdrawal_credentials.startswith('0x'):
+        bls_withdrawal_credentials = bls_withdrawal_credentials[2:]
+
     bls_withdrawal_credentials_bytes = bytes.fromhex(bls_withdrawal_credentials)
+    return bls_withdrawal_credentials_bytes
+
+
+def validate_bls_withdrawal_credentials(bls_withdrawal_credentials: str) -> bytes:
+    bls_withdrawal_credentials_bytes = normalize_bls_withdrawal_credentials_to_bytes(bls_withdrawal_credentials)
+
     try:
         assert len(bls_withdrawal_credentials_bytes) == 32
         assert bls_withdrawal_credentials_bytes[:1] == BLS_WITHDRAWAL_PREFIX
