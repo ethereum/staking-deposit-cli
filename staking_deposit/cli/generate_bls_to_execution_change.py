@@ -3,6 +3,7 @@ import click
 import json
 from typing import (
     Any,
+    Sequence,
 )
 
 from eth_typing import HexAddress
@@ -11,11 +12,12 @@ from staking_deposit.credentials import (
     CredentialList,
 )
 from staking_deposit.utils.validation import (
-    validate_bls_withdrawal_credentials,
+    validate_bls_withdrawal_credentials_list,
     validate_bls_withdrawal_credentials_matching,
     validate_eth1_withdrawal_address,
     validate_int_range,
     verify_bls_to_execution_change_json,
+    validate_validator_indices,
 )
 from staking_deposit.utils.constants import (
     DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME,
@@ -87,22 +89,24 @@ FUNC_NAME = 'generate_bls_to_execution_change'
 )
 @jit_option(
     callback=captive_prompt_callback(
-        lambda num: validate_int_range(num, 0, 2**32),
-        lambda: load_text(['arg_validator_index', 'prompt'], func=FUNC_NAME),
+        lambda validator_indices: validate_validator_indices(validator_indices),
+        lambda: load_text(['arg_validator_indices', 'prompt'], func=FUNC_NAME),
     ),
-    help=lambda: load_text(['arg_validator_index', 'help'], func=FUNC_NAME),
-    param_decls='--validator_index',
-    prompt=lambda: load_text(['arg_validator_index', 'prompt'], func=FUNC_NAME),
+    help=lambda: load_text(['arg_validator_indices', 'help'], func=FUNC_NAME),
+    param_decls='--validator_indices',
+    prompt=lambda: load_text(['arg_validator_indices', 'prompt'], func=FUNC_NAME),
 )
 @jit_option(
     callback=captive_prompt_callback(
-        lambda bls_withdrawal_credentials: validate_bls_withdrawal_credentials(bls_withdrawal_credentials),
-        lambda: load_text(['arg_bls_withdrawal_credentials', 'prompt'], func=FUNC_NAME),
+        lambda bls_withdrawal_credentials_list:
+            validate_bls_withdrawal_credentials_list(bls_withdrawal_credentials_list),
+        lambda: load_text(['arg_bls_withdrawal_credentials_list', 'prompt'], func=FUNC_NAME),
     ),
-    help=lambda: load_text(['arg_bls_withdrawal_credentials', 'help'], func=FUNC_NAME),
-    param_decls='--bls_withdrawal_credentials',
-    prompt=lambda: load_text(['arg_bls_withdrawal_credentials', 'prompt'], func=FUNC_NAME),
+    help=lambda: load_text(['arg_bls_withdrawal_credentials_list', 'help'], func=FUNC_NAME),
+    param_decls='--bls_withdrawal_credentials_list',
+    prompt=lambda: load_text(['arg_bls_withdrawal_credentials_list', 'prompt'], func=FUNC_NAME),
 )
+# TODO: retype confirmation
 @jit_option(
     callback=captive_prompt_callback(
         lambda address: validate_eth1_withdrawal_address(None, None, address),
@@ -126,8 +130,8 @@ def generate_bls_to_execution_change(
         mnemonic: str,
         mnemonic_password: str,
         validator_start_index: int,
-        validator_index: int,
-        bls_withdrawal_credentials: bytes,
+        validator_indices: Sequence[int],
+        bls_withdrawal_credentials_list: Sequence[bytes],
         execution_address: HexAddress,
         devnet_chain_setting: str,
         **kwargs: Any) -> None:
@@ -151,8 +155,13 @@ def generate_bls_to_execution_change(
             genesis_validator_root=devnet_chain_setting_dict['genesis_validator_root'],
         )
 
-    # TODO: generate multiple?
-    num_validators = 1
+    if len(validator_indices) != len(bls_withdrawal_credentials_list):
+        raise ValueError(
+            "The size of `validator_indinces` (%d) should be as same as `bls_withdrawal_credentials_list` (%d)."
+            % (len(validator_indices), len(bls_withdrawal_credentials_list))
+        )
+
+    num_validators = len(validator_indices)
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
 
     credentials = CredentialList.from_mnemonic(
@@ -165,18 +174,16 @@ def generate_bls_to_execution_change(
         hex_eth1_withdrawal_address=execution_address,
     )
 
-    if len(credentials.credentials) != 1:
-        raise ValueError(f"It should only generate one credential, but get {len(credentials.credentials)}.")
-
     # Check if the given old bls_withdrawal_credentials is as same as the mnemonic generated
-    validate_bls_withdrawal_credentials_matching(bls_withdrawal_credentials, credentials.credentials[0])
+    for i, credential in enumerate(credentials.credentials):
+        validate_bls_withdrawal_credentials_matching(bls_withdrawal_credentials_list[i], credential)
 
-    btec_file = credentials.export_bls_to_execution_change_json(bls_to_execution_changes_folder, validator_index)
+    btec_file = credentials.export_bls_to_execution_change_json(bls_to_execution_changes_folder, validator_indices)
 
     json_file_validation_result = verify_bls_to_execution_change_json(
         btec_file,
         credentials.credentials,
-        input_validator_index=validator_index,
+        input_validator_indices=validator_indices,
         input_execution_address=execution_address,
         chain_setting=chain_setting,
     )

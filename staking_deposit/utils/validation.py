@@ -1,5 +1,6 @@
 import click
 import json
+import re
 from typing import Any, Dict, Sequence
 
 from eth_typing import (
@@ -124,6 +125,7 @@ def validate_int_range(num: Any, low: int, high: int) -> int:
 
 
 def validate_eth1_withdrawal_address(cts: click.Context, param: Any, address: str) -> HexAddress:
+    # TODO: checksum
     if address is None:
         return None
     if not is_hex_address(address):
@@ -141,7 +143,7 @@ def validate_eth1_withdrawal_address(cts: click.Context, param: Any, address: st
 def verify_bls_to_execution_change_json(filefolder: str,
                                         credentials: Sequence[Credential],
                                         *,
-                                        input_validator_index: int,
+                                        input_validator_indices: Sequence[int],
                                         input_execution_address: str,
                                         chain_setting: BaseChainSetting) -> bool:
     """
@@ -157,7 +159,7 @@ def verify_bls_to_execution_change_json(filefolder: str,
                     input_validator_index=input_validator_index,
                     input_execution_address=input_execution_address,
                     chain_setting=chain_setting)
-                for btec, credential in zip(btecs, credentials)
+                for btec, credential, input_validator_index in zip(btecs, credentials, input_validator_indices)
             ])
     return False
 
@@ -221,6 +223,21 @@ def validate_bls_withdrawal_credentials(bls_withdrawal_credentials: str) -> byte
         raise ValidationError(load_text(['err_not_bls_form']))
 
     return bls_withdrawal_credentials_bytes
+
+
+def normalize_input_list(input: str) -> Sequence[str]:
+    return re.split(r'; |, | |,|;', input)
+
+
+def validate_bls_withdrawal_credentials_list(input_bls_withdrawal_credentials_list: str) -> Sequence[bytes]:
+    bls_withdrawal_credentials_list = normalize_input_list(input_bls_withdrawal_credentials_list)
+    return [validate_bls_withdrawal_credentials(cred) for cred in bls_withdrawal_credentials_list]
+
+
+def validate_validator_indices(input_validator_indices: str) -> Sequence[int]:
+
+    normalized_list = normalize_input_list(input_validator_indices)
+    return [validate_int_range(int(index), 0, 2**32) for index in normalized_list]
 
 
 def validate_bls_withdrawal_credentials_matching(bls_withdrawal_credentials: bytes, credential: Credential) -> None:

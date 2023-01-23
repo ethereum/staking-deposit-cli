@@ -3,7 +3,7 @@ import click
 from enum import Enum
 import time
 import json
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional, Any, Sequence
 
 from eth_typing import Address, HexAddress
 from eth_utils import to_canonical_address
@@ -256,10 +256,11 @@ class CredentialList:
             return all(credential.verify_keystore(keystore_filefolder=filefolder, password=password)
                        for credential, filefolder in items)
 
-    def export_bls_to_execution_change_json(self, folder: str, validator_index: int) -> str:
+    def export_bls_to_execution_change_json(self, folder: str, validator_indinces: Sequence[int]) -> str:
         with click.progressbar(self.credentials, label=load_text(['msg_bls_to_execution_change_creation']),
                                show_percent=False, show_pos=True) as credentials:
-            bls_to_execution_changes = [cred.get_bls_to_execution_change_dict(validator_index) for cred in credentials]
+            bls_to_execution_changes = [cred.get_bls_to_execution_change_dict(validator_indinces[i])
+                                        for i, cred in enumerate(credentials)]
 
         filefolder = os.path.join(folder, 'bls_to_execution_change-%i.json' % time.time())
         with open(filefolder, 'w') as f:
