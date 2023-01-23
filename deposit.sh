@@ -9,7 +9,7 @@ if [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == "linux-android"* ]] || [[ "$OS
         exit 1
     fi
     echo "Running deposit-cli..."
-    python3 ./staking_deposit/deposit.py "$@"
+    PYTHONPATH=. python3 ./staking_deposit/deposit.py "$@"
 
 elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]]; then
     echo $OSTYPE

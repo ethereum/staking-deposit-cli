@@ -59,11 +59,11 @@ class KeystoreModule(BytesDataclass):
     message: bytes = bytes()
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class KeystoreCrypto(BytesDataclass):
-    kdf: KeystoreModule = KeystoreModule()
-    checksum: KeystoreModule = KeystoreModule()
-    cipher: KeystoreModule = KeystoreModule()
+    kdf: KeystoreModule = dataclass_field(default_factory=KeystoreModule)
+    checksum: KeystoreModule = dataclass_field(default_factory=KeystoreModule)
+    cipher: KeystoreModule = dataclass_field(default_factory=KeystoreModule)
 
     @classmethod
     def from_json(cls, json_dict: Dict[Any, Any]) -> 'KeystoreCrypto':
