@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.5](https://github.com/lukso-network/tools-staking-deposit-cli/compare/v2.4.4...v2.4.5) (2023-01-23)
+
+
+### Bug Fixes
+
+* Add default_factory around nested dataclasses ([e45099b](https://github.com/lukso-network/tools-staking-deposit-cli/commit/e45099ba1ba34249ac1d8e09aa3d82d4d239b668))
+
 ## [2.4.4](https://github.com/lukso-network/tools-staking-deposit-cli/compare/v2.4.3...v2.4.4) (2023-01-20)
 
 
