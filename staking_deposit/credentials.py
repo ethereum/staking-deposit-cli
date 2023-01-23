@@ -175,7 +175,7 @@ class CredentialList:
                       amounts: List[int],
                       chain_setting: BaseChainSetting,
                       start_index: int,
-                      hex_eth1_withdrawal_address: Optional[HexAddress]) -> 'CredentialList':
+                      hex_eth1_withdrawal_address: HexAddress) -> 'CredentialList':
         if len(amounts) != num_keys:
             raise ValueError(
                 f"The number of keys ({num_keys}) doesn't equal to the corresponding deposit amounts ({len(amounts)})."
