@@ -7,11 +7,11 @@
         },
         "arg_validator_indices": {
             "help": "A list of the validator indices of the certain validator(s)",
-            "prompt": "Please enter a list of the validator indices of your validator(s). Split multiple items with whitespaces."
+            "prompt": "Please enter a list of the validator indices of your validator(s). Split multiple items with whitespaces or commas."
         },
         "arg_bls_withdrawal_credentials_list": {
             "help": "A list of 32-byte old BLS withdrawal credentials of the certain validator(s)",
-            "prompt": "Please enter a list of the old BLS withdrawal credentials of your validator(s). Split multiple items with whitespaces."
+            "prompt": "Please enter a list of the old BLS withdrawal credentials of your validator(s). Split multiple items with whitespaces or commas."
         },
         "arg_validator_start_index": {
             "help": "The index (key number) of the signging key you want to use with this mnemonic",
