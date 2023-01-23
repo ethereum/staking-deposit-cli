@@ -8,7 +8,7 @@ from eth_typing import (
     BLSSignature,
     HexAddress,
 )
-from eth_utils import is_hex_address, to_normalized_address, decode_hex
+from eth_utils import is_hex_address, is_checksum_address, to_normalized_address, decode_hex
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from staking_deposit.exceptions import ValidationError
@@ -125,14 +125,15 @@ def validate_int_range(num: Any, low: int, high: int) -> int:
 
 
 def validate_eth1_withdrawal_address(cts: click.Context, param: Any, address: str) -> HexAddress:
-    # TODO: checksum
     if address is None:
         return None
     if not is_hex_address(address):
         raise ValueError(load_text(['err_invalid_ECDSA_hex_addr']))
+    if not is_checksum_address(address):
+        raise ValueError(load_text(['err_invalid_ECDSA_hex_addr_checksum']))
 
     normalized_address = to_normalized_address(address)
-    click.echo('\n%s\n' % load_text(['msg_ECDSA_addr_withdrawal']))
+    click.echo('\n%s\n' % load_text(['msg_ECDSA_hex_addr_withdrawal']))
     return normalized_address
 
 #

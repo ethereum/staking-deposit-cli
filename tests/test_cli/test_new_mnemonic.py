@@ -72,7 +72,7 @@ def test_new_mnemonic_eth1_address_withdrawal(monkeypatch) -> None:
     inputs = ['english', '1', 'mainnet', 'MyPassword', 'MyPassword',
               'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about']
     data = '\n'.join(inputs)
-    eth1_withdrawal_address = '0x00000000219ab540356cbb839cbe05303d7705fa'
+    eth1_withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
     arguments = [
         '--language', 'english',
         'new-mnemonic',

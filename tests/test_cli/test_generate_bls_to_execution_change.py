@@ -27,7 +27,7 @@ def test_existing_mnemonic_bls_withdrawal() -> None:
         '--bls_withdrawal_credentials_list', '0x00bd0b5a34de5fb17df08410b5e615dda87caf4fb72d0aac91ce5e52fc6aa8de',
         '--validator_start_index', '0',
         '--validator_indices', '1',
-        '--execution_address', '3434343434343434343434343434343434343434',
+        '--execution_address', '0x3434343434343434343434343434343434343434',
     ]
     result = runner.invoke(cli, arguments, input=data)
     assert result.exit_code == 0
