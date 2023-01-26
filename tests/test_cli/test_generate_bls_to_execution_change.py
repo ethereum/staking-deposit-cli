@@ -20,6 +20,7 @@ def test_existing_mnemonic_bls_withdrawal() -> None:
     data = '\n'.join(inputs)
     arguments = [
         '--language', 'english',
+        '--non_interactive',
         'generate-bls-to-execution-change',
         '--bls_to_execution_changes_folder', my_folder_path,
         '--chain', 'mainnet',
@@ -58,6 +59,7 @@ def test_existing_mnemonic_bls_withdrawal_interactive() -> None:
         '1',  # validator_index
         '0x00bd0b5a34de5fb17df08410b5e615dda87caf4fb72d0aac91ce5e52fc6aa8de',
         '0x3434343434343434343434343434343434343434',
+        '0x3434343434343434343434343434343434343434',
 
     ]
     data = '\n'.join(inputs)
@@ -92,6 +94,7 @@ def test_existing_mnemonic_bls_withdrawal_multiple() -> None:
     data = '\n'.join(inputs)
     arguments = [
         '--language', 'english',
+        '--non_interactive',
         'generate-bls-to-execution-change',
         '--bls_to_execution_changes_folder', my_folder_path,
         '--chain', 'mainnet',

@@ -106,11 +106,12 @@ FUNC_NAME = 'generate_bls_to_execution_change'
     param_decls='--bls_withdrawal_credentials_list',
     prompt=lambda: load_text(['arg_bls_withdrawal_credentials_list', 'prompt'], func=FUNC_NAME),
 )
-# TODO: retype confirmation
 @jit_option(
     callback=captive_prompt_callback(
         lambda address: validate_eth1_withdrawal_address(None, None, address),
         lambda: load_text(['arg_execution_address', 'prompt'], func=FUNC_NAME),
+        lambda: load_text(['arg_execution_address', 'confirm'], func=FUNC_NAME),
+        lambda: load_text(['arg_execution_address', 'mismatch'], func=FUNC_NAME),
     ),
     help=lambda: load_text(['arg_execution_address', 'help'], func=FUNC_NAME),
     param_decls='--execution_address',
@@ -157,7 +158,7 @@ def generate_bls_to_execution_change(
 
     if len(validator_indices) != len(bls_withdrawal_credentials_list):
         raise ValueError(
-            "The size of `validator_indinces` (%d) should be as same as `bls_withdrawal_credentials_list` (%d)."
+            "The size of `validator_indices` (%d) should be as same as `bls_withdrawal_credentials_list` (%d)."
             % (len(validator_indices), len(bls_withdrawal_credentials_list))
         )
 

@@ -186,7 +186,7 @@ class Credential:
         result_dict: Dict[str, Any] = {}
         signed_bls_to_execution_change = self.get_bls_to_execution_change(validator_index)
         message = {
-            'validator_index': signed_bls_to_execution_change.message.validator_index,
+            'validator_index': str(signed_bls_to_execution_change.message.validator_index),
             'from_bls_pubkey': '0x' + signed_bls_to_execution_change.message.from_bls_pubkey.hex(),
             'to_execution_address': '0x' + signed_bls_to_execution_change.message.to_execution_address.hex(),
         }
@@ -256,10 +256,10 @@ class CredentialList:
             return all(credential.verify_keystore(keystore_filefolder=filefolder, password=password)
                        for credential, filefolder in items)
 
-    def export_bls_to_execution_change_json(self, folder: str, validator_indinces: Sequence[int]) -> str:
+    def export_bls_to_execution_change_json(self, folder: str, validator_indices: Sequence[int]) -> str:
         with click.progressbar(self.credentials, label=load_text(['msg_bls_to_execution_change_creation']),
                                show_percent=False, show_pos=True) as credentials:
-            bls_to_execution_changes = [cred.get_bls_to_execution_change_dict(validator_indinces[i])
+            bls_to_execution_changes = [cred.get_bls_to_execution_change_dict(validator_indices[i])
                                         for i, cred in enumerate(credentials)]
 
         filefolder = os.path.join(folder, 'bls_to_execution_change-%i.json' % time.time())

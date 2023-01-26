@@ -171,7 +171,7 @@ def validate_bls_to_execution_change(btec_dict: Dict[str, Any],
                                      input_validator_index: int,
                                      input_execution_address: str,
                                      chain_setting: BaseChainSetting) -> bool:
-    validator_index = btec_dict['message']['validator_index']
+    validator_index = int(btec_dict['message']['validator_index'])
     from_bls_pubkey = BLSPubkey(decode_hex(btec_dict['message']['from_bls_pubkey']))
     to_execution_address = decode_hex(btec_dict['message']['to_execution_address'])
     signature = BLSSignature(decode_hex(btec_dict['signature']))
