@@ -11,43 +11,28 @@ class BaseChainSetting(NamedTuple):
 
 
 MAINNET = 'mainnet'
-ROPSTEN = 'ropsten'
 GOERLI = 'goerli'
 PRATER = 'prater'
-KILN = 'kiln'
 SEPOLIA = 'sepolia'
-
-# FIXME: use the real testnet genesis_validators_root
-GENESIS_VALIDATORS_ROOT_STUB = bytes.fromhex('4b363db94e286120d76eb905340fdd4e54bfe9f06bf33ff6cf5ad27f511bfe95')
 
 # Mainnet setting
 MainnetSetting = BaseChainSetting(
     NETWORK_NAME=MAINNET, GENESIS_FORK_VERSION=bytes.fromhex('00000000'),
     GENESIS_VALIDATORS_ROOT=bytes.fromhex('4b363db94e286120d76eb905340fdd4e54bfe9f06bf33ff6cf5ad27f511bfe95'))
-# Ropsten setting
-RopstenSetting = BaseChainSetting(
-    NETWORK_NAME=ROPSTEN, GENESIS_FORK_VERSION=bytes.fromhex('80000069'),
-    GENESIS_VALIDATORS_ROOT=GENESIS_VALIDATORS_ROOT_STUB)
 # Goerli setting
 GoerliSetting = BaseChainSetting(
     NETWORK_NAME=GOERLI, GENESIS_FORK_VERSION=bytes.fromhex('00001020'),
-    GENESIS_VALIDATORS_ROOT=GENESIS_VALIDATORS_ROOT_STUB)
-# Merge Testnet (spec v1.1.9)
-KilnSetting = BaseChainSetting(
-    NETWORK_NAME=KILN, GENESIS_FORK_VERSION=bytes.fromhex('70000069'),
-    GENESIS_VALIDATORS_ROOT=GENESIS_VALIDATORS_ROOT_STUB)
+    GENESIS_VALIDATORS_ROOT=bytes.fromhex('043db0d9a83813551ee2f33450d23797757d430911a9320530ad8a0eabc43efb'))
 # Sepolia setting
 SepoliaSetting = BaseChainSetting(
     NETWORK_NAME=SEPOLIA, GENESIS_FORK_VERSION=bytes.fromhex('90000069'),
-    GENESIS_VALIDATORS_ROOT=GENESIS_VALIDATORS_ROOT_STUB)
+    GENESIS_VALIDATORS_ROOT=bytes.fromhex('d8ea171f3c94aea21ebc42a1ed61052acf3f9209c00e4efbaaddac09ed9b8078'))
 
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
     MAINNET: MainnetSetting,
-    ROPSTEN: RopstenSetting,
     GOERLI: GoerliSetting,
     PRATER: GoerliSetting,  # Prater is the old name of the Prater/Goerli testnet
-    KILN: KilnSetting,
     SEPOLIA: SepoliaSetting,
 }
 
