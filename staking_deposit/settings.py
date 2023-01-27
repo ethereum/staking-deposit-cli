@@ -28,7 +28,7 @@ LUKSOL16Setting = BaseChainSetting(
     NETWORK_NAME=LUKSO_L16, GENESIS_FORK_VERSION=bytes.fromhex('60000069'))
 # LUKSO 2022 testnet setting
 LUKSO2022Setting = BaseChainSetting(
-    NETWORK_NAME=LUKSO_2022, GENESIS_FORK_VERSION=bytes.fromhex('20220002'))
+    NETWORK_NAME=LUKSO_2022, GENESIS_FORK_VERSION=bytes.fromhex('20220001'))
 # Ethereum Mainnet setting
 MainnetSetting = BaseChainSetting(
     NETWORK_NAME=MAINNET, GENESIS_FORK_VERSION=bytes.fromhex('00000000'))
