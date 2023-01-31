@@ -21,7 +21,7 @@
             "confirm": "Anahtar deposu şifrenizi onaylamak için tekrar girin",
             "mismatch": "Hata: girilen değerler eşleşmiyor. Tekrar deneyin."
         },
-        "eth1_withdrawal_address": {
+        "arg_eth1_withdrawal_address": {
             "help": "Eğer bu alan girilmiş ve geçerliyse, verilen Eth1 adresi varlık çekme adresi olarak kullanılacaktır. Aksi taktirde, ipucu kelimelerinden üretilmiş bir genel anahtar kullanılır."
         }
     },

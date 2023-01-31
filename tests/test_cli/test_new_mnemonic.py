@@ -15,46 +15,6 @@ from staking_deposit.utils.intl import load_text
 from .helpers import clean_key_folder, get_permissions, get_uuid
 
 
-def test_new_mnemonic_bls_withdrawal(monkeypatch) -> None:
-    # monkeypatch get_mnemonic
-    def mock_get_mnemonic(language, words_path, entropy=None) -> str:
-        return "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
-
-    monkeypatch.setattr(new_mnemonic, "get_mnemonic", mock_get_mnemonic)
-
-    # Prepare folder
-    my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
-    clean_key_folder(my_folder_path)
-    if not os.path.exists(my_folder_path):
-        os.mkdir(my_folder_path)
-
-    runner = CliRunner()
-    inputs = ['english', 'english', '1', 'mainnet', 'MyPassword', 'MyPassword',
-              'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about']
-    data = '\n'.join(inputs)
-    result = runner.invoke(cli, ['new-mnemonic', '--folder', my_folder_path], input=data)
-    assert result.exit_code == 0
-
-    # Check files
-    validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
-    _, _, key_files = next(os.walk(validator_keys_folder_path))
-
-    all_uuid = [
-        get_uuid(validator_keys_folder_path + '/' + key_file)
-        for key_file in key_files
-        if key_file.startswith('keystore')
-    ]
-    assert len(set(all_uuid)) == 1
-
-    # Verify file permissions
-    if os.name == 'posix':
-        for file_name in key_files:
-            assert get_permissions(validator_keys_folder_path, file_name) == '0o440'
-
-    # Clean up
-    clean_key_folder(my_folder_path)
-
-
 def test_new_mnemonic_eth1_address_withdrawal(monkeypatch) -> None:
     # monkeypatch get_mnemonic
     def mock_get_mnemonic(language, words_path, entropy=None) -> str:
@@ -69,15 +29,16 @@ def test_new_mnemonic_eth1_address_withdrawal(monkeypatch) -> None:
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
+    eth1_withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
     inputs = ['english', '1', 'mainnet', 'MyPassword', 'MyPassword',
-              'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about']
+              eth1_withdrawal_address, eth1_withdrawal_address,
+              'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+              ]
     data = '\n'.join(inputs)
-    eth1_withdrawal_address = '0x00000000219ab540356cbb839cbe05303d7705fa'
     arguments = [
         '--language', 'english',
         'new-mnemonic',
         '--folder', my_folder_path,
-        '--eth1_withdrawal_address', eth1_withdrawal_address,
     ]
     result = runner.invoke(cli, arguments, input=data)
     assert result.exit_code == 0
@@ -138,6 +99,7 @@ async def test_script() -> None:
         '--chain', 'mainnet',
         '--keystore_password', 'MyPassword',
         '--folder', my_folder_path,
+        '--eth1_withdrawal_address', '0x00000000219ab540356cbb839cbe05303d7705fa'
     ]
     proc = await asyncio.create_subprocess_shell(
         ' '.join(cmd_args),
@@ -210,6 +172,7 @@ async def test_script_abbreviated_mnemonic() -> None:
         '--chain', 'mainnet',
         '--keystore_password', 'MyPassword',
         '--folder', my_folder_path,
+        '--eth1_withdrawal_address', '0x00000000219ab540356cbb839cbe05303d7705fa'
     ]
     proc = await asyncio.create_subprocess_shell(
         ' '.join(cmd_args),

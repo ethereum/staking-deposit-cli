@@ -43,7 +43,7 @@ def get_password(text: str) -> str:
     return click.prompt(text, hide_input=True, show_default=False, type=str)
 
 
-def validate_eth1_withdrawal_address(cts: click.Context, param: Any, address: str) -> HexAddress:
+def validate_eth1_withdrawal_address(address: str) -> HexAddress:
     if address is None:
         return None
     if not is_hex_address(address):
@@ -106,10 +106,14 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             prompt=lambda: load_text(['keystore_password', 'prompt'], func='generate_keys_arguments_decorator'),
         ),
         jit_option(
-            callback=validate_eth1_withdrawal_address,
-            default=None,
+            callback=captive_prompt_callback(
+                validate_eth1_withdrawal_address,
+                lambda: load_text(['eth1_withdrawal_address', 'prompt'], func='generate_keys_arguments_decorator'),
+                lambda: load_text(['eth1_withdrawal_address', 'confirm'], func='generate_keys_arguments_decorator'),
+            ),
             help=lambda: load_text(['eth1_withdrawal_address', 'help'], func='generate_keys_arguments_decorator'),
             param_decls='--eth1_withdrawal_address',
+            prompt=lambda: load_text(['eth1_withdrawal_address', 'prompt'], func='generate_keys_arguments_decorator'),
         ),
     ]
     for decorator in reversed(decorators):

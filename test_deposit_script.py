@@ -33,6 +33,7 @@ async def main():
         '--chain', 'mainnet',
         '--keystore_password', 'MyPassword',
         '--folder', my_folder_path,
+        '--eth1_withdrawal_address', '0x00000000219ab540356cBB839Cbe05303d7705Fa'
     ]
     proc = await asyncio.create_subprocess_shell(
         ' '.join(cmd_args),

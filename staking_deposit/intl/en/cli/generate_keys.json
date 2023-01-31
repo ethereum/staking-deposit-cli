@@ -22,7 +22,9 @@
             "mismatch": "Error: the two entered values do not match. Please type again."
         },
         "eth1_withdrawal_address": {
-            "help": "If this field is set and valid, the given Eth1 address will be used to create the withdrawal credentials. Otherwise, it will generate withdrawal credentials with the mnemonic-derived withdrawal public key."
+            "help": "The 20-byte (Eth1) execution address that will be used in withdrawal.",
+            "prompt": "Please enter the 20-byte execution address for the new withdrawal credentials",
+            "confirm": "Repeat your execution address for confirmation."
         }
     },
     "generate_keys": {
