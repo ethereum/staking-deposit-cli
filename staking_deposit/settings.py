@@ -1,7 +1,7 @@
 from typing import Dict, NamedTuple
 
 
-DEPOSIT_CLI_VERSION = '2.3.0'
+DEPOSIT_CLI_VERSION = '2.4.0'
 
 
 class BaseChainSetting(NamedTuple):
@@ -13,8 +13,8 @@ MAINNET = 'mainnet'
 ROPSTEN = 'ropsten'
 GOERLI = 'goerli'
 PRATER = 'prater'
-KILN = 'kiln'
 SEPOLIA = 'sepolia'
+ZHEJIANG = 'zhejiang'
 
 
 # Mainnet setting
@@ -23,10 +23,10 @@ MainnetSetting = BaseChainSetting(NETWORK_NAME=MAINNET, GENESIS_FORK_VERSION=byt
 RopstenSetting = BaseChainSetting(NETWORK_NAME=ROPSTEN, GENESIS_FORK_VERSION=bytes.fromhex('80000069'))
 # Goerli setting
 GoerliSetting = BaseChainSetting(NETWORK_NAME=GOERLI, GENESIS_FORK_VERSION=bytes.fromhex('00001020'))
-# Merge Testnet (spec v1.1.9)
-KilnSetting = BaseChainSetting(NETWORK_NAME=KILN, GENESIS_FORK_VERSION=bytes.fromhex('70000069'))
 # Sepolia setting
 SepoliaSetting = BaseChainSetting(NETWORK_NAME=SEPOLIA, GENESIS_FORK_VERSION=bytes.fromhex('90000069'))
+# Zhejiang setting
+ZhejiangSetting = BaseChainSetting(NETWORK_NAME=ZHEJIANG, GENESIS_FORK_VERSION=bytes.fromhex('00000069'))
 
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
@@ -34,8 +34,8 @@ ALL_CHAINS: Dict[str, BaseChainSetting] = {
     ROPSTEN: RopstenSetting,
     GOERLI: GoerliSetting,
     PRATER: GoerliSetting,  # Prater is the old name of the Prater/Goerli testnet
-    KILN: KilnSetting,
     SEPOLIA: SepoliaSetting,
+    ZHEJIANG: ZhejiangSetting,
 }
 
 
