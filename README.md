@@ -65,6 +65,7 @@
   - [Run tests](#run-tests)
   - [Building Binaries](#building-binaries)
       - [Mac M1 Binaries](#mac-m1-binaries)
+- [Acknowledgements](#Acknowledgements)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -535,3 +536,6 @@ If you are trying to **build the binary** on macos with an M1 Mac and you are us
 ```
 env PYTHON_CONFIGURE_OPTS="--enable-framework" pyenv install 3.10.3
 ```
+
+## Acknowledgements
+The Ethereum github maintainers acknowledge the canonical deposit contract address as: [0x00000000219ab540356cBB839Cbe05303d7705Fa](https://etherscan.io/address/0x00000000219ab540356cBB839Cbe05303d7705Fa)
