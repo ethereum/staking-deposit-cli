@@ -113,4 +113,15 @@ def choice_prompt_func(prompt_func: Callable[[], str], choices: Sequence[str]) -
     '''
     Formats the prompt and choices in a printable manner.
     '''
-    return lambda: '%s %s: ' % (prompt_func(), choices)
+    # A join with unconditional embedded LTR can add non-printing characters on some Terminals
+    # Iterate over choices instead and use LTR embedding if the string has RTL embedding
+    output = '['
+    for i in range(len(choices)):
+        output = output + choices[i]
+        if i < len(choices) - 1:
+            if '\u202b' in choices[i]:
+                output = output + '\u202a, \u202c'
+            else:
+                output = output + ', '
+    output = output + ']'
+    return lambda: '%s %s: ' % (prompt_func(), output)
