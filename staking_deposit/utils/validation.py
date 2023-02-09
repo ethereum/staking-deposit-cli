@@ -112,3 +112,16 @@ def validate_int_range(num: Any, low: int, high: int) -> int:
         return num_int
     except (ValueError, AssertionError):
         raise ValidationError(load_text(['err_not_positive_integer']))
+
+
+def validate_ether_amount_range(num: Any) -> int:
+    '''
+    Verifies that `num` is an `int` and 1 <= num <= 32
+    '''
+    try:
+        num_int = int(num)  # Try cast to int
+        assert num_int == float(num)  # Check num is not float
+        assert 1 <= num_int <= 32  # Check num in range
+        return num_int
+    except (ValueError, AssertionError):
+        raise ValidationError(load_text(['err_not_within_amount_limits']))
