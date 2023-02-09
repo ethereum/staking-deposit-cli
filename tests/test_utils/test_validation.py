@@ -54,7 +54,7 @@ def test_validate_int_range(num: Any, low: int, high: int, valid: bool) -> None:
         (32, True),
         (1, True),
         (32.1, False),
-        ('0',  True),
+        ('0',  False),
         ('a', False),
     ]
 )
