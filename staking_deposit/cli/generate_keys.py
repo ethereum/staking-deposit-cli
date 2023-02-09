@@ -76,7 +76,7 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
                 lambda num: validate_ether_amount_range(num),
                 lambda: load_text(['num_validators', 'prompt'], func='generate_keys_arguments_decorator')
             ),
-            default=MAX_DEPOSIT_AMOUNT//ETH2GWEI,
+            default=MAX_DEPOSIT_AMOUNT // ETH2GWEI,
             help=lambda: load_text(['amount', 'help'], func='generate_keys_arguments_decorator'),
             param_decls="--amount",
         ),

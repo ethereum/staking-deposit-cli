@@ -45,6 +45,7 @@ def test_validate_int_range(num: Any, low: int, high: int, valid: bool) -> None:
         with pytest.raises(ValidationError):
             validate_int_range(num, low, high)
 
+
 @pytest.mark.parametrize(
     'num, valid',
     [
@@ -54,7 +55,7 @@ def test_validate_int_range(num: Any, low: int, high: int, valid: bool) -> None:
         (32, True),
         (1, True),
         (32.1, False),
-        ('0',  False),
+        ('0', False),
         ('a', False),
     ]
 )
@@ -64,5 +65,3 @@ def test_validate_ether_amount_range(num: Any, valid: bool) -> None:
     else:
         with pytest.raises(ValidationError):
             validate_ether_amount_range(num)
-
-
