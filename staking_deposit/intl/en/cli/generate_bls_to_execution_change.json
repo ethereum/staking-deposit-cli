@@ -1,5 +1,8 @@
 {
     "generate_bls_to_execution_change": {
+        "arg_generate_bls_to_execution_change" :{
+            "help": "Generating the SignedBLSToExecutionChange data to enable withdrawals on Ethereum Beacon Chain."
+        },
         "arg_execution_address": {
             "help": "The 20-byte (Eth1) execution address that will be used in withdrawal",
             "prompt": "Please enter the 20-byte execution address for the new withdrawal credentials. Note that you CANNOT change it once you have set it on chain.",

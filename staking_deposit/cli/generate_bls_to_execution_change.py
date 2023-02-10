@@ -52,7 +52,9 @@ def get_password(text: str) -> str:
 FUNC_NAME = 'generate_bls_to_execution_change'
 
 
-@click.command()
+@click.command(
+    help=load_text(['arg_generate_bls_to_execution_change', 'help'], func=FUNC_NAME),
+)
 @jit_option(
     default=os.getcwd(),
     help=lambda: load_text(['arg_bls_to_execution_changes_folder', 'help'], func=FUNC_NAME),

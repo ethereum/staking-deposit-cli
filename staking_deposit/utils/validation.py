@@ -214,14 +214,25 @@ def normalize_bls_withdrawal_credentials_to_bytes(bls_withdrawal_credentials: st
     return bls_withdrawal_credentials_bytes
 
 
+def is_eth1_address_withdrawal_credentials(withdrawal_credentials: bytes) -> bool:
+    return (
+        len(withdrawal_credentials) == 32
+        and withdrawal_credentials[:1] == ETH1_ADDRESS_WITHDRAWAL_PREFIX
+        and withdrawal_credentials[1:12] == b'\x00' * 11
+    )
+
+
 def validate_bls_withdrawal_credentials(bls_withdrawal_credentials: str) -> bytes:
     bls_withdrawal_credentials_bytes = normalize_bls_withdrawal_credentials_to_bytes(bls_withdrawal_credentials)
+
+    if is_eth1_address_withdrawal_credentials(bls_withdrawal_credentials_bytes):
+        raise ValidationError('\n' + load_text(['err_is_already_eth1_form']) + '\n')
 
     try:
         assert len(bls_withdrawal_credentials_bytes) == 32
         assert bls_withdrawal_credentials_bytes[:1] == BLS_WITHDRAWAL_PREFIX
     except (ValueError, AssertionError):
-        raise ValidationError(load_text(['err_not_bls_form']))
+        raise ValidationError('\n' + load_text(['err_not_bls_form']) + '\n')
 
     return bls_withdrawal_credentials_bytes
 
@@ -243,4 +254,4 @@ def validate_validator_indices(input_validator_indices: str) -> Sequence[int]:
 
 def validate_bls_withdrawal_credentials_matching(bls_withdrawal_credentials: bytes, credential: Credential) -> None:
     if bls_withdrawal_credentials[1:] != SHA256(credential.withdrawal_pk)[1:]:
-        raise ValidationError(load_text(['err_not_matching']))
+        raise ValidationError('\n' + load_text(['err_not_matching']) + '\n')
