@@ -14,7 +14,7 @@ from staking_deposit.utils.click import (
 )
 from staking_deposit.utils.constants import (
     MNEMONIC_LANG_OPTIONS,
-    WORD_LISTS_PATH,
+    WORD_LISTS_PATH, MAX_DEPOSIT_ETH,
 )
 from staking_deposit.utils.intl import (
     fuzzy_reverse_dict_lookup,
@@ -60,4 +60,5 @@ def new_mnemonic(ctx: click.Context, mnemonic_language: str, **kwargs: Any) -> N
     # Do NOT use mnemonic_password.
     ctx.obj = {'mnemonic': mnemonic, 'mnemonic_password': ''}
     ctx.params['validator_start_index'] = 0
+    ctx.params['amount'] = MAX_DEPOSIT_ETH
     ctx.forward(generate_keys)

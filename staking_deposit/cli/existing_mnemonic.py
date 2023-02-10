@@ -8,7 +8,7 @@ from staking_deposit.key_handling.key_derivation.mnemonic import (
     reconstruct_mnemonic,
 )
 from staking_deposit.utils.constants import (
-    WORD_LISTS_PATH,
+    WORD_LISTS_PATH, MAX_DEPOSIT_ETH, MIN_DEPOSIT_ETH,
 )
 from staking_deposit.utils.click import (
     captive_prompt_callback,
@@ -64,6 +64,16 @@ def validate_mnemonic(ctx: click.Context, param: Any, mnemonic: str) -> str:
     help=lambda: load_text(['arg_validator_start_index', 'help'], func='existing_mnemonic'),
     param_decls="--validator_start_index",
     prompt=lambda: load_text(['arg_validator_start_index', 'prompt'], func='existing_mnemonic'),
+)
+@jit_option(
+    callback=captive_prompt_callback(
+        lambda num: validate_int_range(num, MIN_DEPOSIT_ETH, MAX_DEPOSIT_ETH + 1),
+        lambda: load_text(['arg_amount', 'prompt'], func='existing_mnemonic'),
+    ),
+    default=32,
+    help=lambda: load_text(['arg_amount', 'help'], func='existing_mnemonic'),
+    param_decls="--amount",
+    prompt=lambda: load_text(['arg_amount', 'prompt'], func='existing_mnemonic'),
 )
 @generate_keys_arguments_decorator
 @click.pass_context

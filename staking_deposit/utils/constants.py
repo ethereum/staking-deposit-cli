@@ -13,9 +13,10 @@ BLS_WITHDRAWAL_PREFIX = bytes.fromhex('00')
 ETH1_ADDRESS_WITHDRAWAL_PREFIX = bytes.fromhex('01')
 
 ETH2GWEI = 10 ** 9
-MIN_DEPOSIT_AMOUNT = 2 ** 0 * ETH2GWEI
-MAX_DEPOSIT_AMOUNT = 2 ** 5 * ETH2GWEI
-
+MAX_DEPOSIT_ETH = 2 ** 5
+MIN_DEPOSIT_ETH = 2 ** 0
+MIN_DEPOSIT_AMOUNT = MIN_DEPOSIT_ETH * ETH2GWEI
+MAX_DEPOSIT_AMOUNT = MAX_DEPOSIT_ETH * ETH2GWEI
 
 # File/folder constants
 WORD_LISTS_PATH = os.path.join('staking_deposit', 'key_handling', 'key_derivation', 'word_lists')

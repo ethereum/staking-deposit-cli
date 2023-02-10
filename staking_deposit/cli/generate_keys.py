@@ -18,7 +18,7 @@ from staking_deposit.utils.validation import (
     validate_password_strength,
 )
 from staking_deposit.utils.constants import (
-    MAX_DEPOSIT_AMOUNT,
+    ETH2GWEI,
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )
 from staking_deposit.utils.ascii_art import RHINO_0
@@ -121,10 +121,10 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
 @click.pass_context
 def generate_keys(ctx: click.Context, validator_start_index: int,
                   num_validators: int, folder: str, chain: str, keystore_password: str,
-                  eth1_withdrawal_address: HexAddress, **kwargs: Any) -> None:
+                  eth1_withdrawal_address: HexAddress, amount: int, **kwargs: Any) -> None:
     mnemonic = ctx.obj['mnemonic']
     mnemonic_password = ctx.obj['mnemonic_password']
-    amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
+    amounts = [amount * ETH2GWEI] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     chain_setting = get_chain_setting(chain)
     if not os.path.exists(folder):
