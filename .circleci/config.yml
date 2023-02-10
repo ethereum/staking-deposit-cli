@@ -105,6 +105,9 @@ jobs:
       - run:
           name: Run deposit script on Windows"
           command: python ./test_deposit_script.py
+      - run:
+          name: Run btec script on Windows"
+          command: python ./test_btec_script.py
   build-linux-amd64:
     machine:
       image: ubuntu-2004:202201-02
