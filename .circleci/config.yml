@@ -25,7 +25,7 @@ jobs:
   # Job(s) with Linux OS
   venv_build:
     docker:
-      - image: cimg/python:3.10
+      - image: cimg/python:3.11
     working_directory: ~/repo
     steps:
       - checkout
@@ -40,7 +40,7 @@ jobs:
             - ./venv
   venv_pytest:
     docker:
-      - image: cimg/python:3.10
+      - image: cimg/python:3.11
     working_directory: ~/repo
     steps:
       - checkout
@@ -56,7 +56,7 @@ jobs:
           path: test-reports/
   venv_lint:
     docker:
-      - image: cimg/python:3.10
+      - image: cimg/python:3.11
     working_directory: ~/repo
     steps:
       - checkout
@@ -65,6 +65,12 @@ jobs:
       - run:
           name: Run linter with venv
           command: make venv_lint
+  tox-py311-core:
+    <<: *tox_common
+    docker:
+      - image: cimg/python:3.11
+        environment:
+          TOXENV: py311-core
   tox-py310-core:
     <<: *tox_common
     docker:
@@ -77,6 +83,12 @@ jobs:
       - image: cimg/python:3.8
         environment:
           TOXENV: py38-core
+  tox-py311-script:
+    <<: *tox_common
+    docker:
+      - image: cimg/python:3.11
+        environment:
+          TOXENV: py311-script
   tox-py310-script:
     <<: *tox_common
     docker:
@@ -298,8 +310,10 @@ workflows:
       - venv_lint:
           requires:
             - venv_build
+      - tox-py311-core
       - tox-py310-core
       - tox-py38-core
+      - tox-py311-script
       - tox-py310-script
       - tox-py38-script
       - win-py310-script
