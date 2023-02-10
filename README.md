@@ -181,7 +181,7 @@ You can use `bls-to-execution-change --help` to see all arguments. Note that if 
 | `--mnemonic` | String. mnemonic split by space.  | The mnemonic you used to create withdrawal credentials. |
 | `--mnemonic_password` | Optional string. Empty by default. | The mnemonic password you used in your key generation. Note: It's not the keystore password. |
 | `--validator_start_index` | Non-negative integer | The index of the first validator's keys you generated withdrawal credentials with the mnemonic. |
-| `--validator_indices` | String of integer(s) | A list of the index number of your validator(s) in beacon chain state. Split multiple items with whitespaces or commas. |
+| `--validator_indices` | String of integer(s) | A list of the chosen validator index number(s) as identified on the beacon chain. Split multiple items with whitespaces or commas. |
 | `--bls_withdrawal_credentials_list` | String of hexstring(s). | A list of the old BLS withdrawal credentials of the given validator(s). It is for confirming you are using the correct keys. Split multiple items with whitespaces or commas. |
 | `--execution_address` | String. 20-byte Execution (Eth1) address in hexadecimal encoded form | The execution (Eth1) address you want to change to for withdrawals. |
 | `--devnet_chain_setting` | String. JSON string `'{"network_name": "<NETWORK_NAME>", "genesis_fork_version": "<GENESIS_FORK_VERSION>", "genesis_validator_root": "<GENESIS_VALIDATOR_ROOT>"}'` | The custom chain setting of a devnet or testnet. Note that it will override your `--chain` choice. |
