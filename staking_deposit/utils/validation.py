@@ -238,6 +238,8 @@ def validate_bls_withdrawal_credentials(bls_withdrawal_credentials: str) -> byte
 
 
 def normalize_input_list(input: str) -> Sequence[str]:
+    input = input.strip('[({})]')
+    input = re.sub(' +', ' ', input)
     return re.split(r'; |, | |,|;', input)
 
 
