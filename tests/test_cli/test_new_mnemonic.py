@@ -115,6 +115,38 @@ def test_new_mnemonic_eth1_address_withdrawal(monkeypatch) -> None:
     clean_key_folder(my_folder_path)
 
 
+def test_new_mnemonic_eth1_address_withdrawal_bad_checksum(monkeypatch) -> None:
+    # monkeypatch get_mnemonic
+    def mock_get_mnemonic(language, words_path, entropy=None) -> str:
+        return "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
+
+    monkeypatch.setattr(new_mnemonic, "get_mnemonic", mock_get_mnemonic)
+
+    # Prepare folder
+    my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
+    clean_key_folder(my_folder_path)
+    if not os.path.exists(my_folder_path):
+        os.mkdir(my_folder_path)
+
+    runner = CliRunner()
+    inputs = ['english', '1', 'mainnet', 'MyPassword', 'MyPassword',
+              'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about']
+    data = '\n'.join(inputs)
+    # Note: final 'A' needed to be an 'a'
+    eth1_withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705FA'
+    arguments = [
+        '--language', 'english',
+        'new-mnemonic',
+        '--folder', my_folder_path,
+        '--eth1_withdrawal_address', eth1_withdrawal_address,
+    ]
+    result = runner.invoke(cli, arguments, input=data)
+    assert result.exit_code == 1
+
+    # Clean up
+    clean_key_folder(my_folder_path)
+
+
 @pytest.mark.asyncio
 async def test_script_bls_withdrawal() -> None:
     # Prepare folder
