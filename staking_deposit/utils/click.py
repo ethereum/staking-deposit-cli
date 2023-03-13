@@ -104,7 +104,7 @@ def captive_prompt_callback(
                         raise ValidationError(confirmation_mismatch_msg())
                 return processed_input
             except ValidationError as e:
-                click.echo(e)
+                click.echo('\n[Error] ' + str(e))
                 user_input = click.prompt(prompt(), hide_input=hide_input)
     return callback
 

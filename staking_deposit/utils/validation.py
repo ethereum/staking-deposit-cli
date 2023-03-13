@@ -210,7 +210,10 @@ def normalize_bls_withdrawal_credentials_to_bytes(bls_withdrawal_credentials: st
     if bls_withdrawal_credentials.startswith('0x'):
         bls_withdrawal_credentials = bls_withdrawal_credentials[2:]
 
-    bls_withdrawal_credentials_bytes = bytes.fromhex(bls_withdrawal_credentials)
+    try:
+        bls_withdrawal_credentials_bytes = bytes.fromhex(bls_withdrawal_credentials)
+    except Exception:
+        raise ValidationError(load_text(['err_incorrect_hex_form']) + '\n')
     return bls_withdrawal_credentials_bytes
 
 
@@ -226,21 +229,25 @@ def validate_bls_withdrawal_credentials(bls_withdrawal_credentials: str) -> byte
     bls_withdrawal_credentials_bytes = normalize_bls_withdrawal_credentials_to_bytes(bls_withdrawal_credentials)
 
     if is_eth1_address_withdrawal_credentials(bls_withdrawal_credentials_bytes):
-        raise ValidationError('\n' + load_text(['err_is_already_eth1_form']) + '\n')
+        raise ValidationError(load_text(['err_is_already_eth1_form']) + '\n')
 
     try:
         assert len(bls_withdrawal_credentials_bytes) == 32
         assert bls_withdrawal_credentials_bytes[:1] == BLS_WITHDRAWAL_PREFIX
     except (ValueError, AssertionError):
-        raise ValidationError('\n' + load_text(['err_not_bls_form']) + '\n')
+        raise ValidationError(load_text(['err_not_bls_form']) + '\n')
 
     return bls_withdrawal_credentials_bytes
 
 
 def normalize_input_list(input: str) -> Sequence[str]:
-    input = input.strip('[({})]')
-    input = re.sub(' +', ' ', input)
-    return re.split(r'; |, | |,|;', input)
+    try:
+        input = input.strip('[({})]')
+        input = re.sub(' +', ' ', input)
+        result = re.split(r'; |, | |,|;', input)
+    except Exception:
+        raise ValidationError(load_text(['err_incorrect_list']) + '\n')
+    return result
 
 
 def validate_bls_withdrawal_credentials_list(input_bls_withdrawal_credentials_list: str) -> Sequence[bytes]:
@@ -256,4 +263,4 @@ def validate_validator_indices(input_validator_indices: str) -> Sequence[int]:
 
 def validate_bls_withdrawal_credentials_matching(bls_withdrawal_credentials: bytes, credential: Credential) -> None:
     if bls_withdrawal_credentials[1:] != SHA256(credential.withdrawal_pk)[1:]:
-        raise ValidationError('\n' + load_text(['err_not_matching']) + '\n')
+        raise ValidationError(load_text(['err_not_matching']) + '\n')

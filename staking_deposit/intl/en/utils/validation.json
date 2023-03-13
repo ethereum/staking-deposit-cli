@@ -25,5 +25,12 @@
     },
     "verify_bls_to_execution_change_json": {
         "msg_bls_to_execution_change_verification": "Verifying your BLSToExecutionChange file:\t"
+    },
+    "normalize_bls_withdrawal_credentials_to_bytes" :{
+        "err_incorrect_hex_form": "The given input is not in hexadecimal encoded form."
+
+    },
+    "normalize_input_list": {
+        "err_incorrect_list": "The given input should be a list of the old BLS withdrawal credentials of your validator(s). Split multiple items with whitespaces or commas."
     }
 }

@@ -15,7 +15,7 @@
         },
         "arg_bls_withdrawal_credentials_list": {
             "help": "A list of 32-byte old BLS withdrawal credentials of the certain validator(s)",
-            "prompt": "Please enter a list of the old BLS withdrawal credentials of your validator(s). Split multiple items with whitespaces or commas."
+            "prompt": "Please enter a list of the old BLS withdrawal credentials of your validator(s). Split multiple items with whitespaces or commas. The withdrawal credentials are in hexadecimal encoded form."
         },
         "arg_validator_start_index": {
             "help": "The index position for the keys to start generating withdrawal credentials in ERC-2334 format",

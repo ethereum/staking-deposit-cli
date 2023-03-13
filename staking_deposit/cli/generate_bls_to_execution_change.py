@@ -179,7 +179,11 @@ def generate_bls_to_execution_change(
 
     # Check if the given old bls_withdrawal_credentials is as same as the mnemonic generated
     for i, credential in enumerate(credentials.credentials):
-        validate_bls_withdrawal_credentials_matching(bls_withdrawal_credentials_list[i], credential)
+        try:
+            validate_bls_withdrawal_credentials_matching(bls_withdrawal_credentials_list[i], credential)
+        except ValidationError as e:
+            click.echo('\n[Error] ' + str(e))
+            return
 
     btec_file = credentials.export_bls_to_execution_change_json(bls_to_execution_changes_folder, validator_indices)
 
