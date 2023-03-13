@@ -117,7 +117,9 @@ def test_new_mnemonic_eth1_address_withdrawal(monkeypatch) -> None:
 
 @pytest.mark.asyncio
 async def test_script_bls_withdrawal() -> None:
+    # Prepare folder
     my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
+    clean_key_folder(my_folder_path)
     if not os.path.exists(my_folder_path):
         os.mkdir(my_folder_path)
 
@@ -176,6 +178,7 @@ async def test_script_bls_withdrawal() -> None:
         deposits_dict = json.load(f)
     for deposit in deposits_dict:
         withdrawal_credentials = bytes.fromhex(deposit['withdrawal_credentials'])
+        print('withdrawal_credentials', withdrawal_credentials)
         assert withdrawal_credentials[:1] == BLS_WITHDRAWAL_PREFIX
 
     _, _, key_files = next(os.walk(validator_keys_folder_path))
@@ -198,7 +201,9 @@ async def test_script_bls_withdrawal() -> None:
 
 @pytest.mark.asyncio
 async def test_script_abbreviated_mnemonic() -> None:
+    # Prepare folder
     my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
+    clean_key_folder(my_folder_path)
     if not os.path.exists(my_folder_path):
         os.mkdir(my_folder_path)
 
