@@ -95,9 +95,14 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             prompt=lambda: load_text(['keystore_password', 'prompt'], func='generate_keys_arguments_decorator'),
         ),
         jit_option(
-            callback=validate_eth1_withdrawal_address,
+            callback=captive_prompt_callback(
+                lambda address: validate_eth1_withdrawal_address(None, None, address),
+                lambda: load_text(['arg_execution_address', 'prompt'], func='generate_keys_arguments_decorator'),
+                lambda: load_text(['arg_execution_address', 'confirm'], func='generate_keys_arguments_decorator'),
+                lambda: load_text(['arg_execution_address', 'mismatch'], func='generate_keys_arguments_decorator'),
+            ),
             default=None,
-            help=lambda: load_text(['eth1_withdrawal_address', 'help'], func='generate_keys_arguments_decorator'),
+            help=lambda: load_text(['arg_execution_address', 'help'], func='generate_keys_arguments_decorator'),
             param_decls='--eth1_withdrawal_address',
         ),
     ]

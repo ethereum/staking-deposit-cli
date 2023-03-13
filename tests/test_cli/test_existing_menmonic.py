@@ -62,12 +62,13 @@ def test_existing_mnemonic_eth1_address_withdrawal() -> None:
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
+    eth1_withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
     inputs = [
         'TREZOR',
+        eth1_withdrawal_address,
         'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
         '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword']
     data = '\n'.join(inputs)
-    eth1_withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
     arguments = [
         '--language', 'english',
         'existing-mnemonic',
