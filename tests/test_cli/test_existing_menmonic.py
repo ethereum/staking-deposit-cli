@@ -116,24 +116,53 @@ def test_existing_mnemonic_eth1_address_withdrawal_bad_checksum() -> None:
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
+
+    # NOTE: final 'A' needed to be an 'a'
+    wrong_eth1_withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705FA'
+    correct_eth1_withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
+
     inputs = [
         'TREZOR',
+        correct_eth1_withdrawal_address, correct_eth1_withdrawal_address,
         'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
-        '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword']
+        '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword'
+    ]
     data = '\n'.join(inputs)
-    # Note: final 'A' needed to be an 'a'
-    eth1_withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705FA'
     arguments = [
         '--language', 'english',
         'existing-mnemonic',
         '--folder', my_folder_path,
         '--mnemonic-password', 'TREZOR',
-        '--eth1_withdrawal_address', eth1_withdrawal_address,
+        '--eth1_withdrawal_address', wrong_eth1_withdrawal_address,
     ]
     result = runner.invoke(cli, arguments, input=data)
 
-    assert result.exit_code == 1
+    assert result.exit_code == 0
 
+    # Check files
+    validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
+    _, _, key_files = next(os.walk(validator_keys_folder_path))
+
+    deposit_file = [key_file for key_file in key_files if key_file.startswith('deposit_data')][0]
+    with open(validator_keys_folder_path + '/' + deposit_file, 'r') as f:
+        deposits_dict = json.load(f)
+    for deposit in deposits_dict:
+        withdrawal_credentials = bytes.fromhex(deposit['withdrawal_credentials'])
+        assert withdrawal_credentials == (
+            ETH1_ADDRESS_WITHDRAWAL_PREFIX + b'\x00' * 11 + decode_hex(correct_eth1_withdrawal_address)
+        )
+
+    all_uuid = [
+        get_uuid(validator_keys_folder_path + '/' + key_file)
+        for key_file in key_files
+        if key_file.startswith('keystore')
+    ]
+    assert len(set(all_uuid)) == 5
+
+    # Verify file permissions
+    if os.name == 'posix':
+        for file_name in key_files:
+            assert get_permissions(validator_keys_folder_path, file_name) == '0o440'
     # Clean up
     clean_key_folder(my_folder_path)
 
