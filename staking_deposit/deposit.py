@@ -44,8 +44,8 @@ def check_python_version() -> None:
     '--non_interactive',
     default=False,
     is_flag=True,
-    help='Disables interactive prompts.',
-    hidden=True,
+    help='Disables interactive prompts. Warning: with this flag, there will be no confirmation step(s) to verify the input value(s). Please use it carefully.',  # noqa: E501
+    hidden=False,
 )
 def cli(ctx: click.Context, language: str, non_interactive: bool) -> None:
     config.language = language

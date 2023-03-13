@@ -13,7 +13,8 @@
     - [Option 1. Download binary executable file](#option-1-download-binary-executable-file)
       - [Step 1. Installation](#step-1-installation)
       - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json)
-        - [language Argument](#language-argument)
+        - [`language` Argument](#language-argument)
+        - [`--non_interactive` flag](#--non_interactive-flag)
         - [Commands](#commands)
         - [`new-mnemonic` Arguments](#new-mnemonic-arguments)
         - [`existing-mnemonic` Arguments](#existing-mnemonic-arguments)
@@ -113,13 +114,21 @@ or run the following command to enter the interactive CLI and generate keys from
 ./deposit existing-mnemonic
 ```
 
-###### language Argument
+###### `language` Argument
 
 The Launchpad offers many language/internationalization options. If you wish to select one as a CLI argument, it must be passed in before one of the commands is chosen.
 
 | Argument | Type | Description |
 | -------- | -------- | -------- |
 | `--language` | String. Options: `العربية`, `ελληνικά`, `English`, `Français`, `Bahasa melayu`, `Italiano`, `日本語`, `한국어`, `Português do Brasil`, `român`, `简体中文`. Default to `English` | The language you wish to use the CLI in. |
+
+###### `--non_interactive` flag
+
+**Warning: with this flag, there will be no confirmation step(s) to verify the input value(s). Please use it carefully.**
+
+| Argument | Type | Description |
+| -------- | -------- | -------- |
+| `--non_interactive` | Flag | Run CLI in non-interactive mode. |
 
 ###### Commands
 
