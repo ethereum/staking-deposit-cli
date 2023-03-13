@@ -6,7 +6,6 @@ from typing import (
 )
 
 from eth_typing import HexAddress
-
 from staking_deposit.credentials import (
     CredentialList,
 )
