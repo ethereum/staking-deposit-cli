@@ -9,7 +9,7 @@ from eth_utils import decode_hex
 
 from staking_deposit.deposit import cli
 from staking_deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME, ETH1_ADDRESS_WITHDRAWAL_PREFIX
-from.helpers import clean_key_folder, get_permissions, get_uuid
+from .helpers import clean_key_folder, get_permissions, get_uuid
 
 
 def test_existing_mnemonic_bls_withdrawal() -> None:
@@ -62,12 +62,13 @@ def test_existing_mnemonic_eth1_address_withdrawal() -> None:
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
+    eth1_withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
     inputs = [
         'TREZOR',
+        eth1_withdrawal_address,
         'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
         '2', '2', '5', 'mainnet', 'MyPassword', 'MyPassword']
     data = '\n'.join(inputs)
-    eth1_withdrawal_address = '0x00000000219ab540356cbb839cbe05303d7705fa'
     arguments = [
         '--language', 'english',
         'existing-mnemonic',

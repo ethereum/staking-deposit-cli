@@ -10,5 +10,27 @@
     },
     "validate_choice": {
         "err_invalid_choice": "That is not one of the valid choices. Please retype your choice."
+    },
+    "validate_eth1_withdrawal_address": {
+        "err_invalid_ECDSA_hex_addr": "The given Eth1 address is not in hexadecimal encoded form.",
+        "err_invalid_ECDSA_hex_addr_checksum": "The given Eth1 address is not in checksum form.",
+        "msg_ECDSA_hex_addr_withdrawal": "**[Warning] you are setting an Eth1 address as your withdrawal address. Please ensure that you have control over this address.**"
+    },
+    "validate_bls_withdrawal_credentials": {
+        "err_is_already_eth1_form": "The given withdrawal credentials is already in ETH1_ADDRESS_WITHDRAWAL_PREFIX form. Have you already set the EL (eth1) withdrawal addresss?",
+        "err_not_bls_form": "The given withdrawal credentials is not in BLS_WITHDRAWAL_PREFIX form."
+    },
+    "validate_bls_withdrawal_credentials_matching": {
+        "err_not_matching": "The given withdrawal credentials does not match the old BLS withdrawal credentials that mnemonic generated."
+    },
+    "verify_bls_to_execution_change_json": {
+        "msg_bls_to_execution_change_verification": "Verifying your BLSToExecutionChange file:\t"
+    },
+    "normalize_bls_withdrawal_credentials_to_bytes" :{
+        "err_incorrect_hex_form": "The given input is not in hexadecimal encoded form."
+
+    },
+    "normalize_input_list": {
+        "err_incorrect_list": "The given input should be a list of the old BLS withdrawal credentials of your validator(s). Split multiple items with whitespaces or commas."
     }
 }

@@ -10,5 +10,9 @@
     },
     "validate_choice": {
         "err_invalid_choice": "Geçerli bir seçim değil. Lütfen seçiminizi tekrar girin."
+    },
+    "validate_eth1_withdrawal_address": {
+        "err_invalid_ECDSA_hex_addr": "Girilen Eth1 adresi onaltılık sistemde kodlanmamıştır.",
+        "msg_ECDSA_hex_addr_withdrawal": "**[Uyarı] bir Eth1 adresini varlık çekme adresi olarak giriyorsunuz. Lütfen bu adresin kontrolünün sizde olduğundan emin olun.**"
     }
 }

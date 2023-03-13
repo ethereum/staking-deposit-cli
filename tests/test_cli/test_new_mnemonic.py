@@ -10,7 +10,11 @@ from eth_utils import decode_hex
 from staking_deposit.cli import new_mnemonic
 from staking_deposit.deposit import cli
 from staking_deposit.key_handling.key_derivation.mnemonic import abbreviate_words
-from staking_deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME, ETH1_ADDRESS_WITHDRAWAL_PREFIX
+from staking_deposit.utils.constants import (
+    BLS_WITHDRAWAL_PREFIX,
+    DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
+    ETH1_ADDRESS_WITHDRAWAL_PREFIX,
+)
 from staking_deposit.utils.intl import load_text
 from .helpers import clean_key_folder, get_permissions, get_uuid
 
@@ -69,10 +73,10 @@ def test_new_mnemonic_eth1_address_withdrawal(monkeypatch) -> None:
         os.mkdir(my_folder_path)
 
     runner = CliRunner()
-    inputs = ['english', '1', 'mainnet', 'MyPassword', 'MyPassword',
+    eth1_withdrawal_address = '0x00000000219ab540356cBB839Cbe05303d7705Fa'
+    inputs = [eth1_withdrawal_address, 'english', '1', 'mainnet', 'MyPassword', 'MyPassword',
               'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about']
     data = '\n'.join(inputs)
-    eth1_withdrawal_address = '0x00000000219ab540356cbb839cbe05303d7705fa'
     arguments = [
         '--language', 'english',
         'new-mnemonic',
@@ -112,8 +116,10 @@ def test_new_mnemonic_eth1_address_withdrawal(monkeypatch) -> None:
 
 
 @pytest.mark.asyncio
-async def test_script() -> None:
+async def test_script_bls_withdrawal() -> None:
+    # Prepare folder
     my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
+    clean_key_folder(my_folder_path)
     if not os.path.exists(my_folder_path):
         os.mkdir(my_folder_path)
 
@@ -167,6 +173,16 @@ async def test_script() -> None:
     validator_keys_folder_path = os.path.join(my_folder_path, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     _, _, key_files = next(os.walk(validator_keys_folder_path))
 
+    deposit_file = [key_file for key_file in key_files if key_file.startswith('deposit_data')][0]
+    with open(validator_keys_folder_path + '/' + deposit_file, 'r') as f:
+        deposits_dict = json.load(f)
+    for deposit in deposits_dict:
+        withdrawal_credentials = bytes.fromhex(deposit['withdrawal_credentials'])
+        print('withdrawal_credentials', withdrawal_credentials)
+        assert withdrawal_credentials[:1] == BLS_WITHDRAWAL_PREFIX
+
+    _, _, key_files = next(os.walk(validator_keys_folder_path))
+
     all_uuid = [
         get_uuid(validator_keys_folder_path + '/' + key_file)
         for key_file in key_files
@@ -185,7 +201,9 @@ async def test_script() -> None:
 
 @pytest.mark.asyncio
 async def test_script_abbreviated_mnemonic() -> None:
+    # Prepare folder
     my_folder_path = os.path.join(os.getcwd(), 'TESTING_TEMP_FOLDER')
+    clean_key_folder(my_folder_path)
     if not os.path.exists(my_folder_path):
         os.mkdir(my_folder_path)
 

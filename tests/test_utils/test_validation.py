@@ -5,6 +5,7 @@ from typing import (
 
 from staking_deposit.exceptions import ValidationError
 from staking_deposit.utils.validation import (
+    normalize_input_list,
     validate_int_range,
     validate_password_strength,
 )
@@ -43,3 +44,19 @@ def test_validate_int_range(num: Any, low: int, high: int, valid: bool) -> None:
     else:
         with pytest.raises(ValidationError):
             validate_int_range(num, low, high)
+
+
+@pytest.mark.parametrize(
+    'input, result',
+    [
+        ('1', ['1']),
+        ('1,2,3', ['1', '2', '3']),
+        ('[1,2,3]', ['1', '2', '3']),
+        ('(1,2,3)', ['1', '2', '3']),
+        ('{1,2,3}', ['1', '2', '3']),
+        ('1 2 3', ['1', '2', '3']),
+        ('1  2  3', ['1', '2', '3']),
+    ]
+)
+def test_normalize_input_list(input, result):
+    assert normalize_input_list(input) == result

@@ -18,7 +18,7 @@ from staking_deposit.utils.intl import (
 @pytest.mark.parametrize(
     'params, file_path, func, lang, found_str', [
         (['arg_mnemonic_language', 'prompt'], os.path.join('staking_deposit', 'cli', 'new_mnemonic.json'),
-         'new_mnemonic', 'en', 'Please choose your mnemonic language'),
+         'new_mnemonic', 'en', 'Please choose the language of the mnemonic word list'),
         (['arg_mnemonic_language', 'prompt'], os.path.join('staking_deposit', 'cli', 'new_mnemonic.json'),
          'new_mnemonic', 'ja', 'ニーモニックの言語を選択してください'),
     ]

@@ -30,12 +30,12 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-v2
+          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-v3
       - run:
           name: Install requirements in venv
           command: make venv_build_test
       - save_cache:
-          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-v2
+          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-v3
           paths:
             - ./venv
   venv_pytest:
@@ -45,7 +45,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-v2
+          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-v3
       - run:
           name: Run tests with venv
           command: make venv_test
@@ -61,7 +61,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-v2
+          key: venv-deps2-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}-v3
       - run:
           name: Run linter with venv
           command: make venv_lint
@@ -105,6 +105,9 @@ jobs:
       - run:
           name: Run deposit script on Windows"
           command: python ./test_deposit_script.py
+      - run:
+          name: Run btec script on Windows"
+          command: python ./test_btec_script.py
   build-linux-amd64:
     machine:
       image: ubuntu-2004:202201-02
@@ -135,9 +138,11 @@ jobs:
             export TEST_FOLDER_NAME=TMP_TEST_FOLDER
             mkdir ${TEST_FOLDER_NAME}
             cp -r ${BUILD_FILE_NAME} ${TEST_FOLDER_NAME}
-            cp test_binary_script.py ${TEST_FOLDER_NAME}
+            cp test_binary_deposit_script.py ${TEST_FOLDER_NAME}
+            cp test_binary_btec_script.py ${TEST_FOLDER_NAME}
             cd ${TEST_FOLDER_NAME}
-            python test_binary_script.py ./${BUILD_FILE_NAME};
+            python test_binary_deposit_script.py ./${BUILD_FILE_NAME};
+            python test_binary_btec_script.py ./${BUILD_FILE_NAME};
       - run:
           name: Compress the file
           command: |
@@ -181,9 +186,11 @@ jobs:
             export TEST_FOLDER_NAME=TMP_TEST_FOLDER
             mkdir ${TEST_FOLDER_NAME}
             cp -r ${BUILD_FILE_NAME} ${TEST_FOLDER_NAME}
-            cp test_binary_script.py ${TEST_FOLDER_NAME}
+            cp test_binary_deposit_script.py ${TEST_FOLDER_NAME}
+            cp test_binary_btec_script.py ${TEST_FOLDER_NAME}
             cd ${TEST_FOLDER_NAME}
-            python test_binary_script.py ./${BUILD_FILE_NAME};
+            python test_binary_deposit_script.py ./${BUILD_FILE_NAME};
+            python test_binary_btec_script.py ./${BUILD_FILE_NAME};
       - run:
           name: Compress the file
           command: |
@@ -225,9 +232,11 @@ jobs:
             $TEST_FOLDER_NAME = "TMP_TEST_FOLDER"
             mkdir ${TEST_FOLDER_NAME}
             Copy-item ${BUILD_FILE_NAME} -destination ${TEST_FOLDER_NAME} -recurse
-            copy test_binary_script.py ${TEST_FOLDER_NAME}
+            copy test_binary_deposit_script.py ${TEST_FOLDER_NAME}
+            copy test_binary_btec_script.py ${TEST_FOLDER_NAME}
             cd ${TEST_FOLDER_NAME}
-            python test_binary_script.py ${BUILD_FILE_NAME}
+            python test_binary_deposit_script.py ${BUILD_FILE_NAME}
+            python test_binary_btec_script.py ${BUILD_FILE_NAME}
       - run:
           name: Compress the file
           command: |
@@ -271,9 +280,11 @@ jobs:
             export TEST_FOLDER_NAME=TMP_TEST_FOLDER
             mkdir ${TEST_FOLDER_NAME}
             cp -r ${BUILD_FILE_NAME} ${TEST_FOLDER_NAME}
-            cp test_binary_script.py ${TEST_FOLDER_NAME}
+            cp test_binary_deposit_script.py ${TEST_FOLDER_NAME}
+            cp test_binary_btec_script.py ${TEST_FOLDER_NAME}
             cd ${TEST_FOLDER_NAME}
-            python3 test_binary_script.py ./${BUILD_FILE_NAME};
+            python3 test_binary_deposit_script.py ./${BUILD_FILE_NAME};
+            python3 test_binary_btec_script.py ./${BUILD_FILE_NAME};
       - run:
           name: Compress the file
           command: |
