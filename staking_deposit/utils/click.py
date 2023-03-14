@@ -25,7 +25,7 @@ class JITOption(click.Option):
     '''
     def __init__(
         self,
-        param_decls: str,
+        param_decls: Union[str, Sequence[str]],
         default: Union[Callable[[], Any], None, Any] = None,
         help: Union[Callable[[], str], str, None] = None,
         prompt: Union[Callable[[], str], str, None] = None,
@@ -36,8 +36,12 @@ class JITOption(click.Option):
         self.callable_help = help
         self.callable_prompt = prompt
 
+        # `click.Option.Argument.param_decls` takes a list of flags or argument names.
+        if isinstance(param_decls, str):
+            param_decls = [_value_of(param_decls)]
+
         return super().__init__(
-            param_decls=[_value_of(param_decls)],
+            param_decls=param_decls,
             default=_value_of(default),
             help=_value_of(help),
             prompt=_value_of(prompt),
@@ -98,13 +102,13 @@ def captive_prompt_callback(
             try:
                 processed_input = processing_func(user_input)
                 # Logic for confirming user input:
-                if confirmation_prompt is not None and processed_input != '':
+                if confirmation_prompt is not None and processed_input not in ('', None):
                     confirmation_input = click.prompt(confirmation_prompt(), hide_input=hide_input)
                     if processing_func(confirmation_input) != processed_input:
                         raise ValidationError(confirmation_mismatch_msg())
                 return processed_input
             except ValidationError as e:
-                click.echo(e)
+                click.echo('\n[Error] ' + str(e))
                 user_input = click.prompt(prompt(), hide_input=hide_input)
     return callback
 

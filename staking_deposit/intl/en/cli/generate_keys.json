@@ -1,8 +1,4 @@
 {
-    "validate_eth1_withdrawal_address": {
-        "err_invalid_ECDSA_hex_addr": "The given Eth1 address is not in hexadecimal encoded form.",
-        "msg_ECDSA_addr_withdrawal": "**[Warning] you are setting an Eth1 address as your withdrawal address. Please ensure that you have control over this address.**"
-    },
     "generate_keys_arguments_decorator": {
         "num_validators": {
             "help": "The number of new validator keys you want to generate (you can always generate more later)",
@@ -21,8 +17,11 @@
             "confirm": "Repeat your keystore password for confirmation",
             "mismatch": "Error: the two entered values do not match. Please type again."
         },
-        "eth1_withdrawal_address": {
-            "help": "If this field is set and valid, the given Eth1 address will be used to create the withdrawal credentials. Otherwise, it will generate withdrawal credentials with the mnemonic-derived withdrawal public key."
+        "arg_execution_address": {
+            "help": "The 20-byte (Eth1) execution address that will be used in withdrawal",
+            "prompt": "Please enter the 20-byte execution address for the new withdrawal credentials. Note that you CANNOT change it once you have set it on chain.",
+            "confirm": "Repeat your execution address for confirmation.",
+            "mismatch": "Error: the two entered values do not match. Please type again."
         }
     },
     "generate_keys": {

@@ -1,0 +1,41 @@
+{
+    "generate_bls_to_execution_change": {
+        "arg_generate_bls_to_execution_change" :{
+            "help": "Generating the SignedBLSToExecutionChange data to enable withdrawals on Ethereum Beacon Chain."
+        },
+        "arg_execution_address": {
+            "help": "The 20-byte (Eth1) execution address that will be used in withdrawal",
+            "prompt": "Please enter the 20-byte execution address for the new withdrawal credentials. Note that you CANNOT change it once you have set it on chain.",
+            "confirm": "Repeat your execution address for confirmation.",
+            "mismatch": "Error: the two entered values do not match. Please type again."
+        },
+        "arg_validator_indices": {
+            "help": "A list of the validator index number(s) of the certain validator(s)",
+            "prompt": "Please enter a list of the validator index number(s) of your validator(s) as identified on the beacon chain. Split multiple items with whitespaces or commas."
+        },
+        "arg_bls_withdrawal_credentials_list": {
+            "help": "A list of 32-byte old BLS withdrawal credentials of the certain validator(s)",
+            "prompt": "Please enter a list of the old BLS withdrawal credentials of your validator(s). Split multiple items with whitespaces or commas. The withdrawal credentials are in hexadecimal encoded form."
+        },
+        "arg_validator_start_index": {
+            "help": "The index position for the keys to start generating withdrawal credentials in ERC-2334 format",
+            "prompt": "Please enter the index position for the keys to start generating withdrawal credentials in ERC-2334 format.",
+            "confirm": "Please repeat the index to confirm"
+        },
+        "arg_chain": {
+            "help": "The name of Ethereum PoS chain you are targeting. Use \"mainnet\" if you are depositing ETH",
+            "prompt": "Please choose the (mainnet or testnet) network/chain name"
+        },
+        "arg_fork": {
+            "help": "The fork name of the fork you want to signing the message with.",
+            "prompt": "Please choose the fork name of the fork you want to signing the message with."
+        },
+        "arg_bls_to_execution_changes_folder": {
+            "help": "The folder path for the keystore(s). Pointing to `./bls_to_execution_changes` by default."
+        },
+        "msg_key_creation": "Creating your SignedBLSToExecutionChange.",
+        "msg_creation_success": "\nSuccess!\nYour SignedBLSToExecutionChange JSON file can be found at: ",
+        "msg_pause": "\n\nPress any key.",
+        "err_verify_btec": "Failed to verify the bls_to_execution_change JSON files."
+    }
+}

@@ -5,8 +5,8 @@
         },
         "arg_mnemonic_language": {
             "default": "english",
-            "help": "The language that your mnemonic is in",
-            "prompt": "Please choose your mnemonic language"
+            "help": "The language of the mnemonic word list",
+            "prompt": "Please choose the language of the mnemonic word list"
         },
         "msg_mnemonic_presentation": "This is your mnemonic (seed phrase). Write it down and store it safely. It is the ONLY way to retrieve your deposit.",
         "msg_press_any_key": "Press any key when you have written down your mnemonic.",
