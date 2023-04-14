@@ -67,3 +67,8 @@ six==1.16.0 \
 cached-property==1.5.2 \
     --hash=sha256:9fa5755838eecbb2d234c3aa390bd80fbd3ac6b6869109bfc1b499f7bd89a130 \
     --hash=sha256:df4f613cf7ad9a588cc381aaf4a512d26265ecebd5eb9e1ba12f1319eb85a6a0
+
+ledgercomm[hid]==1.1.2 \
+    --hash=sha256:e3a39198b7c01135d7bdb049948ac41ce22cd8d39ddf6fbfc236a228d560a0ce
+hidapi==0.13.1 \
+    --hash=sha256:571e3a07bcbdc13c2d2af9bd09839e6f45cfbac8d5e2d28b7e1b844427813162

@@ -34,6 +34,7 @@ from staking_deposit.utils.ssz import (
     DepositMessage,
     SignedBLSToExecutionChange,
 )
+import ledger
 
 
 class WithdrawalType(Enum):
@@ -57,20 +58,30 @@ class Credential:
         withdrawal_key_path = f'm/{purpose}/{coin_type}/{account}/0'
         self.signing_key_path = f'{withdrawal_key_path}/0'
 
-        self.withdrawal_sk = mnemonic_and_path_to_key(
-            mnemonic=mnemonic, path=withdrawal_key_path, password=mnemonic_password)
-        self.signing_sk = mnemonic_and_path_to_key(
-            mnemonic=mnemonic, path=self.signing_key_path, password=mnemonic_password)
+        if not mnemonic:
+            self._withdrawal_pk = ledger.get_withdrawal_pk(index)
+            self._signing_pk = ledger.get_signing_pk(index)
+        else:
+            self.withdrawal_sk = mnemonic_and_path_to_key(
+                mnemonic=mnemonic, path=withdrawal_key_path, password=mnemonic_password)
+            self.signing_sk = mnemonic_and_path_to_key(
+                mnemonic=mnemonic, path=self.signing_key_path, password=mnemonic_password)
+
         self.amount = amount
         self.chain_setting = chain_setting
         self.hex_eth1_withdrawal_address = hex_eth1_withdrawal_address
+        self._index = index
 
     @property
     def signing_pk(self) -> bytes:
+        if hasattr(self, "_signing_pk"):
+            return self._signing_pk
         return bls.SkToPk(self.signing_sk)
 
     @property
     def withdrawal_pk(self) -> bytes:
+        if hasattr(self, "_withdrawal_pk"):
+            return self._withdrawal_pk
         return bls.SkToPk(self.withdrawal_sk)
 
     @property
@@ -175,7 +186,10 @@ class Credential:
             genesis_validators_root=self.chain_setting.GENESIS_VALIDATORS_ROOT,
         )
         signing_root = compute_signing_root(message, domain)
-        signature = bls.Sign(self.withdrawal_sk, signing_root)
+        if hasattr(self, "withdrawal_sk"):
+            signature = bls.Sign(self.withdrawal_sk, signing_root)
+        else:
+            signature = ledger.sign(self._index, signing_root)
 
         return SignedBLSToExecutionChange(
             message=message,
@@ -226,7 +240,7 @@ class CredentialList:
                 f"The number of keys ({num_keys}) doesn't equal to the corresponding deposit amounts ({len(amounts)})."
             )
         key_indices = range(start_index, start_index + num_keys)
-        with click.progressbar(key_indices, label=load_text(['msg_key_creation']),
+        with click.progressbar(key_indices, label="Getting public keys from Ledger wallet:\t\t",
                                show_percent=False, show_pos=True) as indices:
             return cls([Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
                                    index=index, amount=amounts[index - start_index], chain_setting=chain_setting,

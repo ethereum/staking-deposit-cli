@@ -43,6 +43,7 @@ from staking_deposit.settings import (
 from .existing_mnemonic import (
     load_mnemonic_arguments_decorator,
 )
+import ledger
 
 
 def get_password(text: str) -> str:
@@ -109,15 +110,10 @@ FUNC_NAME = 'generate_bls_to_execution_change'
     prompt=lambda: load_text(['arg_bls_withdrawal_credentials_list', 'prompt'], func=FUNC_NAME),
 )
 @jit_option(
-    callback=captive_prompt_callback(
-        lambda address: validate_eth1_withdrawal_address(None, None, address),
-        lambda: load_text(['arg_execution_address', 'prompt'], func=FUNC_NAME),
-        lambda: load_text(['arg_execution_address', 'confirm'], func=FUNC_NAME),
-        lambda: load_text(['arg_execution_address', 'mismatch'], func=FUNC_NAME),
-    ),
+    default="",
     help=lambda: load_text(['arg_execution_address', 'help'], func=FUNC_NAME),
     param_decls=['--execution_address', '--eth1_withdrawal_address'],
-    prompt=lambda: load_text(['arg_execution_address', 'prompt'], func=FUNC_NAME),
+    prompt=lambda: load_text(['arg_execution_address', 'prompt'], func=FUNC_NAME) + " (leave empty to get it from the Ledger wallet)"
 )
 @jit_option(
     # Only for devnet tests
@@ -166,6 +162,11 @@ def generate_bls_to_execution_change(
 
     num_validators = len(validator_indices)
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
+
+    if not execution_address:
+        execution_address = "0x" + ledger.get_eth1_withdrawal_addr(validator_start_index).hex()
+    else: # Since the check was disabled for the prompt
+        validate_eth1_withdrawal_address(None, None, execution_address)
 
     credentials = CredentialList.from_mnemonic(
         mnemonic=mnemonic,

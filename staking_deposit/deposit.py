@@ -59,5 +59,5 @@ cli.add_command(generate_bls_to_execution_change)
 
 if __name__ == '__main__':
     check_python_version()
-    print('\n***Using the tool on an offline and secure device is highly recommended to keep your mnemonic safe.***\n')
+    #print('\n***Using the tool on an offline and secure device is highly recommended to keep your mnemonic safe.***\n')
     cli()
