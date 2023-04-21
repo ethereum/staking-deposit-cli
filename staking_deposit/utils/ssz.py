@@ -56,6 +56,7 @@ def compute_deposit_domain(fork_version: bytes) -> bytes:
     fork_data_root = compute_deposit_fork_data_root(fork_version)
     return domain_type + fork_data_root[:28]
 
+
 def compute_voluntary_exit_domain(fork_version: bytes, genesis_validators_root: bytes) -> bytes:
     """
     VOLUNTARY_EXIT-only `compute_domain`
@@ -65,6 +66,7 @@ def compute_voluntary_exit_domain(fork_version: bytes, genesis_validators_root: 
     domain_type = DOMAIN_VOLUNTARY_EXIT
     fork_data_root = compute_fork_data_root(fork_version, genesis_validators_root)
     return domain_type + fork_data_root[:28]
+
 
 def compute_bls_to_execution_change_domain(fork_version: bytes, genesis_validators_root: bytes) -> bytes:
     """
@@ -143,6 +145,7 @@ class SignedBLSToExecutionChange(Serializable):
         ('signature', bytes96),
     ]
 
+
 class VoluntaryExit(Serializable):
     """
     Ref: https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#voluntaryexit
@@ -153,9 +156,10 @@ class VoluntaryExit(Serializable):
         ('validator_index', uint64)
     ]
 
+
 class SignedVoluntaryExit(Serializable):
     """
-    Ref: SignedVoluntaryExit
+    Ref: https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#signedvoluntaryexit
     """
     fields = [
         ('message', VoluntaryExit),

@@ -10,17 +10,24 @@ from staking_deposit.key_handling.keystore import Keystore
 from staking_deposit.settings import ALL_CHAINS, MAINNET, PRATER, get_chain_setting
 from staking_deposit.utils.click import (
     captive_prompt_callback,
-    choice_prompt_func, 
+    choice_prompt_func,
     jit_option,
 )
 from staking_deposit.utils.intl import (
     closest_match,
     load_text,
 )
-from staking_deposit.utils.ssz import SignedVoluntaryExit, VoluntaryExit, compute_signing_root, compute_voluntary_exit_domain
+from staking_deposit.utils.ssz import (
+    SignedVoluntaryExit,
+    VoluntaryExit,
+    compute_signing_root,
+    compute_voluntary_exit_domain,
+)
 from staking_deposit.utils.validation import validate_int_range
 
+
 FUNC_NAME = 'generate_exit_transaction'
+
 
 @click.command(
     help=load_text(['arg_generate_exit_transaction', 'help'], func=FUNC_NAME),
@@ -51,7 +58,7 @@ FUNC_NAME = 'generate_exit_transaction'
 @jit_option(
     callback=captive_prompt_callback(
         lambda x: x,
-        lambda:load_text(['arg_generate_exit_transaction_keystore_password', 'prompt'], func=FUNC_NAME),
+        lambda: load_text(['arg_generate_exit_transaction_keystore_password', 'prompt'], func=FUNC_NAME),
         None,
         lambda: load_text(['arg_generate_exit_transaction_keystore_password', 'invalid'], func=FUNC_NAME),
         True,
@@ -77,10 +84,10 @@ FUNC_NAME = 'generate_exit_transaction'
 )
 @click.pass_context
 def generate_exit_transaction(
-        ctx: click.Context, 
+        ctx: click.Context,
         chain: str,
-        keystore: str, 
-        keystore_password: str, 
+        keystore: str,
+        keystore_password: str,
         validator_index: int,
         epoch: int,
         **kwargs: Any) -> None:
@@ -90,7 +97,7 @@ def generate_exit_transaction(
         secret_bytes = saved_keystore.decrypt(keystore_password)
     except Exception:
         raise ValidationError(load_text(['arg_generate_exit_transaction_keystore_password', 'mismatch']))
-    
+
     signing_key = int.from_bytes(secret_bytes, 'big')
 
     message = VoluntaryExit(
@@ -117,6 +124,7 @@ def generate_exit_transaction(
 
     click.echo(load_text(['msg_creation_success']) + folder)
     click.pause(load_text(['msg_pause']))
+
 
 def export_exit_transaction_json(folder: str, signed_exit: SignedVoluntaryExit) -> str:
     filefolder = os.path.join(folder, 'signed_exit_transaction-%i.json' % time.time())

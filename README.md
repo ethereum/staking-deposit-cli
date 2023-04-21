@@ -193,7 +193,7 @@ You can use `bls-to-execution-change --help` to see all arguments. Note that if 
 | `--validator_indices` | String of integer(s) | A list of the chosen validator index number(s) as identified on the beacon chain. Split multiple items with whitespaces or commas. |
 | `--bls_withdrawal_credentials_list` | String of hexstring(s). | A list of the old BLS withdrawal credentials of the given validator(s). It is for confirming you are using the correct keys. Split multiple items with whitespaces or commas. |
 | `--execution_address` (or `--eth1_withdrawal_address`) | String. Eth1 address in hexadecimal encoded form | If this field is set and valid, the given Eth1 address will be used to create the withdrawal credentials. Otherwise, it will generate withdrawal credentials with the mnemonic-derived withdrawal public key in [ERC-2334 format](https://eips.ethereum.org/EIPS/eip-2334#eth2-specific-parameters). |
-| `--devnet_chain_setting` | String. JSON string `'{"network_name": "<NETWORK_NAME>", "genesis_fork_version": "<GENESIS_FORK_VERSION>", "genesis_validator_root": "<GENESIS_VALIDATOR_ROOT>"}'` | The custom chain setting of a devnet or testnet. Note that it will override your `--chain` choice. |
+| `--devnet_chain_setting` | String. JSON string `'{"network_name": "<NETWORK_NAME>", "genesis_fork_version": "<GENESIS_FORK_VERSION>", "current_fork_version": "<CURRENT_FORK_VERSION>", "genesis_validator_root": "<GENESIS_VALIDATOR_ROOT>"}'` | The custom chain setting of a devnet or testnet. Note that it will override your `--chain` choice. |
 
 ###### `generate-exit-transaction` Arguments 
 
