@@ -29,7 +29,7 @@ def test_existing_mnemonic_bls_withdrawal() -> None:
         '--language', 'english',
         'existing-mnemonic',
         '--folder', my_folder_path,
-        '--mnemonic-password', 'TREZOR',
+        '--mnemonic_password', 'TREZOR',
     ]
     result = runner.invoke(cli, arguments, input=data)
 
@@ -73,7 +73,7 @@ def test_existing_mnemonic_eth1_address_withdrawal() -> None:
         '--language', 'english',
         'existing-mnemonic',
         '--folder', my_folder_path,
-        '--mnemonic-password', 'TREZOR',
+        '--mnemonic_password', 'TREZOR',
         '--eth1_withdrawal_address', eth1_withdrawal_address,
     ]
     result = runner.invoke(cli, arguments, input=data)
@@ -132,7 +132,7 @@ def test_existing_mnemonic_eth1_address_withdrawal_bad_checksum() -> None:
         '--language', 'english',
         'existing-mnemonic',
         '--folder', my_folder_path,
-        '--mnemonic-password', 'TREZOR',
+        '--mnemonic_password', 'TREZOR',
         '--eth1_withdrawal_address', wrong_eth1_withdrawal_address,
     ]
     result = runner.invoke(cli, arguments, input=data)
@@ -191,7 +191,7 @@ async def test_script() -> None:
         'existing-mnemonic',
         '--num_validators', '1',
         '--mnemonic="abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"',
-        '--mnemonic-password', 'TREZOR',
+        '--mnemonic_password', 'TREZOR',
         '--validator_start_index', '1',
         '--chain', 'mainnet',
         '--keystore_password', 'MyPassword',
@@ -238,7 +238,7 @@ async def test_script_abbreviated_mnemonic() -> None:
         'existing-mnemonic',
         '--num_validators', '1',
         '--mnemonic="aban aban aban aban aban aban aban aban aban aban aban abou"',
-        '--mnemonic-password', 'TREZOR',
+        '--mnemonic_password', 'TREZOR',
         '--validator_start_index', '1',
         '--chain', 'mainnet',
         '--keystore_password', 'MyPassword',

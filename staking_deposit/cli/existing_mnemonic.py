@@ -47,7 +47,7 @@ def load_mnemonic_arguments_decorator(function: Callable[..., Any]) -> Callable[
             default='',
             help=lambda: load_text(['arg_mnemonic_password', 'help'], func='existing_mnemonic'),
             hidden=True,
-            param_decls='--mnemonic-password',
+            param_decls='--mnemonic_password',
             prompt=False,
         ),
     ]
