@@ -1,0 +1,28 @@
+{
+    "generate_exit_transaction": {
+        "arg_generate_exit_transaction" :{
+            "help": "Generating an exit transaction that can be used to exit validators on Ethereum Beacon Chain."
+        },
+        "arg_generate_exit_transaction_chain": {
+            "help": "The name of Ethereum PoS chain your validator is running on. \"mainnet\" is the default.",
+            "prompt": "Please choose the (mainnet or testnet) network/chain name"
+        },
+        "arg_generate_exit_transaction_epoch": {
+            "help": "The epoch of when the exit transaction will be value. The transaction will always be valid by default."
+        },
+        "arg_generate_exit_transaction_keystore": {
+            "help": "The keystore file associating with the validator you wish to exit."
+        },
+        "arg_generate_exit_transaction_keystore_password": {
+            "help": "The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password. (It is recommended not to use this argument, and wait for the CLI to ask you for your password as otherwise it will appear in your shell history.)",
+            "prompt": "Enter the password that is used to encrypt the provided keystore.",
+            "mismatch": "Error: The entered password doesn't match. Please try again."
+        },
+        "arg_validator_index": {
+            "help": "The validator index corresponding to the provided keystore.",
+            "prompt": "Please enter the validator index of your validator that corresponds to the provided keystore as identified on the beacon chain."
+        },
+        "msg_creation_success": "\nSuccess!\nYour SignedExitTransaction JSON file can be found at: ",
+        "msg_pause": "\n\nPress any key."
+    }
+}
