@@ -206,6 +206,7 @@ You can use `bls-to-execution-change --help` to see all arguments. Note that if 
 | `--keystore_password` | String | The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password. |
 | `--validator_index` | Integer | The validator index corresponding to the provided keystore. |
 | `--epoch` | Optional integer. 0 by default | The epoch of when the exit transaction will be value. The transaction will always be valid by default. |
+| `--output_folder` | String. Pointing to `./exit_transaction` by default | The folder path for the `signed_exit_transaction-*` JSON file |
 
 #### Option 2. Build `deposit-cli` with native Python
 

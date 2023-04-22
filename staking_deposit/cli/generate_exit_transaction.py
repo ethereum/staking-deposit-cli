@@ -13,6 +13,7 @@ from staking_deposit.utils.click import (
     choice_prompt_func,
     jit_option,
 )
+from staking_deposit.utils.constants import DEFAULT_EXIT_TRANSACTION_FOLDER_NAME
 from staking_deposit.utils.intl import (
     closest_match,
     load_text,
@@ -82,6 +83,12 @@ FUNC_NAME = 'generate_exit_transaction'
     help=lambda: load_text(['arg_generate_exit_transaction_epoch', 'help'], func=FUNC_NAME),
     param_decls='--epoch',
 )
+@jit_option(
+    default=os.getcwd(),
+    help=lambda: load_text(['arg_generate_exit_transaction_output_folder', 'help'], func=FUNC_NAME),
+    param_decls='--output_folder',
+    type=click.Path(exists=True, file_okay=False, dir_okay=True),
+)
 @click.pass_context
 def generate_exit_transaction(
         ctx: click.Context,
@@ -90,6 +97,7 @@ def generate_exit_transaction(
         keystore_password: str,
         validator_index: int,
         epoch: int,
+        output_folder: str,
         **kwargs: Any) -> None:
     saved_keystore = Keystore.from_file(keystore)
 
@@ -119,10 +127,17 @@ def generate_exit_transaction(
         signature=signature,
     )
 
-    folder = "./"
-    export_exit_transaction_json(folder=folder, signed_exit=signed_exit)
+    # Generate folder
+    output_folder = os.path.join(
+        output_folder,
+        DEFAULT_EXIT_TRANSACTION_FOLDER_NAME,
+    )
+    if not os.path.exists(output_folder):
+        os.mkdir(output_folder)
 
-    click.echo(load_text(['msg_creation_success']) + folder)
+    export_exit_transaction_json(folder=output_folder, signed_exit=signed_exit)
+
+    click.echo(load_text(['msg_creation_success']) + output_folder)
     click.pause(load_text(['msg_pause']))
 
 

@@ -23,6 +23,7 @@ MAX_DEPOSIT_AMOUNT = 2 ** 5 * ETH2GWEI
 WORD_LISTS_PATH = os.path.join('staking_deposit', 'key_handling', 'key_derivation', 'word_lists')
 DEFAULT_VALIDATOR_KEYS_FOLDER_NAME = 'validator_keys'
 DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME = 'bls_to_execution_changes'
+DEFAULT_EXIT_TRANSACTION_FOLDER_NAME = 'exit_transactions'
 
 # Internationalisation constants
 INTL_CONTENT_PATH = os.path.join('staking_deposit', 'intl')

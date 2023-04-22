@@ -18,11 +18,14 @@
             "prompt": "Enter the password that is used to encrypt the provided keystore.",
             "mismatch": "Error: The entered password doesn't match. Please try again."
         },
+        "arg_generate_exit_transaction_output_folder": {
+            "help": ""
+        },
         "arg_validator_index": {
             "help": "The validator index corresponding to the provided keystore.",
             "prompt": "Please enter the validator index of your validator that corresponds to the provided keystore as identified on the beacon chain."
         },
-        "msg_creation_success": "\nSuccess!\nYour SignedExitTransaction JSON file has been created ",
+        "msg_creation_success": "\nSuccess!\nYour SignedExitTransaction JSON file can be found at: ",
         "msg_pause": "\n\nPress any key."
     }
 }
