@@ -1,7 +1,7 @@
 from typing import Dict, NamedTuple
 from eth_utils import decode_hex
 
-DEPOSIT_CLI_VERSION = '2.5.0'
+DEPOSIT_CLI_VERSION = '2.5.1'
 
 
 class BaseChainSetting(NamedTuple):
