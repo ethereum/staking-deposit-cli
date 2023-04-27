@@ -281,10 +281,10 @@ See [here](#commands)
 
 ###### Arguments
 
-See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
-See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
-See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
-See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments
+See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
+See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
+See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
+See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
 See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
 ###### Successful message
@@ -351,10 +351,10 @@ See [here](#commands)
 
 ###### Arguments
 
-See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
-See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
-See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
-See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments
+See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
+See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
+See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
+See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
 See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
 #### Option 4. Use Docker image
@@ -437,10 +437,10 @@ See [here](#commands)
 
 ###### Arguments
 
-See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
-See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
-See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
-See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments
+See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
+See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
+See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
+See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
 See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
 #### Option 2. Build `deposit-cli` with native Python
@@ -502,10 +502,10 @@ See [here](#commands)
 
 ###### Arguments
 
-See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
-See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
-See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
-See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments
+See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
+See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
+See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
+See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
 See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
 #### Option 3. Build `deposit-cli` with `virtualenv`
@@ -569,10 +569,10 @@ See [here](#commands)
 
 ###### Arguments
 
-See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
-See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
-See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
-See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments
+See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments\
+See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments\
+See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments\
+See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments\
 See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
 ## Development
