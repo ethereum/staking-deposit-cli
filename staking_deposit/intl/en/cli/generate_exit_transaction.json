@@ -11,7 +11,8 @@
             "help": "The epoch of when the exit transaction will be value. The transaction will always be valid by default."
         },
         "arg_generate_exit_transaction_keystore": {
-            "help": "The keystore file associated with the validator you wish to exit."
+            "help": "The keystore file associated with the validator you wish to exit.",
+            "prompt": "Please enter the location of your keystore file."
         },
         "arg_generate_exit_transaction_keystore_password": {
             "help": "The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password. (It is recommended not to use this argument, and wait for the CLI to ask you for your password as otherwise it will appear in your shell history.)",

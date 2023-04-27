@@ -51,9 +51,13 @@ FUNC_NAME = 'generate_exit_transaction'
     ),
 )
 @jit_option(
-    default=os.getcwd(),
+    callback=captive_prompt_callback(
+        lambda x: x,
+        lambda: load_text(['arg_generate_exit_transaction_keystore', 'prompt'], func=FUNC_NAME),
+    ),
     help=lambda: load_text(['arg_generate_exit_transaction_keystore', 'help'], func=FUNC_NAME),
     param_decls='--keystore',
+    prompt=lambda: load_text(['arg_generate_exit_transaction_keystore', 'prompt'], func=FUNC_NAME),
     type=click.Path(exists=True, file_okay=True, dir_okay=False),
 )
 @jit_option(
@@ -103,8 +107,9 @@ def generate_exit_transaction(
 
     try:
         secret_bytes = saved_keystore.decrypt(keystore_password)
-    except Exception:
-        raise ValidationError(load_text(['arg_generate_exit_transaction_keystore_password', 'mismatch']))
+    except ValueError:
+        click.echo(load_text(['arg_generate_exit_transaction_keystore_password', 'mismatch']))
+        exit(1)
 
     signing_key = int.from_bytes(secret_bytes, 'big')
 
