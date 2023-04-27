@@ -20,7 +20,8 @@
         - [`existing-mnemonic` Arguments](#existing-mnemonic-arguments)
         - [Successful message](#successful-message)
         - [`generate-bls-to-execution-change` Arguments](#generate-bls-to-execution-change-arguments)
-        - [`generate-exit-transaction` Arguments](#generate-exit-transaction-arguments)
+        - [`exit-transaction-keystore` Arguments](#exit-transaction-keystore-arguments)
+        - [`exit-transaction-mnemonic` Arguments](#exit-transaction-mnemonic-arguments)
     - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python)
       - [Step 0. Python version checking](#step-0-python-version-checking)
       - [Step 1. Installation](#step-1-installation-1)
@@ -179,7 +180,7 @@ Success!
 Your keys can be found at: <YOUR_FOLDER_PATH>
 ```
 
-###### `generate-bls-to-execution-change` Arguments 
+###### `generate-bls-to-execution-change` Arguments
 
 You can use `bls-to-execution-change --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
 
@@ -195,9 +196,9 @@ You can use `bls-to-execution-change --help` to see all arguments. Note that if 
 | `--execution_address` (or `--eth1_withdrawal_address`) | String. Eth1 address in hexadecimal encoded form | If this field is set and valid, the given Eth1 address will be used to create the withdrawal credentials. Otherwise, it will generate withdrawal credentials with the mnemonic-derived withdrawal public key in [ERC-2334 format](https://eips.ethereum.org/EIPS/eip-2334#eth2-specific-parameters). |
 | `--devnet_chain_setting` | String. JSON string `'{"network_name": "<NETWORK_NAME>", "genesis_fork_version": "<GENESIS_FORK_VERSION>", "current_fork_version": "<CURRENT_FORK_VERSION>", "genesis_validator_root": "<GENESIS_VALIDATOR_ROOT>"}'` | The custom chain setting of a devnet or testnet. Note that it will override your `--chain` choice. |
 
-###### `generate-exit-transaction` Arguments 
+###### `exit-transaction-keystore` Arguments
 
-You can use `bls-to-execution-change --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
+You can use `exit-transaction-keystore --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
 
 | Argument | Type | Description |
 | -------- | -------- | -------- |
@@ -205,7 +206,21 @@ You can use `bls-to-execution-change --help` to see all arguments. Note that if 
 | `--keystore` | File | The keystore file associating with the validator you wish to exit. |
 | `--keystore_password` | String | The password that is used to encrypt the provided keystore. Note: It's not your mnemonic password. |
 | `--validator_index` | Integer | The validator index corresponding to the provided keystore. |
-| `--epoch` | Optional integer. 0 by default | The epoch of when the exit transaction will be value. The transaction will always be valid by default. |
+| `--epoch` | Optional integer. 0 by default | The epoch of when the exit transaction will be valid. The transaction will always be valid by default. |
+| `--output_folder` | String. Pointing to `./exit_transaction` by default | The folder path for the `signed_exit_transaction-*` JSON file |
+
+###### `exit-transaction-mnemonic` Arguments
+
+You can use `exit-transaction-mnemonic --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
+
+| Argument | Type | Description |
+| -------- | -------- | -------- |
+| `--chain` | String. `mainnet` by default | The chain setting for the signing domain. |
+| `--mnemonic` | String. mnemonic split by space.  | The mnemonic you used during key generation. |
+| `--mnemonic_password` | Optional string. Empty by default. | The mnemonic password you used in your key generation. Note: It's not the keystore password. |
+| `--validator_start_index` | Non-negative integer | The index position for the keys to start generating keystores in [ERC-2334 format](https://eips.ethereum.org/EIPS/eip-2334#eth2-specific-parameters). |
+| `--validator_indices` | String of integer(s) | A list of the chosen validator index number(s) as identified on the beacon chain. Split multiple items with whitespaces or commas. |
+| `--epoch` | Optional integer. 0 by default | The epoch of when the exit transaction will be valid. The transaction will always be valid by default. |
 | `--output_folder` | String. Pointing to `./exit_transaction` by default | The folder path for the `signed_exit_transaction-*` JSON file |
 
 #### Option 2. Build `deposit-cli` with native Python
@@ -269,7 +284,8 @@ See [here](#commands)
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
-See [here](#generate-exit-transaction-arguments) for `generate-exit-transaction` arguments
+See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments
+See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
 ###### Successful message
 See [here](#successful-message)
@@ -338,7 +354,8 @@ See [here](#commands)
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
-See [here](#generate-exit-transaction-arguments) for `generate-exit-transaction` arguments
+See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments
+See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
 #### Option 4. Use Docker image
 
@@ -423,7 +440,8 @@ See [here](#commands)
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
-See [here](#generate-exit-transaction-arguments) for `generate-exit-transaction` arguments
+See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments
+See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
 #### Option 2. Build `deposit-cli` with native Python
 
@@ -487,7 +505,8 @@ See [here](#commands)
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
-See [here](#generate-exit-transaction-arguments) for `generate-exit-transaction` arguments
+See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments
+See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
 #### Option 3. Build `deposit-cli` with `virtualenv`
 
@@ -553,7 +572,8 @@ See [here](#commands)
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-execution-change` arguments
-See [here](#generate-exit-transaction-arguments) for `generate-exit-transaction` arguments
+See [here](#exit-transaction-keystore-arguments) for `exit-transaction-keystore` arguments
+See [here](#exit-transaction-mnemonic-arguments) for `exit-transaction-mnemonic` arguments
 
 ## Development
 

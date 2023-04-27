@@ -1,0 +1,27 @@
+{
+    "exit_transaction_mnemonic": {
+        "arg_exit_transaction_mnemonic" :{
+            "help": "Generate an exit transaction that can be used to exit validators on Ethereum Beacon Chain."
+        },
+        "arg_exit_transaction_mnemonic_chain": {
+            "help": "The name of the Ethereum PoS chain your validator is running on. \"mainnet\" is the default.",
+            "prompt": "Please choose the (mainnet or testnet) network/chain name"
+        },
+        "arg_exit_transaction_mnemonic_start_index": {
+            "help": "Enter the index (key number) which you used when you created your keys. The default value is 0.",
+            "prompt": "Enter the index (key number) which you used when you created your keys. The default value is 0."
+        },
+        "arg_exit_transaction_mnemonic_indices": {
+            "help": "A list of the validator index number(s) of the certain validator(s)",
+            "prompt": "Please enter a list of the validator index number(s) of your validator(s) as identified on the beacon chain. Split multiple items with whitespaces or commas."
+        },
+        "arg_exit_transaction_mnemonic_epoch": {
+            "help": "The epoch of when the exit transaction will be valid. The transaction will always be valid by default."
+        },
+        "arg_exit_transaction_mnemonic_output_folder": {
+            "help": "The folder path where the exit transactions will be saved to. Pointing to `./exit_transactions` by default."
+        },
+        "msg_creation_success": "\nSuccess!\nYour SignedExitTransaction JSON file can be found at: ",
+        "msg_pause": "\n\nPress any key."
+    }
+}

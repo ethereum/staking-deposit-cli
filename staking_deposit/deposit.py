@@ -2,8 +2,9 @@ import click
 import sys
 
 from staking_deposit.cli.existing_mnemonic import existing_mnemonic
+from staking_deposit.cli.exit_transaction_keystore import exit_transaction_keystore
+from staking_deposit.cli.exit_transaction_mnemonic import exit_transaction_mnemonic
 from staking_deposit.cli.generate_bls_to_execution_change import generate_bls_to_execution_change
-from staking_deposit.cli.generate_exit_transaction import generate_exit_transaction
 from staking_deposit.cli.new_mnemonic import new_mnemonic
 from staking_deposit.utils.click import (
     captive_prompt_callback,
@@ -56,7 +57,8 @@ def cli(ctx: click.Context, language: str, non_interactive: bool) -> None:
 cli.add_command(existing_mnemonic)
 cli.add_command(new_mnemonic)
 cli.add_command(generate_bls_to_execution_change)
-cli.add_command(generate_exit_transaction)
+cli.add_command(exit_transaction_keystore)
+cli.add_command(exit_transaction_mnemonic)
 
 
 if __name__ == '__main__':
