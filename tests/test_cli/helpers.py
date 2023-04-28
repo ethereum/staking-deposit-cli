@@ -1,8 +1,10 @@
+import json
 import os
 
 from staking_deposit.key_handling.keystore import Keystore
 from staking_deposit.utils.constants import (
     DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME,
+    DEFAULT_EXIT_TRANSACTION_FOLDER_NAME,
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )
 
@@ -14,6 +16,11 @@ def clean_key_folder(my_folder_path: str) -> None:
 
 def clean_btec_folder(my_folder_path: str) -> None:
     sub_folder_path = os.path.join(my_folder_path, DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME)
+    clean_folder(my_folder_path, sub_folder_path)
+
+
+def clean_exit_transaction_folder(my_folder_path: str) -> None:
+    sub_folder_path = os.path.join(my_folder_path, DEFAULT_EXIT_TRANSACTION_FOLDER_NAME)
     clean_folder(my_folder_path, sub_folder_path)
 
 
@@ -49,3 +56,8 @@ def prepare_testing_folder(os_ref, testing_folder_name='TESTING_TEMP_FOLDER'):
     if not os_ref.path.exists(my_folder_path):
         os_ref.mkdir(my_folder_path)
     return my_folder_path
+
+
+def read_json_file(path: str, file_name: str):
+    with open(os.path.join(path, file_name), 'r') as f:
+        return json.load(f)
