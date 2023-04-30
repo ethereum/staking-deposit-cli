@@ -4,7 +4,7 @@ import os
 from typing import Any, Sequence
 from staking_deposit.cli.existing_mnemonic import load_mnemonic_arguments_decorator
 from staking_deposit.credentials import Credential
-from staking_deposit.exit_transaction import exit_transaction_generation, export_exit_transactions_json
+from staking_deposit.exit_transaction import exit_transaction_generation, export_exit_transaction_json
 from staking_deposit.settings import ALL_CHAINS, MAINNET, PRATER, get_chain_setting
 from staking_deposit.utils.click import (
     captive_prompt_callback,
@@ -88,7 +88,7 @@ def exit_transaction_mnemonic(
     num_keys = len(validator_indices)
     key_indices = range(validator_start_index, validator_start_index + num_keys)
 
-    signed_exits = []
+    click.echo(load_text(['msg_creation_start']))
     # We assume that the list of validator indices are in order and increment the start index
     for key_index, validator_index in zip(key_indices, validator_indices):
         credential = Credential(
@@ -109,9 +109,7 @@ def exit_transaction_mnemonic(
             epoch=epoch
         )
 
-        signed_exits.append(signed_voluntary_exit)
+        saved_folder = export_exit_transaction_json(folder=output_folder, signed_exit=signed_voluntary_exit)
+        click.echo(load_text(['msg_creation_success']) + saved_folder)
 
-    saved_folder = export_exit_transactions_json(folder=output_folder, signed_exits=signed_exits)
-
-    click.echo(load_text(['msg_creation_success']) + saved_folder)
     click.pause(load_text(['msg_pause']))

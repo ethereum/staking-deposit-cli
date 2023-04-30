@@ -2,7 +2,7 @@ import click
 import os
 
 from typing import Any
-from staking_deposit.exit_transaction import exit_transaction_generation, export_exit_transactions_json
+from staking_deposit.exit_transaction import exit_transaction_generation, export_exit_transaction_json
 from staking_deposit.key_handling.keystore import Keystore
 from staking_deposit.settings import ALL_CHAINS, MAINNET, PRATER, get_chain_setting
 from staking_deposit.utils.click import (
@@ -111,7 +111,7 @@ def exit_transaction_keystore(
         epoch=epoch,
     )
 
-    saved_folder = export_exit_transactions_json(folder=output_folder, signed_exits=[signed_exit])
+    saved_folder = export_exit_transaction_json(folder=output_folder, signed_exit=signed_exit)
 
     click.echo(load_text(['msg_creation_success']) + saved_folder)
     click.pause(load_text(['msg_pause']))

@@ -41,18 +41,14 @@ def exit_transaction_generation(
     return signed_exit
 
 
-def export_exit_transactions_json(folder: str, signed_exits: List[SignedVoluntaryExit]) -> str:
-    signed_exits_json = []
-    for exit in signed_exits:
-        signed_exit_json: Dict[str, Any] = {}
-        message = {
-            'epoch': str(exit.message.epoch),
-            'validator_index': str(exit.message.validator_index),
-        }
-        signed_exit_json.update({'message': message})
-        signed_exit_json.update({'signature': '0x' + exit.signature.hex()})
-
-        signed_exits_json.append(signed_exit_json)
+def export_exit_transaction_json(folder: str, signed_exit: SignedVoluntaryExit) -> str:
+    signed_exit_json: Dict[str, Any] = {}
+    message = {
+        'epoch': str(signed_exit.message.epoch),
+        'validator_index': str(signed_exit.message.validator_index),
+    }
+    signed_exit_json.update({'message': message})
+    signed_exit_json.update({'signature': '0x' + signed_exit.signature.hex()})
 
     output_folder = os.path.join(
         folder,
@@ -61,10 +57,10 @@ def export_exit_transactions_json(folder: str, signed_exits: List[SignedVoluntar
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
 
-    filefolder = os.path.join(output_folder, 'signed_exit_transactions-%i.json' % time.time())
+    filefolder = os.path.join(output_folder, 'signed_exit_transaction-%s-%i.json' % (signed_exit.message.validator_index, time.time()))
 
     with open(filefolder, 'w') as f:
-        json.dump(signed_exits_json, f)
+        json.dump(signed_exit_json, f)
     if os.name == 'posix':
         os.chmod(filefolder, int('440', 8))  # Read for owner & group
     return filefolder
