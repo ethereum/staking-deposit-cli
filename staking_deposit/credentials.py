@@ -48,13 +48,17 @@ class Credential:
     """
     def __init__(self, *, mnemonic: str, mnemonic_password: str,
                  index: int, amount: int, chain_setting: BaseChainSetting,
-                 hex_eth1_withdrawal_address: Optional[HexAddress]):
+                 hex_eth1_withdrawal_address: Optional[HexAddress], legacy: bool = False):
         # Set path as EIP-2334 format
         # https://eips.ethereum.org/EIPS/eip-2334
         purpose = '12381'
         coin_type = '3600'
         account = str(index)
-        withdrawal_key_path = f'm/{purpose}/{coin_type}/0/0'
+        if legacy:
+            withdrawal_key_path = f'm/{purpose}/{coin_type}'
+        else:
+            withdrawal_key_path = f'm/{purpose}/{coin_type}/0/0'
+
         self.signing_key_path = f'{withdrawal_key_path}/0'
 
         self.withdrawal_sk = mnemonic_and_path_to_key(
@@ -220,7 +224,8 @@ class CredentialList:
                       amounts: List[int],
                       chain_setting: BaseChainSetting,
                       start_index: int,
-                      hex_eth1_withdrawal_address: Optional[HexAddress]) -> 'CredentialList':
+                      hex_eth1_withdrawal_address: Optional[HexAddress],
+                      legacy: bool = False) -> 'CredentialList':
         if len(amounts) != num_keys:
             raise ValueError(
                 f"The number of keys ({num_keys}) doesn't equal to the corresponding deposit amounts ({len(amounts)})."
@@ -230,7 +235,7 @@ class CredentialList:
                                show_percent=False, show_pos=True) as indices:
             return cls([Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
                                    index=index, amount=amounts[index - start_index], chain_setting=chain_setting,
-                                   hex_eth1_withdrawal_address=hex_eth1_withdrawal_address)
+                                   hex_eth1_withdrawal_address=hex_eth1_withdrawal_address, legacy=legacy)
                         for index in indices])
 
     def export_keystores(self, password: str, folder: str) -> List[str]:

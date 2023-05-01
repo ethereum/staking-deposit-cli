@@ -125,6 +125,13 @@ FUNC_NAME = 'generate_bls_to_execution_change'
     help="[DEVNET ONLY] Set specific GENESIS_FORK_VERSION value",
     param_decls='--devnet_chain_setting',
 )
+@click.option(
+    '--legacy',
+    default=False,
+    is_flag=True,
+    help='Whether to use legacy path derivation',
+    hidden=False,
+)
 @click.pass_context
 def generate_bls_to_execution_change(
         ctx: click.Context,
@@ -137,6 +144,7 @@ def generate_bls_to_execution_change(
         bls_withdrawal_credentials_list: Sequence[bytes],
         execution_address: HexAddress,
         devnet_chain_setting: str,
+        legacy: bool,
         **kwargs: Any) -> None:
     # Generate folder
     bls_to_execution_changes_folder = os.path.join(
@@ -175,6 +183,7 @@ def generate_bls_to_execution_change(
         chain_setting=chain_setting,
         start_index=validator_start_index,
         hex_eth1_withdrawal_address=execution_address,
+        legacy=legacy,
     )
 
     # Check if the given old bls_withdrawal_credentials is as same as the mnemonic generated
