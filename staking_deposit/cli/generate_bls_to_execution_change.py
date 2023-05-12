@@ -109,6 +109,12 @@ FUNC_NAME = 'generate_bls_to_execution_change'
     prompt=lambda: load_text(['arg_bls_withdrawal_credentials_list', 'prompt'], func=FUNC_NAME),
 )
 @jit_option(
+    help=lambda: load_text(['arg_pbkdf2', 'help'], func=FUNC_NAME),
+    default=False,
+    param_decls='--pbkdf2',
+    is_flag=True,
+)
+@jit_option(
     callback=captive_prompt_callback(
         lambda address: validate_eth1_withdrawal_address(None, None, address),
         lambda: load_text(['arg_execution_address', 'prompt'], func=FUNC_NAME),
@@ -137,6 +143,7 @@ def generate_bls_to_execution_change(
         bls_withdrawal_credentials_list: Sequence[bytes],
         execution_address: HexAddress,
         devnet_chain_setting: str,
+        pbkdf2: bool,
         **kwargs: Any) -> None:
     # Generate folder
     bls_to_execution_changes_folder = os.path.join(
@@ -175,6 +182,7 @@ def generate_bls_to_execution_change(
         chain_setting=chain_setting,
         start_index=validator_start_index,
         hex_eth1_withdrawal_address=execution_address,
+        pbkdf2=pbkdf2,
     )
 
     # Check if the given old bls_withdrawal_credentials is as same as the mnemonic generated

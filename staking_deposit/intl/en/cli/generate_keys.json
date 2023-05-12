@@ -7,6 +7,9 @@
         "folder": {
             "help": "The folder path for the keystore(s) and deposit(s). Pointing to `./validator_keys` by default."
         },
+        "pbkdf2": {
+          "help": "Use \"pbkdf2\" to generate private keys (default: false)."
+        },
         "chain": {
             "help": "The name of Ethereum PoS chain you are targeting. Use \"mainnet\" if you are depositing ETH",
             "prompt": "Please choose the (mainnet or testnet) network/chain name"
