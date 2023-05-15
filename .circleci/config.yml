@@ -8,6 +8,9 @@ tox_common: &tox_common
         key: tox-deps4-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
     - run:
         name: install dependencies
+        command: pip install pip -U
+        command: pip install pipenv -U
+        command: pip install virtualenv -U
         command: pip install --user tox
     - run:
         name: run tox
