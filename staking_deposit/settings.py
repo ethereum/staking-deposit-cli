@@ -14,7 +14,6 @@ MAINNET = 'mainnet'
 GOERLI = 'goerli'
 PRATER = 'prater'
 SEPOLIA = 'sepolia'
-ZHEJIANG = 'zhejiang'
 
 # Mainnet setting
 MainnetSetting = BaseChainSetting(
@@ -28,10 +27,6 @@ GoerliSetting = BaseChainSetting(
 SepoliaSetting = BaseChainSetting(
     NETWORK_NAME=SEPOLIA, GENESIS_FORK_VERSION=bytes.fromhex('90000069'),
     GENESIS_VALIDATORS_ROOT=bytes.fromhex('d8ea171f3c94aea21ebc42a1ed61052acf3f9209c00e4efbaaddac09ed9b8078'))
-# Zhejiang setting
-ZhejiangSetting = BaseChainSetting(
-    NETWORK_NAME=ZHEJIANG, GENESIS_FORK_VERSION=bytes.fromhex('00000069'),
-    GENESIS_VALIDATORS_ROOT=bytes.fromhex('53a92d8f2bb1d85f62d16a156e6ebcd1bcaba652d0900b2c2f387826f3481f6f'))
 
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
@@ -39,7 +34,6 @@ ALL_CHAINS: Dict[str, BaseChainSetting] = {
     GOERLI: GoerliSetting,
     PRATER: GoerliSetting,  # Prater is the old name of the Prater/Goerli testnet
     SEPOLIA: SepoliaSetting,
-    ZHEJIANG: ZhejiangSetting,
 }
 
 
