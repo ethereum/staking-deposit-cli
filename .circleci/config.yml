@@ -5,18 +5,18 @@ tox_common: &tox_common
   steps:
     - checkout
     - restore_cache:
-        key: tox-deps3-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
+        key: tox-deps4-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
     - run:
         name: install dependencies
-        command: pip install --user tox
+        command: pip install tox
     - run:
         name: run tox
-        command: ~/.local/bin/tox
+        command: tox
     - save_cache:
         paths:
           - .tox
           - ./eggs
-        key: tox-deps3-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
+        key: tox-deps4-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements_test.txt" }}-{{ checksum "setup.py" }}-{{ checksum "Makefile" }}
 
 orbs:
   win: circleci/windows@2.2.0 # The Windows orb give you everything you need to start using the Windows executor.          
