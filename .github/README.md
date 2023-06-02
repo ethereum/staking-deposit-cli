@@ -6,7 +6,7 @@ tool by the Ethereum Foundation.
 The official documentation to create the BLS To Execution Change can be found
 [here](https://launchpad.ethereum.org/en/btec/).
 
-:warning: This is only supported on the Nano X *for now* :warning:
+:warning: This is only supported on the Nano X *for now*, minimum firmware version 2.1.0 :warning:
 
 ## Setting-up
 
