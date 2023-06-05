@@ -25,7 +25,7 @@ $> . ./venv/bin/activate
 ```bash
 (venv) $> ./deposit.sh install
 ```
-* Have the [BTEC app](https://github.com/LedgerHQ/app-btec) on your wallet (installed from Ledger Live) and opened :
+* Have the [BTEC app](https://github.com/LedgerHQ/app-btec) on your wallet (installed from Ledger Live with _Developer mode_ activated in Settings > Experimental features) and opened :
 
 ![image](https://user-images.githubusercontent.com/94451027/235108339-96a14201-ec07-46f2-ae9b-8df66d754e60.png)
 
