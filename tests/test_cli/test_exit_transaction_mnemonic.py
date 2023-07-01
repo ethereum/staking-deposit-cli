@@ -42,9 +42,9 @@ def test_exit_transaction_menmonic() -> None:
     json_data = read_json_file(exit_transaction_folder_path, exit_transaction_files[0])
 
     # Verify file content
-    assert len(json_data) == 1
-    assert json_data[0]['message']['epoch'] == '1234'
-    assert json_data[0]['message']['validator_index'] == '1'
+    assert json_data['message']['epoch'] == '1234'
+    assert json_data['message']['validator_index'] == '1'
+    assert json_data['signature']
 
     # Verify file permissions
     verify_file_permission(os, folder_path=exit_transaction_folder_path, files=exit_transaction_files)
@@ -71,7 +71,7 @@ def test_exit_transaction_menmonic_multiple() -> None:
         '--chain', 'mainnet',
         '--mnemonic', 'sister protect peanut hill ready work profit fit wish want small inflict flip member tail between sick setup bright duck morning sell paper worry',  # noqa: E501
         '--validator_start_index', '0',
-        '--validator_indices', '1 2 3 4',
+        '--validator_indices', '0 1 2 3',
         '--epoch', '1234',
     ]
     result = runner.invoke(cli, arguments, input=data)
@@ -82,20 +82,15 @@ def test_exit_transaction_menmonic_multiple() -> None:
     exit_transaction_folder_path = os.path.join(my_folder_path, DEFAULT_EXIT_TRANSACTION_FOLDER_NAME)
     _, _, exit_transaction_files = next(os.walk(exit_transaction_folder_path))
 
-    assert len(set(exit_transaction_files)) == 1
-
-    json_data = read_json_file(exit_transaction_folder_path, exit_transaction_files[0])
+    assert len(set(exit_transaction_files)) == 4
 
     # Verify file content
-    assert len(json_data) == 4
-    assert json_data[0]['message']['epoch'] == '1234'
-    assert json_data[0]['message']['validator_index'] == '1'
-    assert json_data[1]['message']['epoch'] == '1234'
-    assert json_data[1]['message']['validator_index'] == '2'
-    assert json_data[2]['message']['epoch'] == '1234'
-    assert json_data[2]['message']['validator_index'] == '3'
-    assert json_data[3]['message']['epoch'] == '1234'
-    assert json_data[3]['message']['validator_index'] == '4'
+    exit_transaction_files.sort()
+    for index in [0, 1, 2, 3]:
+        json_data = read_json_file(exit_transaction_folder_path, exit_transaction_files[index])
+        assert json_data['message']['epoch'] == '1234'
+        assert json_data['message']['validator_index'] == str(index)
+        assert json_data['signature']
 
     # Verify file permissions
     verify_file_permission(os, folder_path=exit_transaction_folder_path, files=exit_transaction_files)

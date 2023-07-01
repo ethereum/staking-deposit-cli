@@ -64,19 +64,19 @@ def test_exit_transaction_menmonic() -> None:
     _, _, exit_transaction_files = next(os.walk(exit_transaction_folder_path))
 
     # Filter files to signed_exit as keystore file will exist as well
-    exit_transaction_files = [f for f in exit_transaction_files if 'signed_exit' in f]
+    exit_transaction_file = [f for f in exit_transaction_files if 'signed_exit' in f]
 
-    assert len(set(exit_transaction_files)) == 1
+    assert len(set(exit_transaction_file)) == 1
 
-    json_data = read_json_file(exit_transaction_folder_path, exit_transaction_files[0])
+    json_data = read_json_file(exit_transaction_folder_path, exit_transaction_file[0])
 
     # Verify file content
-    assert len(json_data) == 1
-    assert json_data[0]['message']['epoch'] == '1234'
-    assert json_data[0]['message']['validator_index'] == '1'
+    assert json_data['message']['epoch'] == '1234'
+    assert json_data['message']['validator_index'] == '1'
+    assert json_data['signature']
 
     # Verify file permissions
-    verify_file_permission(os, folder_path=exit_transaction_folder_path, files=exit_transaction_files)
+    verify_file_permission(os, folder_path=exit_transaction_folder_path, files=exit_transaction_file)
 
     # Clean up
     clean_exit_transaction_folder(my_folder_path)

@@ -155,7 +155,7 @@ def generate_bls_to_execution_change(
         chain_setting = get_devnet_chain_setting(
             network_name=devnet_chain_setting_dict['network_name'],
             genesis_fork_version=devnet_chain_setting_dict['genesis_fork_version'],
-            current_fork_version=devnet_chain_setting_dict['current_fork_version'],
+            exit_fork_version=devnet_chain_setting_dict['exit_fork_version'],
             genesis_validator_root=devnet_chain_setting_dict['genesis_validator_root'],
         )
 

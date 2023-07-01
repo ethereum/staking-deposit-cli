@@ -151,7 +151,6 @@ class VoluntaryExit(Serializable):
     Ref: https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#voluntaryexit
     """
     fields = [
-        # TODO: Figure out correct type for epoch
         ('epoch', uint64),
         ('validator_index', uint64)
     ]

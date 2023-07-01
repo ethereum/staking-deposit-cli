@@ -1,4 +1,3 @@
-
 import json
 import os
 import time
@@ -26,7 +25,7 @@ def exit_transaction_generation(
     )
 
     domain = compute_voluntary_exit_domain(
-        fork_version=chain_settings.CURRENT_FORK_VERSION,
+        fork_version=chain_settings.EXIT_FORK_VERSION,
         genesis_validators_root=chain_settings.GENESIS_VALIDATORS_ROOT
     )
 
