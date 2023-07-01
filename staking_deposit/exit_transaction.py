@@ -1,7 +1,7 @@
 import json
 import os
 import time
-from typing import Any, Dict, List
+from typing import Any, Dict
 from py_ecc.bls import G2ProofOfPossession as bls
 
 from staking_deposit.settings import BaseChainSetting
@@ -56,7 +56,10 @@ def export_exit_transaction_json(folder: str, signed_exit: SignedVoluntaryExit) 
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
 
-    filefolder = os.path.join(output_folder, 'signed_exit_transaction-%s-%i.json' % (signed_exit.message.validator_index, time.time()))
+    filefolder = os.path.join(
+        output_folder,
+        'signed_exit_transaction-%s-%i.json' % (signed_exit.message.validator_index, time.time())
+    )
 
     with open(filefolder, 'w') as f:
         json.dump(signed_exit_json, f)

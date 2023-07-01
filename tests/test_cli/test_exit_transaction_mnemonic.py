@@ -24,7 +24,7 @@ def test_exit_transaction_menmonic() -> None:
         'exit-transaction-mnemonic',
         '--output_folder', my_folder_path,
         '--chain', 'mainnet',
-        '--mnemonic', 'sister protect peanut hill ready work profit fit wish want small inflict flip member tail between sick setup bright duck morning sell paper worry',  # noqa: E501
+        '--mnemonic', 'aban aban aban aban aban aban aban aban aban aban aban abou',
         '--validator_start_index', '0',
         '--validator_indices', '1',
         '--epoch', '1234',
@@ -69,7 +69,7 @@ def test_exit_transaction_menmonic_multiple() -> None:
         'exit-transaction-mnemonic',
         '--output_folder', my_folder_path,
         '--chain', 'mainnet',
-        '--mnemonic', 'sister protect peanut hill ready work profit fit wish want small inflict flip member tail between sick setup bright duck morning sell paper worry',  # noqa: E501
+        '--mnemonic', 'aban aban aban aban aban aban aban aban aban aban aban abou',
         '--validator_start_index', '0',
         '--validator_indices', '0 1 2 3',
         '--epoch', '1234',

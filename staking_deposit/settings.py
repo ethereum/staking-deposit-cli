@@ -7,7 +7,7 @@ DEPOSIT_CLI_VERSION = '2.5.0'
 class BaseChainSetting(NamedTuple):
     NETWORK_NAME: str
     GENESIS_FORK_VERSION: bytes
-    EXIT_FORK_VERSION: bytes # fork version for voluntary exits (EIP-7044)
+    EXIT_FORK_VERSION: bytes  # fork version for voluntary exits (EIP-7044)
     GENESIS_VALIDATORS_ROOT: bytes
 
 

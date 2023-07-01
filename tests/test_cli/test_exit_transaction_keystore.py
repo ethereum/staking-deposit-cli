@@ -24,14 +24,13 @@ def test_exit_transaction_menmonic() -> None:
     if not os.path.exists(exit_transaction_folder_path):
         os.mkdir(exit_transaction_folder_path)
 
-
     # Shared parameters
     chain = 'mainnet'
     keystore_password = 'solo-stakers'
 
     # Prepare credential
     credential = Credential(
-        mnemonic='sister protect peanut hill ready work profit fit wish want small inflict flip member tail between sick setup bright duck morning sell paper worry',
+        mnemonic='aban aban aban aban aban aban aban aban aban aban aban abou',
         mnemonic_password='',
         index=0,
         amount=0,
