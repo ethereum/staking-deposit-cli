@@ -1,7 +1,7 @@
 from typing import Dict, NamedTuple
 from eth_utils import decode_hex
 
-DEPOSIT_CLI_VERSION = '2.5.0'
+DEPOSIT_CLI_VERSION = '2.6.0'
 
 
 class BaseChainSetting(NamedTuple):
@@ -15,6 +15,7 @@ GOERLI = 'goerli'
 PRATER = 'prater'
 SEPOLIA = 'sepolia'
 ZHEJIANG = 'zhejiang'
+HOLESKY = 'holesky'
 
 # Mainnet setting
 MainnetSetting = BaseChainSetting(
@@ -32,6 +33,10 @@ SepoliaSetting = BaseChainSetting(
 ZhejiangSetting = BaseChainSetting(
     NETWORK_NAME=ZHEJIANG, GENESIS_FORK_VERSION=bytes.fromhex('00000069'),
     GENESIS_VALIDATORS_ROOT=bytes.fromhex('53a92d8f2bb1d85f62d16a156e6ebcd1bcaba652d0900b2c2f387826f3481f6f'))
+# Holesky setting
+HoleskySetting = BaseChainSetting(
+    NETWORK_NAME=HOLESKY, GENESIS_FORK_VERSION=bytes.fromhex('00017000'),
+    GENESIS_VALIDATORS_ROOT=bytes.fromhex('9143aa7c615a7f7115e2b6aac319c03529df8242ae705fba9df39b79c59fa8b1'))
 
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
@@ -40,6 +45,7 @@ ALL_CHAINS: Dict[str, BaseChainSetting] = {
     PRATER: GoerliSetting,  # Prater is the old name of the Prater/Goerli testnet
     SEPOLIA: SepoliaSetting,
     ZHEJIANG: ZhejiangSetting,
+    HOLESKY: HoleskySetting,
 }
 
 
