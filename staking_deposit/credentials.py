@@ -14,8 +14,12 @@ from staking_deposit.key_handling.key_derivation.path import mnemonic_and_path_t
 from staking_deposit.key_handling.keystore import (
     Keystore,
     ScryptKeystore,
+    Pbkdf2Keystore,
 )
-from staking_deposit.settings import DEPOSIT_CLI_VERSION, BaseChainSetting
+from staking_deposit.settings import (
+    DEPOSIT_CLI_VERSION,
+    BaseChainSetting,
+)
 from staking_deposit.utils.constants import (
     BLS_WITHDRAWAL_PREFIX,
     ETH1_ADDRESS_WITHDRAWAL_PREFIX,
@@ -48,7 +52,8 @@ class Credential:
     """
     def __init__(self, *, mnemonic: str, mnemonic_password: str,
                  index: int, amount: int, chain_setting: BaseChainSetting,
-                 hex_eth1_withdrawal_address: Optional[HexAddress]):
+                 hex_eth1_withdrawal_address: Optional[HexAddress],
+                 pbkdf2: bool):
         # Set path as EIP-2334 format
         # https://eips.ethereum.org/EIPS/eip-2334
         purpose = '12381'
@@ -64,6 +69,7 @@ class Credential:
         self.amount = amount
         self.chain_setting = chain_setting
         self.hex_eth1_withdrawal_address = hex_eth1_withdrawal_address
+        self.pbkdf2 = pbkdf2
 
     @property
     def signing_pk(self) -> bytes:
@@ -147,8 +153,9 @@ class Credential:
         return datum_dict
 
     def signing_keystore(self, password: str) -> Keystore:
+        keystore_klass = Pbkdf2Keystore if self.pbkdf2 else ScryptKeystore
         secret = self.signing_sk.to_bytes(32, 'big')
-        return ScryptKeystore.encrypt(secret=secret, password=password, path=self.signing_key_path)
+        return keystore_klass.encrypt(secret=secret, password=password, path=self.signing_key_path)
 
     def save_signing_keystore(self, password: str, folder: str) -> str:
         keystore = self.signing_keystore(password)
@@ -220,7 +227,8 @@ class CredentialList:
                       amounts: List[int],
                       chain_setting: BaseChainSetting,
                       start_index: int,
-                      hex_eth1_withdrawal_address: Optional[HexAddress]) -> 'CredentialList':
+                      hex_eth1_withdrawal_address: Optional[HexAddress],
+                      pbkdf2: bool) -> 'CredentialList':
         if len(amounts) != num_keys:
             raise ValueError(
                 f"The number of keys ({num_keys}) doesn't equal to the corresponding deposit amounts ({len(amounts)})."
@@ -230,7 +238,8 @@ class CredentialList:
                                show_percent=False, show_pos=True) as indices:
             return cls([Credential(mnemonic=mnemonic, mnemonic_password=mnemonic_password,
                                    index=index, amount=amounts[index - start_index], chain_setting=chain_setting,
-                                   hex_eth1_withdrawal_address=hex_eth1_withdrawal_address)
+                                   hex_eth1_withdrawal_address=hex_eth1_withdrawal_address,
+                                   pbkdf2=pbkdf2)
                         for index in indices])
 
     def export_keystores(self, password: str, folder: str) -> List[str]:

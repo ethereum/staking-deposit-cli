@@ -33,6 +33,9 @@
         "arg_bls_to_execution_changes_folder": {
             "help": "The folder path for the keystore(s). Pointing to `./bls_to_execution_changes` by default."
         },
+        "arg_pbkdf2": {
+          "help": "Use \"pbkdf2\" to generate private keys (default: false)."
+        },
         "msg_key_creation": "Creating your SignedBLSToExecutionChange.",
         "msg_creation_success": "\nSuccess!\nYour SignedBLSToExecutionChange JSON file can be found at: ",
         "msg_pause": "\n\nPress any key.",
