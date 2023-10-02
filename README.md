@@ -180,7 +180,7 @@ Your keys can be found at: <YOUR_FOLDER_PATH>
 
 ###### `generate-bls-to-execution-change` Arguments 
 
-You can use `bls-to-execution-change --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
+You can use `generate-bls-to-execution-change --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
 
 | Argument | Type | Description |
 | -------- | -------- | -------- |
