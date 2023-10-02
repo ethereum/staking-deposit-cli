@@ -33,14 +33,15 @@ def _add_index_to_options(d: Dict[str, List[str]]) -> Dict[str, List[str]]:
     eg. {'en': ['English', 'en']} -> {'en': ['1. English', '1', 'English', 'en']}
     Requires dicts to be ordered (Python > 3.6)
     '''
-    keys = list(d.keys())  # Force copy dictionary keys top prevent iteration over changing dict
+    keys = list(d.keys())  # Force copy dictionary keys to prevent iteration over changing dict
     for i, key in enumerate(keys):
         d.update({key: ['%s. %s' % (i + 1, d[key][0]), str(i + 1)] + d[key]})
     return d
 
 
 INTL_LANG_OPTIONS = _add_index_to_options({
-    'ar': ['العربية', 'ar', 'Arabic'],
+    # Arabic is RTL: Start with right-to-left embedding and end with pop directional formatting.
+    'ar': ['\u202bالعربية\u202c', 'ar', 'Arabic'],
     'el': ['ελληνικά', 'el', 'Greek'],
     'en': ['English', 'en'],
     'fr': ['Français', 'Francais', 'fr', 'French'],
