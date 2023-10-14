@@ -4,7 +4,7 @@ if [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == "linux-android"* ]] || [[ "$OS
     echo $OSTYPE
     if [[ $1 == "install" ]]; then
         echo "Installing dependencies..."
-        pip3 install -r requirements.txt
+        pip3 install -r requirements.txt setuptools
         python3 setup.py install
         exit 1
     fi
