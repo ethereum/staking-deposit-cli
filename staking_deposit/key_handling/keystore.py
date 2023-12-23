@@ -126,7 +126,7 @@ class Keystore(BytesDataclass):
         return password.encode('UTF-8')
 
     @classmethod
-    def encrypt(cls, *, secret: bytes, password: str, path: str='',
+    def encrypt(cls, *, secret: bytes, password: str, path: str='', pubkey: str=None,
                 kdf_salt: bytes=randbits(256).to_bytes(32, 'big'),
                 aes_iv: bytes=randbits(128).to_bytes(16, 'big')) -> 'Keystore':
         """
@@ -143,7 +143,7 @@ class Keystore(BytesDataclass):
         cipher = AES_128_CTR(key=decryption_key[:16], **keystore.crypto.cipher.params)
         keystore.crypto.cipher.message = cipher.encrypt(secret)
         keystore.crypto.checksum.message = SHA256(decryption_key[16:32] + keystore.crypto.cipher.message)
-        keystore.pubkey = bls.SkToPk(int.from_bytes(secret, 'big')).hex()
+        keystore.pubkey = bls.SkToPk(int.from_bytes(secret, 'big')).hex() if pubkey is None else pubkey
         keystore.path = path
         return keystore
 
