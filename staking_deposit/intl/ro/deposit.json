@@ -1,5 +1,5 @@
 {
     "check_python_version": {
-        "err_python_version": "Versiunea de python este prea veche, te rugăm să instalezi versiunea 3.8 sau una mai recentă."
+        "err_python_version": "Versiunea de python este prea veche, te rugăm să instalezi versiunea 3.12 sau una mai recentă."
     }
 }
