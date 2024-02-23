@@ -86,7 +86,7 @@ jobs:
       - checkout
       - run:
           name: "Install Python"
-          command: choco install python --version=3.12.2
+          command: choco install python --version=3.12.2 -y
       - run:
           name: Install testing requirements on Windows
           command: python -m pip install -r requirements_test.txt
@@ -105,6 +105,7 @@ jobs:
       - run:
           name: Install building requirements on Linux
           command: |
+            pyenv update
             env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install -f 3.12.2;
             pyenv global 3.12.2;
             pip install -r ./build_configs/linux/requirements.txt;
@@ -153,6 +154,7 @@ jobs:
       - run:
           name: Install building requirements on Linux ARM64
           command: |
+            pyenv update
             env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install -f 3.12.2;
             pyenv global 3.12.2;
             pip install -r ./build_configs/linux/requirements.txt;
@@ -198,7 +200,7 @@ jobs:
       - checkout
       - run:
           name: "Install Python"
-          command: choco install python --version=3.12.3
+          command: choco install python --version=3.12.2 -y
       - run:
           name: Install building requirements on Windows
           command: pip install -r ./build_configs/windows/requirements.txt
