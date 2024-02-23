@@ -105,6 +105,7 @@ jobs:
       - run:
           name: Install building requirements on Linux
           command: |
+            git config --global --add safe.directory /opt/circleci/.pyenv;
             cd /opt/circleci/.pyenv/plugins/python-build/../.. && git pull && cd ~/repo;
             env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install -f 3.12.2;
             pyenv global 3.12.2;
@@ -154,6 +155,7 @@ jobs:
       - run:
           name: Install building requirements on Linux ARM64
           command: |
+            git config --global --add safe.directory /opt/circleci/.pyenv;
             cd /opt/circleci/.pyenv/plugins/python-build/../.. && git pull && cd ~/repo;
             env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install -f 3.12.2;
             pyenv global 3.12.2;
