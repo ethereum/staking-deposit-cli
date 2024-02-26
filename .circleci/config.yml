@@ -106,7 +106,7 @@ jobs:
           name: Install building requirements on Linux
           command: |
             env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install -f 3.12.1;
-            pyenv global 3.12.2;
+            pyenv global 3.12.1;
             pip install -r ./build_configs/linux/requirements.txt;
       - run:
           name: Build with build.spec
