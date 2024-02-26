@@ -1,5 +1,5 @@
 {
     "check_python_version": {
-        "err_python_version": "Sua versão do python é insuficiente, por favor instale a versão 3.8 ou superior."
+        "err_python_version": "Sua versão do python é insuficiente, por favor instale a versão 3.12 ou superior."
     }
 }

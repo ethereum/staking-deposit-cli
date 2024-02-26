@@ -83,8 +83,8 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
         jit_option(
             callback=captive_prompt_callback(
                 validate_password_strength,
-                lambda:load_text(['keystore_password', 'prompt'], func='generate_keys_arguments_decorator'),
-                lambda:load_text(['keystore_password', 'confirm'], func='generate_keys_arguments_decorator'),
+                lambda: load_text(['keystore_password', 'prompt'], func='generate_keys_arguments_decorator'),
+                lambda: load_text(['keystore_password', 'confirm'], func='generate_keys_arguments_decorator'),
                 lambda: load_text(['keystore_password', 'mismatch'], func='generate_keys_arguments_decorator'),
                 True,
             ),

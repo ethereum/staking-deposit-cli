@@ -61,9 +61,9 @@ class KeystoreModule(BytesDataclass):
 
 @dataclass
 class KeystoreCrypto(BytesDataclass):
-    kdf: KeystoreModule = KeystoreModule()
-    checksum: KeystoreModule = KeystoreModule()
-    cipher: KeystoreModule = KeystoreModule()
+    kdf: KeystoreModule = dataclass_field(default_factory=KeystoreModule)
+    checksum: KeystoreModule = dataclass_field(default_factory=KeystoreModule)
+    cipher: KeystoreModule = dataclass_field(default_factory=KeystoreModule)
 
     @classmethod
     def from_json(cls, json_dict: Dict[Any, Any]) -> 'KeystoreCrypto':
@@ -81,7 +81,7 @@ class Keystore(BytesDataclass):
 
     Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2335.md
     """
-    crypto: KeystoreCrypto = KeystoreCrypto()
+    crypto: KeystoreCrypto = dataclass_field(default_factory=KeystoreCrypto)
     description: str = ''
     pubkey: str = ''
     path: str = ''
@@ -164,40 +164,44 @@ class Keystore(BytesDataclass):
 
 @dataclass
 class Pbkdf2Keystore(Keystore):
-    crypto: KeystoreCrypto = KeystoreCrypto(
-        kdf=KeystoreModule(
-            function='pbkdf2',
-            params={
-                'c': 2**18,
-                'dklen': 32,
-                "prf": 'hmac-sha256'
-            },
-        ),
-        checksum=KeystoreModule(
-            function='sha256',
-        ),
-        cipher=KeystoreModule(
-            function='aes-128-ctr',
+    crypto: KeystoreCrypto = dataclass_field(
+        default_factory=lambda: KeystoreCrypto(
+            kdf=KeystoreModule(
+                function='pbkdf2',
+                params={
+                    'c': 2**18,
+                    'dklen': 32,
+                    "prf": 'hmac-sha256'
+                },
+            ),
+            checksum=KeystoreModule(
+                function='sha256',
+            ),
+            cipher=KeystoreModule(
+                function='aes-128-ctr',
+            )
         )
     )
 
 
 @dataclass
 class ScryptKeystore(Keystore):
-    crypto: KeystoreCrypto = KeystoreCrypto(
-        kdf=KeystoreModule(
-            function='scrypt',
-            params={
-                'dklen': 32,
-                'n': 2**18,
-                'r': 8,
-                'p': 1,
-            },
-        ),
-        checksum=KeystoreModule(
-            function='sha256',
-        ),
-        cipher=KeystoreModule(
-            function='aes-128-ctr',
+    crypto: KeystoreCrypto = dataclass_field(
+        default_factory=lambda: KeystoreCrypto(
+            kdf=KeystoreModule(
+                function='scrypt',
+                params={
+                    'dklen': 32,
+                    'n': 2**18,
+                    'r': 8,
+                    'p': 1,
+                },
+            ),
+            checksum=KeystoreModule(
+                function='sha256',
+            ),
+            cipher=KeystoreModule(
+                function='aes-128-ctr',
+            )
         )
     )

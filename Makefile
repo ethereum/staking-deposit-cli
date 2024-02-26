@@ -1,6 +1,6 @@
 VENV_NAME?=venv
 VENV_ACTIVATE=. $(VENV_NAME)/bin/activate
-PYTHON=${VENV_NAME}/bin/python3.8
+PYTHON=${VENV_NAME}/bin/python3.12
 DOCKER_IMAGE="ethereum/staking-deposit-cli:latest"
 
 help:
@@ -24,9 +24,9 @@ clean:
 
 $(VENV_NAME)/bin/activate: requirements.txt
 	@test -d $(VENV_NAME) || python3 -m venv --clear $(VENV_NAME)
-	${VENV_NAME}/bin/python setup.py install
 	${VENV_NAME}/bin/python -m pip install -r requirements.txt
 	${VENV_NAME}/bin/python -m pip install -r requirements_test.txt
+	${VENV_NAME}/bin/python setup.py install
 	@touch $(VENV_NAME)/bin/activate
 
 venv_build: $(VENV_NAME)/bin/activate
