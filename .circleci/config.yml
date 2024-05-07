@@ -98,7 +98,7 @@ jobs:
           command: python ./test_btec_script.py
   build-linux-amd64:
     machine:
-      image: ubuntu-2204:2024.01.1
+      image: ubuntu-2204:2024.04.4
     working_directory: ~/repo
     steps:
       - checkout
@@ -145,7 +145,7 @@ jobs:
           path: /tmp/artifacts
   build-linux-arm64:
     machine:
-      image: ubuntu-2204:2024.01.1
+      image: ubuntu-2204:2024.04.4
     resource_class: arm.medium
     working_directory: ~/repo
     steps:
@@ -242,7 +242,7 @@ jobs:
           path: /tmp/artifacts
   build-macos:
     macos:
-      xcode: 15.1.0
+      xcode: 15.3.0
     working_directory: ~/repo
     steps:
       - run: xcodebuild -version
