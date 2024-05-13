@@ -250,7 +250,9 @@ jobs:
       - checkout
       - run:
           name: Install building requirements on MacOS
-          command: pip3 install -r ./build_configs/macos/requirements.txt
+          command: |
+            brew install gcc;
+            pip3 install -r ./build_configs/macos/requirements.txt;
       - run:
           name: Build with build.spec
           command: |
