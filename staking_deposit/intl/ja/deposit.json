@@ -1,5 +1,5 @@
 {
     "check_python_version": {
-        "err_python_version": "Python のバージョンが最新ではありません。バージョン 3.8 以降をインストールしてください。"
+        "err_python_version": "Python のバージョンが最新ではありません。バージョン 3.12 以降をインストールしてください。"
     }
 }

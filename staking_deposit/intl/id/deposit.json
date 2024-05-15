@@ -1,5 +1,5 @@
 {
     "check_python_version": {
-        "err_python_version": "Versi python Anda tidak cukup, harap instal versi 3.8 atau yang lebih baru."
+        "err_python_version": "Versi python Anda tidak cukup, harap instal versi 3.12 atau yang lebih baru."
     }
 }

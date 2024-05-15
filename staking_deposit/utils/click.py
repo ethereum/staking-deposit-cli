@@ -16,7 +16,7 @@ def _value_of(f: Union[Callable[[], Any], Any]) -> Any:
     '''
     If the input, f, is a function, return f(), else return f.
     '''
-    return(f() if callable(f) else f)
+    return (f() if callable(f) else f)
 
 
 class JITOption(click.Option):

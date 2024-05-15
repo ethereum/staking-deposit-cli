@@ -5,68 +5,69 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Introduction](#introduction)
-- [Tutorial for users](#tutorial-for-users)
-  - [Build requirements](#build-requirements)
-  - [For Linux or MacOS users](#for-linux-or-macos-users)
-    - [File Permissions](#file-permissions)
-    - [Option 1. Download binary executable file](#option-1-download-binary-executable-file)
-      - [Step 1. Installation](#step-1-installation)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json)
-        - [`language` Argument](#language-argument)
-        - [`--non_interactive` flag](#--non_interactive-flag)
-        - [Commands](#commands)
-        - [`new-mnemonic` Arguments](#new-mnemonic-arguments)
-        - [`existing-mnemonic` Arguments](#existing-mnemonic-arguments)
-        - [Successful message](#successful-message)
-        - [`generate-bls-to-execution-change` Arguments](#generate-bls-to-execution-change-arguments)
-    - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python)
-      - [Step 0. Python version checking](#step-0-python-version-checking)
-      - [Step 1. Installation](#step-1-installation-1)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-1)
-        - [Language Argument](#language-argument)
-        - [Commands](#commands-1)
-        - [Arguments](#arguments)
-        - [Successful message](#successful-message-1)
-    - [Option 3. Build `deposit-cli` with `virtualenv`](#option-3-build-deposit-cli-with-virtualenv)
-      - [Step 0. Python version checking](#step-0-python-version-checking-1)
-      - [Step 1. Installation](#step-1-installation-2)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-2)
-        - [Language Argument](#language-argument-1)
-        - [Commands](#commands-2)
-        - [Arguments](#arguments-1)
-    - [Option 4. Use Docker image](#option-4-use-docker-image)
-      - [Step 1. Build the docker image](#step-1-build-the-docker-image)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-3)
-        - [Arguments](#arguments-2)
-        - [Successful message](#successful-message-2)
-  - [For Windows users](#for-windows-users)
-    - [Option 1. Download binary executable file](#option-1-download-binary-executable-file-1)
-      - [Step 1. Installation](#step-1-installation-3)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-4)
-        - [Language Argument](#language-argument-2)
-        - [Commands](#commands-3)
-        - [Arguments](#arguments-3)
-    - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python-1)
-      - [Step 0. Python version checking](#step-0-python-version-checking-2)
-      - [Step 1. Installation](#step-1-installation-4)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-5)
-        - [Language Argument](#language-argument-3)
-        - [Commands](#commands-4)
-        - [Arguments](#arguments-4)
-    - [Option 3. Build `deposit-cli` with `virtualenv`](#option-3-build-deposit-cli-with-virtualenv-1)
-      - [Step 0. Python version checking](#step-0-python-version-checking-3)
-      - [Step 1. Installation](#step-1-installation-5)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-6)
-        - [Language Argument](#language-argument-4)
-        - [Commands](#commands-5)
-        - [Arguments](#arguments-5)
-- [Development](#development)
-  - [Install basic requirements](#install-basic-requirements)
-  - [Install testing requirements](#install-testing-requirements)
-  - [Run tests](#run-tests)
-  - [Building Binaries](#building-binaries)
-      - [Mac M1 Binaries](#mac-m1-binaries)
+- [staking-deposit-cli](#staking-deposit-cli)
+  - [Introduction](#introduction)
+  - [Tutorial for users](#tutorial-for-users)
+    - [Build requirements](#build-requirements)
+    - [For Linux or MacOS users](#for-linux-or-macos-users)
+      - [File Permissions](#file-permissions)
+      - [Option 1. Download binary executable file](#option-1-download-binary-executable-file)
+        - [Step 1. Installation](#step-1-installation)
+        - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json)
+          - [`language` Argument](#language-argument)
+          - [`--non_interactive` flag](#--non_interactive-flag)
+          - [Commands](#commands)
+          - [`new-mnemonic` Arguments](#new-mnemonic-arguments)
+          - [`existing-mnemonic` Arguments](#existing-mnemonic-arguments)
+          - [Successful message](#successful-message)
+          - [`generate-bls-to-execution-change` Arguments](#generate-bls-to-execution-change-arguments)
+      - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python)
+        - [Step 0. Python version checking](#step-0-python-version-checking)
+        - [Step 1. Installation](#step-1-installation-1)
+        - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-1)
+          - [Language Argument](#language-argument-1)
+          - [Commands](#commands-1)
+          - [Arguments](#arguments)
+          - [Successful message](#successful-message-1)
+      - [Option 3. Build `deposit-cli` with `virtualenv`](#option-3-build-deposit-cli-with-virtualenv)
+        - [Step 0. Python version checking](#step-0-python-version-checking-1)
+        - [Step 1. Installation](#step-1-installation-2)
+        - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-2)
+          - [Language Argument](#language-argument-2)
+          - [Commands](#commands-2)
+          - [Arguments](#arguments-1)
+      - [Option 4. Use Docker image](#option-4-use-docker-image)
+        - [Step 1. Build the docker image](#step-1-build-the-docker-image)
+        - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-3)
+          - [Arguments](#arguments-2)
+          - [Successful message](#successful-message-2)
+    - [For Windows users](#for-windows-users)
+      - [Option 1. Download binary executable file](#option-1-download-binary-executable-file-1)
+        - [Step 1. Installation](#step-1-installation-3)
+        - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-4)
+          - [Language Argument](#language-argument-3)
+          - [Commands](#commands-3)
+          - [Arguments](#arguments-3)
+      - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python-1)
+        - [Step 0. Python version checking](#step-0-python-version-checking-2)
+        - [Step 1. Installation](#step-1-installation-4)
+        - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-5)
+          - [Language Argument](#language-argument-4)
+          - [Commands](#commands-4)
+          - [Arguments](#arguments-4)
+      - [Option 3. Build `deposit-cli` with `virtualenv`](#option-3-build-deposit-cli-with-virtualenv-1)
+        - [Step 0. Python version checking](#step-0-python-version-checking-3)
+        - [Step 1. Installation](#step-1-installation-5)
+        - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-6)
+          - [Language Argument](#language-argument-5)
+          - [Commands](#commands-5)
+          - [Arguments](#arguments-5)
+  - [Development](#development)
+    - [Install basic requirements](#install-basic-requirements)
+    - [Install testing requirements](#install-testing-requirements)
+    - [Run tests](#run-tests)
+    - [Building Binaries](#building-binaries)
+        - [Mac M1 Binaries](#mac-m1-binaries)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -85,7 +86,7 @@ You can find the audit report by Trail of Bits [here](https://github.com/trailof
 
 ### Build requirements
 
-- [Python **3.8+**](https://www.python.org/about/gettingstarted/)
+- [Python **3.12+**](https://www.python.org/about/gettingstarted/)
 - [pip3](https://pip.pypa.io/en/stable/installing/)
 
 ### For Linux or MacOS users
@@ -198,7 +199,7 @@ You can use `bls-to-execution-change --help` to see all arguments. Note that if 
 
 ##### Step 0. Python version checking
 
-Ensure you are using Python version >= Python3.8:
+Ensure you are using Python version >= Python3.12:
 
 ```sh
 python3 -V
@@ -263,7 +264,7 @@ See [here](#successful-message)
 
 ##### Step 0. Python version checking
 
-Ensure you are using Python version >= Python3.8:
+Ensure you are using Python version >= Python3.12:
 
 ```sh
 python3 -V
@@ -412,7 +413,7 @@ See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-exe
 
 ##### Step 0. Python version checking
 
-Ensure you are using Python version >= Python3.8 (Assume that you've installed Python 3 as the main Python):
+Ensure you are using Python version >= Python12 (Assume that you've installed Python 3 as the main Python):
 
 ```sh
 python -V
@@ -475,7 +476,7 @@ See [here](#generate-bls-to-execution-change-arguments) for `generate-bls-to-exe
 
 ##### Step 0. Python version checking
 
-Ensure you are using Python version >= Python3.8 (Assume that you've installed Python 3 as the main Python):
+Ensure you are using Python version >= Python3.12 (Assume that you've installed Python 3 as the main Python):
 
 ```cmd
 python -V
