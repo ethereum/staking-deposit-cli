@@ -52,13 +52,13 @@ class JITOption(click.Option):
         self.prompt = _value_of(self.callable_prompt)
         return super().prompt_for_value(ctx)
 
-    def get_help_record(self, ctx: click.Context) -> Tuple[str, str]:
+    def get_help_record(self, ctx: click.Context) -> Optional[Tuple[str, str]]:
         self.help = _value_of(self.callable_help)
         return super().get_help_record(ctx)
 
-    def get_default(self, ctx: click.Context) -> Any:
+    def get_default(self, ctx: click.Context, *args: Any, **kwargs: Any) -> Optional[Any]:
         self.default = _value_of(self.callable_default)
-        return super().get_default(ctx)
+        return super().get_default(ctx, *args, **kwargs)
 
 
 def jit_option(*args: Any, **kwargs: Any) -> Callable[[Any], Any]:
