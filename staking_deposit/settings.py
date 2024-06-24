@@ -1,7 +1,8 @@
 from typing import Dict, NamedTuple
+from .version import __version__
 from eth_utils import decode_hex
 
-DEPOSIT_CLI_VERSION = '2.7.0'
+DEPOSIT_CLI_VERSION = __version__
 
 
 class BaseChainSetting(NamedTuple):
@@ -16,6 +17,8 @@ PRATER = 'prater'
 SEPOLIA = 'sepolia'
 ZHEJIANG = 'zhejiang'
 HOLESKY = 'holesky'
+DILL = 'dill'
+ANDES = 'andes'
 
 # Mainnet setting
 MainnetSetting = BaseChainSetting(
@@ -37,7 +40,15 @@ ZhejiangSetting = BaseChainSetting(
 HoleskySetting = BaseChainSetting(
     NETWORK_NAME=HOLESKY, GENESIS_FORK_VERSION=bytes.fromhex('01017000'),
     GENESIS_VALIDATORS_ROOT=bytes.fromhex('9143aa7c615a7f7115e2b6aac319c03529df8242ae705fba9df39b79c59fa8b1'))
-
+#Dill Mainnet setting
+DillSetting = BaseChainSetting(
+    NETWORK_NAME=DILL, GENESIS_FORK_VERSION=bytes.fromhex('0x01017550'),
+    GENESIS_VALIDATORS_ROOT=bytes.fromhex('')) # ToDo: add genesisValitorsRoot when ready
+# Andes setting
+AndesSetting = BaseChainSetting(
+    NETWORK_NAME=ANDES, GENESIS_FORK_VERSION=bytes.fromhex('0x01017551'),
+    GENESIS_VALIDATORS_ROOT=bytes.fromhex('') # ToDo: add genesisValitorsRoot when ready
+)
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
     MAINNET: MainnetSetting,
@@ -46,10 +57,12 @@ ALL_CHAINS: Dict[str, BaseChainSetting] = {
     SEPOLIA: SepoliaSetting,
     ZHEJIANG: ZhejiangSetting,
     HOLESKY: HoleskySetting,
+    DILL: DillSetting,
+    ANDES: AndesSetting,
 }
 
 
-def get_chain_setting(chain_name: str = MAINNET) -> BaseChainSetting:
+def get_chain_setting(chain_name: str = DILL) -> BaseChainSetting:
     return ALL_CHAINS[chain_name]
 
 

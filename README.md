@@ -105,13 +105,13 @@ See [releases page](https://github.com/ethereum/staking-deposit-cli/releases) to
 Run the following command to enter the interactive CLI and generate keys from a new mnemonic:
 
 ```sh
-./deposit new-mnemonic
+./dill-validator-gen new-mnemonic
 ```
 
 or run the following command to enter the interactive CLI and generate keys from an existing:
 
 ```sh
-./deposit existing-mnemonic
+./dill-validators-gen existing-mnemonic
 ```
 
 ###### `language` Argument

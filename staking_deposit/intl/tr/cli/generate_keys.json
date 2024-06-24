@@ -8,12 +8,12 @@
             "help": "Anahtar depoları ve depozitolar için dizin yolu. Varsayılan olarak `./validator_keys` yolunu gösterir."
         },
         "chain": {
-            "help": "Hedeflenen Ethereum PoS ağının ismi. Depozito olarak ETH kullanıyorsanız \"mainnet\" kullanın",
+            "help": "Hedeflenen Dill PoS ağının ismi. Depozito olarak DIL kullanıyorsanız \"dill\" kullanın",
             "prompt": "Lütfen (mainnet veya testnet) ağ/zincir adını seçin"
         },
         "keystore_password": {
-            "help": "Anahtar depolarınızı koruyacak şifre. Ethereum onaylayıcılarınızı kurarken bu şifreyi tekrar girmeniz gerekecek. (Bu parametreyi kullanmamanız ve size sorulduğunda ipucu kelimelerini girmeniz tavsiye edilir, aksi taktirde şifreniz komut satırı geçmişinde gözükecektir.)",
-            "prompt": "Onaylayıcı anahtar depolarınızı koruyan bir şifre oluşturun. Ethereum onaylayıcılarınızı kurarken bu şifreyi tekrar girmeniz gerekecek.",
+            "help": "Anahtar depolarınızı koruyacak şifre. Dill onaylayıcılarınızı kurarken bu şifreyi tekrar girmeniz gerekecek. (Bu parametreyi kullanmamanız ve size sorulduğunda ipucu kelimelerini girmeniz tavsiye edilir, aksi taktirde şifreniz komut satırı geçmişinde gözükecektir.)",
+            "prompt": "Onaylayıcı anahtar depolarınızı koruyan bir şifre oluşturun. Dill onaylayıcılarınızı kurarken bu şifreyi tekrar girmeniz gerekecek.",
             "confirm": "Anahtar deposu şifrenizi onaylamak için tekrar girin",
             "mismatch": "Hata: girilen değerler eşleşmiyor. Tekrar deneyin."
         },

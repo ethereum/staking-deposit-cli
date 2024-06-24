@@ -1,7 +1,7 @@
 {
     "generate_bls_to_execution_change": {
         "arg_generate_bls_to_execution_change" :{
-            "help": "Generating the SignedBLSToExecutionChange data to enable withdrawals on Ethereum Beacon Chain."
+            "help": "Generating the SignedBLSToExecutionChange data to enable withdrawals on Dill blockchain."
         },
         "arg_execution_address": {
             "help": "The 20-byte (Eth1) execution address that will be used in withdrawal",
@@ -23,8 +23,8 @@
             "confirm": "Please repeat the index to confirm"
         },
         "arg_chain": {
-            "help": "The name of Ethereum PoS chain you are targeting. Use \"mainnet\" if you are depositing ETH",
-            "prompt": "Please choose the (mainnet or testnet) network/chain name"
+            "help": "The name of DILL PoS chain you are targeting. Use \"dill\" if you are depositing DIL",
+            "prompt": "Please choose the (dill or dill-testnet) network/chain name"
         },
         "arg_fork": {
             "help": "The fork name of the fork you want to signing the message with.",

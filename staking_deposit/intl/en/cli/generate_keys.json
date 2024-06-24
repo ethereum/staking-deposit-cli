@@ -8,12 +8,12 @@
             "help": "The folder path for the keystore(s) and deposit(s). Pointing to `./validator_keys` by default."
         },
         "chain": {
-            "help": "The name of Ethereum PoS chain you are targeting. Use \"mainnet\" if you are depositing ETH",
-            "prompt": "Please choose the (mainnet or testnet) network/chain name"
+            "help": "The name of Dill PoS chain you are targeting. Use \"dill\" if you are depositing DIL",
+            "prompt": "Please choose the (dill or dill-testnet) network/chain name"
         },
         "keystore_password": {
-            "help": "The password that will secure your keystores. You will need to re-enter this to decrypt them when you setup your Ethereum validators. (It is recommended not to use this argument, and wait for the CLI to ask you for your mnemonic as otherwise it will appear in your shell history.)",
-            "prompt": "Create a password that secures your validator keystore(s). You will need to re-enter this to decrypt them when you setup your Ethereum validators.",
+            "help": "The password that will secure your keystores. You will need to re-enter this to decrypt them when you setup your Dill validators. (It is recommended not to use this argument, and wait for the CLI to ask you for your mnemonic as otherwise it will appear in your shell history.)",
+            "prompt": "Create a password that secures your validator keystore(s). You will need to re-enter this to decrypt them when you setup your Dill validators.",
             "confirm": "Repeat your keystore password for confirmation",
             "mismatch": "Error: the two entered values do not match. Please type again."
         },
