@@ -5,7 +5,7 @@
             "prompt": "Veuillez choisir le nombre de validateurs que vous souhaitez exécuter"
         },
         "chain": {
-            "help": "Version Ethereum Proof of Stake que vous ciblez. Utilisez \"mainnet\" si vous déposez de l'ETH.",
+            "help": "Version Dill Proof of Stake que vous ciblez. Utilisez \"dill\" si vous déposez de l'DIL.",
             "prompt": "Veuillez choisir un nom de chaîne/réseau : mainnet (réseau principal) ou testnet (réseau de test)."
         },
         "keystore_password": {
