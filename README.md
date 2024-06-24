@@ -375,23 +375,23 @@ See [releases page](https://github.com/ethereum/staking-deposit-cli/releases) to
 Run one of the following command to enter the interactive CLI:
 
 ```sh
-deposit.exe new-mnemonic
+dill-validators-gen.exe new-mnemonic
 ```
 
 or
 
 ```sh
-deposit.exe existing-mnemonic
+dill-validators-gen.exe existing-mnemonic
 ```
 
 You can also run the tool with optional arguments:
 
 ```sh
-deposit.exe new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+dill-validators-gen.exe new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
 ```sh
-deposit.exe existing-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
+dill-validators-gen.exe existing-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
 ```
 
 ###### Language Argument
