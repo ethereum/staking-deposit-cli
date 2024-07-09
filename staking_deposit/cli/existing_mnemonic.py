@@ -17,7 +17,7 @@ from staking_deposit.utils.click import (
 )
 from staking_deposit.utils.intl import load_text
 from staking_deposit.utils.validation import validate_int_range
-from .generate_keys import (
+from staking_deposit.cli.generate_keys import (
     generate_keys,
     generate_keys_arguments_decorator,
 )

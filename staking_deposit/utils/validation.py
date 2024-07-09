@@ -264,3 +264,10 @@ def validate_validator_indices(input_validator_indices: str) -> Sequence[int]:
 def validate_bls_withdrawal_credentials_matching(bls_withdrawal_credentials: bytes, credential: Credential) -> None:
     if bls_withdrawal_credentials[1:] != SHA256(credential.withdrawal_pk)[1:]:
         raise ValidationError(load_text(['err_not_matching']) + '\n')
+
+def validate_deposit_amount(deposit_amount: Any) -> int:
+    deposit_amount_int = int(deposit_amount)
+    if not MIN_DEPOSIT_AMOUNT <= deposit_amount_int <= MAX_DEPOSIT_AMOUNT:
+            ETH2GWEI = 10 ** 9
+            raise ValidationError(f"{deposit_amount / ETH2GWEI} DILL deposits are not within the bounds of this cli.")
+    return deposit_amount_int

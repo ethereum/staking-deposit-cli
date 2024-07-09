@@ -15,6 +15,7 @@ from staking_deposit.utils.validation import (
     validate_int_range,
     validate_password_strength,
     validate_eth1_withdrawal_address,
+    validate_deposit_amount,
 )
 from staking_deposit.utils.constants import (
     MAX_DEPOSIT_AMOUNT,
@@ -104,6 +105,15 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             help=lambda: load_text(['arg_execution_address', 'help'], func='generate_keys_arguments_decorator'),
             param_decls=['--execution_address', '--eth1_withdrawal_address'],
         ),
+        jit_option(
+            callback=captive_prompt_callback(
+                lambda deposit_amount: validate_deposit_amount(deposit_amount),
+                lambda: load_text(['deposit_amount', 'prompt'], func='generate_keys_arguments_decorator'),
+            ),
+            help=lambda: load_text(['deposit_amount', 'help'], func='generate_keys_arguments_decorator'),
+            param_decls="--deposit_amount",
+            prompt=lambda: load_text(['deposit_amount', 'prompt'], func='generate_keys_arguments_decorator'),
+        ),
     ]
     for decorator in reversed(decorators):
         function = decorator(function)
@@ -114,10 +124,10 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
 @click.pass_context
 def generate_keys(ctx: click.Context, validator_start_index: int,
                   num_validators: int, folder: str, chain: str, keystore_password: str,
-                  execution_address: HexAddress, **kwargs: Any) -> None:
+                  execution_address: HexAddress, deposit_amount: int, **kwargs: Any) -> None:
     mnemonic = ctx.obj['mnemonic']
     mnemonic_password = ctx.obj['mnemonic_password']
-    amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
+    amounts = [deposit_amount] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     chain_setting = get_chain_setting(chain)
     if not os.path.exists(folder):
