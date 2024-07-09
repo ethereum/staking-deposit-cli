@@ -42,12 +42,13 @@ HoleskySetting = BaseChainSetting(
     GENESIS_VALIDATORS_ROOT=bytes.fromhex('9143aa7c615a7f7115e2b6aac319c03529df8242ae705fba9df39b79c59fa8b1'))
 #Dill Mainnet setting
 DillSetting = BaseChainSetting(
-    NETWORK_NAME=DILL, GENESIS_FORK_VERSION=bytes.fromhex('0x01017550'),
-    GENESIS_VALIDATORS_ROOT=bytes.fromhex('')) # ToDo: add genesisValitorsRoot when ready
+    NETWORK_NAME=DILL, GENESIS_FORK_VERSION=bytes.fromhex('01017550'),
+    GENESIS_VALIDATORS_ROOT=bytes.fromhex('1234567890000000000000000000000000000000000000000000000000000000')) # ToDo: add genesisValitorsRoot when ready
 # Andes setting
+ANDES_GENESIS_VALIDATORS_ROOT_HEX='0913549e94b1c68fa6ffea77268495d9e6f3a4ec1d3bbf4b81f973b2c24856dd'
 AndesSetting = BaseChainSetting(
-    NETWORK_NAME=ANDES, GENESIS_FORK_VERSION=bytes.fromhex('0x01017551'),
-    GENESIS_VALIDATORS_ROOT=bytes.fromhex('') # ToDo: add genesisValitorsRoot when ready
+    NETWORK_NAME=ANDES, GENESIS_FORK_VERSION=bytes.fromhex('01017551'),
+    GENESIS_VALIDATORS_ROOT=bytes.fromhex(ANDES_GENESIS_VALIDATORS_ROOT_HEX)
 )
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
