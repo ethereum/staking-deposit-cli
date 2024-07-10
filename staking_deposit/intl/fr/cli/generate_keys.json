@@ -13,6 +13,10 @@
             "prompt": "Mot de passe qui sécurisera vos keystores. Vous devrez le saisir de nouveau pour les décrypter quand vous configurerez vos validateurs Proof of Stake.",
             "confirm": "Veuillez confirmer le mot de passe.",
             "mismatch": "Erreur : Les deux valeurs saisies ne correspondent pas. Veuillez réessayer."
+        },
+        "deposit_amount": {
+            "help": "The amount of DILL that is going to be deposited",
+            "prompt": "The amount of DILL token to be deposited(2500 by default)."
         }
     },
     "generate_keys": {

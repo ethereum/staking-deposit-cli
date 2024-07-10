@@ -19,6 +19,10 @@
         },
         "eth1_withdrawal_address": {
             "help": "Eğer bu alan girilmiş ve geçerliyse, verilen Eth1 adresi varlık çekme adresi olarak kullanılacaktır. Aksi taktirde, ipucu kelimelerinden üretilmiş bir genel anahtar kullanılır."
+        },
+        "deposit_amount": {
+            "help": "The amount of DILL that is going to be deposited",
+            "prompt": "The amount of DILL token to be deposited(2500 by default)."
         }
     },
     "generate_keys": {

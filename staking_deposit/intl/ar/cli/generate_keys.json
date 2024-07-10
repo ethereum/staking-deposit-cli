@@ -13,6 +13,10 @@
             "prompt": "كلمة المرور التي سوف تؤمن متاجر المفاتيح الخاصة بك. سوف تحتاج إلى إعادة إدخال هذا لفك تشفيرها عند إعداد مدققي Dill PoS الخاصين بك.",
             "confirm": "كرر للتأكيد",
             "mismatch": "خطأ: القيمتان اللتان تم إدخالهما غير متطابقتين. الرجاء الكتابة مرة أخرى."
+        },
+        "deposit_amount": {
+            "help": "The amount of DILL that is going to be deposited",
+            "prompt": "The amount of DILL token to be deposited(2500 by default)."
         }
     },
     "generate_keys": {

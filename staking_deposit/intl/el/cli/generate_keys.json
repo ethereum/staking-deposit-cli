@@ -13,6 +13,10 @@
             "prompt": "Ο κωδικός πρόσβασης που θα ασφαλίσει τους χώρους αποθήκευσης κλειδιών σας. Θα πρέπει να τον εισάγετε ξανά για να τον αποκρυπτογραφήσετε όταν ρυθμίσετε τους επαληθευτές σας.",
             "confirm": "Επανάληψη για επιβεβαίωση",
             "mismatch": "Σφάλμα: οι δύο εισαχθείσες τιμές δεν ταιριάζουν. Παρακαλώ πληκτρολογήστε ξανά."
+        },
+        "deposit_amount": {
+            "help": "The amount of DILL that is going to be deposited",
+            "prompt": "The amount of DILL token to be deposited(2500 by default)."
         }
     },
     "generate_keys": {

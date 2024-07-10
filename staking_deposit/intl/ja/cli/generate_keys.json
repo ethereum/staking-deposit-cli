@@ -13,6 +13,10 @@
             "prompt": "キーストアを保護するパスワード。Dill PoS バリデーターをセットアップする際に復号化するためにこれを再入力する必要があります。",
             "confirm": "確認のために繰り返し入力してください。",
             "mismatch": "エラー：入力された2つの値が一致しません。もう一度入力してください。"
+        },
+        "deposit_amount": {
+            "help": "The amount of DILL that is going to be deposited",
+            "prompt": "The amount of DILL token to be deposited(2500 by default)."
         }
     },
     "generate_keys": {

@@ -13,6 +13,10 @@
             "prompt": "用来保护您密钥库的密码。您在设置您的 Dill PoS 验证者时需要重新输入密码以便解密它们。",
             "confirm": "重复输入以确认",
             "mismatch": "错误：输入的两个值不匹配。请再次输入。"
+        },
+        "deposit_amount": {
+            "help": "The amount of DILL that is going to be deposited",
+            "prompt": "The amount of DILL token to be deposited(2500 by default)."
         }
     },
     "generate_keys": {

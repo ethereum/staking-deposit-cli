@@ -13,6 +13,10 @@
             "prompt": "Parola cu care vei securiza depozitele de chei. Va trebui să o reintroduci pentru a le decripta atunci când configurezi validatorii Dill PoS.",
             "confirm": "Repetă parola, pentru confirmare",
             "mismatch": "Eroare: cele două valori introduse sunt diferite. Te rugăm să tastezi din nou."
+        },
+        "deposit_amount": {
+            "help": "The amount of DILL that is going to be deposited",
+            "prompt": "The amount of DILL token to be deposited(2500 by default)."
         }
     },
     "generate_keys": {

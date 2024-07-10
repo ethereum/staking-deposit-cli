@@ -13,6 +13,10 @@
             "prompt": "A senha que protegerá seus keystores. Você precisará digitá-la para descriptografá-los ao configurar seus validadores Dill PoS.",
             "confirm": "Repita para confirmar",
             "mismatch": "Erro: os dois valores inseridos não coincidem. Digite-os novamente."
+        },
+        "deposit_amount": {
+            "help": "The amount of DILL that is going to be deposited",
+            "prompt": "The amount of DILL token to be deposited(2500 by default)."
         }
     },
     "generate_keys": {

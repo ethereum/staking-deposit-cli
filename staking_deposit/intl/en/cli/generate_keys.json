@@ -25,7 +25,7 @@
         },
         "deposit_amount": {
             "help": "The amount of DILL that is going to be deposited",
-            "prompt": "The amount of DILL token to be deposit(32 by default)."
+            "prompt": "The amount of DILL token to be deposited(2500 by default)."
         }
     },
     "generate_keys": {

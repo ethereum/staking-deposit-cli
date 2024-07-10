@@ -267,7 +267,8 @@ def validate_bls_withdrawal_credentials_matching(bls_withdrawal_credentials: byt
 
 def validate_deposit_amount(deposit_amount: Any) -> int:
     deposit_amount_int = int(deposit_amount)
+    ETH2GWEI = 10 ** 9
+    deposit_amount_int = deposit_amount_int * ETH2GWEI
     if not MIN_DEPOSIT_AMOUNT <= deposit_amount_int <= MAX_DEPOSIT_AMOUNT:
-            ETH2GWEI = 10 ** 9
             raise ValidationError(f"{deposit_amount / ETH2GWEI} DILL deposits are not within the bounds of this cli.")
     return deposit_amount_int

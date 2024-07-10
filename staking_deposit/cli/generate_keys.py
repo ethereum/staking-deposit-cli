@@ -110,6 +110,7 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
                 lambda deposit_amount: validate_deposit_amount(deposit_amount),
                 lambda: load_text(['deposit_amount', 'prompt'], func='generate_keys_arguments_decorator'),
             ),
+            default=2500,
             help=lambda: load_text(['deposit_amount', 'help'], func='generate_keys_arguments_decorator'),
             param_decls="--deposit_amount",
             prompt=lambda: load_text(['deposit_amount', 'prompt'], func='generate_keys_arguments_decorator'),

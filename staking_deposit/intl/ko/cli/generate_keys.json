@@ -13,6 +13,10 @@
             "prompt": "키스토어를 안전하게 보호하는 비밀번호입니다. Dill PoS 검증자를 셋업할 때 다시 입력하여 복호화해야 합니다.",
             "confirm": "확인을 위해 동일하게 입력",
             "mismatch": "오류: 입력한 두 값이 일치하지 않습니다. 다시 입력하세요."
+        },
+        "deposit_amount": {
+            "help": "The amount of DILL that is going to be deposited",
+            "prompt": "The amount of DILL token to be deposited(2500 by default)."
         }
     },
     "generate_keys": {

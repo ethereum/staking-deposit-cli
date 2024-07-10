@@ -13,6 +13,10 @@
             "prompt": "La password che proteggerà gli archivi chiavi. Dovrai inserirla nuovamente per decrittografare gli archivi quando configurerai i tuoi validatori.",
             "confirm": "Ripeti per conferma",
             "mismatch": "Errore: i due valori inseriti non corrispondono. Ripeti l'inserimento."
+        },
+        "deposit_amount": {
+            "help": "The amount of DILL that is going to be deposited",
+            "prompt": "The amount of DILL token to be deposited(2500 by default)."
         }
     },
     "generate_keys": {
