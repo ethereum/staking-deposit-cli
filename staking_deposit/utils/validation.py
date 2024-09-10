@@ -137,8 +137,10 @@ def validate_int_range(num: Any, low: int, high: int) -> int:
     """
     try:
         num_int = int(num)  # Try cast to int
-        assert num_int == float(num)  # Check num is not float
-        assert low <= num_int < high  # Check num in range
+        if num_int != float(num):
+            raise AssertionError
+        if not low <= num_int < high:
+            raise AssertionError
         return num_int
     except (ValueError, AssertionError):
         raise ValidationError(load_text(["err_not_positive_integer"]))
@@ -276,7 +278,8 @@ def validate_bls_withdrawal_credentials(bls_withdrawal_credentials: str) -> byte
 
     try:
         assert len(bls_withdrawal_credentials_bytes) == 32
-        assert bls_withdrawal_credentials_bytes[:1] == BLS_WITHDRAWAL_PREFIX
+        if bls_withdrawal_credentials_bytes[:1] != BLS_WITHDRAWAL_PREFIX:
+            raise AssertionError
     except (ValueError, AssertionError):
         raise ValidationError(load_text(["err_not_bls_form"]) + "\n")
 
