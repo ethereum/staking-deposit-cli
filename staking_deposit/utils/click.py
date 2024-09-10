@@ -34,7 +34,7 @@ class JITOption(click.Option):
         if isinstance(param_decls, str):
             param_decls = [_value_of(param_decls)]
 
-        return super().__init__(
+        super().__init__(
             param_decls=param_decls,
             default=_value_of(default),
             help=_value_of(help),
