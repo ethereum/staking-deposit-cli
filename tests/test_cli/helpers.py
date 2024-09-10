@@ -13,7 +13,9 @@ def clean_key_folder(my_folder_path: str) -> None:
 
 
 def clean_btec_folder(my_folder_path: str) -> None:
-    sub_folder_path = os.path.join(my_folder_path, DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME)
+    sub_folder_path = os.path.join(
+        my_folder_path, DEFAULT_BLS_TO_EXECUTION_CHANGES_FOLDER_NAME
+    )
     clean_folder(my_folder_path, sub_folder_path)
 
 
@@ -38,12 +40,13 @@ def get_permissions(path: str, file_name: str) -> str:
 
 
 def verify_file_permission(os_ref, folder_path, files):
-    if os_ref.name == 'posix':
+    if os_ref.name == "posix":
         for file_name in files:
-            assert get_permissions(folder_path, file_name) == '0o440'
+            if get_permissions(folder_path, file_name) != "0o440":
+                raise AssertionError
 
 
-def prepare_testing_folder(os_ref, testing_folder_name='TESTING_TEMP_FOLDER'):
+def prepare_testing_folder(os_ref, testing_folder_name="TESTING_TEMP_FOLDER"):
     my_folder_path = os_ref.path.join(os_ref.getcwd(), testing_folder_name)
     clean_btec_folder(my_folder_path)
     if not os_ref.path.exists(my_folder_path):
