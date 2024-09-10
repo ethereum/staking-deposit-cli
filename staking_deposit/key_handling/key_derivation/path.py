@@ -1,24 +1,23 @@
 from typing import List
 
 from .mnemonic import get_seed
-from .tree import (
-    derive_master_SK,
-    derive_child_SK,
-)
+from .tree import derive_child_SK, derive_master_SK
 
 
 def path_to_nodes(path: str) -> List[int]:
     """
     Maps from a path string to a list of indices where each index represents the corresponding level in the path.
     """
-    path = path.replace(' ', '')
-    if not set(path).issubset(set('m1234567890/')):
+    path = path.replace(" ", "")
+    if not set(path).issubset(set("m1234567890/")):
         raise ValueError(f"Invalid path {path}")
 
-    indices = path.split('/')
+    indices = path.split("/")
 
-    if indices[0] != 'm':
-        raise ValueError(f"The first character of path should be `m`. Got {indices[0]}.")
+    if indices[0] != "m":
+        raise ValueError(
+            f"The first character of path should be `m`. Got {indices[0]}."
+        )
     indices.pop(0)
 
     return [int(index) for index in indices]
