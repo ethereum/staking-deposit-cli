@@ -1,12 +1,5 @@
-from ssz import (
-    ByteVector,
-    Serializable,
-    uint64,
-    bytes4,
-    bytes32,
-    bytes48,
-    bytes96
-)
+from ssz import ByteVector, Serializable, bytes4, bytes32, bytes48, bytes96, uint64
+
 from staking_deposit.utils.constants import (
     DOMAIN_BLS_TO_EXECUTION_CHANGE,
     DOMAIN_DEPOSIT,
@@ -16,29 +9,30 @@ from staking_deposit.utils.constants import (
 bytes8 = ByteVector(8)
 bytes20 = ByteVector(20)
 
-
 # Crypto Domain SSZ
 
+
 class SigningData(Serializable):
-    fields = [
-        ('object_root', bytes32),
-        ('domain', bytes32)
-    ]
+    fields = [("object_root", bytes32), ("domain", bytes32)]
 
 
 class ForkData(Serializable):
     fields = [
-        ('current_version', bytes4),
-        ('genesis_validators_root', bytes32),
+        ("current_version", bytes4),
+        ("genesis_validators_root", bytes32),
     ]
 
 
-def compute_fork_data_root(current_version: bytes, genesis_validators_root: bytes) -> bytes:
+def compute_fork_data_root(
+    current_version: bytes, genesis_validators_root: bytes
+) -> bytes:
     """
     Return the appropriate ForkData root for a given deposit version.
     """
     if len(current_version) != 4:
-        raise ValueError(f"Fork version should be in 4 bytes. Got {len(current_version)}.")
+        raise ValueError(
+            f"Fork version should be in 4 bytes. Got {len(current_version)}."
+        )
     return ForkData(
         current_version=current_version,
         genesis_validators_root=genesis_validators_root,
@@ -56,7 +50,9 @@ def compute_deposit_domain(fork_version: bytes) -> bytes:
     return domain_type + fork_data_root[:28]
 
 
-def compute_bls_to_execution_change_domain(fork_version: bytes, genesis_validators_root: bytes) -> bytes:
+def compute_bls_to_execution_change_domain(
+    fork_version: bytes, genesis_validators_root: bytes
+) -> bytes:
     """
     BLS_TO_EXECUTION_CHANGE-only `compute_domain`
     """
@@ -94,10 +90,11 @@ class DepositMessage(Serializable):
     """
     Ref: https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#depositmessage
     """
+
     fields = [
-        ('pubkey', bytes48),
-        ('withdrawal_credentials', bytes32),
-        ('amount', uint64),
+        ("pubkey", bytes48),
+        ("withdrawal_credentials", bytes32),
+        ("amount", uint64),
     ]
 
 
@@ -105,11 +102,12 @@ class DepositData(Serializable):
     """
     Ref: https://github.com/ethereum/consensus-specs/blob/dev/specs/phase0/beacon-chain.md#depositdata
     """
+
     fields = [
-        ('pubkey', bytes48),
-        ('withdrawal_credentials', bytes32),
-        ('amount', uint64),
-        ('signature', bytes96)
+        ("pubkey", bytes48),
+        ("withdrawal_credentials", bytes32),
+        ("amount", uint64),
+        ("signature", bytes96),
     ]
 
 
@@ -117,10 +115,11 @@ class BLSToExecutionChange(Serializable):
     """
     Ref: https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#blstoexecutionchange
     """
+
     fields = [
-        ('validator_index', uint64),
-        ('from_bls_pubkey', bytes48),
-        ('to_execution_address', bytes20),
+        ("validator_index", uint64),
+        ("from_bls_pubkey", bytes48),
+        ("to_execution_address", bytes20),
     ]
 
 
@@ -128,7 +127,8 @@ class SignedBLSToExecutionChange(Serializable):
     """
     Ref: https://github.com/ethereum/consensus-specs/blob/dev/specs/capella/beacon-chain.md#signedblstoexecutionchange
     """
+
     fields = [
-        ('message', BLSToExecutionChange),
-        ('signature', bytes96),
+        ("message", BLSToExecutionChange),
+        ("signature", bytes96),
     ]

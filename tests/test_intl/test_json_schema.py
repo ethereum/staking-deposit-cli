@@ -1,16 +1,14 @@
 import json
-import jsonschema
 import os
-import pytest
 import re
-from typing import (
-    List,
-)
+from typing import List
+
+import jsonschema
+import pytest
 
 from staking_deposit.utils.constants import INTL_CONTENT_PATH
 
-
-TEST_SCHEMAS_FOLDER = os.path.join(os.path.dirname(__file__), 'schemas')
+TEST_SCHEMAS_FOLDER = os.path.join(os.path.dirname(__file__), "schemas")
 
 
 def files_to_check(root_dir: str) -> List[str]:
@@ -25,17 +23,17 @@ def files_to_check(root_dir: str) -> List[str]:
 
 def languages_to_check(root_dir: str) -> List[str]:
     dirs = next(os.walk(root_dir))[1]
-    regex = re.compile('([A-Za-z]){2}(-([A-Za-z]){2})?')
+    regex = re.compile("([A-Za-z]){2}(-([A-Za-z]){2})?")
     return [d for d in dirs if re.fullmatch(regex, d)]
 
 
 @pytest.mark.parametrize(
-    'lang, schema_path',
+    "lang, schema_path",
     [
         (lang, schema)
         for schema in files_to_check(TEST_SCHEMAS_FOLDER)
         for lang in languages_to_check(INTL_CONTENT_PATH)
-    ]
+    ],
 )
 def test_language_schemas(lang: str, schema_path: str) -> None:
     with open(os.path.join(TEST_SCHEMAS_FOLDER, schema_path)) as schema_file:

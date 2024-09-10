@@ -1,7 +1,6 @@
+from typing import Any
+
 import pytest
-from typing import (
-    Any,
-)
 
 from staking_deposit.exceptions import ValidationError
 from staking_deposit.utils.validation import (
@@ -12,11 +11,11 @@ from staking_deposit.utils.validation import (
 
 
 @pytest.mark.parametrize(
-    'password, valid',
+    "password, valid",
     [
-        ('12345678', True),
-        ('1234567', False),
-    ]
+        ("12345678", True),
+        ("1234567", False),
+    ],
 )
 def test_validate_password_strength(password, valid):
     if valid:
@@ -27,16 +26,16 @@ def test_validate_password_strength(password, valid):
 
 
 @pytest.mark.parametrize(
-    'num, low, high, valid',
+    "num, low, high, valid",
     [
         (2, 0, 4, True),
         (0, 0, 4, True),
         (-1, 0, 4, False),
         (4, 0, 4, False),
         (0.2, 0, 4, False),
-        ('0', 0, 4, True),
-        ('a', 0, 4, False),
-    ]
+        ("0", 0, 4, True),
+        ("a", 0, 4, False),
+    ],
 )
 def test_validate_int_range(num: Any, low: int, high: int, valid: bool) -> None:
     if valid:
@@ -47,16 +46,16 @@ def test_validate_int_range(num: Any, low: int, high: int, valid: bool) -> None:
 
 
 @pytest.mark.parametrize(
-    'input, result',
+    "input, result",
     [
-        ('1', ['1']),
-        ('1,2,3', ['1', '2', '3']),
-        ('[1,2,3]', ['1', '2', '3']),
-        ('(1,2,3)', ['1', '2', '3']),
-        ('{1,2,3}', ['1', '2', '3']),
-        ('1 2 3', ['1', '2', '3']),
-        ('1  2  3', ['1', '2', '3']),
-    ]
+        ("1", ["1"]),
+        ("1,2,3", ["1", "2", "3"]),
+        ("[1,2,3]", ["1", "2", "3"]),
+        ("(1,2,3)", ["1", "2", "3"]),
+        ("{1,2,3}", ["1", "2", "3"]),
+        ("1 2 3", ["1", "2", "3"]),
+        ("1  2  3", ["1", "2", "3"]),
+    ],
 )
 def test_normalize_input_list(input, result):
     assert normalize_input_list(input) == result
