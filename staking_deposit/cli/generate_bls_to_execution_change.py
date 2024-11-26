@@ -36,7 +36,6 @@ from staking_deposit.utils.intl import (
 from staking_deposit.settings import (
     ALL_CHAINS,
     MAINNET,
-    PRATER,
     get_chain_setting,
     get_devnet_chain_setting,
 )
@@ -74,8 +73,7 @@ FUNC_NAME = 'generate_bls_to_execution_change'
     param_decls='--chain',
     prompt=choice_prompt_func(
         lambda: load_text(['arg_chain', 'prompt'], func=FUNC_NAME),
-        # Since `prater` is alias of `goerli`, do not show `prater` in the prompt message.
-        list(key for key in ALL_CHAINS.keys() if key != PRATER)
+        list(ALL_CHAINS.keys())
     ),
 )
 @load_mnemonic_arguments_decorator
