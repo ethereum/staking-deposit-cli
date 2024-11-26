@@ -1,5 +1,5 @@
 {
     "check_python_version": {
-        "err_python_version": "您的 python 版本不足，请安装 3.8 或以上版本。"
+        "err_python_version": "您的 python 版本不足，请安装 3.12 或以上版本。"
     }
 }

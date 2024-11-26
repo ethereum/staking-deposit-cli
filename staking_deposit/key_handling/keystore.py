@@ -8,7 +8,7 @@ import json
 import os
 from py_ecc.bls import G2ProofOfPossession as bls
 from secrets import randbits
-from typing import Any, Dict, Union
+from typing import Any, Dict, Optional, Union
 from unicodedata import normalize
 from uuid import uuid4
 
@@ -61,9 +61,9 @@ class KeystoreModule(BytesDataclass):
 
 @dataclass
 class KeystoreCrypto(BytesDataclass):
-    kdf: KeystoreModule = KeystoreModule()
-    checksum: KeystoreModule = KeystoreModule()
-    cipher: KeystoreModule = KeystoreModule()
+    kdf: KeystoreModule = dataclass_field(default_factory=KeystoreModule)
+    checksum: KeystoreModule = dataclass_field(default_factory=KeystoreModule)
+    cipher: KeystoreModule = dataclass_field(default_factory=KeystoreModule)
 
     @classmethod
     def from_json(cls, json_dict: Dict[Any, Any]) -> 'KeystoreCrypto':
@@ -81,7 +81,7 @@ class Keystore(BytesDataclass):
 
     Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2335.md
     """
-    crypto: KeystoreCrypto = KeystoreCrypto()
+    crypto: KeystoreCrypto = dataclass_field(default_factory=KeystoreCrypto)
     description: str = ''
     pubkey: str = ''
     path: str = ''
@@ -127,18 +127,20 @@ class Keystore(BytesDataclass):
 
     @classmethod
     def encrypt(cls, *, secret: bytes, password: str, path: str='',
-                kdf_salt: bytes=randbits(256).to_bytes(32, 'big'),
-                aes_iv: bytes=randbits(128).to_bytes(16, 'big')) -> 'Keystore':
+                kdf_salt: Optional[bytes]=None,
+                aes_iv: Optional[bytes]=None) -> 'Keystore':
         """
         Encrypt a secret (BLS SK) as an EIP 2335 Keystore.
         """
         keystore = cls()
         keystore.uuid = str(uuid4())
+        kdf_salt = kdf_salt if kdf_salt is not None else randbits(256).to_bytes(32, 'big')
         keystore.crypto.kdf.params['salt'] = kdf_salt
         decryption_key = keystore.kdf(
             password=cls._process_password(password),
             **keystore.crypto.kdf.params
         )
+        aes_iv = aes_iv if aes_iv is not None else randbits(128).to_bytes(16, 'big')
         keystore.crypto.cipher.params['iv'] = aes_iv
         cipher = AES_128_CTR(key=decryption_key[:16], **keystore.crypto.cipher.params)
         keystore.crypto.cipher.message = cipher.encrypt(secret)
@@ -164,40 +166,44 @@ class Keystore(BytesDataclass):
 
 @dataclass
 class Pbkdf2Keystore(Keystore):
-    crypto: KeystoreCrypto = KeystoreCrypto(
-        kdf=KeystoreModule(
-            function='pbkdf2',
-            params={
-                'c': 2**18,
-                'dklen': 32,
-                "prf": 'hmac-sha256'
-            },
-        ),
-        checksum=KeystoreModule(
-            function='sha256',
-        ),
-        cipher=KeystoreModule(
-            function='aes-128-ctr',
+    crypto: KeystoreCrypto = dataclass_field(
+        default_factory=lambda: KeystoreCrypto(
+            kdf=KeystoreModule(
+                function='pbkdf2',
+                params={
+                    'c': 2**18,
+                    'dklen': 32,
+                    "prf": 'hmac-sha256'
+                },
+            ),
+            checksum=KeystoreModule(
+                function='sha256',
+            ),
+            cipher=KeystoreModule(
+                function='aes-128-ctr',
+            )
         )
     )
 
 
 @dataclass
 class ScryptKeystore(Keystore):
-    crypto: KeystoreCrypto = KeystoreCrypto(
-        kdf=KeystoreModule(
-            function='scrypt',
-            params={
-                'dklen': 32,
-                'n': 2**18,
-                'r': 8,
-                'p': 1,
-            },
-        ),
-        checksum=KeystoreModule(
-            function='sha256',
-        ),
-        cipher=KeystoreModule(
-            function='aes-128-ctr',
+    crypto: KeystoreCrypto = dataclass_field(
+        default_factory=lambda: KeystoreCrypto(
+            kdf=KeystoreModule(
+                function='scrypt',
+                params={
+                    'dklen': 32,
+                    'n': 2**18,
+                    'r': 8,
+                    'p': 1,
+                },
+            ),
+            checksum=KeystoreModule(
+                function='sha256',
+            ),
+            cipher=KeystoreModule(
+                function='aes-128-ctr',
+            )
         )
     )
