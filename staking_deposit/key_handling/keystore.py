@@ -8,7 +8,7 @@ import json
 import os
 from py_ecc.bls import G2ProofOfPossession as bls
 from secrets import randbits
-from typing import Any, Dict, Union
+from typing import Any, Dict, Optional, Union
 from unicodedata import normalize
 from uuid import uuid4
 
@@ -127,18 +127,20 @@ class Keystore(BytesDataclass):
 
     @classmethod
     def encrypt(cls, *, secret: bytes, password: str, path: str='',
-                kdf_salt: bytes=randbits(256).to_bytes(32, 'big'),
-                aes_iv: bytes=randbits(128).to_bytes(16, 'big')) -> 'Keystore':
+                kdf_salt: Optional[bytes]=None,
+                aes_iv: Optional[bytes]=None) -> 'Keystore':
         """
         Encrypt a secret (BLS SK) as an EIP 2335 Keystore.
         """
         keystore = cls()
         keystore.uuid = str(uuid4())
+        kdf_salt = kdf_salt if kdf_salt is not None else randbits(256).to_bytes(32, 'big')
         keystore.crypto.kdf.params['salt'] = kdf_salt
         decryption_key = keystore.kdf(
             password=cls._process_password(password),
             **keystore.crypto.kdf.params
         )
+        aes_iv = aes_iv if aes_iv is not None else randbits(128).to_bytes(16, 'big')
         keystore.crypto.cipher.params['iv'] = aes_iv
         cipher = AES_128_CTR(key=decryption_key[:16], **keystore.crypto.cipher.params)
         keystore.crypto.cipher.message = cipher.encrypt(secret)
