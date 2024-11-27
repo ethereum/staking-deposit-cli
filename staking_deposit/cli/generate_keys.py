@@ -63,6 +63,12 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             type=click.Path(exists=True, file_okay=False, dir_okay=True),
         ),
         jit_option(
+            default=False,
+            help=lambda: load_text(['pbkdf2', 'help'], func='generate_keys_arguments_decorator'),
+            param_decls='--pbkdf2',
+            is_flag=True,
+        ),
+        jit_option(
             callback=captive_prompt_callback(
                 lambda x: closest_match(x, list(ALL_CHAINS.keys())),
                 choice_prompt_func(
@@ -112,7 +118,7 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
 @click.pass_context
 def generate_keys(ctx: click.Context, validator_start_index: int,
                   num_validators: int, folder: str, chain: str, keystore_password: str,
-                  execution_address: HexAddress, **kwargs: Any) -> None:
+                  execution_address: HexAddress, pbkdf2: bool, **kwargs: Any) -> None:
     mnemonic = ctx.obj['mnemonic']
     mnemonic_password = ctx.obj['mnemonic_password']
     amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
@@ -131,6 +137,7 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
         chain_setting=chain_setting,
         start_index=validator_start_index,
         hex_eth1_withdrawal_address=execution_address,
+        pbkdf2=pbkdf2,
     )
     keystore_filefolders = credentials.export_keystores(password=keystore_password, folder=folder)
     deposits_file = credentials.export_deposit_data_json(folder=folder)
